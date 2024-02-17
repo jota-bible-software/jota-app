@@ -17,7 +17,7 @@
     "@quasar/extras": "^1.16.5",
     "@vueuse/core": "^10.3.0",
     "flag-icons": "^7.0.2",
-    "jota-parser": "^1.0.4",
+    "jota-parser": "^1.0.6",
     "pinia": "^2.1.6",
     "quasar": "^2.12.4",
     "vue": "^3.3.4",

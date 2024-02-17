@@ -15,8 +15,8 @@ dependencies:
     specifier: ^7.0.2
     version: 7.0.2
   jota-parser:
-    specifier: ^1.0.4
-    version: 1.0.4
+    specifier: ^1.0.6
+    version: 1.0.6
   pinia:
     specifier: ^2.1.6
     version: 2.1.6(typescript@4.9.5)(vue@3.3.4)
@@ -2472,8 +2472,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /jota-parser@1.0.4:
-    resolution: {integrity: sha512-r7Pa12xpbdYWS8TUPCoRFjqk109c8iciTjMJyNnH3nvmMAg1ASIA3K5jsyifmh0QErsvTqUL1YMr+5jhA7I8xA==}
+  /jota-parser@1.0.6:
+    resolution: {integrity: sha512-lGi3e8Y/sXxsRViY0rHQ64YC1yuHRDuWHrc9raqfJuMM7hDF1rAjxFEK4DBc3zEDzWxF5raxwAE3HgjS6NredA==}
     dev: false
 
   /js-yaml@4.1.0:

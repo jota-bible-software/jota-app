@@ -3,14 +3,14 @@ import { useStorage } from '@vueuse/core'
 import { LOCAL_STORAGE_KEY } from 'src/logic/util'
 import { Ref, computed, ref, watch } from 'vue'
 import { appBookAbbreviations, bookNamings, getBookNames, translations } from 'src/logic/data'
-import { Lang, PassageFormat, PassageListLayout, ScreenMode } from 'src/types'
+import { CopyTemplateData, FormatTemplateData, Lang, PassageFormat, PassageListLayout, ScreenMode } from 'src/types'
 import { useTheme } from 'src/composables/useTheme'
 
 export const useSettingsStore = defineStore('settings', () => {
   const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', {
     version: '1',
     defaultLang: navigator.language as Lang,
-    screenMode: 'light' as ScreenMode,
+    screenMode: 'dark' as ScreenMode,
     languages: {
       en: {
         bookNamings: bookNamings.filter(it => it.lang === 'en'),
@@ -24,31 +24,57 @@ export const useSettingsStore = defineStore('settings', () => {
     formatTemplates: [
       {
         name: 'English presentation',
-        rules: {
-          bookNamesStandard: 'en - SBL abbreviations',
-          referencePosition: 'after',
-          referenceNewLine: 'new line',
-          separatorChar: ':',
-          quotes: false,
-          numbers: false,
-          verseNewLine: false,
-          translation: 'uppercase'
-        }
-      },
+        referencePosition: 'after',
+        referenceLine: 'new line',
+        translationAbbreviation: 'uppercase',
+        numbers: false,
+        verseNewLine: false,
+        separatorChar: ':',
+        rangeChar: '-',
+        referenceCharsBefore: '',
+        referenceCharsAfter: '',
+        quoteCharsBefore: '',
+        quoteCharsAfter: '',
+        verseNumberCharsBefore: '',
+        verseNumberCharsAfter: '',
+        translationAbbreviationCharsBefore: '\u23B5',
+        translationAbbreviationCharsAfter: 'b',
+      } as FormatTemplateData,
       {
         name: 'Polska prezentacja',
-        rules: {
-          bookNamesStandard: 'pl - BT skróty',
-          referencePosition: 'after',
-          referenceNewLine: 'new line',
-          separatorChar: ',',
-          quotes: false,
-          numbers: false,
-          verseNewLine: false,
-          translation: 'uppercase'
-        }
-      },
+        referencePosition: 'after',
+        referenceLine: 'new line',
+        translationAbbreviation: 'uppercase',
+        numbers: false,
+        verseNewLine: false,
+        separatorChar: ',',
+        rangeChar: '-',
+        referenceCharsBefore: '',
+        referenceCharsAfter: '',
+        quoteCharsBefore: '',
+        quoteCharsAfter: '',
+        verseNumberCharsBefore: '',
+        verseNumberCharsAfter: '',
+        translationAbbreviationCharsBefore: '',
+        translationAbbreviationCharsAfter: '',
+      } as FormatTemplateData,
     ],
+    copyTemplates: [
+      {
+        name: 'Prezentacja',
+        isDefault: false,
+        lang: {
+          en: {
+            formatTemplate: '',
+            bookNaming: '',
+          },
+          pl: {
+            formatTemplate: '',
+            bookNaming: '',
+          }
+        }
+      }
+    ] as CopyTemplateData[],
     langDefaults: {
       en: {
         appBookNames: getBookNames('en', appBookAbbreviations.en),
@@ -90,16 +116,6 @@ export const useSettingsStore = defineStore('settings', () => {
   })
 
   const lang: Ref<Lang> = ref(persist.value.defaultLang)
-  const passageFormatEditor: PassageFormat = {
-    bookNames: getBookNames('en', appBookAbbreviations.pl),
-    referencePosition: 'after',
-    referenceNewLine: 'new line',
-    separatorChar: ',',
-    quotes: false,
-    numbers: false,
-    verseNewLine: false,
-    translation: 'uppercase'
-  }
 
   // Computed
 
@@ -137,7 +153,11 @@ export const useSettingsStore = defineStore('settings', () => {
 
   const localeTranslations = computed(() => translations.filter(it => it.lang === lang.value).map(it => it.symbol).sort())
 
-  return { appBookNames, bookNamingList, defaultTranslation, lang, localeTranslations, passageFormatEditor, persist }
+  function nameSorter(a: { name: string }, b: { name: string }) {
+    return a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })
+  }
+
+  return { appBookNames, bookNamingList, defaultTranslation, lang, localeTranslations, nameSorter, persist }
 })
 
 

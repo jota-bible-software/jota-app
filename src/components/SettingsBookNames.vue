@@ -6,8 +6,8 @@
       <q-select v-model="appBookNaming" :options="names" _label="Na ekranie aplikacji" />
     </div>
 
-    <q-list>
-      <q-item v-for="item in bookNamings" :key="item.name" class="q-px-none">
+    <q-list bordered separator>
+      <q-item v-for="item in bookNamings" :key="item.name" class="q-px-none1">
         <q-item-section>
           <div v-if="selected !== item.name">
             <div class="row items-center">
@@ -24,11 +24,11 @@
             </div>
           </div>
 
-          <FormContainer v-if="selected === item.name">
-            <q-separator class="q-my-md" />
+          <FormContainer v-if="selected === item.name" >
+            <!-- <q-separator class="q-my-md" /> -->
             <q-input v-model="editedItem.name" label="Nazwa standardu" />
             <q-input v-model="editedBooksText" label="Nazwy ksiąg" autogrow />
-            <div class="q-mt-md">
+            <div class="q-my-md">
               <div class="row q-gutter-sm">
                 <q-btn color="primary" @click="save(item)">
                   <q-icon left name="save" />
@@ -44,22 +44,22 @@
                 </q-btn>
                 <q-space />
 
-                <q-btn outline color="red-4" @click="remove" :disabled="item.name === appBookNaming">
+                <q-btn outline color="red-4" @click="remove" :disabled="!!removeTooltip">
                   <q-icon left name="delete" />
                   <div>Usuń</div>
-                  <q-tooltip v-if="item.name === appBookNaming">Nie można usunąć nazewnictwa, które jest używane w
-                    aplikacji</q-tooltip>
+                  <q-tooltip v-if="!!removeTooltip">{{ removeTooltip }}</q-tooltip>
                 </q-btn>
 
               </div>
             </div>
-            <q-separator class="q-my-md" />
+            <!-- <q-separator class="q-my-md" /> -->
           </FormContainer>
 
         </q-item-section>
       </q-item>
     </q-list>
 
+    <!-- Add new naming standard -->
     <div class="q-mt-xl">
       <FormContainer>
         <span>Dodaj nowe nazewnictwo</span>
@@ -71,7 +71,7 @@
               <q-icon left name="add" />
               <div>Dodaj</div>
             </q-btn>
-          
+
           </div>
         </div>
       </FormContainer>
@@ -81,6 +81,7 @@
 
 <script setup lang="ts">
 import { ComputedRef, computed, ref } from 'vue'
+import { langs } from 'src/logic/data'
 import { useSettingsStore } from 'stores/settings-store'
 import FormContainer from './FormContainer.vue'
 import SettingsPanel from './SettingsPanel.vue'
@@ -120,6 +121,26 @@ function save(item: BookNamesStandardData) {
   editedItem.value = { ...emptyItem }
   selected.value = ''
 }
+
+const removeTooltip = computed(() => {
+  if (selected.value === appBookNaming.value) {
+    return 'Usunięcie niemożliwe z powodu użycia tego nazewnictwa na ekranie aplikacji'
+  } 
+
+  let foundTemplateName = ''
+  let foundLang = ''
+  for (const t of store.persist.copyTemplates) {
+    for (const lang of langs) {
+      if (t.lang[lang].bookNaming === selected.value) {
+        foundTemplateName = t.name
+        foundLang = lang
+        break
+      }
+    }
+    if (!!foundTemplateName) break
+  }
+  return !!foundTemplateName ? `Usunięcie niemożliwe z powodu użycia tego nazewnictwa w szablonie kopiowania "${foundTemplateName}" dla języka ${foundLang}` : ''
+})
 
 function remove() {
   const a = store.persist.languages[store.lang].bookNamings

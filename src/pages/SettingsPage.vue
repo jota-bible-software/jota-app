@@ -7,6 +7,7 @@
           <q-tab name="translations" label="Przekłady" />
           <q-tab name="bookNames" label="Nazwy ksiąg" />
           <q-tab name="formatTemplates" label="Szablony formatowania" />
+          <q-tab name="copyTemplates" label="Szablony kopiowania" />
         </q-tabs>
       </div>
       <div class="col q-px-xs">
@@ -15,6 +16,7 @@
           <SettingsTranslations name="translations" />
           <SettingsBookNames name="bookNames" />
           <SettingsFormatTemplates name="formatTemplates" />
+          <SettingsCopyTemplates name="copyTemplates" />
         </q-tab-panels>
       </div>
     </div>
@@ -22,25 +24,14 @@
 </template>
 
 <script setup lang="ts">
-import { langs } from 'src/logic/data'
-import { useSettingsStore } from 'src/stores/settings-store'
-import BookNamesEditor from 'src/components/BookNamesEditor.vue'
-import LanguageSelector from 'src/components/LanguageSelector.vue'
-import ScreenModeToggle from 'src/components/ScreenModeToggle.vue'
-import PassageFormatEditor from 'src/components/PassageFormatEditor.vue'
-import TranslationConfig from 'src/components/TranslationConfig.vue'
 import { ref } from 'vue'
-import SettingsPanel from 'src/components/SettingsPanel.vue'
 import SettingsGeneral from 'src/components/SettingsGeneral.vue'
 import SettingsTranslations from 'src/components/SettingsTranslations.vue'
 import SettingsBookNames from 'src/components/SettingsBookNames.vue'
+import SettingsCopyTemplates from 'src/components/SettingsCopyTemplates.vue'
 import SettingsFormatTemplates from 'src/components/SettingsFormatTemplates.vue'
 
-const store = useSettingsStore()
-const lang = ref('pl')
-
 const tab = ref('general')
-
 </script>
 
 <style lang="scss" scoped>
@@ -55,7 +46,4 @@ const tab = ref('general')
   background: var(--q-background) !important;
 }
 
-.q-tab-panel {
-  padding-top: 0;
-}
 </style>

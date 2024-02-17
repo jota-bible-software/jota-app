@@ -89,3 +89,32 @@ body.body--dark {
   font-size: 20px;
   padding: 8px 8px;
 }
+
+// Fix light mode
+
+.body--light .q-list--bordered {
+  border: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+.q-list--separator > .q-item-type + .q-item-type,
+.q-list--separator > .q-virtual-scroll__content > .q-item-type + .q-item-type {
+  border-top: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+body.desktop .q-focusable:focus > .q-focus-helper,
+body.desktop .q-manual-focusable--focused > .q-focus-helper,
+body.desktop .q-hoverable:hover > .q-focus-helper {
+  opacity: 0.18;
+}
+
+.q-field--filled .q-field__control:hover {
+  background: #0000000a;
+}
+
+.q-field--filled .q-field__control {
+  background: #00000020;
+}
+
+.default-font-family {
+  font-family: "Roboto", "-apple-system", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
