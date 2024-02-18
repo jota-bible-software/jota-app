@@ -1,5 +1,5 @@
 <template>
-  <q-select v-model="selected" :options="langs" _label="Dla języka" option-label="symbol" emit-value
+  <q-select v-model="selected" :options="supportedLanguageSymbols" _label="Dla języka" option-label="symbol" emit-value
     popup-content-style="white-space: nowrap" dense>
 
     <template v-slot:selected>
@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { LanguageSymbol } from 'src/types'
-import { langs } from 'src/logic/data'
+import { supportedLanguageSymbols } from 'src/logic/data'
 import FlagIcon from './FlagIcon.vue'
 
 const props = defineProps(['modelValue'])

@@ -1064,7 +1064,7 @@ export const translations: TranslationMeta[] = [
 ]
 export const translationMeta = translations
 
-export const langs: LanguageSymbol[] = ['en', 'pl']
+export const supportedLanguageSymbols: LanguageSymbol[] = ['en', 'pl']
 
 
 // Check the uniqueness of symbols and names

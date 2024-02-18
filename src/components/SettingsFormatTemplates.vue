@@ -141,7 +141,7 @@
 import { Ref, computed, ref } from 'vue'
 import { QForm, useQuasar } from 'quasar'
 import { FormatTemplateData } from 'src/types'
-import { langs } from 'src/logic/data'
+import { supportedLanguageSymbols } from 'src/logic/data'
 import { useSettingsStore } from 'stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
 import ConfirmDialog from './ConfirmDialog.vue'
@@ -206,7 +206,7 @@ const removeTooltip = computed(() => {
   let foundTemplateName = ''
   let foundLang = ''
   for (const t of store.persist.copyTemplates) {
-    for (const lang of langs) {
+    for (const lang of supportedLanguageSymbols) {
       if (t.lang[lang].formatTemplate === selected.value) {
         foundTemplateName = t.name
         foundLang = lang

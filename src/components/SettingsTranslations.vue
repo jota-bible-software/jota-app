@@ -81,14 +81,14 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { langs } from 'src/logic/data'
+import { supportedLanguageSymbols } from 'src/logic/data'
 import { useTranslationStore } from 'stores/translation-store'
 import LabelRow from './LabelRow.vue'
 import SettingsPanel from './SettingsPanel.vue'
 import FlagIcon from './FlagIcon.vue'
 
 const store = useTranslationStore()
-const allSelectedCount = computed(() => langs.reduce((sum, lang) => sum + store.selectedCount(lang), 0))
+const allSelectedCount = computed(() => supportedLanguageSymbols.reduce((sum, lang) => sum + store.selectedCount(lang), 0))
 
 </script>
 

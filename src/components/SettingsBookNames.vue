@@ -81,7 +81,7 @@
 
 <script setup lang="ts">
 import { ComputedRef, computed, ref } from 'vue'
-import { langs } from 'src/logic/data'
+import { supportedLanguageSymbols } from 'src/logic/data'
 import { useSettingsStore } from 'stores/settings-store'
 import FormContainer from './FormContainer.vue'
 import SettingsPanel from './SettingsPanel.vue'
@@ -130,7 +130,7 @@ const removeTooltip = computed(() => {
   let foundTemplateName = ''
   let foundLang = ''
   for (const t of store.persist.copyTemplates) {
-    for (const lang of langs) {
+    for (const lang of supportedLanguageSymbols) {
       if (t.lang[lang].bookNaming === selected.value) {
         foundTemplateName = t.name
         foundLang = lang
