@@ -3,7 +3,7 @@ import { useStorage } from '@vueuse/core'
 import { LOCAL_STORAGE_KEY } from 'src/logic/util'
 import { Ref, computed, ref, watch } from 'vue'
 import { appBookAbbreviations, bookNamings, getBookNames, translations } from 'src/logic/data'
-import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageFormat, PassageListLayout, ScreenMode } from 'src/types'
+import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageFormat, PassageListLayout, ScreenMode, TranslationKey } from 'src/types'
 import { useTheme } from 'src/composables/useTheme'
 
 export const useSettingsStore = defineStore('settings', () => {
@@ -13,15 +13,35 @@ export const useSettingsStore = defineStore('settings', () => {
     screenMode: 'dark' as ScreenMode,
     languages: {
       en: {
+        appBookNaming: 'SBL abbreviations',
         bookNamings: bookNamings.filter(it => it.lang === 'en'),
-        appBookNaming: 'EIB skrócone'
+        selectedTranslations: ['NIV', 'NLT'],
       },
       pl: {
+        appBookNaming: 'Moje pl',
         bookNamings: bookNamings.filter(it => it.lang === 'pl'),
-        appBookNaming: 'EIB skrócone'
+        selectedTranslations: ['EIB', 'BT5', 'BW', 'UBG'],
       },
     },
     formatTemplates: [
+      {
+        name: 'App format',
+        referencePosition: 'before',
+        referenceLine: 'same line',
+        translationAbbreviation: 'none',
+        numbers: false,
+        verseNewLine: false,
+        separatorChar: ':',
+        rangeChar: '-',
+        referenceCharsBefore: '',
+        referenceCharsAfter: '',
+        quoteCharsBefore: '',
+        quoteCharsAfter: '',
+        verseNumberCharsBefore: '',
+        verseNumberCharsAfter: '',
+        translationAbbreviationCharsBefore: '',
+        translationAbbreviationCharsAfter: '',
+      } as FormatTemplateData,
       {
         name: 'English presentation',
         referencePosition: 'after',
@@ -37,8 +57,8 @@ export const useSettingsStore = defineStore('settings', () => {
         quoteCharsAfter: '',
         verseNumberCharsBefore: '',
         verseNumberCharsAfter: '',
-        translationAbbreviationCharsBefore: '\u23B5',
-        translationAbbreviationCharsAfter: 'b',
+        translationAbbreviationCharsBefore: '',
+        translationAbbreviationCharsAfter: '',
       } as FormatTemplateData,
       {
         name: 'Polska prezentacja',
@@ -75,47 +95,15 @@ export const useSettingsStore = defineStore('settings', () => {
         }
       }
     ] as CopyTemplateData[],
-    langDefaults: {
-      en: {
-        appBookNames: getBookNames('en', appBookAbbreviations.en),
-        bookNamings: bookNamings.filter(it => it.lang === 'en'),
-        passageFormat: {
-          bookNames: getBookNames('en', appBookAbbreviations.en),
-          referencePosition: 'after',
-          referenceNewLine: 'new line',
-          separatorChar: ':',
-          quotes: false,
-          numbers: false,
-          verseNewLine: false,
-          translation: 'uppercase'
-        },
-        selectedTranslations: ['NIV', 'NLT'],
-        translation: 'NLT',
-      },
-      pl: {
-        appBookNames: getBookNames('pl', appBookAbbreviations.pl),
-        bookNamings: bookNamings.filter(it => it.lang === 'pl'),
-        passageFormat: {
-          bookNames: getBookNames('en', appBookAbbreviations.pl),
-          referencePosition: 'after',
-          referenceNewLine: 'new line',
-          separatorChar: ',',
-          quotes: false,
-          numbers: false,
-          verseNewLine: false,
-          translation: 'uppercase'
-        },
-        selectedTranslations: ['EIB', 'BT5', 'BW', 'UBG'],
-        translation: 'UBG',
-      }
-    } as Record<string, { translation: string, appBookNames: string[], selectedTranslations: string[], passageFormat: PassageFormat }>,
-    cachedTranslations: ['en / NLT', 'pl / UBG'],
-
-    defaultPassageFormat: { en: 'English presentation', pl: 'Polska prezentacja' },
+    appFormatTemplate: 'App format',
     defaultSearchResultLayout: 'split' as PassageListLayout,
+    defaultTranslation: { lang: 'en', symbol: 'NIV' } as TranslationKey
   })
 
   const lang: Ref<LanguageSymbol> = ref(persist.value.defaultLang)
+  const language = computed(() => persist.value.languages[lang.value])
+  const appBookNames = computed(() => language.value.bookNamings.find(it => it.name === language.value.appBookNaming)?.books || [])
+  const appFormatTemplate = computed(() => persist.value.formatTemplates.find(it => it.name === persist.value.appFormatTemplate))
 
   // Computed
 
@@ -125,39 +113,18 @@ export const useSettingsStore = defineStore('settings', () => {
     .map(_ => ({ ..._, booksText: _.books.join(', ') }))
     .sort((a, b) => a.name.localeCompare(b.name)))
 
-  const defaultTranslation = computed({
-    get() {
-      return { lang: lang.value, symbol: persist.value.langDefaults[lang.value].translation }
-    },
-    set(value: { lang: LanguageSymbol, symbol: string }) {
-      persist.value.langDefaults[lang.value].translation = value.symbol
-    },
-  })
-
-  const appBookNames = persist.value.langDefaults[lang.value].appBookNames
-
-  // const defaultAppBookNamesStore = useBookNamesStore('app', persist.value.langDefaults[lang.value].appBookNames)
-
-  // const defaultFormatEditorBookNames = computed({
-  //   get(): string[] {
-  //     return passageFormatEditor.bookNames
-  //   },
-  //   set(value: string[]) {
-  //     passageFormatEditor.bookNames = value
-  //   },
-  // })
-
   const screenMode = useTheme()
   watch(() => persist.value.screenMode, value => screenMode.set(value))
   screenMode.set(persist.value.screenMode)
 
   const localeTranslations = computed(() => translations.filter(it => it.lang === lang.value).map(it => it.symbol).sort())
 
+
   function nameSorter(a: { name: string }, b: { name: string }) {
     return a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })
   }
 
-  return { appBookNames, bookNamingList, defaultTranslation, lang, localeTranslations, nameSorter, persist }
+  return { appBookNames, appFormatTemplate, bookNamingList, lang, localeTranslations, nameSorter, persist }
 })
 
 

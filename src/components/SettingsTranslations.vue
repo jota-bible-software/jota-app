@@ -1,7 +1,10 @@
 <template>
   <SettingsPanel title="Przekłady">
+    <LabelRow label="Domyślny przekład">
+      <BibleSelector v-model="settings.persist.defaultTranslation" />
+    </LabelRow>
     <LabelRow label="Wszystkich wybranych">
-      <span class="text-bold">{{ allSelectedCount }}</span>
+      <span class="text-bold">{{ allSelectedCount }} / {{ allCount }}</span>
     </LabelRow>
     <q-list id="translations" class="rounded-borders">
       <q-expansion-item v-for="lang in store.languages" :key="lang.symbol" :default-opened="store.isOpen(lang.symbol)"
@@ -83,12 +86,19 @@
 import { computed } from 'vue'
 import { supportedLanguageSymbols } from 'src/logic/data'
 import { useTranslationStore } from 'stores/translation-store'
-import LabelRow from './LabelRow.vue'
+import { useSettingsStore } from 'src/stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
+import LabelRow from './LabelRow.vue'
 import FlagIcon from './FlagIcon.vue'
+import BibleSelector from './BibleSelector.vue'
 
 const store = useTranslationStore()
+const settings = useSettingsStore()
+
 const allSelectedCount = computed(() => supportedLanguageSymbols.reduce((sum, lang) => sum + store.selectedCount(lang), 0))
+const allCount = store.translations.length
+
+console.log(settings.persist.defaultTranslation)
 
 </script>
 

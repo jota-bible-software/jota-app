@@ -4,8 +4,11 @@
     dense>
 
     <template v-slot:selected>
+      <div class="q-gutter-sm">
+      <FlagIcon :lang="selected.lang" />
       <span>{{ selected.symbol }}</span>
-      <span class="gt-sm q-ml-md">{{ selected.title }}</span>
+      <span>{{ selected.title }}</span>
+    </div>
     </template>
 
     <template v-slot:option="scope">

@@ -14,7 +14,7 @@ export const useSearchStore = defineStore('search', () => {
   const audioOn = ref(false)
   const chapter: Ref<string[]> = ref([])
   const chapterFragment: Ref<Passage | undefined> = ref(undefined)
-  const currentTranslation = ref(settings.defaultTranslation)
+  const currentTranslation = ref(settings.persist.defaultTranslation)
   const error = ref('')
   const fragments: Ref<Passage[]> = ref([])
   const fragmentIndex = ref(-1)

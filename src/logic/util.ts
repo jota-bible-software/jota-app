@@ -9,7 +9,7 @@ export function copyTextToClipboard(text: string): void {
   // Why is it here? To ensure:
   // 1. the element is able to have focus and selection.
   // 2. if element was to flash render it has minimal visual impact.
-  // 3. less flakyness with selection and copying which **might** occur if
+  // 3. less flakiness with selection and copying which **might** occur if
   //    the textarea element is not visible.
   //
   // The likelihood is the element won't even render, not even a flash,
@@ -58,13 +58,12 @@ export function parseDate(dateString: string): Date {
 export function formatDate(date: Date): string {
   if (!date) date = new Date()
   if (date instanceof Date) {
-    let dd = date.getDate()
-    let mm = date.getMonth() + 1
-    const yyyy = date.getFullYear()
-    if (dd < 10) dd = '0' + dd
-    if (mm < 10) mm = '0' + mm
-    return yyyy + '-' + mm + '-' + dd
+    const d = date.getDate().toString().padStart(2, '0')
+    const m = (date.getMonth() + 1).toString().padStart(2, '0')
+    const y = date.getFullYear()
+    return `${y}-${m}-${d}`
   } else {
     return date
   }
 }
+

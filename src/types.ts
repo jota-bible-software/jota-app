@@ -1,10 +1,12 @@
 export type BookNamesStandardData = { lang: string, name: string, books: string[] }
 export type Formatted = { reference: string, content: string }
+export type CopyTemplateLangData = Record<LanguageSymbol, { formatTemplate: string, bookNaming: string }>
 export type CopyTemplateData = {
   name: string,
   isDefault: boolean
-  lang: Record<LanguageSymbol, { formatTemplate: string, bookNaming: string }>
+  lang: CopyTemplateLangData
 }
+
 export type FormatTemplateData = {
   name: string,
   referencePosition: 'before' | 'after',

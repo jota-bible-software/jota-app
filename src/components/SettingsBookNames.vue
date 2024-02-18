@@ -3,7 +3,7 @@
 
     <div class="row items-center">
       <div class="q-mr-md">Na ekranie aplikacji</div>
-      <q-select v-model="appBookNaming" :options="names" _label="Na ekranie aplikacji" />
+      <q-select v-model="appBookNaming" :options="names"/>
     </div>
 
     <q-list bordered separator>
@@ -19,7 +19,7 @@
               </div>
             </div>
 
-            <div class="row q-mt-sm">
+            <div class="row q-my-sm">
               <q-item-label caption>{{ item.books.join(', ') }}</q-item-label>
             </div>
           </div>

@@ -52,16 +52,11 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import books from 'src/logic/books'
 import ReferencePickerButton from 'src/components/ReferencePickerButton.vue'
-import { useTranslationStore } from 'src/stores/translation-store'
-// import { useBibleStore } from 'src/stores/bible-store'
 import { useSearchStore } from 'src/stores/search-store'
 import { useSettingsStore } from 'src/stores/settings-store'
 
 const settingsStore = useSettingsStore()
-const translations = useTranslationStore()
-// const bibleStore = useBibleStore()
 const store = useSearchStore()
 
 const alternate = [
@@ -81,7 +76,7 @@ const bookIndex = ref(-1)
 const chapterIndex = ref(-1)
 const verseIndex = ref(-1)
 
-const bookList = computed(() => books.bookAbbreviations[store.currentTranslation.lang])
+const bookList = computed(() => settingsStore.appBookNames)
 const chapters = computed(() => {
   if (!isBookSelected.value) return []
   const n = store.translation?.content ? store.translation.content[bookIndex.value].length : 0
@@ -92,7 +87,7 @@ const chapters = computed(() => {
 //   const n = bibleStore.content[bookIndex.value][chapterIndex.value].length
 //   return [...Array(n).keys()]
 // })
-const sep = computed(() => settingsStore.persist.langDefaults[settingsStore.lang].passageFormat.separatorChar)
+const sep = computed(() => settingsStore.appFormatTemplate.separatorChar)
 const bookName = computed(() => bookList.value[bookIndex.value])
 const backTooltip = computed(() => isChapterSelected.value ? 'rozdziałów' : 'ksiąg')
 const isBookSelected = computed(() => bookIndex.value !== -1)

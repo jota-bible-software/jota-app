@@ -3,7 +3,11 @@
 
     <!-- List of items -->
     <div class="col">
-      <div class="row">
+      <LabelRow label="Na ekranie aplikacji">
+        <q-select v-model="store.persist.appFormatTemplate" :options="templates" option-label="name" />
+      </LabelRow>
+
+      <div class="row q-mt-md">
         <q-list bordered separator class="col-auto" style="max-width: 650px">
           <q-item v-for="(item, index) in templates" :key="item.name" class="q-px-none1" clickable
             @click="edit(item, index)">
