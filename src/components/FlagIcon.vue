@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { Lang } from 'src/types'
+import { LanguageSymbol } from 'src/types'
 import '/node_modules/flag-icons/css/flag-icons.min.css'
 
 const props = defineProps(['lang'])
@@ -12,7 +12,7 @@ const langFlagMapping = {
   'en': 'gb'
 } as Record<string, string>
 
-function langFlag(lang: Lang): string {
+function langFlag(lang: LanguageSymbol): string {
   return langFlagMapping[lang] ?? lang
 }
 </script>

@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Lang } from 'src/types'
+import { LanguageSymbol } from 'src/types'
 import { langs } from 'src/logic/data'
 import FlagIcon from './FlagIcon.vue'
 
@@ -36,10 +36,10 @@ const emit = defineEmits(['update:modelValue'])
 // const store = useTranslationStore()
 
 const selected = computed({
-  get(): Lang {
+  get(): LanguageSymbol {
     return props.modelValue
   },
-  set(value: Lang) {
+  set(value: LanguageSymbol) {
     emit('update:modelValue', value)
   }
 })

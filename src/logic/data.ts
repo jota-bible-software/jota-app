@@ -1,6 +1,6 @@
-import { Lang, TranslationContent, TranslationMeta } from 'src/types'
+import { LanguageSymbol, TranslationContent, TranslationMeta } from 'src/types'
 
-export const languageData: Array<{ symbol: Lang, name: string }> = [
+export const languageData: Array<{ symbol: LanguageSymbol, name: string }> = [
   {
     symbol: 'en',
     name: 'English'
@@ -969,7 +969,7 @@ export const appBookAbbreviations = {
   pl: 'BT skróty',
 }
 
-export function getBookNames(lang: Lang, name: string): string[] {
+export function getBookNames(lang: LanguageSymbol, name: string): string[] {
   const found = bookNamings.find(it => it.lang === lang && it.name === name)
   return found && found.books || []
 }
@@ -1064,7 +1064,7 @@ export const translations: TranslationMeta[] = [
 ]
 export const translationMeta = translations
 
-export const langs: Lang[] = ['en', 'pl']
+export const langs: LanguageSymbol[] = ['en', 'pl']
 
 
 // Check the uniqueness of symbols and names

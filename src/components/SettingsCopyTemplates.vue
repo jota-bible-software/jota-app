@@ -126,7 +126,7 @@
 <script setup lang="ts">
 // TODO make sure the name is unique
 import { ComputedRef, computed, ref, toRaw } from 'vue'
-import { CopyTemplateData, Lang } from 'src/types'
+import { CopyTemplateData, LanguageSymbol } from 'src/types'
 import { languageData } from 'src/logic/data'
 
 import { useSettingsStore } from 'stores/settings-store'
@@ -139,7 +139,7 @@ const store = useSettingsStore()
 const languages = ref(languageData)
 
 
-function bookNamings(lang: Lang) {
+function bookNamings(lang: LanguageSymbol) {
   return store.persist.languages[lang].bookNamings
 }
 
@@ -158,7 +158,7 @@ function getEmptyItem() {
         formatTemplate: '',
       }
       return acc
-    }, {} as Record<Lang, { formatTemplate: string, bookNaming: string }>)
+    }, {} as Record<LanguageSymbol, { formatTemplate: string, bookNaming: string }>)
   }
 
   return emptyItem

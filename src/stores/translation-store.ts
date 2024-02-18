@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref, shallowRef } from 'vue'
-import { Lang, Translation, TranslationKey } from 'src/types'
+import { LanguageSymbol, Translation, TranslationKey } from 'src/types'
 import { translationMeta, languageData } from 'src/logic/data'
 import { useSettingsStore } from './settings-store'
 
@@ -21,7 +21,7 @@ export const useTranslationStore = defineStore('translation', () => {
   })
 
 
-  function getTranslations(lang: Lang): Translation[] {
+  function getTranslations(lang: LanguageSymbol): Translation[] {
     return translations.filter(it => it.lang === lang)
   }
 
@@ -29,13 +29,13 @@ export const useTranslationStore = defineStore('translation', () => {
     return translations.find(it => it.lang === key.lang && it.symbol === key.symbol)
   }
 
-  function selectionStatus(lang: Lang) {
+  function selectionStatus(lang: LanguageSymbol) {
     const items = translations.filter(it => it.lang === lang)
     const selected = items.filter(it => it.selected)
     return items.length === selected.length ? true : selected.length === 0 ? false : null
   }
 
-  function selectLang(lang: Lang, selected: boolean) {
+  function selectLang(lang: LanguageSymbol, selected: boolean) {
     translations.forEach(it => {
       if (it.lang === lang) {
         it.selected = selected
@@ -44,12 +44,12 @@ export const useTranslationStore = defineStore('translation', () => {
     })
   }
 
-  function selectedCount(lang: Lang) {
+  function selectedCount(lang: LanguageSymbol) {
     return translations.filter(it => it.lang === lang && it.selected).length
   }
 
 
-  function selected(lang: Lang) {
+  function selected(lang: LanguageSymbol) {
     return translations.filter(it => it.selected && it.lang === lang)
   }
 
@@ -88,7 +88,7 @@ export const useTranslationStore = defineStore('translation', () => {
 
   }
 
-  function isOpen(aLang: Lang) {
+  function isOpen(aLang: LanguageSymbol) {
     // console.log(lang, store.lang)
     return aLang === lang.value
   }

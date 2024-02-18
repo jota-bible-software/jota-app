@@ -3,13 +3,13 @@ import { useStorage } from '@vueuse/core'
 import { LOCAL_STORAGE_KEY } from 'src/logic/util'
 import { Ref, computed, ref, watch } from 'vue'
 import { appBookAbbreviations, bookNamings, getBookNames, translations } from 'src/logic/data'
-import { CopyTemplateData, FormatTemplateData, Lang, PassageFormat, PassageListLayout, ScreenMode } from 'src/types'
+import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageFormat, PassageListLayout, ScreenMode } from 'src/types'
 import { useTheme } from 'src/composables/useTheme'
 
 export const useSettingsStore = defineStore('settings', () => {
   const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', {
     version: '1',
-    defaultLang: navigator.language as Lang,
+    defaultLang: navigator.language as LanguageSymbol,
     screenMode: 'dark' as ScreenMode,
     languages: {
       en: {
@@ -115,7 +115,7 @@ export const useSettingsStore = defineStore('settings', () => {
     defaultSearchResultLayout: 'split' as PassageListLayout,
   })
 
-  const lang: Ref<Lang> = ref(persist.value.defaultLang)
+  const lang: Ref<LanguageSymbol> = ref(persist.value.defaultLang)
 
   // Computed
 
@@ -129,7 +129,7 @@ export const useSettingsStore = defineStore('settings', () => {
     get() {
       return { lang: lang.value, symbol: persist.value.langDefaults[lang.value].translation }
     },
-    set(value: { lang: Lang, symbol: string }) {
+    set(value: { lang: LanguageSymbol, symbol: string }) {
       persist.value.langDefaults[lang.value].translation = value.symbol
     },
   })
