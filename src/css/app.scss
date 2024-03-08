@@ -74,6 +74,10 @@ body.body--dark {
   border-radius: 4px;
 }
 
+.q-btn-dropdown--split .q-btn-dropdown__arrow-container.q-btn--outline {
+  border-left: 1px solid var(--q-border) !important;
+}
+
 .q-list--dark .q-item__label--overline,
 .q-list--dark .q-item__label--caption,
 .q-item--dark .q-item__label--overline,
