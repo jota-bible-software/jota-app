@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import jota from 'src/logic/jota'
 import { useSettingsStore } from './settings-store'
 import { useTranslationStore } from './translation-store'
-import { usePassageFormat } from 'src/composables/usePassageFormat'
 import { Ref, computed, ref, watch } from 'vue'
 import { Passage, PassageListLayout, Progress } from 'src/types'
 

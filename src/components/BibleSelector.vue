@@ -36,7 +36,6 @@
 <script setup lang="ts">
 import { useTranslationStore } from 'src/stores/translation-store'
 import { computed } from 'vue'
-import { Screen } from 'quasar'
 import { Translation } from 'src/types'
 import FlagIcon from './FlagIcon.vue'
 
@@ -57,10 +56,6 @@ const selected = computed({
   }
 })
 
-const selectedLabel = computed(() => {
-  const symbol = selected.value.symbol.toUpperCase()
-  return Screen.lt.md ? symbol : symbol + ' - ' + selected.value.title
-})
 
 </script>
 

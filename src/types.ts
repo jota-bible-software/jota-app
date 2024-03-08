@@ -40,6 +40,7 @@ export type PassageFormat = {
 export type PassageListLayout = 'split' | 'formatted'
 export type Progress = { step: (n: number) => void, regex: RegExp }
 export type ScreenMode = 'dark' | 'light' | 'auto'
+export type SearchOptions = { apocrypha: boolean, shouldSort: boolean, words: boolean }
 export type Translation = TranslationMeta & { selected: boolean, stored: boolean, content?: TranslationContent }
 export type TranslationContent = string[][][]
 export type TranslationKey = { lang: LanguageSymbol, symbol: string }

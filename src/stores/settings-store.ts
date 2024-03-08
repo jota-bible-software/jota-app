@@ -2,8 +2,8 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import { LOCAL_STORAGE_KEY } from 'src/logic/util'
 import { Ref, computed, ref, watch } from 'vue'
-import { appBookAbbreviations, bookNamings, getBookNames, translations } from 'src/logic/data'
-import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageFormat, PassageListLayout, ScreenMode, TranslationKey } from 'src/types'
+import { bookNamings, translations } from 'src/logic/data'
+import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey } from 'src/types'
 import { useTheme } from 'src/composables/useTheme'
 
 export const useSettingsStore = defineStore('settings', () => {

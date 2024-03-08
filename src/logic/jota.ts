@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /**
  * The main application logic to process the bible translations.
  *
@@ -13,9 +14,38 @@
 import { osis as osisBooks } from './books'
 // import { defaultState } from 'src/store/store-settings'
 import { Parser, en, pl } from 'jota-parser'
-import { TranslationMeta } from 'src/types'
+import { LanguageSymbol, Passage, Progress, SearchOptions, TranslationContent } from 'src/types'
 
 const parser = new Parser({ locales: [pl, en] })
+
+export const defaultState = {
+  version: '0.5.0',
+  darkMode: true,
+  defaultBible: 'Uwspółcześniona Biblia Gdańska (2017)',
+  defaultFormat: '',
+  defaultFormatTemplate: 'Polska prezentacja',
+  defaultFormatByLocale: {
+    en: '',
+    pl: ''
+  },
+  defaultSearchResultLayout: 'formatted',
+  example: 1,
+  formatTemplates: [
+    { name: 'English presentation', pattern: {} },
+    { name: 'Polska prezentacja', pattern: {} },
+  ],
+  format1: '${book} ${chapter}${separator}${start} "${text}"',
+  format2: '${book} ${chapter}${separator}${start}-${end} "${textNumbers}"',
+  format3: '${book} ${chapter}${separator}${start}-${end} ${textNumbersNewLines}',
+  lastRoute: '',
+  plan: '',
+  planStartDate: '',
+  planProgress: 0,
+  separator: ',',
+  threshold1: 1,
+  threshold2: 2,
+  threshold3: 10,
+}
 
 const jota = {
   bibleLoadingPromise: Promise,
@@ -26,7 +56,7 @@ const jota = {
    * @param {int[]} fragment [bookIndex, chapterIndex, startVerse, endVerse]
    * @param {int} direction +1 or -1
    */
-  adjacentChapter(bible, fragment, direction) {
+  adjacentChapter(bible: TranslationContent, fragment: Passage, direction: 1 | -1) {
     const [bi, ci] = fragment
     return direction === -1 ?
       ci === 0 ? bi === 0 ? null : [bi - 1, bible[bi - 1].length - 1] : [bi, ci - 1] :
@@ -40,12 +70,14 @@ const jota = {
    * @param {string} symbol Symbol of the translation, e.g. kjv
    * @returns Promise that get resolved when the bible translation content is loaded
    */
-  getBible(lang, symbol): Promise<BibleContent> {
+  getBible(lang: LanguageSymbol, symbol: string): Promise<TranslationContent> {
     const filePath = `src/assets/data/${lang}/${symbol}.json`
     jota.bibleLoadingPromise = new Promise((resolve) => {
       const request = new XMLHttpRequest()
       request.onload = (event) => {
-        const bible = JSON.parse(event.target.response)
+        const bible = JSON.parse(event.target?.response)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         if (process.env.DEV) window.bible = bible // For easy dev tools playground
         resolve(bible)
       }
@@ -62,7 +94,7 @@ const jota = {
    * @param {string[]} bookNames The collection of book titles to use
    * @returns {string} Chapter title
    */
-  chapterCaption(fragment, bookNames) {
+  chapterCaption(fragment: Passage, bookNames: string[]) {
     if (!fragment) return ''
     const [bookIndex, chapter] = fragment
     const book = bookNames[bookIndex]
@@ -75,7 +107,7 @@ const jota = {
    * @param {int[]} fragment [bookIndex, chapterIndex, startVerse, endVerse]
    * @returns Array of verses (strings)
    */
-  chapterVerses(bible, fragment) {
+  chapterVerses(bible: TranslationContent, fragment: Passage) {
     if (!fragment) return []
     const [book, chapter] = fragment
     let content = ''
@@ -98,12 +130,12 @@ const jota = {
    * @param {string} translation Name of the translation
    * @returns {string} Formatted fragment
    */
-  format(bible, fragment, template, bookNames, separator, translation) {
+  format(bible: TranslationContent, fragment: Passage, template: string, bookNames: string[], separator: string, translation: string) {
     // All the variables used in the template must declared as loca variables here
     const [bi, ci, si, ei] = fragment
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const book = bookNames[bi]
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const chapter = ci + 1
     const content = bible[bi][ci]
     if (!content) return ''
@@ -113,23 +145,27 @@ const jota = {
     const verses = content.slice(start - 1, end)
     if (start === end) template = template.replace('-${end}', '')
 
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const verse = start
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const translationUpperCase = translation ? translation.toUpperCase() : ''
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     let text, textNumbers, textNewLines, textNumbersNewLines
     const includesNumbers = template.includes('Numbers')
     const includesNewLines = template.includes('NewLines')
     const oneVerse = start === end
 
     if (includesNumbers && includesNewLines) {
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
       textNumbersNewLines = oneVerse ? verses.join(' ') : '\n' + (verses.map((v, i) => `(${start + i}) ${v}`).join('\n'))
     } else if (includesNewLines) {
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
       textNewLines = oneVerse ? verses.join(' ') : '\n' + verses.join('\n')
     } else if (includesNumbers) {
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
       textNumbers = oneVerse ? verses.join(' ') : verses.map((v, i) => `(${start + i}) ${v}`).join(' ')
     } else {
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
       text = verses.join(' ')
     }
     // eval is OK, cause everything happens on the client, nevertheless
@@ -146,7 +182,7 @@ const jota = {
    * @param {string} separator Separator between chapter and verses
    * @returns {string} Formatted fragment reference
    */
-  formatReference(fragment, bookNames, separator) {
+  formatReference(fragment: Passage, bookNames: string[], separator: string) {
     const [bookIndex, chapter, start, end] = fragment
     const book = bookNames[bookIndex]
     if (isNaN(start)) {
@@ -158,49 +194,51 @@ const jota = {
     }
   },
 
-  /**
-   * Formats the given fragment according to the threshold formats
-   * depending on the number of verses in the fragment.
-   *
-   * @param {[]} thresholdFormats Array of formats coupled with the lower and upper limits of verses numbers
-   *    they should be applied to
-   * @param {int[]} fragment [bookIndex, chapterIndex, startVerse, endVerse]
-   * @param {[]} bible Three dimensional array with the content of the bible translation
-   * @param {string[]} bookNames Collection of book names to be used
-   * @param {string} separator Separator between chapter and verses
-   * @param {string} translation Name of the translation
-   * @returns {string} Formatted fragment
-   * @returns
-   */
-  formatThreshold(thresholdFormats, fragment, bible, bookNames, separator, translation) {
-    const [bi, ci, start, end] = fragment
-    const count = isNaN(start) ? bible[bi][ci].length : isNaN(end) ? 1 : end - start + 1
-    const [ts1, ts2, ts3] = thresholdFormats
-    let template = count < ts2.threshold ? ts1.format : count < ts3.threshold ? ts2.format : ts3.format || ts2.format
-    let result
-    try {
-      result = jota.format(bible, fragment, template, bookNames, separator, translation)
-    } catch {
-      template = count < ts2.threshold ?
-        defaultState.format1 : count < ts3.threshold ? defaultState.format2 : defaultState.format3
-      result = jota.format(bible, fragment, template, bookNames, separator, translation)
-    }
-    return result
-  },
+  // /**
+  //  * Formats the given fragment according to the threshold formats
+  //  * depending on the number of verses in the fragment.
+  //  *
+  //  * @param {[]} thresholdFormats Array of formats coupled with the lower and upper limits of verses numbers
+  //  *    they should be applied to
+  //  * @param {int[]} fragment [bookIndex, chapterIndex, startVerse, endVerse]
+  //  * @param {[]} bible Three dimensional array with the content of the bible translation
+  //  * @param {string[]} bookNames Collection of book names to be used
+  //  * @param {string} separator Separator between chapter and verses
+  //  * @param {string} translation Name of the translation
+  //  * @returns {string} Formatted fragment
+  //  * @returns
+  //  */
+  // formatThreshold(thresholdFormats: [any, any, any], fragment: Passage, bible: TranslationContent, bookNames: string[], separator: string, translation: string) {
+  //   const [bi, ci, start, end] = fragment
+  //   const count = start == null ? bible[bi][ci].length : end == null ? 1 : end - start + 1
+  //   const [ts1, ts2, ts3] = thresholdFormats
+  //   let template = count < ts2.threshold ? ts1.format : count < ts3.threshold ? ts2.format : ts3.format || ts2.format
+  //   let result
+  //   try {
+  //     result = jota.format(bible, fragment, template, bookNames, separator, translation)
+  //   } catch {
+  //     template = count < ts2.threshold ?
+  //       defaultState.format1 : count < ts3.threshold ? defaultState.format2 : defaultState.format3
+  //     result = jota.format(bible, fragment, template, bookNames, separator, translation)
+  //   }
+  //   return result
+  // },
 
   /**
    * Get the list of fragments from the osis string.
    *
    * @param {[]} bible Three dimensional array with the content of the bible translation
-   * @param {string} comma separated list of fragment codes like: Deut.25.13-14
+   * @param {string} osis comma separated list of fragment codes like: Deut.25.13-14
    * @param {boolean} shouldSort specifies whether the list should be sorted by indexes of the fragments
    * @returns {[]} Array of fragments (arrays including [bookIndex, chapterIndex, startVerse, endVerse])
    */
-  fragments(bible, osis, shouldSort) {
+  fragments(bible: TranslationContent, osis: string, shouldSort = false) {
     if (!osis) return []
-    const fragments = []
-    osis.split(',').forEach(it => {
-      let [from, to] = it.split('-')
+    const fragments: Passage[] = []
+    osis.split(',').forEach((it: string) => {
+      const [it1, it2] = it.split('-')
+      const from = it1
+      let to: string | true = it2
       const a = this.indexes(from)
       // Handle case of entire book, e.g, osis = "Col"
       if (isNaN(a[1])) {
@@ -251,14 +289,14 @@ const jota = {
     })
     return shouldSort ? jota.sortAndDeduplicate(fragments) : fragments
 
-    function addChapters(bi, ci, len) {
+    function addChapters(bi: number, ci: number, len: number) {
       // Add the starting chapters from the ending book
       for (; ci < len; ci++) {
         fragments.push([bi, ci])
       }
     }
 
-    function push(tokens, end) {
+    function push(tokens: Passage, end: number) {
       tokens.push(end)
       fragments.push(tokens)
     }
@@ -267,7 +305,7 @@ const jota = {
   /**
    * Ensure the regex flag includes "g" so that all instances of the term in the verse are highlighted
    */
-  highlightRegex(regex) {
+  highlightRegex(regex: RegExp) {
     return regex ? (regex.flags.includes('g') ? regex : new RegExp(regex.source, regex.flags + 'g')) : ''
   },
 
@@ -285,7 +323,7 @@ const jota = {
    * @param {object} progress A an object that would be updated about the progress
    * @returns {[]} Array of fragments (arrays including [bookIndex, chapterIndex, startVerse, endVerse])
    */
-  search(bible, text, options, progress) {
+  search(bible: TranslationContent, text: string, options: SearchOptions, progress: Progress) {
     // If text is a regular expression
     text = text.replace(/[\u202d\u202c]/gm, '') // Those characters happened when copying from iPhone to mac, the source was https://bible.com/bible/138/2sa.24.18-24.UBG
     if (text.startsWith('/')) {
@@ -340,16 +378,8 @@ const jota = {
    *   merge - should it combine consecutive passage references
    * @returns {string} List of passages encoded using osis standard
    */
-  searchReferences(input, options) {
-    // parser.include_apocrypha(!!options.apocrypha)
-    // parser.set_options({
-    //   punctuation_strategy: 'eu',
-    //   versification_system: options.translation,
-    //   consecutive_combination_strategy: JSON.parse(options.merge || false) ? 'combine' : 'separate',
-    // })
-    // parser.parse(input.replace(/:\s*/gm, ','))
-    // return parser.osis()
-    return parser.parse(input).map(v => [v[0], v[1] - 1, v[2] ? v[2] - 1 : undefined, v[3] ? v[3] - 1 : undefined])
+  searchReferences(input: string) {
+    return parser.parse(input).map((v: number[]) => [v[0], v[1] - 1, v[2] ? v[2] - 1 : undefined, v[3] ? v[3] - 1 : undefined])
   },
 
   /**
@@ -359,8 +389,8 @@ const jota = {
    * @param {*} progress
    * @returns
    */
-  async searchContent(regex, bible, progress) {
-    const found = []
+  async searchContent(regex: RegExp, bible: TranslationContent, progress: { step: (arg0: number) => void; regex: RegExp }) {
+    const found: number[][] = []
     // const re = new RegExp(term, 'ig')
     // set timeout to give time for progress animation to paint itself
     await Promise.all(bible.map((book, bi) => new Promise(resolve => setTimeout(() => {
@@ -376,7 +406,7 @@ const jota = {
         })
       )
       progress.step(bi + 1)
-      resolve()
+      resolve(null)
     }, 100))))
     // Store it so the UI would know which parts to highlight
     progress.regex = regex
@@ -392,12 +422,12 @@ const jota = {
    * @param {[]} fragments Array of [bookIndex, chapterIndex, startVerse, endVerse]
    * @returns Sorted and deduplicated list
    */
-  sortAndDeduplicate(fragments) {
+  sortAndDeduplicate(fragments: Passage[]) {
     // Sort
     fragments.sort((a, b) =>
       a[0] > b[0] ? 1 : a[0] < b[0] ? -1 :
         a[1] > b[1] ? 1 : a[1] < b[1] ? -1 :
-          a[2] > b[2] ? 1 : a[2] < b[2] ? -1 : 0
+          a[2] != null && b[2] != null ? a[2] > b[2] ? 1 : a[2] < b[2] ? -1 : 0 : 0
     )
 
     if (fragments.length < 2) {
@@ -417,13 +447,13 @@ const jota = {
     }
   },
 
-  verses(bible, fragment) {
+  verses(bible: TranslationContent, fragment: Passage) {
     const [bi, ci, si, ei] = fragment
     const content = bible[bi][ci]
     if (!content) return []
 
-    const start = isNaN(si) ? 1 : si + 1
-    const end = isNaN(ei) ? isNaN(si) ? content.length : si + 1 : ei + 1
+    const start = si == null ? 1 : si + 1
+    const end = ei == null ? si == null ? content.length : si + 1 : ei + 1
     return content.slice(start - 1, end)
   },
 
@@ -433,12 +463,12 @@ const jota = {
    * @param {string} osis Osis code of a passage
    * @returns {int[]} [bookIndex, chapterIndex, startVerse, endVerse]
    */
-  indexes(osis) {
+  indexes(osis: string) {
     const a = [...osis.matchAll(/(\w+)\.(\d+)\.?(\d+)?/g)][0] || [null, osis]
-    return [osisBooks.indexOf(a[1]), a[2] - 1, a[3] - 1]
+    return [osisBooks.indexOf(a[1]), parseInt(a[2]) - 1, parseInt(a[3]) - 1]
   },
 
-  pattern2template(pattern) {
+  pattern2template(pattern: { bookNames2?: () => unknown; format_1Html?: () => unknown; format_2Html?: () => unknown; template?: () => string; templateHtml?: () => unknown; referencePosition?: unknown; referenceNewLine?: unknown; separatorChar?: unknown; quotes?: unknown; verseNewLine?: unknown; numbers?: unknown }) {
     // ${book} ${chapter}${separator}${start}-${end} "${textWithNumbers}"
     const { referencePosition, referenceNewLine, separatorChar, quotes, verseNewLine, numbers } = pattern
     const ref = `\${book} \${chapter}${separatorChar}\${start}-\${end}`
@@ -452,7 +482,7 @@ const jota = {
     return s
   }
 }
-
+// @ts-ignore
 if (process.env.DEV) window.jota = jota
 
 export default jota
