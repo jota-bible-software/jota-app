@@ -20,7 +20,7 @@
 
     <div id="formatted" class="row q-pb-md" v-if="layout === 'formatted'">
       <div v-for="(  item, i  ) in   formattedSearchResults()  " v-bind:key="i" class="formatted-verse">
-        <span class="bref" @click="readInContext(i)">{{ item.bref }} {{ item.symbol }}</span>
+        <span class="bref" @click="readInContext(i)">{{ item.bibleReference }} {{ item.symbol }}</span>
         <span v-html="item.content" />
       </div>
     </div>
@@ -57,7 +57,7 @@ useEventListener(window.document, 'selectionchange', () => {
 
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 #content {
   // padding-bottom: 80px
   display: flex;

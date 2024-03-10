@@ -28,6 +28,9 @@
       "editor.action.addCommentLine",
       "cursorDown"
     ]
-  
-  }
+  },
+  "cSpell.words": [
+    "composables",
+    "vueuse"
+  ]
 }

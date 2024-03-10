@@ -20,8 +20,8 @@
         </template>
 
         <template v-slot:after>
-          <ButtonWholeWords :checked="store.words" @change="v => store.words = v" class="gt-xs" />
-          <ButtonBookSelector :checked="store.showPicker" @change="v => store.showPicker = v" class="gt-xs" />
+          <ButtonWholeWords :checked="store.words" @change="(v: boolean) => store.words = v" class="gt-xs" />
+          <ButtonBookSelector :checked="store.showPicker" @change="(v: boolean) => store.showPicker = v" class="gt-xs" />
         </template>
       </q-input>
 
@@ -33,10 +33,10 @@
         <q-menu>
           <q-list style="min-width: 210px">
             <q-item>
-              <ButtonWholeWords :checked="store.words" @change="v => store.words = v" in-menu />
+              <ButtonWholeWords :checked="store.words" @change="(v: boolean) => store.words = v" in-menu />
             </q-item>
             <q-item>
-              <ButtonBookSelector :checked="store.showPicker" @change="v => store.showPicker = v" in-menu />
+              <ButtonBookSelector :checked="store.showPicker" @change="(v: boolean) => store.showPicker = v" in-menu />
             </q-item>
             <q-item>
               <ButtonReadingPlan in-menu />
@@ -80,14 +80,15 @@ import ButtonSettings from 'src/components/ButtonSettings.vue'
 import ReferencePicker from 'src/components/ReferencePicker.vue'
 import MessageLine from 'src/components/MessageLine.vue'
 import MainToolbar from 'src/components/MainToolbar.vue'
+import { SearchOptions } from 'src/types'
 
 const store = useSearchStore()
 const $q = useQuasar()
 
-function find(input: string, opt?: unknown) {
+function find(input: string, opt?: SearchOptions) {
   const options = opt || {}
   store.showPicker = false
-  return store.findByInput({ input, options })
+  return store.findByInput(input, options)
 }
 
 const events = ['orientationchange', 'resize']

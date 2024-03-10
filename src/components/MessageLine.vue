@@ -7,9 +7,16 @@
       Znaleziono fragmentów:
       <span style="font-weight: bold">{{ passages.length }}</span>
 
-      <q-btn outline dense class="q-mx-sm" icon="icon-mdi-content-copy" @click="copyFound">
+      <q-btn-dropdown outline dense split class="q-mx-sm" icon="icon-mdi-content-copy" @click="copyFound()">
+        <q-list>
+          <q-item clickable v-close-popup @click="copyFound(item)" v-for="item in copyTemplates" :key="item.name">
+            <q-item-section>
+              <q-item-label :class="copyTemplateClass(item.name)">{{ item.name }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
         <q-tooltip>Kopiuj znalezione wersety do schowka</q-tooltip>
-      </q-btn>
+      </q-btn-dropdown>
 
       <q-btn outline dense icon="icon-mat-vertical_split" text-color="primary" @click="layout = 'split'"
         v-show="layout === 'formatted'">
@@ -29,7 +36,8 @@
 
     <span v-else-if="error">{{ error }}</span>
 
-    <span v-else-if="passages.length === 0 && !chapterFragment && searchTerm !== ''">Nic takiego nie znaleziono :-(</span>
+    <span v-else-if="passages.length === 0 && !chapterFragment && searchTerm !== ''">Nic takiego nie znaleziono
+      :-(</span>
 
     <!-- Passage displayed -->
     <span v-if="layout === 'split'">
@@ -50,12 +58,22 @@
       </q-btn-group>
 
       <q-btn-dropdown outline dense split text-color="primary" class="q-ml-sm" icon="icon-mdi-content-copy"
-        @click="copySelected" v-show="chapterFragment && !isNaN(chapterFragment[2])">
+        @click="copySelected()" v-show="hasSelection">
+        <q-list>
+          <q-item clickable v-close-popup @click="copySelected(item)" v-for="item in copyTemplates" :key="item.name"
+            style="max-width: 500px">
+            <q-item-section>
+              <q-item-label>{{ item.name }} {{ defaultSuffix(item) }}</q-item-label>
+              <q-item-label caption><span v-html="formattedSample(item)" /></q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
         <q-tooltip>Kopiuj zaznaczone wersety do schowka</q-tooltip>
       </q-btn-dropdown>
 
       <q-btn id="player" v-show="chapterFragment" outline dense text-color="primary" class="q-ml-sm"
         icon="icon-mat-volume_up" @click="playAudio">
+
         <q-tooltip>Odtwórz rozdział w wersji audio</q-tooltip>
       </q-btn>
     </span>
@@ -63,17 +81,48 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs } from 'vue'
+import { ref, toRefs } from 'vue'
+import { useQuasar } from 'quasar'
+import { useClipboard } from '@vueuse/core'
 import { useSearchStore } from 'src/stores/search-store'
+import { CopyTemplateData } from 'src/types'
 
 const store = useSearchStore()
+const { adjacentChapter, chapterCaption, chapterFragment, copyTemplates, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, shouldSortTooltip, showPicker, sortAndDeduplicate } = toRefs(store)
 
-const { adjacentChapter, chapterCaption, chapterFragment, copyFound, copySelected, error, layout, passages, progress, searchTerm, shouldSort, shouldSortTooltip, showPicker, sortAndDeduplicate } = toRefs(store)
+const $q = useQuasar()
+const clipboardSource = ref('Hello')
+const { copy } = useClipboard({ source: clipboardSource })
+
+function formattedSample(item: CopyTemplateData) {
+  return store.formattedSample(item)
+}
+
+function copySelected(item?: CopyTemplateData) {
+  const s = store.formatSelected(item)
+  copy(s)
+  $q.notify('Skopiowano zaznaczone wersety do schowka')
+}
+
+function copyFound(item?: CopyTemplateData) {
+  const s = store.formatFound(item)
+  console.log(`Copy found: ${s}`)
+  copy(s)
+  $q.notify('Skopiowano znalezione wersety do schowka')
+}
+
+function defaultSuffix(item: CopyTemplateData) {
+  return item && item.isDefault ? ' (domyślny szablon)' : ''
+}
+
+function copyTemplateClass(name: string) {
+  const item = copyTemplates.value.find(it => it.name === name)
+  return item && item.isDefault ? 'text-primary' : ' '
+}
 
 function playAudio() {
   return null
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

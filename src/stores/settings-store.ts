@@ -78,19 +78,51 @@ export const useSettingsStore = defineStore('settings', () => {
         translationAbbreviationCharsBefore: '',
         translationAbbreviationCharsAfter: '',
       } as FormatTemplateData,
-    ],
+      {
+        name: 'Studium',
+        referencePosition: 'before',
+        referenceLine: 'new line',
+        translationAbbreviation: 'uppercase',
+        numbers: true,
+        verseNewLine: false,
+        separatorChar: ':',
+        rangeChar: '-',
+        referenceCharsBefore: '– ',
+        referenceCharsAfter: '',
+        quoteCharsBefore: '',
+        quoteCharsAfter: '',
+        verseNumberCharsBefore: '(',
+        verseNumberCharsAfter: ')',
+        translationAbbreviationCharsBefore: '',
+        translationAbbreviationCharsAfter: ''
+      } as FormatTemplateData,
+    ] as FormatTemplateData[],
     copyTemplates: [
       {
         name: 'Prezentacja',
         isDefault: false,
         lang: {
           en: {
-            formatTemplate: '',
-            bookNaming: '',
+            formatTemplate: 'English presentation',
+            bookNaming: 'Standard'
           },
           pl: {
-            formatTemplate: '',
-            bookNaming: '',
+            formatTemplate: 'Polska prezentacja',
+            bookNaming: 'EIB skrócone'
+          }
+        }
+      },
+      {
+        name: 'Studium',
+        isDefault: true,
+        lang: {
+          en: {
+            formatTemplate: 'Studium',
+            bookNaming: 'SBL abbreviations'
+          },
+          pl: {
+            formatTemplate: 'Studium',
+            bookNaming: 'Moje pl'
           }
         }
       }

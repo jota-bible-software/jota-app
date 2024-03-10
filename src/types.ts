@@ -1,5 +1,5 @@
 export type BookNamesStandardData = { lang: string, name: string, books: string[] }
-export type Formatted = { reference: string, content: string }
+export type Formatted = { reference: string, separator: string, content: string, referenceFirst: boolean }
 export type CopyTemplateLangData = Record<LanguageSymbol, { formatTemplate: string, bookNaming: string }>
 export type CopyTemplateData = {
   name: string,
@@ -38,9 +38,9 @@ export type PassageFormat = {
   translation: 'none' | 'lowercase' | 'uppercase'
 }
 export type PassageListLayout = 'split' | 'formatted'
-export type Progress = { step: (n: number) => void, regex: RegExp }
+export type Progress = { step: (n: number) => void, regex?: RegExp }
 export type ScreenMode = 'dark' | 'light' | 'auto'
-export type SearchOptions = { apocrypha: boolean, shouldSort: boolean, words: boolean }
+export type SearchOptions = { apocrypha?: boolean, shouldSort?: boolean, words?: boolean }
 export type Translation = TranslationMeta & { selected: boolean, stored: boolean, content?: TranslationContent }
 export type TranslationContent = string[][][]
 export type TranslationKey = { lang: LanguageSymbol, symbol: string }

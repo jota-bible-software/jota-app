@@ -14,7 +14,7 @@
 import { osis as osisBooks } from './books'
 // import { defaultState } from 'src/store/store-settings'
 import { Parser, en, pl } from 'jota-parser'
-import { LanguageSymbol, Passage, Progress, SearchOptions, TranslationContent } from 'src/types'
+import { Passage, Progress, SearchOptions, TranslationContent } from 'src/types'
 
 const parser = new Parser({ locales: [pl, en] })
 
@@ -47,9 +47,7 @@ export const defaultState = {
   threshold3: 10,
 }
 
-const jota = {
-  bibleLoadingPromise: Promise,
-
+export const jota = {
   /**
    * Return fragment with a next or previous chapter adjacent to the given one
    *
@@ -63,29 +61,6 @@ const jota = {
       ci === bible[bi].length - 1 ? bi === bible.length - 1 ? null : [bi + 1, 0] : [bi, ci + 1]
   },
 
-  /**
-   * Fetch the content of bible translation by the given language locale and translation symbol.
-   *
-   * @param {string} lang Language locale symbol
-   * @param {string} symbol Symbol of the translation, e.g. kjv
-   * @returns Promise that get resolved when the bible translation content is loaded
-   */
-  getBible(lang: LanguageSymbol, symbol: string): Promise<TranslationContent> {
-    const filePath = `src/assets/data/${lang}/${symbol}.json`
-    jota.bibleLoadingPromise = new Promise((resolve) => {
-      const request = new XMLHttpRequest()
-      request.onload = (event) => {
-        const bible = JSON.parse(event.target?.response)
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        if (process.env.DEV) window.bible = bible // For easy dev tools playground
-        resolve(bible)
-      }
-      request.open('get', filePath, true)
-      request.send()
-    })
-    return jota.bibleLoadingPromise
-  },
 
   /**
    * Formats a title of a chapter of a fragment to be displayed on the screen.
@@ -104,13 +79,13 @@ const jota = {
   /**
    * Returns array of verses for the whole chapter containing the given fragment.
    * @param {[]} bible Three dimensional array with the content of the bible translation
-   * @param {int[]} fragment [bookIndex, chapterIndex, startVerse, endVerse]
+   * @param {int[]} passage [bookIndex, chapterIndex, startVerse, endVerse]
    * @returns Array of verses (strings)
    */
-  chapterVerses(bible: TranslationContent, fragment: Passage) {
-    if (!fragment) return []
-    const [book, chapter] = fragment
-    let content = ''
+  chapterVerses(bible: TranslationContent, passage: Passage) {
+    if (!passage) return []
+    const [book, chapter] = passage
+    let content: string[] = []
     try {
       content = bible[book][chapter]
     } catch { /* May fail because the bible is no loaded yet */ }
@@ -122,7 +97,7 @@ const jota = {
    * Formats a given fragment according to the given template, both reference and the content.
    * Used in formatted search results layout and for copying to the clipboard.
    *
-   * @param {[]} bible Three dimensional array with the content of the bible translation
+   * @param {[]} translationContent Three dimensional array with the content of the bible translation
    * @param {int[]} fragment [bookIndex, chapterIndex, startVerse, endVerse]
    * @param {string} template String template replacing the variables reference with the values from this function scope
    * @param {string[]} bookNames Collection of book names to be used
@@ -130,18 +105,18 @@ const jota = {
    * @param {string} translation Name of the translation
    * @returns {string} Formatted fragment
    */
-  format(bible: TranslationContent, fragment: Passage, template: string, bookNames: string[], separator: string, translation: string) {
+  format(translationContent: TranslationContent, fragment: Passage, template: string, bookNames: string[], separator: string, translation: string) {
     // All the variables used in the template must declared as loca variables here
     const [bi, ci, si, ei] = fragment
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const book = bookNames[bi]
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const chapter = ci + 1
-    const content = bible[bi][ci]
+    const content = translationContent[bi][ci]
     if (!content) return ''
 
-    const start = isNaN(si) ? 1 : si + 1
-    const end = isNaN(ei) ? isNaN(si) ? content.length : si + 1 : ei + 1
+    const start = si == null ? 1 : si + 1
+    const end = ei == null ? si == null ? content.length : si + 1 : ei + 1
     const verses = content.slice(start - 1, end)
     if (start === end) template = template.replace('-${end}', '')
 
@@ -185,9 +160,9 @@ const jota = {
   formatReference(fragment: Passage, bookNames: string[], separator: string) {
     const [bookIndex, chapter, start, end] = fragment
     const book = bookNames[bookIndex]
-    if (isNaN(start)) {
+    if (start == null) {
       return `${book} ${chapter + 1}`
-    } else if (isNaN(end) || start === end) {
+    } else if (end == null || start === end) {
       return `${book} ${chapter + 1}${separator}${start + 1}`
     } else {
       return `${book} ${chapter + 1}${separator}${start + 1}-${end + 1}`
@@ -227,38 +202,38 @@ const jota = {
   /**
    * Get the list of fragments from the osis string.
    *
-   * @param {[]} bible Three dimensional array with the content of the bible translation
+   * @param {[]} translationContent Three dimensional array with the content of the bible translation
    * @param {string} osis comma separated list of fragment codes like: Deut.25.13-14
    * @param {boolean} shouldSort specifies whether the list should be sorted by indexes of the fragments
    * @returns {[]} Array of fragments (arrays including [bookIndex, chapterIndex, startVerse, endVerse])
    */
-  fragments(bible: TranslationContent, osis: string, shouldSort = false) {
+  fragments(translationContent: TranslationContent, osis: string, shouldSort = false) {
     if (!osis) return []
     const fragments: Passage[] = []
     osis.split(',').forEach((it: string) => {
       const [it1, it2] = it.split('-')
       const from = it1
       let to: string | true = it2
-      const a = this.indexes(from)
+      const a = this.osis2passage(from)
       // Handle case of entire book, e.g, osis = "Col"
       if (isNaN(a[1])) {
         a[1] = 0
         to = to || true
       }
       if (to) {
-        const b = to === true ? [a[0], bible[a[0]].length - 1] : this.indexes(to)
+        const b = to === true ? [a[0], translationContent[a[0]].length - 1] : this.osis2passage(to)
         // Only scopes within the same chapter are allowed
         if (a[0] !== b[0] || a[1] !== b[1]) {
           a[2] = a[2] || 0
           if (a[2] === 0) {
             a.splice(2, 1)
-            fragments.push(a)
+            fragments.push(a as Passage)
           } else {
-            push(a, bible[a[0]][a[1]].length - 1)
+            push(a, translationContent[a[0]][a[1]].length - 1)
           }
           if (a[0] < b[0]) {
             // Add the rest of chapters from the starting book
-            addChapters(a[0], a[1] + 1, bible[a[0]].length)
+            addChapters(a[0], a[1] + 1, translationContent[a[0]].length)
           } else {
             // Add all the chapters in between if start end end are in the same book
             addChapters(a[0], a[1] + 1, b[1])
@@ -266,15 +241,15 @@ const jota = {
           if (a[0] + 1 < b[0]) {
             // Add books in between, this should be forbidden probably
             for (let bi = a[0] + 1; bi < b[0]; bi++) {
-              addChapters(bi, 0, bible[bi].length)
+              addChapters(bi, 0, translationContent[bi].length)
             }
           }
           if (a[0] < b[0]) {
             // Add the starting chapters from the ending book
-            addChapters(b[0], 0, isNaN(b[1]) ? bible[b[0]].length : b[1])
+            addChapters(b[0], 0, isNaN(b[1]) ? translationContent[b[0]].length : b[1])
           }
           if (!isNaN(b[1])) {
-            if (isNaN(b[2]) || b[2] === bible[b[0]][b[1]].length - 1) {
+            if (isNaN(b[2]) || b[2] === translationContent[b[0]][b[1]].length - 1) {
               fragments.push([b[0], b[1]])
             } else {
               fragments.push([b[0], b[1], 0, b[2]])
@@ -296,9 +271,9 @@ const jota = {
       }
     }
 
-    function push(tokens: Passage, end: number) {
+    function push(tokens: number[], end: number) {
       tokens.push(end)
-      fragments.push(tokens)
+      fragments.push(tokens as Passage)
     }
   },
 
@@ -316,7 +291,7 @@ const jota = {
    *
    * @param {[]} bible Three dimensional array with the content of the bible translation
    * @param {string} text Search input
-   * @param {object} opotions Search options such as
+   * @param {object} options Search options such as
    *   words - Should search for whole words or just characters chains
    *   translation - Name of the translation used for the versification system
    *   shouldSort - should the results be sorted by the indexes of book, chapter and verse
@@ -350,14 +325,14 @@ const jota = {
 
     // require('../statics/bcv-parsers/full_bcv_parser')
     // const parser = new bcv_parser()
-    const fragments = jota.searchReferences(text, options)
+    const fragments = jota.searchReferences(text)
     // const fragments = jota.fragments(bible, refs, options.shouldSort)
     if (fragments.length) return fragments
 
     // If no fragments found in the given text then search in the bible content for full
     let regex
     if (options.words) {
-      const notWord = '[^a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]'
+      const notWord = '[^a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]' // cspell:disable-line
       regex = new RegExp(`(^|${notWord})(${text})($|${notWord})`, 'i')
     } else {
       regex = new RegExp(`(${text})`, 'i')
@@ -389,7 +364,7 @@ const jota = {
    * @param {*} progress
    * @returns
    */
-  async searchContent(regex: RegExp, bible: TranslationContent, progress: { step: (arg0: number) => void; regex: RegExp }) {
+  async searchContent(regex: RegExp, bible: TranslationContent, progress: Progress) {
     const found: number[][] = []
     // const re = new RegExp(term, 'ig')
     // set timeout to give time for progress animation to paint itself
@@ -438,7 +413,7 @@ const jota = {
       const arr = [a]
       for (let i = 1; i < fragments.length; i++) {
         const b = fragments[i]
-        if (!(a[0] === b[0] && a[1] === b[1] && (a[2] === b[2] || (isNaN(a[2]) && isNaN(b[2]))))) {
+        if (!(a[0] === b[0] && a[1] === b[1] && (a[2] === b[2] || (a[2] == null && b[2] == null)))) {
           arr.push(b)
         }
         a = b
@@ -463,7 +438,7 @@ const jota = {
    * @param {string} osis Osis code of a passage
    * @returns {int[]} [bookIndex, chapterIndex, startVerse, endVerse]
    */
-  indexes(osis: string) {
+  osis2passage(osis: string): number[] {
     const a = [...osis.matchAll(/(\w+)\.(\d+)\.?(\d+)?/g)][0] || [null, osis]
     return [osisBooks.indexOf(a[1]), parseInt(a[2]) - 1, parseInt(a[3]) - 1]
   },

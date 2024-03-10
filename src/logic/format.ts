@@ -1,13 +1,14 @@
-import { FormatTemplateData, Passage, TranslationContent } from 'src/types'
-// import { FormatTemplateData } from 'src/types'
+import { FormatTemplateData, Formatted, Passage, TranslationContent } from 'src/types'
 
-export function format2(template: FormatTemplateData, fragment: Passage, bible: TranslationContent, bookNames: string[], translationAbbreviation: string): Formatted | undefined {
+/**
+ * Returns a structure that holds the reference separately from the verses content.
+ */
+export function formatComposable(template: FormatTemplateData, passage: Passage, translationContent: TranslationContent, bookNames: string[], translationAbbreviation: string): Formatted | undefined {
   // All the variables used in the template must declared as loca variables here
   const t = template
-  const [bi, ci, si, ei] = fragment
-  const book = bookNames[bi]
+  const [bi, ci, si, ei] = passage
   const chapter = ci + 1
-  const chapterContent = bible[bi][ci]
+  const chapterContent = translationContent[bi][ci]
 
   const bookName = bookNames[bi]
   const start = si === undefined ? 1 : si + 1
@@ -39,7 +40,27 @@ export function format2(template: FormatTemplateData, fragment: Passage, bible: 
 
   const content = `${t.quoteCharsBefore}${text}${t.quoteCharsAfter}`
   const separator = t.referenceLine === 'new line' ? '\n' : ' '
-  return t.referencePosition === 'after' ? [content, separator, reference] : [reference, separator, content]
-  // return t.referencePosition === 'after' ? `${content}${separator}${reference}` : `${reference}${separator}${content}`
+  const referenceFirst = t.referencePosition === 'before'
+  return { reference, separator, content, referenceFirst }
 }
 
+export function format(template: FormatTemplateData, passage: Passage, translationContent: TranslationContent, bookNames: string[], translationAbbreviation: string): string {
+  const format2Result = formatComposable(template, passage, translationContent, bookNames, translationAbbreviation)
+  if (!format2Result) return ''
+  const { reference, separator, content, referenceFirst } = format2Result
+  return referenceFirst ? reference + separator + content : content + separator + reference
+}
+
+export function formatSample(template: FormatTemplateData, bookNames: string[] = ['Book'], abbreviation = 'ABR') {
+  /* cspell:disable-next-line */
+  const bible = [[['Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Ultricies mi quis hendrerit dolor magna eget est lorem.']]]
+  const format2Result = formatComposable(template, [0, 0, 0, 1], bible, bookNames, abbreviation)
+  if (!format2Result) return
+  const { reference, separator, content, referenceFirst } = format2Result
+  const colorizedReference = colorize(reference)
+  return (referenceFirst ? colorizedReference + separator + content : content + separator + colorizedReference).replace(/\n/g, '<br/>')
+
+  function colorize(s: string) {
+    return `<span style="color: var(--q-primary)">${s.replace(/ /g, '&nbsp;')}</span>`
+  }
+}

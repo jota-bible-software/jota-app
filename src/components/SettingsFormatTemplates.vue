@@ -14,7 +14,7 @@
             <q-item-section>
               <q-item-label>{{ item.name }}</q-item-label>
               <q-item-label>
-                <pre v-html="formatItem(item)" class="text-caption default-font-family"
+                <pre v-html="formatSample(item)" class="text-caption default-font-family"
                   style=" white-space:pre-wrap"></pre>
               </q-item-label>
             </q-item-section>
@@ -143,19 +143,18 @@
 <script setup lang="ts">
 // TODO make sure the name is unique
 import { Ref, computed, ref } from 'vue'
-import { QForm, useQuasar } from 'quasar'
+import { QForm } from 'quasar'
 import { FormatTemplateData } from 'src/types'
 import { supportedLanguageSymbols } from 'src/logic/data'
 import { useSettingsStore } from 'stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
 import ConfirmDialog from './ConfirmDialog.vue'
 import LabelRow from './LabelRow.vue'
-import { format2 } from 'src/logic/format'
+import { formatSample } from 'src/logic/format'
 
 
 const store = useSettingsStore()
 const items = store.persist.formatTemplates
-const $q = useQuasar()
 
 const templates = computed(() => items)
 
@@ -204,7 +203,6 @@ function save() {
   selected.value = ''
   isNewItem.value = false
 }
-
 
 const removeTooltip = computed(() => {
   let foundTemplateName = ''
@@ -255,28 +253,11 @@ function reset() {
   myForm.value?.resetValidation()
 }
 
-
-
 function add() {
   isNewItem.value = true
 }
 
-const bible = [[['Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Ultricies mi quis hendrerit dolor magna eget est lorem.']]]
-const formatted = computed(() => formatItem(editedItem.value))
-
-function formatItem(item: FormatTemplateData) {
-  let [s1, sep, s2] = format2(item, [0, 0, 0, 1], bible, ['Book'], 'NIV')
-  if (s1.includes('Book')) {
-    s1 = colorize(s1)
-  } else {
-    s2 = colorize(s2)
-  }
-  return (s1 + sep + s2).replace(/\n/g, '<br/>')
-
-  function colorize(s: string) {
-    return `<span style="color: var(--q-primary)">${s.replace(/ /g, '&nbsp;')}</span>`
-  }
-}
+const formatted = computed(() => formatSample(editedItem.value))
 
 function validateName(v: string) {
   return v.length === 0 ? 'Nazwa nie może być pusta' : items.find((it, i) => it.name === v && i !== selectedIndex.value) ? 'Taka nazwa już występuje' : true
