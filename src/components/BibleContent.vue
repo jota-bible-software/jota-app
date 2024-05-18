@@ -148,4 +148,12 @@ useEventListener(window.document, 'selectionchange', () => {
     display: contents;
   }
 }
+
+.verse {
+  .bold {
+    color: var(--q-accent);
+    font-weight: 600;
+    display: contents;
+  }
+}
 </style>

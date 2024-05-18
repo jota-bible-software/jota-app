@@ -41,9 +41,6 @@ export const useSearchStore = defineStore('search', () => {
   const copyTemplates = computed(() => settings.persist.copyTemplates)
   const found = computed(() => !!fragments.value.length)
   const hasSelection = computed(() => chapterFragment.value && chapterFragment.value[2] != null)
-  const highlightSearchTerm = computed(() => (s: string) =>
-    searchTermHighlightRegex.value ? s.replace(searchTermHighlightRegex.value, searchTermHighlightReplacement.value) : s
-  )
   const loading = computed(() => !translation.value?.content)
   const passages = computed(() =>
     fragments.value.map((osisRef) => jota.formatReference(osisRef, books.value, separator.value)))
@@ -128,7 +125,7 @@ export const useSearchStore = defineStore('search', () => {
         progress.value = value / (translation.value?.content?.length || 1)
       }
     }
-    Object.assign(options, { words, shouldSort, translationSymbol })
+    Object.assign(options, { words: words.value, shouldSort: shouldSort.value, translationSymbol })
     progress.value = 0.1
     error.value = ''
     try {
@@ -156,6 +153,10 @@ export const useSearchStore = defineStore('search', () => {
     } finally {
       progress.value = 0
     }
+  }
+
+  function highlightSearchTerm(s: string) {
+    return searchTermHighlightRegex.value ? s.replace(searchTermHighlightRegex.value, searchTermHighlightReplacement.value) : s
   }
 
   function formatFound(copyTemplate?: CopyTemplateData) {

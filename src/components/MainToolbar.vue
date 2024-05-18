@@ -7,7 +7,6 @@
       <span id="translation-label" class="text-secondary q-mr-sm"> Przekład: </span>
       <BibleSelector v-model="store.currentTranslation" class="q-pr-md gt-sm" />
 
-      <ButtonReadingPlan />
       <ButtonHelp />
       <ButtonSettings />
     </div>
@@ -18,7 +17,6 @@
 import { useSearchStore } from 'src/stores/search-store'
 import BibleSelector from 'src/components/BibleSelector.vue'
 import ButtonHelp from 'src/components/ButtonHelp.vue'
-import ButtonReadingPlan from 'src/components/ButtonReadingPlan.vue'
 import ButtonSettings from 'src/components/ButtonSettings.vue'
 
 const store = useSearchStore()

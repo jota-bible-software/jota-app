@@ -20,12 +20,12 @@
         </template>
 
         <template v-slot:after>
-          <ButtonWholeWords :checked="store.words" @change="(v: boolean) => store.words = v" class="gt-xs" />
-          <ButtonBookSelector :checked="store.showPicker" @change="(v: boolean) => store.showPicker = v" class="gt-xs" />
+          <ButtonWholeWords class="gt-xs" />
+          <ButtonBookSelector :checked="store.showPicker" @change="(v: boolean) => store.showPicker = v"
+            class="gt-xs" />
         </template>
       </q-input>
 
-      <ButtonReadingPlan class="sm" />
       <ButtonHelp class="sm" />
       <ButtonSettings class="sm" />
 
@@ -33,13 +33,10 @@
         <q-menu>
           <q-list style="min-width: 210px">
             <q-item>
-              <ButtonWholeWords :checked="store.words" @change="(v: boolean) => store.words = v" in-menu />
+              <ButtonWholeWords in-menu />
             </q-item>
             <q-item>
               <ButtonBookSelector :checked="store.showPicker" @change="(v: boolean) => store.showPicker = v" in-menu />
-            </q-item>
-            <q-item>
-              <ButtonReadingPlan in-menu />
             </q-item>
             <q-item>
               <ButtonHelp in-menu />
@@ -75,7 +72,6 @@ import BibleSelector from 'src/components/BibleSelector.vue'
 import ButtonBookSelector from 'src/components/ButtonBookSelector.vue'
 import ButtonWholeWords from 'src/components/ButtonWholeWords.vue'
 import ButtonHelp from 'src/components/ButtonHelp.vue'
-import ButtonReadingPlan from 'src/components/ButtonReadingPlan.vue'
 import ButtonSettings from 'src/components/ButtonSettings.vue'
 import ReferencePicker from 'src/components/ReferencePicker.vue'
 import MessageLine from 'src/components/MessageLine.vue'
@@ -107,7 +103,7 @@ updateSize()
 
 </script>
 
-<style >
+<style>
 #search {
   height: calc(var(--vh, 1vh) * 100 + 20px);
   display: flex;
