@@ -105,7 +105,8 @@ updateSize()
 
 <style>
 #search {
-  height: calc(var(--vh, 1vh) * 100 + 20px);
+  /* height: calc(var(--vh, 1vh) * 100 + 20px); */
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }

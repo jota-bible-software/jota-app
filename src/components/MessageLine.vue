@@ -71,12 +71,15 @@
         <q-tooltip>Kopiuj zaznaczone wersety do schowka</q-tooltip>
       </q-btn-dropdown>
 
-      <q-btn id="player" v-show="chapterFragment" outline dense text-color="primary" class="q-ml-sm"
-        icon="icon-mat-volume_up" @click="playAudio">
+      <q-btn id="player" v-show="store.chapterFragment" outline dense text-color="primary" class="q-ml-sm"
+        icon="icon-mat-volume_up" @click="toggleAudio">
 
         <q-tooltip>Odtwórz rozdział w wersji audio</q-tooltip>
       </q-btn>
     </span>
+  </div>
+  <div>
+    <AudioPlayer />
   </div>
 </template>
 
@@ -86,6 +89,7 @@ import { useQuasar } from 'quasar'
 import { useClipboard } from '@vueuse/core'
 import { useSearchStore } from 'src/stores/search-store'
 import { CopyTemplateData } from 'src/types'
+import AudioPlayer from 'src/components/AudioPlayer.vue'
 
 const store = useSearchStore()
 const { adjacentChapter, chapterCaption, chapterFragment, copyTemplates, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, shouldSortTooltip, showPicker, sortAndDeduplicate } = toRefs(store)
@@ -120,8 +124,8 @@ function copyTemplateClass(name: string) {
   return item && item.isDefault ? 'text-primary' : ' '
 }
 
-function playAudio() {
-  return null
+function toggleAudio() {
+  store.audioOn = !store.audioOn
 }
 </script>
 
