@@ -36,7 +36,7 @@
                 </q-btn>
                 <q-btn outline color="primary" @click="selected = ''">
                   <q-icon left name="undo" />
-                  <div>Schowaj</div>
+                  <div>Cofnij</div>
                 </q-btn>
                 <q-btn outline color="primary" @click="appBookNaming = selected">
                   <q-icon left name="desktop_windows" />
@@ -125,7 +125,7 @@ function save(item: BookNamesStandardData) {
 const removeTooltip = computed(() => {
   if (selected.value === appBookNaming.value) {
     return 'Usunięcie niemożliwe z powodu użycia tego nazewnictwa na ekranie aplikacji'
-  } 
+  }
 
   let foundTemplateName = ''
   let foundLang = ''
