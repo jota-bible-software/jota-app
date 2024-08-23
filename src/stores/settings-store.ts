@@ -5,132 +5,134 @@ import { Ref, computed, ref } from 'vue'
 import { bookNamings, translations } from 'src/logic/data'
 import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey } from 'src/types'
 
-export const useSettingsStore = defineStore('settings', () => {
-  const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', {
-    version: '1',
-    defaultLang: navigator.language as LanguageSymbol,
-    fontSize: 16,
-    screenMode: 'dark' as ScreenMode,
-    languages: {
-      en: {
-        appBookNaming: 'SBL abbreviations',
-        bookNamings: bookNamings.filter(it => it.lang === 'en'),
-        selectedTranslations: ['NIV', 'NLT'],
-      },
-      pl: {
-        appBookNaming: 'Moje pl',
-        bookNamings: bookNamings.filter(it => it.lang === 'pl'),
-        selectedTranslations: ['EIB', 'BT5', 'BW', 'UBG'],
-      },
+const initialPersistValue = {
+  version: '1',
+  defaultLang: navigator.language as LanguageSymbol,
+  fontSize: 16,
+  screenMode: 'dark' as ScreenMode,
+  languages: {
+    en: {
+      appBookNaming: 'SBL abbreviations',
+      bookNamings: bookNamings.filter(it => it.lang === 'en'),
+      selectedTranslations: ['NIV', 'NLT'],
     },
-    formatTemplates: [
-      {
-        name: 'App format',
-        referencePosition: 'before',
-        referenceLine: 'same line',
-        translationAbbreviation: 'none',
-        numbers: false,
-        verseNewLine: false,
-        separatorChar: ':',
-        rangeChar: '-',
-        referenceCharsBefore: '',
-        referenceCharsAfter: '',
-        quoteCharsBefore: '',
-        quoteCharsAfter: '',
-        verseNumberCharsBefore: '',
-        verseNumberCharsAfter: '',
-        translationAbbreviationCharsBefore: '',
-        translationAbbreviationCharsAfter: '',
-      } as FormatTemplateData,
-      {
-        name: 'English presentation',
-        referencePosition: 'after',
-        referenceLine: 'new line',
-        translationAbbreviation: 'uppercase',
-        numbers: false,
-        verseNewLine: false,
-        separatorChar: ':',
-        rangeChar: '-',
-        referenceCharsBefore: '',
-        referenceCharsAfter: '',
-        quoteCharsBefore: '',
-        quoteCharsAfter: '',
-        verseNumberCharsBefore: '',
-        verseNumberCharsAfter: '',
-        translationAbbreviationCharsBefore: '',
-        translationAbbreviationCharsAfter: '',
-      } as FormatTemplateData,
-      {
-        name: 'Polska prezentacja',
-        referencePosition: 'after',
-        referenceLine: 'new line',
-        translationAbbreviation: 'uppercase',
-        numbers: false,
-        verseNewLine: false,
-        separatorChar: ',',
-        rangeChar: '-',
-        referenceCharsBefore: '',
-        referenceCharsAfter: '',
-        quoteCharsBefore: '',
-        quoteCharsAfter: '',
-        verseNumberCharsBefore: '',
-        verseNumberCharsAfter: '',
-        translationAbbreviationCharsBefore: '',
-        translationAbbreviationCharsAfter: '',
-      } as FormatTemplateData,
-      {
-        name: 'Studium',
-        referencePosition: 'before',
-        referenceLine: 'new line',
-        translationAbbreviation: 'uppercase',
-        numbers: true,
-        verseNewLine: false,
-        separatorChar: ':',
-        rangeChar: '-',
-        referenceCharsBefore: '– ',
-        referenceCharsAfter: '',
-        quoteCharsBefore: '',
-        quoteCharsAfter: '',
-        verseNumberCharsBefore: '(',
-        verseNumberCharsAfter: ')',
-        translationAbbreviationCharsBefore: '',
-        translationAbbreviationCharsAfter: ''
-      } as FormatTemplateData,
-    ] as FormatTemplateData[],
-    copyTemplates: [
-      {
-        name: 'Prezentacja',
-        isDefault: false,
-        lang: {
-          en: {
-            formatTemplate: 'English presentation',
-            bookNaming: 'Standard'
-          },
-          pl: {
-            formatTemplate: 'Polska prezentacja',
-            bookNaming: 'EIB skrócone'
-          }
-        }
-      },
-      {
-        name: 'Studium',
-        isDefault: true,
-        lang: {
-          en: {
-            formatTemplate: 'Studium',
-            bookNaming: 'SBL abbreviations'
-          },
-          pl: {
-            formatTemplate: 'Studium',
-            bookNaming: 'Moje pl'
-          }
+    pl: {
+      appBookNaming: 'Moje pl',
+      bookNamings: bookNamings.filter(it => it.lang === 'pl'),
+      selectedTranslations: ['EIB', 'BT5', 'BW', 'UBG'],
+    },
+  },
+  formatTemplates: [
+    {
+      name: 'App format',
+      referencePosition: 'before',
+      referenceLine: 'same line',
+      translationAbbreviation: 'none',
+      numbers: false,
+      verseNewLine: false,
+      separatorChar: ':',
+      rangeChar: '-',
+      referenceCharsBefore: '',
+      referenceCharsAfter: '',
+      quoteCharsBefore: '',
+      quoteCharsAfter: '',
+      verseNumberCharsBefore: '',
+      verseNumberCharsAfter: '',
+      translationAbbreviationCharsBefore: '',
+      translationAbbreviationCharsAfter: '',
+    } as FormatTemplateData,
+    {
+      name: 'English presentation',
+      referencePosition: 'after',
+      referenceLine: 'new line',
+      translationAbbreviation: 'uppercase',
+      numbers: false,
+      verseNewLine: false,
+      separatorChar: ':',
+      rangeChar: '-',
+      referenceCharsBefore: '',
+      referenceCharsAfter: '',
+      quoteCharsBefore: '',
+      quoteCharsAfter: '',
+      verseNumberCharsBefore: '',
+      verseNumberCharsAfter: '',
+      translationAbbreviationCharsBefore: '',
+      translationAbbreviationCharsAfter: '',
+    } as FormatTemplateData,
+    {
+      name: 'Polska prezentacja',
+      referencePosition: 'after',
+      referenceLine: 'new line',
+      translationAbbreviation: 'uppercase',
+      numbers: false,
+      verseNewLine: false,
+      separatorChar: ',',
+      rangeChar: '-',
+      referenceCharsBefore: '',
+      referenceCharsAfter: '',
+      quoteCharsBefore: '',
+      quoteCharsAfter: '',
+      verseNumberCharsBefore: '',
+      verseNumberCharsAfter: '',
+      translationAbbreviationCharsBefore: '',
+      translationAbbreviationCharsAfter: '',
+    } as FormatTemplateData,
+    {
+      name: 'Studium',
+      referencePosition: 'before',
+      referenceLine: 'new line',
+      translationAbbreviation: 'uppercase',
+      numbers: true,
+      verseNewLine: false,
+      separatorChar: ':',
+      rangeChar: '-',
+      referenceCharsBefore: '– ',
+      referenceCharsAfter: '',
+      quoteCharsBefore: '',
+      quoteCharsAfter: '',
+      verseNumberCharsBefore: '(',
+      verseNumberCharsAfter: ')',
+      translationAbbreviationCharsBefore: '',
+      translationAbbreviationCharsAfter: ''
+    } as FormatTemplateData,
+  ] as FormatTemplateData[],
+  copyTemplates: [
+    {
+      name: 'Prezentacja',
+      isDefault: false,
+      lang: {
+        en: {
+          formatTemplate: 'English presentation',
+          bookNaming: 'Standard'
+        },
+        pl: {
+          formatTemplate: 'Polska prezentacja',
+          bookNaming: 'EIB skrócone'
         }
       }
-    ] as CopyTemplateData[],
-    appFormatTemplate: 'App format',
-    defaultSearchResultLayout: 'split' as PassageListLayout,
-    defaultTranslation: { lang: 'en', symbol: 'NIV' } as TranslationKey
-  })
+    },
+    {
+      name: 'Studium',
+      isDefault: true,
+      lang: {
+        en: {
+          formatTemplate: 'Studium',
+          bookNaming: 'SBL abbreviations'
+        },
+        pl: {
+          formatTemplate: 'Studium',
+          bookNaming: 'Moje pl'
+        }
+      }
+    }
+  ] as CopyTemplateData[],
+  appFormatTemplate: 'App format',
+  defaultSearchResultLayout: 'split' as PassageListLayout,
+  defaultTranslation: { lang: 'en', symbol: 'NIV' } as TranslationKey
+}
+
+export const useSettingsStore = defineStore('settings', () => {
+  const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', initialPersistValue)
 
   const lang: Ref<LanguageSymbol> = ref(persist.value.defaultLang)
   const language = computed(() => persist.value.languages[lang.value])
@@ -152,7 +154,11 @@ export const useSettingsStore = defineStore('settings', () => {
     return a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })
   }
 
-  return { appBookNames, appFormatTemplate, bookNamingList, lang, localeTranslations, nameSorter, persist }
+  function reset() {
+    persist.value = initialPersistValue
+  }
+
+  return { appBookNames, appFormatTemplate, bookNamingList, lang, localeTranslations, nameSorter, persist, reset }
 })
 
 
