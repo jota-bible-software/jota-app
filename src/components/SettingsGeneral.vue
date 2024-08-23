@@ -9,9 +9,15 @@
     <!-- Import / Export -->
     <div class="col">
       <div class="row q-gutter-sm">
-        <q-input v-model="settingsJson" label="Settings json" />
-        <q-btn class="row" @click="importSettings">Importuj ustawienia</q-btn>
-        <q-btn class="row" @click="exportSettings">Eksportuj ustawienia</q-btn>
+        <q-file class="col" v-model="file" label="Wybierz plik ustawień" filled autosize />
+        <q-btn class="col-auto" @click="importSettings">
+          <q-icon left name="icon-mat-upload" />
+          <div>Importuj plik ustawień</div>
+        </q-btn>
+        <q-btn class="col-auto" @click="exportSettings">
+          <q-icon left name="icon-mat-download" />
+          <div>Eksportuj ustawienia do pliku</div>
+        </q-btn>
 
       </div>
     </div>
@@ -42,8 +48,7 @@ import ChapterContent from './ChapterContent.vue'
 const store = useSettingsStore()
 
 const exportFileName = 'jota-app-settings.json'
-const settingsJson = ref('')
-
+const file = ref(null)
 
 function adjustFont(amount: number) {
   store.persist.fontSize = (store.persist.fontSize ?? 16) + amount
@@ -62,9 +67,14 @@ function exportSettings() {
 }
 
 function importSettings() {
-  store.persist = JSON.parse(settingsJson.value)
-  settingsJson.value = ''
-  Dialog.create({ message: 'Ustawienia zostały zaimportowane' })
+  if (file.value) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      store.persist = JSON.parse(e.target?.result as string)
+      Dialog.create({ message: 'Ustawienia zostały zaimportowane' })
+    }
+    reader.readAsText(file.value)
+  }
 }
 
 </script>

@@ -1,4 +1,4 @@
-import { QBtnDropdown, QCheckbox, QInput, QList, QSelect, QRadio, QToggle } from 'quasar'
+import { QBtnDropdown, QCheckbox, QFile, QInput, QList, QSelect, QRadio, QToggle } from 'quasar'
 import { boot } from 'quasar/wrappers'
 
 const defaults = {
@@ -20,6 +20,7 @@ export default boot(() => {
   setDefaults(QRadio, defaults.formField)
   setDefaults(QSelect, defaults.formField)
   setDefaults(QToggle, defaults.formField)
+  setDefaults(QFile, defaults.formField)
 })
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
