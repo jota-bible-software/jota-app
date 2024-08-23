@@ -92,7 +92,7 @@ import { CopyTemplateData } from 'src/types'
 import AudioPlayer from 'src/components/AudioPlayer.vue'
 
 const store = useSearchStore()
-const { adjacentChapter, chapterCaption, chapterFragment, copyTemplates, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, shouldSortTooltip, showPicker, sortAndDeduplicate } = toRefs(store)
+const { goToAdjacentChapter: adjacentChapter, chapterCaption, chapterFragment, copyTemplates, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, shouldSortTooltip, showPicker, sortAndDeduplicate } = toRefs(store)
 
 const $q = useQuasar()
 const clipboardSource = ref('Hello')

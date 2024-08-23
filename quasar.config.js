@@ -9,6 +9,7 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require('quasar/wrappers')
+const AutoImport = require('unplugin-auto-import/vite')
 const path = require('path')
 
 module.exports = configure(function (/* ctx */) {
@@ -88,7 +89,41 @@ module.exports = configure(function (/* ctx */) {
             include: path.resolve(__dirname, './src/i18n/**'),
           },
         ],
+        [
+          'unplugin-auto-import/vite',
+          {
+            // targets to transform
+            include: [
+              /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+              /\.vue$/,
+              /\.vue\?vue/, // .vue
+              /\.md$/, // .md
+            ],
+            imports: [
+              // presets
+              'vue',
+              'vue-router',
+              '@vueuse/core',
+            ],
+            dirs: [
+              // './hooks',
+              'src/composables', // only root modules
+              'src/components/**', // all nested modules
+            ],
+          },
+        ],
+        [
+          'unplugin-vue-components/vite',
+          {
+            // relative paths to the directory to search for components.
+            dirs: ['src/components/**'],
+          },
+        ],
       ],
+
+      // chainWebpackMain(config) {
+      //   config.resolve.alias.set('vue', 'vue/dist/vue.esm-bundler.js')
+      // },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
@@ -115,7 +150,8 @@ module.exports = configure(function (/* ctx */) {
 
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Dialog',
+        'Notify',
       ],
     },
 

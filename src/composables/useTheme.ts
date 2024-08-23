@@ -22,7 +22,7 @@ export function useTheme() {
     const secondary = '#61B0FF'
     const accent = '#D49B3B'
     const foreground = '#bcc5cf'
-    const background = 'rgb(31, 33, 36)' // background of chrome 
+    const background = 'rgb(31, 33, 36)' // background of chrome
 
     setCssVar('primary', primary)
     setCssVar('secondary', secondary)

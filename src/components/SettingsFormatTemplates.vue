@@ -45,12 +45,12 @@
 
         <div>Lokalizacja odnośnika w stosunku do treści</div>
         <LabelRow>
-          <q-radio v-model="editedItem.referencePosition" val="before" label="Przed treścią" class="sized-radio" />
-          <q-radio v-model="editedItem.referencePosition" val="after" label="Po treści" class="sized-radio" />
+          <q-radio v-model="editedItem.referencePosition" val="before" label="Przed treścią"  />
+          <q-radio v-model="editedItem.referencePosition" val="after" label="Po treści"  />
         </LabelRow>
         <LabelRow>
-          <q-radio v-model="editedItem.referenceLine" val="same line" label="W tej samej linii" class="sized-radio" />
-          <q-radio v-model="editedItem.referenceLine" val="new line" label="W oddzielnej linii" class="sized-radio" />
+          <q-radio v-model="editedItem.referenceLine" val="same line" label="W tej samej linii"  />
+          <q-radio v-model="editedItem.referenceLine" val="new line" label="W oddzielnej linii"  />
         </LabelRow>
 
         <!-- <div>Skrótu przekładu</div> -->
@@ -272,16 +272,6 @@ function validateName(v: string) {
 
   input {
     text-align: center;
-  }
-}
-
-.sized-radio {
-  width: 132px
-}
-
-.sized-radio-responsive {
-  @media (max-width: $breakpoint-xs-max) {
-    width: 132px;
   }
 }
 

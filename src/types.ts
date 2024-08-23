@@ -45,3 +45,4 @@ export type Translation = TranslationMeta & { selected: boolean, stored: boolean
 export type TranslationContent = string[][][]
 export type TranslationKey = { lang: LanguageSymbol, symbol: string }
 export type TranslationMeta = TranslationKey & { title: string, size: number, year?: string, bookNames?: string, bookOrder?: string }
+

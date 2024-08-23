@@ -1,5 +1,5 @@
 <template>
-  <div id="content" class="q-pb-md" v-show="!loading && !showPicker">
+  <div id="content" v-scroll class="q-pb-md" v-show="!loading && !showPicker">
     <div class="row" v-if="layout === 'split'">
       <!-- List of passages -->
       <div id="passages" v-if="passages.length > 1" class="col bottom-clipped q-list">
@@ -9,36 +9,35 @@
           class="q-item q-item-type row no-wrap compact q-item--clickable q-link cursor-pointer">{{ item }}</div>
       </div>
 
-      <q-list id="chapter" class="col bottom-clipped full-width" v-if="chapterVerses.length">
-        <q-item v-for="(  s, i  ) in   chapterVerses  " :key="i" :class="selectionClasses[i]" class="compact"
-          tabindex="0">
-          <q-item-section class="reference text-secondary">{{ i + 1 }}</q-item-section>
-          <q-item-section class="verse"><span v-html="highlightSearchTerm(s)" /></q-item-section>
-        </q-item>
-      </q-list>
+      <ChapterContent />
     </div>
 
     <div id="formatted" class="row q-pb-md" v-if="layout === 'formatted'">
       <div v-for="(  item, i  ) in   formattedSearchResults()  " v-bind:key="i" class="formatted-verse">
         <span class="bref" @click="readInContext(i)">{{ item.bibleReference }} {{ item.symbol }}</span>
-        <span v-html="item.content" />
+        <span v-html="item.content"></span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { toRefs } from 'vue'
 import { useSearchStore } from 'src/stores/search-store'
 import { useEventListener } from '@vueuse/core'
+import { Passage } from 'src/types'
+import { bindKeyEvent, Direction } from 'src/logic/util'
+import ChapterContent from './ChapterContent.vue'
 
 const store = useSearchStore()
 const { chapterFragment, chapterVerses, fragmentIndex, formattedSearchResults, highlightSearchTerm,
   layout, loading, passages, readInContext, scrollToSelection, selectionClasses, showPicker } = toRefs(store)
 
-const { moveFragmentIndex } = store
+const { goToAdjacentChapter, goToAdjacentVerse, moveFragmentIndex } = store
+const chapter = ref(null)
+// const itemRefs = computedArray.from({ length: chapterVerses.value.length }, (_, index) => ref<HTMLElement[] | null>(null))
 
-useEventListener(window.document, 'selectionchange', () => {
+
+useEventListener(document, 'selectionchange', () => {
   const selection = window.getSelection()
   if (!selection || !chapterFragment.value) return
   const range = selection.getRangeAt(0)
@@ -55,6 +54,54 @@ useEventListener(window.document, 'selectionchange', () => {
   }
 })
 
+const keyboardBindings = [
+  bindKeyEvent('ArrowUp', () => goToAdjacentVerse(Direction.Prev)),
+  bindKeyEvent('ArrowDown', () => goToAdjacentVerse(Direction.Next)),
+  bindKeyEvent('PageUp', () => scrollPage(Direction.Prev)),
+  bindKeyEvent('PageDown', () => scrollPage(Direction.Next)),
+  bindKeyEvent('Ctrl+ArrowLeft', () => goToAdjacentChapter(Direction.Prev)),
+  bindKeyEvent('Ctrl+ArrowRight', () => goToAdjacentChapter(Direction.Next)),
+]
+
+// Keyup does work for Ctrl+ArrowLeft
+useEventListener(document, 'keydown', (event) => {
+  console.log(event.key, event)
+  keyboardBindings.forEach(binding => binding(event))
+})
+
+
+watch(() => chapterFragment.value, async (passage: Passage) => {
+  const versesElement = document.getElementById('chapter')
+  if (scrollToSelection.value && versesElement) {
+    await nextTick()
+    const [, , start, end] = passage
+    const s = start ?? 0
+    const e = end ?? start ?? 0
+    const index: number = s + (e - s) / 2
+    const verseElement = versesElement.children[index]
+    // console.log(itemRefs[index])
+    verseElement.scrollIntoView({ block: 'center' })
+  }
+})
+
+function scrollPage(direction: Direction) {
+  if (!chapter.value) return
+  const container = chapter.value.$el
+  const scrollTop = container.scrollTop
+  const containerHeight = container.clientHeight
+
+  let nextScrollTop
+  if (direction === Direction.Next) {
+    const scrollHeight = container.scrollHeight
+    nextScrollTop = Math.min(scrollTop + containerHeight, scrollHeight - containerHeight)
+  } else {
+    nextScrollTop = Math.max(scrollTop - containerHeight, 0)
+  }
+
+  container.scrollTo({ top: nextScrollTop })
+}
+
+
 </script>
 
 <style lang="scss">
@@ -70,39 +117,8 @@ useEventListener(window.document, 'selectionchange', () => {
   }
 }
 
-#chapter {
-  .compact {
-    padding: 1px 8px 0 0;
-    min-height: 24px;
-    margin-right: 4px;
-  }
-
-  .reference {
-    max-width: 2em;
-    justify-content: start;
-    padding-top: 1px;
-    text-align: center;
-  }
-
-  .selection-single {
-    box-shadow: inset 1px 1px var(--q-primary), inset -1px -1px var(--q-primary);
-  }
-
-  .selection-start {
-    box-shadow: inset 1px 1px var(--q-primary), inset -1px 1px var(--q-primary);
-  }
-
-  .selection-middle {
-    box-shadow: inset 1px 0 var(--q-primary), inset -1px 0 var(--q-primary);
-  }
-
-  .selection-end {
-    box-shadow: inset 1px -1px var(--q-primary), inset -1px -1px var(--q-primary);
-  }
-
-  .verse {
-    margin-left: 4px;
-  }
+#content * {
+  outline: none;
 }
 
 #passages {

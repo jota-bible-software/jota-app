@@ -16,15 +16,15 @@ export default defineConfig({
       'test/vitest/__tests__/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
     ],
   },
-  plugins: [
-    vue({
-      template: { transformAssetUrls },
-    }),
-    quasar({
-      sassVariables: 'src/quasar-variables.scss',
-    }),
-    tsconfigPaths(),
-  ],
+  // plugins: [
+  //   vue({
+  //     template: { transformAssetUrls },
+  //   }),
+  //   // quasar({
+  //   //   sassVariables: 'src/quasar-variables.scss',
+  //   // }),
+  //   tsconfigPaths(),
+  // ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

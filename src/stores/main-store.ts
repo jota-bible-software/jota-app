@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useMainStore = defineStore('main', {
   state: () => ({
     hGutter: 'md',
-    vGutter: 'sm'
+    vGutter: 'sm',
   }),
   // getters: {
   //   doubleCount: (state) => state.counter * 2,

@@ -10,6 +10,11 @@ body {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  font-size: var(--q-font-size);
+
+  .q-field, .q-btn, .q-tab__label, button, input, optgroup, select, textarea {
+    font-size: var(--q-font-size);
+  }
 }
 
 body.body--dark {

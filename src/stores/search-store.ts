@@ -1,10 +1,10 @@
-import { Ref, computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { CopyTemplateData, Passage, PassageListLayout, Progress, SearchOptions, TranslationContent } from 'src/types'
 import { jota } from 'src/logic/jota'
 import { format, formatSample } from 'src/logic/format'
 import { useSettingsStore } from './settings-store'
 import { useTranslationStore } from './translation-store'
+import { Direction } from 'src/logic/util'
 
 export const useSearchStore = defineStore('search', () => {
   const settings = useSettingsStore()
@@ -88,7 +88,25 @@ export const useSearchStore = defineStore('search', () => {
 
   // actions
 
-  async function adjacentChapter(direction: 1 | -1) {
+  async function goToAdjacentVerse(direction: Direction) {
+    if (!translationContent.value) return
+    const [bible, chapter, start, end] = chapterFragment.value
+    const s = direction === Direction.Prev ? Math.max(0, (start ?? 0) - 1) :
+      direction === Direction.Next ? Math.min(chapterVerses.value.length - 1, (end ?? 0) + 1) : start
+    chapterFragment.value = [bible, chapter, s, s]
+
+  }
+
+  async function goToAdjacentChapter(direction: Direction) {
+    if (!translationContent.value) return
+    const adjacent = jota.adjacentChapter(translationContent.value, chapterFragment.value, direction) as Passage | undefined
+    if (adjacent) {
+      chapterFragment.value = adjacent
+      chapter.value = jota.chapterVerses(translationContent.value, adjacent)
+    }
+  }
+
+  async function goToAdjacentPage(direction: Direction) {
     if (!translationContent.value) return
     const adjacent = jota.adjacentChapter(translationContent.value, chapterFragment.value, direction) as Passage | undefined
     if (adjacent) {
@@ -117,6 +135,7 @@ export const useSearchStore = defineStore('search', () => {
       return
     }
     searchTerm.value = input
+    scrollToSelection.value = true
 
     const beforeFragmentCount = fragments.value.length
     const progressRunner: Progress = {
@@ -232,7 +251,9 @@ export const useSearchStore = defineStore('search', () => {
 
   return {
     audioOn,
-    adjacentChapter,
+    goToAdjacentChapter,
+    goToAdjacentVerse,
+    goToAdjacentPage,
     chapter,
     chapterCaption,
     chapterFragment,

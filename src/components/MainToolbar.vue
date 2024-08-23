@@ -5,7 +5,7 @@
       <div class="gt-sm page-title"> Jota </div>
       <q-space />
       <span id="translation-label" class="text-secondary q-mr-sm"> Przekład: </span>
-      <BibleSelector v-model="store.currentTranslation" class="q-pr-md gt-sm" />
+      <BibleSelector v-model="store.currentTranslation" class="q-pr-sm gt-sm" />
 
       <ButtonHelp />
       <ButtonSettings />

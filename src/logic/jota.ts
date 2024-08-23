@@ -354,7 +354,13 @@ export const jota = {
    * @returns {string} List of passages encoded using osis standard
    */
   searchReferences(input: string) {
-    return parser.parse(input).map((v: number[]) => [v[0], v[1] - 1, v[2] ? v[2] - 1 : undefined, v[3] ? v[3] - 1 : undefined])
+    return parser.parse(input).map((v: number[]) => {
+      const b = v[0]
+      const c = v[1] - 1
+      const s = v[2] ? v[2] - 1 : undefined
+      const e = v[3] ? v[3] - 1 : s
+      return [b, c, s, e]
+    })
   },
 
   /**
@@ -372,8 +378,7 @@ export const jota = {
       book.forEach((chapter, ci) =>
         chapter.forEach((verse, vi) => {
           if (regex.test(verse)) {
-            const v = vi
-            const fragment = [bi, ci, vi, v]
+            const fragment = [bi, ci, vi, vi]
             Object.preventExtensions(fragment)
             Object.freeze(fragment)
             found.push(fragment)

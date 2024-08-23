@@ -1,15 +1,15 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import { LOCAL_STORAGE_KEY } from 'src/logic/util'
-import { Ref, computed, ref, watch } from 'vue'
+import { Ref, computed, ref } from 'vue'
 import { bookNamings, translations } from 'src/logic/data'
 import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey } from 'src/types'
-import { useTheme } from 'src/composables/useTheme'
 
 export const useSettingsStore = defineStore('settings', () => {
   const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', {
     version: '1',
     defaultLang: navigator.language as LanguageSymbol,
+    fontSize: 16,
     screenMode: 'dark' as ScreenMode,
     languages: {
       en: {
@@ -145,12 +145,8 @@ export const useSettingsStore = defineStore('settings', () => {
     .map(_ => ({ ..._, booksText: _.books.join(', ') }))
     .sort((a, b) => a.name.localeCompare(b.name)))
 
-  const screenMode = useTheme()
-  watch(() => persist.value.screenMode, value => screenMode.set(value))
-  screenMode.set(persist.value.screenMode)
 
   const localeTranslations = computed(() => translations.filter(it => it.lang === lang.value).map(it => it.symbol).sort())
-
 
   function nameSorter(a: { name: string }, b: { name: string }) {
     return a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })

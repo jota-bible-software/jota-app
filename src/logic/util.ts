@@ -1,5 +1,10 @@
 export const LOCAL_STORAGE_KEY = 'pl.netanel.jota-app'
 
+export enum Direction {
+  Next = 1,
+  Prev = -1
+}
+
 export function copyTextToClipboard(text: string): void {
   const textArea = document.createElement('textarea')
 
@@ -50,6 +55,19 @@ export function copyTextToClipboard(text: string): void {
   document.body.removeChild(textArea)
 }
 
+export function bindKeyEvent(binding: string, callback: (event: KeyboardEvent) => void) {
+  const parts = binding.split('+')
+  const key = parts[parts.length - 1]
+  const shift = parts.includes('Shift')
+  const alt = parts.includes('Alt')
+  const ctrl = parts.includes('Ctrl')
+  return (event: KeyboardEvent) => {
+    if (event.key === key && event.shiftKey == shift && event.altKey === alt && (event.ctrlKey === ctrl || event.metaKey === ctrl)) {
+      callback(event)
+    }
+  }
+}
+
 export function parseDate(dateString: string): Date {
   const tokens = dateString.split('-').map(it => parseInt(it))
   return new Date(tokens[0], tokens[1] - 1, tokens[2])
@@ -66,4 +84,5 @@ export function formatDate(date: Date): string {
     return date
   }
 }
+
 
