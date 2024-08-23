@@ -125,7 +125,7 @@
 
 <script setup lang="ts">
 // TODO make sure the name is unique
-import { ComputedRef, computed, ref, toRaw } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 import { CopyTemplateData, LanguageSymbol } from 'src/types'
 import { languageData } from 'src/logic/data'
 

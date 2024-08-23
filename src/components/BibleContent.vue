@@ -29,8 +29,8 @@ import { bindKeyEvent, Direction } from 'src/logic/util'
 import ChapterContent from './ChapterContent.vue'
 
 const store = useSearchStore()
-const { chapterFragment, chapterVerses, fragmentIndex, formattedSearchResults, highlightSearchTerm,
-  layout, loading, passages, readInContext, scrollToSelection, selectionClasses, showPicker } = toRefs(store)
+const { chapterFragment, fragmentIndex, formattedSearchResults,
+  layout, loading, passages, readInContext, scrollToSelection, showPicker } = toRefs(store)
 
 const { goToAdjacentChapter, goToAdjacentVerse, moveFragmentIndex } = store
 const chapter = ref(null)
