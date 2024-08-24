@@ -45,12 +45,12 @@
 
         <div>Lokalizacja odnośnika w stosunku do treści</div>
         <LabelRow>
-          <q-radio v-model="editedItem.referencePosition" val="before" label="Przed treścią"  />
-          <q-radio v-model="editedItem.referencePosition" val="after" label="Po treści"  />
+          <q-radio v-model="editedItem.referencePosition" val="before" label="Przed treścią" />
+          <q-radio v-model="editedItem.referencePosition" val="after" label="Po treści" />
         </LabelRow>
         <LabelRow>
-          <q-radio v-model="editedItem.referenceLine" val="same line" label="W tej samej linii"  />
-          <q-radio v-model="editedItem.referenceLine" val="new line" label="W oddzielnej linii"  />
+          <q-radio v-model="editedItem.referenceLine" val="same line" label="W tej samej linii" />
+          <q-radio v-model="editedItem.referenceLine" val="new line" label="W oddzielnej linii" />
         </LabelRow>
 
         <!-- <div>Skrótu przekładu</div> -->
@@ -124,12 +124,11 @@
           </q-btn> -->
             <q-space />
 
-            <q-btn outline color="red-4" :disabled="!!removeTooltip" @click="showRemoveDialog = true">
+            <q-btn outline color="red-4" :disabled="!!removeTooltip" @click="remove">
               <q-icon left name="delete" />
               <div>Usuń</div>
               <q-tooltip v-if="!!removeTooltip">{{ removeTooltip }}</q-tooltip>
             </q-btn>
-            <ConfirmDialog :message="confirmRemoveMessage" @ok="remove" v-model="showRemoveDialog" />
 
           </div>
         </div>
@@ -143,12 +142,11 @@
 <script setup lang="ts">
 // TODO make sure the name is unique
 import { Ref, computed, ref } from 'vue'
-import { QForm } from 'quasar'
+import { Dialog, QForm } from 'quasar'
 import { FormatTemplateData } from 'src/types'
 import { supportedLanguageSymbols } from 'src/logic/data'
 import { useSettingsStore } from 'stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
-import ConfirmDialog from './ConfirmDialog.vue'
 import LabelRow from './LabelRow.vue'
 import { formatSample } from 'src/logic/format'
 
@@ -219,31 +217,18 @@ const removeTooltip = computed(() => {
   }
   return !!foundTemplateName ? `Usunięcie niemożliwe z powodu użycia tego szablonu w szablonie kopiowania "${foundTemplateName}" dla języka ${foundLang}` : ''
 })
-const confirmRemoveMessage = computed(() => `Czy na pewno chcesz usunąć szablon "${selected.value}"?`)
-const showRemoveDialog = ref(false)
-
-// function askRemove() {
-//   $q.dialog({
-//     component: ConfirmDialog,
-
-//     // props forwarded to your custom component
-//     componentProps: {
-//       message: `Czy na pewno chcesz usunąć szablon "${selected.value}"?`,
-//       // ...more..props...
-//     }
-//     // title: 'Potwierdź',
-//     // message: `Czy na pewno chcesz usunąć szablon "${selected.value}"?`,
-//     // cancel: true,
-//     // persistent: true
-//   }).onOk(() => {
-//     remove()
-//   })
-// }
 
 function remove() {
-  const i = items.findIndex(it => it.name === selected.value)
-  if (i !== -1) items.splice(i, 1)
-  selected.value = ''
+  Dialog.create({
+    title: 'Usuwanie',
+    message: `Czy na pewno chcesz usunąć szablon "${selected.value}"?`,
+    ok: 'Tak',
+    cancel: 'Nie',
+  }).onOk(() => {
+    const i = items.findIndex(it => it.name === selected.value)
+    if (i !== -1) items.splice(i, 1)
+    selected.value = ''
+  })
 }
 
 function reset() {

@@ -15,5 +15,7 @@ import PageHeader from 'src/components/PageHeader.vue';
 <style lang="scss">
 .q-layout {
   max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

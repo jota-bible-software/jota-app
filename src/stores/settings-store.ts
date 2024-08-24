@@ -5,7 +5,32 @@ import { Ref, computed, ref } from 'vue'
 import { bookNamings, translations } from 'src/logic/data'
 import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey } from 'src/types'
 
-const initialPersistValue = {
+type PersistValue = {
+  [key: string]: unknown;
+  version: string;
+  defaultLang: LanguageSymbol;
+  fontSize: number;
+  screenMode: ScreenMode;
+  languages: {
+    en: {
+      appBookNaming: string;
+      bookNamings: { lang: string; name: string; books: string[] }[];
+      selectedTranslations: string[];
+    };
+    pl: {
+      appBookNaming: string;
+      bookNamings: { lang: string; name: string; books: string[] }[];
+      selectedTranslations: string[];
+    };
+  };
+  formatTemplates: FormatTemplateData[];
+  copyTemplates: CopyTemplateData[];
+  appFormatTemplate: string;
+  defaultSearchResultLayout: PassageListLayout;
+  defaultTranslation: TranslationKey;
+};
+
+const initialPersistValue: PersistValue = {
   version: '1',
   defaultLang: navigator.language as LanguageSymbol,
   fontSize: 16,
@@ -155,7 +180,9 @@ export const useSettingsStore = defineStore('settings', () => {
   }
 
   function reset() {
-    persist.value = initialPersistValue
+    for (const key in initialPersistValue) {
+      persist.value[key] = initialPersistValue[key]
+    }
   }
 
   return { appBookNames, appFormatTemplate, bookNamingList, lang, localeTranslations, nameSorter, persist, reset }

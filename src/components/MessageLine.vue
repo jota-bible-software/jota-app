@@ -94,7 +94,7 @@ import AudioPlayer from 'src/components/AudioPlayer.vue'
 const store = useSearchStore()
 const { goToAdjacentChapter: adjacentChapter, chapterCaption, chapterFragment, copyTemplates, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, shouldSortTooltip, showPicker, sortAndDeduplicate } = toRefs(store)
 
-const $q = useQuasar()
+const q = useQuasar()
 const clipboardSource = ref('Hello')
 const { copy } = useClipboard({ source: clipboardSource })
 
@@ -105,14 +105,14 @@ function formattedSample(item: CopyTemplateData) {
 function copySelected(item?: CopyTemplateData) {
   const s = store.formatSelected(item)
   copy(s)
-  $q.notify('Skopiowano zaznaczone wersety do schowka')
+  q.notify('Skopiowano zaznaczone wersety do schowka')
 }
 
 function copyFound(item?: CopyTemplateData) {
   const s = store.formatFound(item)
   console.log(`Copy found: ${s}`)
   copy(s)
-  $q.notify('Skopiowano znalezione wersety do schowka')
+  q.notify('Skopiowano znalezione wersety do schowka')
 }
 
 function defaultSuffix(item: CopyTemplateData) {

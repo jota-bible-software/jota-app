@@ -106,13 +106,12 @@
           </q-btn> -->
             <q-space />
 
-            <q-btn outline color="red-4" @click="showRemoveDialog = true" :disabled="isNewItem">
+            <q-btn outline color="red-4" @click="removeDialog" :disabled="isNewItem">
               <q-icon left name="delete" />
               <div>Usuń</div>
               <!-- <q-tooltip v-if="item.name === appBookNaming">Nie można usunąć nazewnictwa, które jest używane w
               aplikacji</q-tooltip> -->
             </q-btn>
-            <ConfirmDialog :message="confirmRemoveMessage" @ok="remove" v-model="showRemoveDialog" />
 
           </div>
         </div>
@@ -125,7 +124,7 @@
 
 <script setup lang="ts">
 // TODO make sure the name is unique
-import { computed, ref, toRaw } from 'vue'
+import { ref, toRaw } from 'vue'
 import { CopyTemplateData, LanguageSymbol } from 'src/types'
 import { languageData } from 'src/logic/data'
 
@@ -133,7 +132,7 @@ import { useSettingsStore } from 'stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
 import FlagIcon from './FlagIcon.vue'
 import LabelRow from './LabelRow.vue'
-import ConfirmDialog from './ConfirmDialog.vue'
+import { Dialog } from 'quasar'
 
 const store = useSettingsStore()
 const languages = ref(languageData)
@@ -188,13 +187,18 @@ function save() {
   }
   back()
 }
-const confirmRemoveMessage = computed(() => `Czy na pewno chcesz usunąć szablon "${selected.value}"?`)
-const showRemoveDialog = ref(false)
 
-function remove() {
-  const i = items.findIndex(it => it.name === selected.value)
-  if (i !== -1) items.splice(i, 1)
-  selected.value = ''
+function removeDialog() {
+  Dialog.create({
+    title: 'Usuwanie',
+    message: `Czy na pewno chcesz usunąć szablon "${selected.value}"?`,
+    ok: 'Tak',
+    cancel: 'Nie',
+  }).onOk(() => {
+    const i = items.findIndex(it => it.name === selected.value)
+    if (i !== -1) items.splice(i, 1)
+    selected.value = ''
+  })
 }
 
 function back() {
