@@ -7,6 +7,7 @@
       Znaleziono fragmentów:
       <span style="font-weight: bold">{{ passages.length }}</span>
 
+      <!-- Copy all found passages -->
       <q-btn-dropdown outline dense split class="q-mx-sm" icon="icon-mdi-content-copy" @click="copyFound()">
         <q-list>
           <q-item clickable v-close-popup @click="copyFound(item)" v-for="item in copyTemplates" :key="item.name">
@@ -57,6 +58,7 @@
         </q-btn>
       </q-btn-group>
 
+      <!-- Copy single selected passage -->
       <q-btn-dropdown outline dense split text-color="primary" class="q-ml-sm" icon="icon-mdi-content-copy"
         @click="copySelected()" v-show="hasSelection">
         <q-list>
@@ -84,19 +86,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, toRefs } from 'vue'
+import { toRefs } from 'vue'
 import { useQuasar } from 'quasar'
 import { useClipboard } from '@vueuse/core'
 import { useSearchStore } from 'src/stores/search-store'
+import { useSettingsStore } from 'src/stores/settings-store'
 import { CopyTemplateData } from 'src/types'
 import AudioPlayer from 'src/components/AudioPlayer.vue'
 
 const store = useSearchStore()
 const { goToAdjacentChapter: adjacentChapter, chapterCaption, chapterFragment, copyTemplates, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, shouldSortTooltip, showPicker, sortAndDeduplicate } = toRefs(store)
 
+const settings = useSettingsStore()
+
 const q = useQuasar()
-const clipboardSource = ref('Hello')
-const { copy } = useClipboard({ source: clipboardSource })
+const { copy } = useClipboard()
 
 function formattedSample(item: CopyTemplateData) {
   return store.formattedSample(item)
@@ -104,8 +108,14 @@ function formattedSample(item: CopyTemplateData) {
 
 function copySelected(item?: CopyTemplateData) {
   const s = store.formatSelected(item)
+  
   copy(s)
-  q.notify('Skopiowano zaznaczone wersety do schowka')
+  q.notify({
+    message: 'Skopiowano zaznaczone wersety do schowka',
+    type: 'positive',
+    position: 'top',
+    timeout: 2000
+  })
 }
 
 function copyFound(item?: CopyTemplateData) {
@@ -114,14 +124,13 @@ function copyFound(item?: CopyTemplateData) {
   copy(s)
   q.notify('Skopiowano znalezione wersety do schowka')
 }
-
 function defaultSuffix(item: CopyTemplateData) {
-  return item && item.isDefault ? ' (domyślny szablon)' : ''
+  return item && item.name === settings.persist.defaultCopyTemplate ? ' (domyślny szablon)' : ''
 }
 
 function copyTemplateClass(name: string) {
   const item = copyTemplates.value.find(it => it.name === name)
-  return item && item.isDefault ? 'text-primary' : ' '
+  return item && item.name === settings.persist.defaultCopyTemplate ? 'text-primary' : ' '
 }
 
 function toggleAudio() {

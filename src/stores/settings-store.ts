@@ -1,6 +1,6 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useStorage } from '@vueuse/core'
-import { LOCAL_STORAGE_KEY } from 'src/logic/util'
+import { LOCAL_STORAGE_KEY } from 'src/util'
 import { Ref, computed, ref } from 'vue'
 import { bookNamings, translations } from 'src/logic/data'
 import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey } from 'src/types'
@@ -8,9 +8,12 @@ import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageListLayout
 type PersistValue = {
   [key: string]: unknown;
   version: string;
-  defaultLang: LanguageSymbol;
-  fontSize: number;
-  screenMode: ScreenMode;
+  appearance: {
+    defaultLang: LanguageSymbol;
+    fontSize: number;
+    screenMode: ScreenMode;
+    primaryColor: string;
+  };
   languages: {
     en: {
       appBookNaming: string;
@@ -26,15 +29,19 @@ type PersistValue = {
   formatTemplates: FormatTemplateData[];
   copyTemplates: CopyTemplateData[];
   appFormatTemplate: string;
+  defaultCopyTemplate: string;
   defaultSearchResultLayout: PassageListLayout;
   defaultTranslation: TranslationKey;
 };
 
 const initialPersistValue: PersistValue = {
   version: '1',
-  defaultLang: navigator.language as LanguageSymbol,
-  fontSize: 16,
-  screenMode: 'dark' as ScreenMode,
+  appearance: {
+    defaultLang: navigator.language as LanguageSymbol,
+    fontSize: 16,
+    screenMode: 'dark' as ScreenMode,
+    primaryColor: '', // Default depends on screen mode
+  },
   languages: {
     en: {
       appBookNaming: 'SBL abbreviations',
@@ -124,7 +131,6 @@ const initialPersistValue: PersistValue = {
   copyTemplates: [
     {
       name: 'Prezentacja',
-      isDefault: false,
       lang: {
         en: {
           formatTemplate: 'English presentation',
@@ -138,7 +144,6 @@ const initialPersistValue: PersistValue = {
     },
     {
       name: 'Studium',
-      isDefault: true,
       lang: {
         en: {
           formatTemplate: 'Studium',
@@ -152,6 +157,7 @@ const initialPersistValue: PersistValue = {
     }
   ] as CopyTemplateData[],
   appFormatTemplate: 'App format',
+  defaultCopyTemplate: 'Studium',
   defaultSearchResultLayout: 'split' as PassageListLayout,
   defaultTranslation: { lang: 'en', symbol: 'NIV' } as TranslationKey
 }
@@ -159,7 +165,7 @@ const initialPersistValue: PersistValue = {
 export const useSettingsStore = defineStore('settings', () => {
   const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', initialPersistValue)
 
-  const lang: Ref<LanguageSymbol> = ref(persist.value.defaultLang)
+  const lang: Ref<LanguageSymbol> = ref(persist.value.appearance.defaultLang)
   const language = computed(() => persist.value.languages[lang.value])
   const appBookNames = computed(() => language.value.bookNamings.find(it => it.name === language.value.appBookNaming)?.books || [])
   const appFormatTemplate = computed(() => persist.value.formatTemplates.find(it => it.name === persist.value.appFormatTemplate))
@@ -192,5 +198,3 @@ export const useSettingsStore = defineStore('settings', () => {
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useSettingsStore, import.meta.hot))
 }
-
-

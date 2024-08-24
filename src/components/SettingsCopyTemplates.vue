@@ -32,6 +32,7 @@
           <q-input v-model="editedItem.name" class="col" />
         </LabelRow>
 
+        <!-- Set as default -->
         <LabelRow label="Ustaw jako domyślny">
           <q-toggle v-model="editedItem.isDefault" />
         </LabelRow>
@@ -212,10 +213,10 @@ function add() {
 }
 
 </script>
-
 <style lang="scss">
 .chars-around-label {
   min-width: 14em;
   flex-grow: 1;
 }
 </style>
+

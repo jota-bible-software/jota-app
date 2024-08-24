@@ -30,20 +30,16 @@ import { computed } from 'vue'
 import { LanguageSymbol } from 'src/types'
 import { supportedLanguageSymbols } from 'src/logic/data'
 import FlagIcon from './FlagIcon.vue'
+import { useSettingsStore } from 'src/stores/settings-store'
 
-const props = defineProps(['modelValue'])
-const emit = defineEmits(['update:modelValue'])
-// const store = useTranslationStore()
+const store = useSettingsStore()
 
 const selected = computed({
-  get(): LanguageSymbol {
-    return props.modelValue
-  },
-  set(value: LanguageSymbol) {
-    emit('update:modelValue', value)
+  get: () => store.persist.appearance.defaultLang,
+  set: (value: LanguageSymbol) => {
+    store.persist.appearance.defaultLang = value
   }
 })
-
 </script>
 
 <style lang="scss" scoped>

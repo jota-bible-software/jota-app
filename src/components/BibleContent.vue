@@ -25,7 +25,7 @@
 import { useSearchStore } from 'src/stores/search-store'
 import { useEventListener } from '@vueuse/core'
 import { Passage } from 'src/types'
-import { bindKeyEvent, Direction } from 'src/logic/util'
+import { bindKeyEvent, Direction } from 'src/util'
 import ChapterContent from './ChapterContent.vue'
 
 const store = useSearchStore()

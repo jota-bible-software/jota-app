@@ -2,9 +2,13 @@
   <SettingsPanel title="Import / Export">
 
     <div class="col q-gutter-sm">
+      <!-- Display last uploaded file name -->
+      <div v-if="store.persist.lastUploadedFile" class="q-mb-md">
+        Ostatnio zaimportowany plik ustawień: <b>{{ store.persist.lastUploadedFile }}</b>
+      </div>
       <div>
         <div class="row  q-gutter-sm">
-          <q-file class="col-auto" v-model="file" label="Wybierz plik ustawień" filled autosize>
+          <q-file ref="fileInput" class="col-auto" v-model="file" label="Wybierz plik ustawień" filled autosize>
             <template v-slot:prepend>
               <q-icon name="icon-mat-file_open" />
             </template>
@@ -39,11 +43,14 @@
 import SettingsPanel from './SettingsPanel.vue'
 import { useSettingsStore } from 'src/stores/settings-store'
 import { Dialog, exportFile, Notify } from 'quasar'
+import { ref } from 'vue'
+
 
 const store = useSettingsStore()
 
 const exportFileName = 'jota-app-settings.json'
-const file = ref(null)
+const file = ref<File | null>(null)
+const fileInput = ref<HTMLElement | null>(null) // Update the ref type
 
 function exportSettings() {
   const status = exportFile(exportFileName, JSON.stringify(store.persist))
@@ -65,9 +72,15 @@ function importSettings() {
     const reader = new FileReader()
     reader.onload = (e) => {
       store.persist = { ...store.persist, ...JSON.parse(e.target?.result as string) } // Would be good to merge recursively
-      Dialog.create({ message: 'Ustawienia zostały zaimportowane' })
+      // Store the last uploaded file name
+      store.persist.lastUploadedFile = file.value!.name
+      Notify.create({ message: 'Ustawienia zostały zaimportowane' })
     }
     reader.readAsText(file.value)
+  } else {
+    Dialog.create({ message: 'Wybierze najpierw plik ustawień w polu obok' })
+    fileInput.value?.focus()
+    // (fileInput.value?.querySelector('input') as HTMLInputElement).click()
   }
 }
 

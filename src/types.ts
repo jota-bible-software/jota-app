@@ -3,7 +3,6 @@ export type Formatted = { reference: string, separator: string, content: string,
 export type CopyTemplateLangData = Record<LanguageSymbol, { formatTemplate: string, bookNaming: string }>
 export type CopyTemplateData = {
   name: string,
-  isDefault: boolean
   lang: CopyTemplateLangData
 }
 

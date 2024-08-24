@@ -12,19 +12,17 @@ const store = useSettingsStore()
 
 // Set dark/light mode and theme variables
 const screenMode = useTheme()
-screenMode.set(store.persist.screenMode)
-watch(() => store.persist.screenMode, value => screenMode.set(value))
+screenMode.set(store.persist.appearance.screenMode)
+watch(() => store.persist.appearance.screenMode, value => screenMode.set(value))
 
 // Set font size
 function applyFontSize(size: number) {
   setCssVar('font-size', size + 'px')
 }
-applyFontSize(store.persist.fontSize ?? 16)
-watch(() => store.persist.fontSize, applyFontSize)
+applyFontSize(store.persist.appearance.fontSize ?? 16)
+watch(() => store.persist.appearance.fontSize, applyFontSize)
 
 // Set icons
 const q = useQuasar()
 q.iconSet.set(customIcons)
-
-
 </script>

@@ -4,7 +4,7 @@ import { jota } from 'src/logic/jota'
 import { format, formatSample } from 'src/logic/format'
 import { useSettingsStore } from './settings-store'
 import { useTranslationStore } from './translation-store'
-import { Direction } from 'src/logic/util'
+import { Direction } from 'src/util'
 
 export const useSearchStore = defineStore('search', () => {
   const settings = useSettingsStore()
@@ -32,22 +32,18 @@ export const useSearchStore = defineStore('search', () => {
   const showPicker = ref(false)
   const words = ref(true)
 
-
-  // Computed
-  const books = computed(() => settings.appBookNames)
-  const chapterCaption = computed(() => jota.chapterCaption(chapterFragment.value, books.value))
+  const books = settings.appBookNames
+  const chapterCaption = computed(() => jota.chapterCaption(chapterFragment.value, books))
   const chapterVerses = computed(() =>
     translation.value?.content ? jota.chapterVerses(translation.value?.content, chapterFragment.value) : [])
-  const copyTemplates = computed(() => settings.persist.copyTemplates)
   const found = computed(() => !!fragments.value.length)
   const hasSelection = computed(() => chapterFragment.value && chapterFragment.value[2] != null)
   const loading = computed(() => !translation.value?.content)
   const passages = computed(() =>
-    fragments.value.map((osisRef) => jota.formatReference(osisRef, books.value, separator.value)))
+    fragments.value.map((osisRef) => jota.formatReference(osisRef, books, separator.value)))
   const translation = computed(() => translations.getTranslation(currentTranslation.value))
   const translationContent = computed(() => translations.getTranslation(currentTranslation.value)?.content)
   const shouldSortTooltip = computed(() => (shouldSort.value ? 'Wy' : 'W') + 'łącz sortowanie i usuwanie duplikatów wśród wyszukanych fragmentów')
-
 
   watch(chapterFragment, () => {
     if (!chapterFragment.value) return
@@ -179,7 +175,7 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function formatFound(copyTemplate?: CopyTemplateData) {
-    const tpl = copyTemplate ?? copyTemplates.value.find(it => it.isDefault)
+    const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
     const content = translation.value?.content
     if (!tpl || !content) return ''
 
@@ -187,7 +183,7 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function formatSelected(copyTemplate?: CopyTemplateData) {
-    const tpl = copyTemplate ?? copyTemplates.value.find(it => it.isDefault)
+    const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
     if (!tpl || !chapterFragment.value || !translation.value?.content) return ''
     return formatPassage(chapterFragment.value, tpl, translation.value?.content)
   }
@@ -219,7 +215,7 @@ export const useSearchStore = defineStore('search', () => {
         console.warn(`Could not format ${JSON.stringify(fragment)}`)
         return
       }
-      const bibleReference = jota.formatReference(fragment, books.value, separator.value)
+      const bibleReference = jota.formatReference(fragment, books, separator.value)
       const symbol = translation.value?.symbol.toUpperCase() || ''
       const content = '"' + highlightSearchTerm.value(verses.join('\n')) + '"'
       formatted.push({ bibleReference, symbol, content })
@@ -258,7 +254,7 @@ export const useSearchStore = defineStore('search', () => {
     chapterCaption,
     chapterFragment,
     chapterVerses,
-    copyTemplates,
+    copyTemplates: settings.persist.copyTemplates,
     currentTranslation,
     error,
     findByInput,

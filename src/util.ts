@@ -85,4 +85,9 @@ export function formatDate(date: Date): string {
   }
 }
 
-
+export function focusElement(ref: HTMLElement | null) {
+  if (ref) {
+    const inputElement = ref.querySelector('input') as HTMLInputElement
+    inputElement?.focus()
+  }
+}
