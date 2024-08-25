@@ -1,13 +1,21 @@
 <template>
   <q-tab-panel class="q-pl-lg q-pt-none">
     <div class="q-gutter-md">
-      <div class="row items-center q-gutter-md q-mt-none q-ml-none">
-        <q-btn v-if="isBackDefined" flat icon="icon-mat-arrow_back_ios" class="q-ml-none" @click="emit('back')" />
-        <div class="text-h6">{{ props.title }}</div>
-        <LabelRow label="dla języka" v-if="props.lang" class="q-ml-md">
-          <LanguageSelector v-model="store.lang" />
-        </LabelRow>
+      <div class="row ">
+        <div class="row q-gutter-md items-center">
+          <!-- Back button -->
+          <q-btn v-if="isBackDefined" flat icon="icon-mat-arrow_back_ios" class="q-p-none" @click="emit('back')"
+            size="md" dense />
+
+          <!-- Title -->
+          <div class="text-h6 ">{{ props.title }}</div>
+          <!-- For language selector -->
+          <LabelRow label="dla języka" v-if="props.lang" class="q-ml-md">
+            <LanguageSelector v-model="store.lang" />
+          </LabelRow>
+        </div>
       </div>
+
       <slot></slot>
     </div>
   </q-tab-panel>

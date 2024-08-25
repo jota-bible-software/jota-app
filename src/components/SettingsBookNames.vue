@@ -30,14 +30,19 @@
             <q-input v-model="editedBooksText" label="Nazwy ksiąg" autogrow />
             <div class="q-my-md">
               <div class="row q-gutter-sm">
+
+                <!-- Save button -->
                 <q-btn color="primary" @click="save(item)">
                   <q-icon left name="save" />
-                  <div>Zapisz zmiany</div>
+                  <div>Zapisz</div>
                 </q-btn>
+
+                <!-- Cancel button -->
                 <q-btn outline color="primary" @click="selected = ''">
                   <q-icon left name="undo" />
                   <div>Cofnij</div>
                 </q-btn>
+                
                 <q-btn outline color="primary" @click="appBookNaming = selected">
                   <q-icon left name="desktop_windows" />
                   <div>Użyj na ekranie aplikacji</div>
@@ -63,9 +68,18 @@
     <div class="q-mt-xl">
       <FormContainer>
         <span>Dodaj nowe nazewnictwo</span>
-        <q-input v-model="newItem.name" label="Nazwa standardu" />
-        <q-input v-model="newBooksText" label="Nazwy ksiąg" autogrow />
-        <div class=" q-mt-md">
+        <q-input v-model="newItem.name" label="Nazwa standardu" :rules="[
+          (val: string) => !!val || 'Nazwa nie może być pusta',
+          (val: string) => !names.includes(val) || 'Taka nazwa już występuje'
+        ]" />
+        <q-input v-model="newBooksText" label="Nazwy ksiąg" autogrow :rules="[
+          (val: string) => !!val || 'Lista ksiąg nie może być pusta',
+          (val: string) => {
+            const bookCount = val.split(',').length;
+            return bookCount === 73 || `Lista musi zawierać dokładnie 73 księgi. Obecnie zawiera ${bookCount} ${bookCount === 1 ? 'księgę' : bookCount < 5 ? 'księgi' : 'ksiąg'}.`;
+          }
+        ]" />
+        <div class="q-mt-md">
           <div class="row q-gutter-sm">
             <q-btn color="accent" @click="add">
               <q-icon left name="add" />

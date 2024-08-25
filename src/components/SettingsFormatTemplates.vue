@@ -34,13 +34,13 @@
     </div>
   </SettingsPanel>
 
-  <SettingsPanel v-else title="Edycja szablonu formatowania" @back="reset" style="max-width: 550px">
+  <SettingsPanel v-else title="Edycja szablonu formatowania" @back="reset" style="max-width: 560px">
     <div class="q-px-none">
       <q-form ref="myForm" class="col q-gutter-md" :no-error-focus="false" @submit="save" @reset="reset">
 
         <!-- <q-separator class="q-my-md" /> -->
         <LabelRow label="Nazwa szablonu" lifted>
-          <q-input v-model="editedItem.name" class="col" lazy-rules :rules="[validateName]" />
+          <q-input v-model="editedItem.name" class="col" :rules="[validateName]" />
         </LabelRow>
 
         <div>Lokalizacja odnośnika w stosunku do treści</div>
@@ -114,10 +114,18 @@
         <!-- Button bar -->
         <div class="q-my-lg">
           <div class="row q-gutter-sm">
+
             <q-btn type="submit" color="primary">
-              <q-icon left name="save" />
-              <div>Zapisz i wróć</div>
+              <q-icon left name="icon-mat-check" />
+              <div>Zapisz</div>
             </q-btn>
+
+            <!-- Cancel button -->
+            <q-btn outline color="primary" @click="reset">
+              <q-icon left name="icon-mat-undo" />
+              <div>Anuluj</div>
+            </q-btn>
+
             <!-- <q-btn outline color="primary" @click="selected = ''">
             <q-icon left name="undo" />
             <div>Schowaj</div>
@@ -245,7 +253,11 @@ function add() {
 const formatted = computed(() => formatSample(editedItem.value))
 
 function validateName(v: string) {
-  return v.length === 0 ? 'Nazwa nie może być pusta' : items.find((it, i) => it.name === v && i !== selectedIndex.value) ? 'Taka nazwa już występuje' : true
+  return v.length === 0
+    ? 'Nazwa nie może być pusta'
+    : items.find((it, i) => it.name === v && i !== selectedIndex.value)
+      ? 'Taka nazwa już występuje'
+      : true
 }
 
 </script>

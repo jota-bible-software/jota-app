@@ -1,40 +1,41 @@
 <template>
   <SettingsPanel title="Import / Export">
 
-    <div class="col q-gutter-sm">
-      <!-- Display last uploaded file name -->
-      <div v-if="store.persist.lastUploadedFile" class="q-mb-md">
-        Ostatnio zaimportowany plik ustawień: <b>{{ store.persist.lastUploadedFile }}</b>
-      </div>
-      <div>
-        <div class="row  q-gutter-sm">
-          <q-file ref="fileInput" class="col-auto" v-model="file" label="Wybierz plik ustawień" filled autosize>
-            <template v-slot:prepend>
-              <q-icon name="icon-mat-file_open" />
-            </template>
-          </q-file>
-          <q-btn class="col-auto" @click="importSettings">
-            <q-icon left name="icon-mat-upload" />
-            <div>Importuj plik ustawień</div>
-          </q-btn>
-        </div>
-      </div>
 
-      <div class="row">
-        <q-btn class="col-auto" @click="exportSettings">
-          <q-icon left name="icon-mat-download" />
-          <div>Eksportuj ustawienia do pliku</div>
+    <!-- Display last uploaded file name -->
+    <div v-if="store.persist.lastUploadedFile" class="q-mb-md">
+      Ostatnio zaimportowany plik ustawień: <b>{{ store.persist.lastUploadedFile }}</b>
+    </div>
+
+    <div>
+      <div class="row  q-gutter-sm">
+        <q-file ref="fileInput" class="col-auto" v-model="file" label="Wybierz plik ustawień" filled autosize>
+          <template v-slot:prepend>
+            <q-icon name="icon-mat-file_open" />
+          </template>
+        </q-file>
+        <q-btn class="col-auto" @click="importSettings">
+          <q-icon left name="icon-mat-upload" />
+          <div>Importuj plik ustawień</div>
         </q-btn>
-      </div>
-
-      <div class="row">
-        <q-btn class="col-auto" @click="resetSettings">
-          <q-icon left name="icon-mat-undo" />
-          <div>Resetuj ustawienia</div>
-        </q-btn>
-
       </div>
     </div>
+
+    <div class="row">
+      <q-btn class="col-auto" @click="exportSettings">
+        <q-icon left name="icon-mat-download" />
+        <div>Eksportuj ustawienia do pliku</div>
+      </q-btn>
+    </div>
+
+    <div class="row">
+      <q-btn class="col-auto" @click="resetSettings">
+        <q-icon left name="icon-mat-undo" />
+        <div>Resetuj ustawienia</div>
+      </q-btn>
+
+    </div>
+
 
   </SettingsPanel>
 </template>

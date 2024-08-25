@@ -1,6 +1,6 @@
 <template>
   <div class="row items-center">
-    <div class="q-mr-sm">Tryb ekranu:</div>
+    <div class="q-mr-sm">Tryb ekranu</div>
     <q-btn-toggle v-model="store.persist.appearance.screenMode" label="Tryb ekranu" toggle-color="primary" :options="[
       { value: 'dark', slot: 'one' },
       { value: 'light', slot: 'two' },

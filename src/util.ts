@@ -91,3 +91,8 @@ export function focusElement(ref: HTMLElement | null) {
     inputElement?.focus()
   }
 }
+
+export function errorMessage(prefix: string, ex: unknown): string {
+  const message = ex instanceof Error ? ex.message : String(ex);
+  return `${prefix} ${message}`;
+}

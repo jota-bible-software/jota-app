@@ -4,7 +4,7 @@ import { jota } from 'src/logic/jota'
 import { format, formatSample } from 'src/logic/format'
 import { useSettingsStore } from './settings-store'
 import { useTranslationStore } from './translation-store'
-import { Direction } from 'src/util'
+import { Direction, errorMessage } from 'src/util'
 
 export const useSearchStore = defineStore('search', () => {
   const settings = useSettingsStore()
@@ -163,7 +163,7 @@ export const useSearchStore = defineStore('search', () => {
       console.log(`Search took ${Date.now() - t0} ms`)
     } catch (ex: unknown) {
       setFragments([])
-      error.value = 'Błąd: ' + ex
+      error.value = errorMessage('Błąd:', ex)
       console.error(ex)
     } finally {
       progress.value = 0
@@ -174,18 +174,29 @@ export const useSearchStore = defineStore('search', () => {
     return searchTermHighlightRegex.value ? s.replace(searchTermHighlightRegex.value, searchTermHighlightReplacement.value) : s
   }
 
-  function formatFound(copyTemplate?: CopyTemplateData) {
+  function formatFound(copyTemplate?: CopyTemplateData): string | Error {
     const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
     const content = translation.value?.content
-    if (!tpl || !content) return ''
+    if (!tpl) return new Error('Nie znaleziono żadnego szablonu kopiowania')
+    if (!content) return new Error('Treść tłumaczenia nie została załadowana')
+    if (fragments.value.length === 0) return new Error('Nie znaleziono żadnych fragmentów')
 
-    return fragments.value.reduce((acc, cur) => acc + '\n\n' + formatPassage(cur, tpl, content), '')
+    try {
+      return fragments.value.reduce((acc, cur) => {
+        const formatted = formatPassage(cur, tpl, content)
+        return formatted ? acc + '\n\n' + formatted : ''
+      })
+    } catch (error) {
+      return new Error(errorMessage('Błąd podczas formatowania:', error))
+    }
   }
 
-  function formatSelected(copyTemplate?: CopyTemplateData) {
+  function formatSelectedPassage(copyTemplate?: CopyTemplateData): string | Error {
     const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
-    if (!tpl || !chapterFragment.value || !translation.value?.content) return ''
-    return formatPassage(chapterFragment.value, tpl, translation.value?.content)
+    if (!tpl) return new Error(`Nie znaleziono żadnego szablonu kopiowania`)
+    if (!chapterFragment.value) return new Error('Nie zaznaczono fragmentu')
+    if (!translation.value?.content) return new Error('Treść tłumaczenia nie została załadowana')
+    return formatPassage(chapterFragment.value, tpl, translation.value.content)
   }
 
   function formatPassage(passage: Passage, tpl: CopyTemplateData, translationContent: TranslationContent) {
@@ -259,7 +270,7 @@ export const useSearchStore = defineStore('search', () => {
     error,
     findByInput,
     formatFound,
-    formatSelected,
+    formatSelected: formatSelectedPassage,
     formattedSample,
     formattedSearchResults,
     found,

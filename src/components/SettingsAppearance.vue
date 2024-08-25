@@ -4,15 +4,16 @@
 
     <!-- Font size -->
     <div class="col">
-      <div class="row q-gutter-sm">
-        <q-input v-model="store.persist.appearance.fontSize" label="Rozmiar tekstu" class="row" type="number" />
+      <div class="row items-center q-gutter-sm">
+        <div>Rozmiar tekstu</div>
+        <q-input v-model="store.persist.appearance.fontSize" class="row small" type="number" />
         <q-btn icon="icon-mat-text_increase" @click="adjustFont(1)" />
         <q-btn icon="icon-mat-text_decrease" @click="adjustFont(-1)" size="sm" />
       </div>
     </div>
 
 
-    <div>Przykład tekstu Biblii:</div>
+    <div>Przykład tekstu Biblii</div>
     <div class="sample border">
       <ChapterContent />
     </div>
@@ -39,5 +40,9 @@ function adjustFont(amount: number) {
 .sample {
   height: 200px;
   overflow: auto;
+}
+
+.small {
+  width: 4em;
 }
 </style>

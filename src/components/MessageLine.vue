@@ -1,7 +1,9 @@
 <template>
   <div id="message" v-if="!showPicker" class="q-my-sm">
-    <q-circular-progress v-show="progress > 0" color="primary" track-color="grey-4" size="sm" indeterminate />
-    <span v-if="progress > 0">Szukam...</span>
+
+    <q-circular-progress v-show="progress > 0" color="primary" track-color="grey-4" size="sm" indeterminate
+      class="q-mr-sm" />
+    <span v-if="progress > 0" class="q-mr-sm">Szukam...</span>
 
     <span v-else-if="passages.length > 1">
       Znaleziono fragmentów:
@@ -91,6 +93,7 @@ import { useQuasar } from 'quasar'
 import { useClipboard } from '@vueuse/core'
 import { useSearchStore } from 'src/stores/search-store'
 import { useSettingsStore } from 'src/stores/settings-store'
+import { useTranslationStore } from 'src/stores/translation-store'
 import { CopyTemplateData } from 'src/types'
 import AudioPlayer from 'src/components/AudioPlayer.vue'
 
@@ -101,28 +104,52 @@ const settings = useSettingsStore()
 
 const q = useQuasar()
 const { copy } = useClipboard()
+const translation = useTranslationStore()
 
 function formattedSample(item: CopyTemplateData) {
   return store.formattedSample(item)
 }
 
 function copySelected(item?: CopyTemplateData) {
-  const s = store.formatSelected(item)
-  
-  copy(s)
-  q.notify({
-    message: 'Skopiowano zaznaczone wersety do schowka',
-    type: 'positive',
-    position: 'top',
-    timeout: 2000
-  })
+  const result = store.formatSelected(item)
+  if (result instanceof Error) {
+    q.notify({
+      message: result.message,
+      type: 'negative'
+    })
+  } else if (!result) {
+    q.notify({
+      message: `Formatowanie nie powiodło się, wygląda na to, że szablon kopiowania: ${item?.name} nie został praowidłowo skonfigurowany dla języka: ${store.currentTranslation.lang}`,
+      type: 'negative'
+    })
+  } else {
+    copy(result)
+    q.notify({
+      message: 'Skopiowano zaznaczone wersety do schowka',
+      type: 'positive'
+    })
+  }
 }
 
 function copyFound(item?: CopyTemplateData) {
-  const s = store.formatFound(item)
-  console.log(`Copy found: ${s}`)
-  copy(s)
-  q.notify('Skopiowano znalezione wersety do schowka')
+  const result = store.formatFound(item)
+  if (result instanceof Error) {
+    q.notify({
+      message: result.message,
+      type: 'negative'
+    })
+  } else if (!result) {
+    q.notify({
+      message: `Formatowanie nie powiodło się, wygląda na to, że szablon kopiowania: ${item?.name} nie został prawidłowo skonfigurowany dla języka: ${translation.lang}`,
+      type: 'negative'
+    })
+  } else {
+    copy(result)
+    q.notify({
+      message: 'Skopiowano znalezione wersety do schowka',
+      type: 'positive'
+    })
+  }
 }
 function defaultSuffix(item: CopyTemplateData) {
   return item && item.name === settings.persist.defaultCopyTemplate ? ' (domyślny szablon)' : ''

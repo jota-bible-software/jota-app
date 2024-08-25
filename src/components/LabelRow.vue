@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row items-center q-gutter-md">
-      <div v-if="!!props.label" :style="styleObject">{{ props.label }}</div>
+      <div v-if="!!props.label" :style="styleObject" >{{ props.label }}</div>
       <slot></slot>
     </div>
   </div>
