@@ -3,7 +3,7 @@
     <div class="row" v-if="layout === 'split'">
       <!-- List of passages -->
       <div id="passages" v-if="passages.length > 1" class="col bottom-clipped q-list">
-        <div v-for="(item, index) in   passages  " :key="index" clickable tabindex="0"
+        <div v-for="(item, index) in passages  " :key="index" clickable tabindex="0"
           :class="{ highlight: index === fragmentIndex }" @click=" fragmentIndex = index"
           @keyup.prevent.stop.left="moveFragmentIndex(-1)" @keyup.prevent.stop.right="moveFragmentIndex(1)"
           class="q-item q-item-type row no-wrap compact q-item--clickable q-link cursor-pointer">{{ item }}</div>
@@ -13,7 +13,7 @@
     </div>
 
     <div id="formatted" class="row q-pb-md" v-if="layout === 'formatted'">
-      <div v-for="(  item, i  ) in   formattedSearchResults()  " v-bind:key="i" class="formatted-verse">
+      <div v-for="(item, i) in formattedSearchResults()  " v-bind:key="i" class="formatted-verse">
         <span class="bref" @click="readInContext(i)">{{ item.bibleReference }} {{ item.symbol }}</span>
         <span v-html="item.content"></span>
       </div>
@@ -59,18 +59,18 @@ const keyboardBindings = [
   bindKeyEvent('ArrowDown', () => goToAdjacentVerse(Direction.Next)),
   bindKeyEvent('PageUp', () => scrollPage(Direction.Prev)),
   bindKeyEvent('PageDown', () => scrollPage(Direction.Next)),
-  bindKeyEvent('Ctrl+ArrowLeft', () => goToAdjacentChapter(Direction.Prev)),
-  bindKeyEvent('Ctrl+ArrowRight', () => goToAdjacentChapter(Direction.Next)),
+  bindKeyEvent('Ctrl+ArrowLeft', () => { goToAdjacentChapter(Direction.Prev) }),
+  bindKeyEvent('Ctrl+ArrowRight', () => { goToAdjacentChapter(Direction.Next) })
 ]
 
 // Keyup does work for Ctrl+ArrowLeft
 useEventListener(document, 'keydown', (event) => {
-  console.log(event.key, event)
   keyboardBindings.forEach(binding => binding(event))
 })
 
 
 watch(() => chapterFragment.value, async (passage: Passage) => {
+  if (!chapter.value) return
   const versesElement = document.getElementById('chapter')
   if (scrollToSelection.value && versesElement) {
     await nextTick()
@@ -100,7 +100,6 @@ function scrollPage(direction: Direction) {
 
   container.scrollTo({ top: nextScrollTop })
 }
-
 
 </script>
 

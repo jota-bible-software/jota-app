@@ -19,8 +19,8 @@
     <div v-if="bookIndex === -1" id="reference-picker-books" class="col q-mt-sm">
       <!-- <div class="row q-mb-sm text-h6">Stary testament</div> -->
       <div class="row selectors">
-        <ReferencePickerButton v-for="(book, i) in bookList.slice(0, 17)" :key="i" :value="book" :alternate="alternate[i]"
-          @select="selectBook(i)" />
+        <ReferencePickerButton v-for="(book, i) in bookList.slice(0, 17)" :key="i" :value="book"
+          :alternate="alternate[i]" @select="selectBook(i)" />
       </div>
 
       <div class="row selectors q-mt-sm">
@@ -55,6 +55,7 @@ import { ref, computed } from 'vue'
 import ReferencePickerButton from 'src/components/ReferencePickerButton.vue'
 import { useSearchStore } from 'src/stores/search-store'
 import { useSettingsStore } from 'src/stores/settings-store'
+import { nextTick } from 'vue'
 
 const settingsStore = useSettingsStore()
 const store = useSearchStore()
@@ -124,11 +125,16 @@ function back() {
   else if (isBookSelected.value) bookIndex.value = -1
 }
 
-function finish() {
+async function finish() {
+  store.clearFragments() // Clear fragments
+  await nextTick()
+
+  store.layout = 'split' // Set layout to 'split'
   if (!isChapterSelected.value) chapterIndex.value = 0
-  // if (!isVerseSelected.value) verseIndex.value = 0;
-  store.chapterFragment = [bookIndex.value, chapterIndex.value, verseIndex.value, verseIndex.value]
+  store.chapterFragment = [bookIndex.value, chapterIndex.value, 0, 0]
   store.showPicker = false
+
+  // Reset reference picker
   bookIndex.value = -1
   chapterIndex.value = -1
   verseIndex.value = -1

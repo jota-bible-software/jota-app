@@ -3,9 +3,9 @@ import { useStorage } from '@vueuse/core'
 import { LOCAL_STORAGE_KEY } from 'src/util'
 import { Ref, computed, ref } from 'vue'
 import { bookNamings, translations } from 'src/logic/data'
-import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey } from 'src/types'
+import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey, SettingsPersistType } from 'src/types'
 
-type PersistValue = {
+type SettingsPersistType = {
   [key: string]: unknown;
   version: string;
   appearance: {
@@ -14,18 +14,11 @@ type PersistValue = {
     screenMode: ScreenMode;
     primaryColor: string;
   };
-  languages: {
-    en: {
-      appBookNaming: string;
-      bookNamings: { lang: string; name: string; books: string[] }[];
-      selectedTranslations: string[];
-    };
-    pl: {
-      appBookNaming: string;
-      bookNamings: { lang: string; name: string; books: string[] }[];
-      selectedTranslations: string[];
-    };
-  };
+  languages: Record<LanguageSymbol, {
+    appBookNaming: string;
+    bookNamings: Array<{ lang: string; name: string; books: string[] }>;
+    selectedTranslations: string[];
+  }>;
   formatTemplates: FormatTemplateData[];
   copyTemplates: CopyTemplateData[];
   appFormatTemplate: string;
@@ -34,7 +27,7 @@ type PersistValue = {
   defaultTranslation: TranslationKey;
 };
 
-const initialPersistValue: PersistValue = {
+const initialPersistValue: SettingsPersistType = {
   version: '1',
   appearance: {
     defaultLang: navigator.language as LanguageSymbol,
@@ -159,7 +152,7 @@ const initialPersistValue: PersistValue = {
   appFormatTemplate: 'App format',
   defaultCopyTemplate: 'Studium',
   defaultSearchResultLayout: 'split' as PassageListLayout,
-  defaultTranslation: { lang: 'en', symbol: 'NIV' } as TranslationKey
+  defaultTranslation: { lang: 'pl', symbol: 'UBG' } as TranslationKey
 }
 
 export const useSettingsStore = defineStore('settings', () => {
@@ -176,7 +169,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const bookNamingList = computed(() => bookNamings
     .filter(_ => _.lang === lang.value)
     .map(_ => ({ ..._, booksText: _.books.join(', ') }))
-    .sort((a, b) => a.name.localeCompare(b.name)))
+    .sort((a, b) => a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })))
 
 
   const localeTranslations = computed(() => translations.filter(it => it.lang === lang.value).map(it => it.symbol).sort())

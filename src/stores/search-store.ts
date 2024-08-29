@@ -11,7 +11,6 @@ export const useSearchStore = defineStore('search', () => {
   const translations = useTranslationStore()
 
   const audioOn = ref(false)
-  const chapter: Ref<string[]> = ref([])
   const chapterFragment: Ref<Passage> = ref([0, 0, 0, 0])
   const currentTranslation = ref(settings.persist.defaultTranslation)
   const error = ref('')
@@ -45,7 +44,26 @@ export const useSearchStore = defineStore('search', () => {
   const translationContent = computed(() => translations.getTranslation(currentTranslation.value)?.content)
   const shouldSortTooltip = computed(() => (shouldSort.value ? 'Wy' : 'W') + 'łącz sortowanie i usuwanie duplikatów wśród wyszukanych fragmentów')
 
-  watch(chapterFragment, () => {
+  // Mutations
+
+  function setFragments(payload: Passage[]) {
+    fragments.value = payload
+    setFragmentIndex(fragments.value.length ? 0 : -1)
+  }
+
+  function setFragmentIndex(index: number) {
+    fragmentIndex.value = index
+    if (fragments.value[fragmentIndex.value]) {
+      setChapterFragment(fragments.value[fragmentIndex.value])
+    }
+  }
+
+  function setChapterFragment(newFragment: Passage) {
+    chapterFragment.value = newFragment
+    updateSelectionClasses()
+  }
+
+  function updateSelectionClasses() {
     if (!chapterFragment.value) return
     const [, , start, end2] = chapterFragment.value
     if (start == null) return
@@ -58,27 +76,13 @@ export const useSearchStore = defineStore('search', () => {
             i === end && i !== start ? 'selection-end' :
               start < i && i < end ? 'selection-middle' : ''
     }
-  })
-
-  watch(fragmentIndex, value => {
-    chapterFragment.value = fragments.value[value]
-  })
-
-  // Mutations
-
-  function setFragments(payload: Passage[]) {
-    fragments.value = payload
-    setFragmentIndex(fragments.value.length ? 0 : -1)
-  }
-
-  function setFragmentIndex(index: number) {
-    fragmentIndex.value = index
-    chapterFragment.value = fragments.value[fragmentIndex.value]
   }
 
   function readInContext(index: number) {
     fragmentIndex.value = index
-    chapterFragment.value = fragments.value[fragmentIndex.value]
+    if (fragments.value[fragmentIndex.value]) {
+      setChapterFragment(fragments.value[fragmentIndex.value])
+    }
     layout.value = 'split'
   }
 
@@ -89,16 +93,15 @@ export const useSearchStore = defineStore('search', () => {
     const [bible, chapter, start, end] = chapterFragment.value
     const s = direction === Direction.Prev ? Math.max(0, (start ?? 0) - 1) :
       direction === Direction.Next ? Math.min(chapterVerses.value.length - 1, (end ?? 0) + 1) : start
-    chapterFragment.value = [bible, chapter, s, s]
-
+    setChapterFragment([bible, chapter, s, s])
   }
 
   async function goToAdjacentChapter(direction: Direction) {
     if (!translationContent.value) return
     const adjacent = jota.adjacentChapter(translationContent.value, chapterFragment.value, direction) as Passage | undefined
     if (adjacent) {
-      chapterFragment.value = adjacent
-      chapter.value = jota.chapterVerses(translationContent.value, adjacent)
+      const [b, c] = adjacent
+      setChapterFragment([b, c, 0, 0])
     }
   }
 
@@ -106,8 +109,8 @@ export const useSearchStore = defineStore('search', () => {
     if (!translationContent.value) return
     const adjacent = jota.adjacentChapter(translationContent.value, chapterFragment.value, direction) as Passage | undefined
     if (adjacent) {
-      chapterFragment.value = adjacent
-      chapter.value = jota.chapterVerses(translationContent.value, adjacent)
+      const [b, c] = adjacent
+      setChapterFragment([b, c, 0, 0])
     }
   }
 
@@ -116,7 +119,6 @@ export const useSearchStore = defineStore('search', () => {
     searchTerm.value = ''
     fragments.value = []
     fragmentIndex.value = -1
-    chapter.value = []
     chapterFragment.value = [0, 0, 0, 0]
   }
 
@@ -228,7 +230,7 @@ export const useSearchStore = defineStore('search', () => {
       }
       const bibleReference = jota.formatReference(fragment, books, separator.value)
       const symbol = translation.value?.symbol.toUpperCase() || ''
-      const content = '"' + highlightSearchTerm.value(verses.join('\n')) + '"'
+      const content = '"' + highlightSearchTerm(verses.join('\n')) + '"'
       formatted.push({ bibleReference, symbol, content })
     })
     return formatted
@@ -245,7 +247,7 @@ export const useSearchStore = defineStore('search', () => {
   function selectInChapter(start: number, end?: number): void {
     if (!chapterFragment.value) return
     const [book, chapter] = chapterFragment.value
-    chapterFragment.value = [book, chapter, start, end ?? start]
+    setChapterFragment([book, chapter, start, end ?? start])
   }
 
   async function sortAndDeduplicate() {
@@ -256,12 +258,21 @@ export const useSearchStore = defineStore('search', () => {
     }
   }
 
+  function setLayout(newLayout: PassageListLayout) {
+    layout.value = newLayout
+  }
+
+  function clearFragments() {
+    setFragments([])
+    input.value = ''
+    searchTerm.value = ''
+  }
+
   return {
     audioOn,
     goToAdjacentChapter,
     goToAdjacentVerse,
     goToAdjacentPage,
-    chapter,
     chapterCaption,
     chapterFragment,
     chapterVerses,
@@ -300,5 +311,9 @@ export const useSearchStore = defineStore('search', () => {
     words,
     showPicker,
     sortAndDeduplicate,
+    setLayout,
+    clearFragments,
+    updateSelectionClasses,
+    setChapterFragment,
   }
 })
