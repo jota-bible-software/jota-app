@@ -1,4 +1,4 @@
-import { LanguageSymbol, TranslationContent, TranslationMeta } from 'src/types'
+import { CopyTemplateData, FormatTemplateData, LanguageSymbol, TranslationContent, TranslationMeta } from 'src/types'
 
 export const languageData: Array<{ symbol: LanguageSymbol, name: string }> = [
   {
@@ -968,6 +968,110 @@ export const appBookAbbreviations = {
   en: 'SBL abbreviations',
   pl: 'BT skróty',
 }
+
+export const copyTemplates: CopyTemplateData[] = [
+  {
+    name: 'Prezentacja',
+    lang: {
+      en: {
+        formatTemplate: 'English presentation',
+        bookNaming: 'Standard'
+      },
+      pl: {
+        formatTemplate: 'Polska prezentacja',
+        bookNaming: 'EIB skrócone'
+      }
+    }
+  },
+  {
+    name: 'Studium',
+    lang: {
+      en: {
+        formatTemplate: 'Studium',
+        bookNaming: 'SBL abbreviations'
+      },
+      pl: {
+        formatTemplate: 'Studium',
+        bookNaming: 'Moje pl'
+      }
+    }
+  }
+]
+
+export const formatTemplates: FormatTemplateData[] = [
+  {
+    name: 'App format',
+    referencePosition: 'before',
+    referenceLine: 'same line',
+    translationAbbreviation: 'none',
+    numbers: false,
+    verseNewLine: false,
+    separatorChar: ':',
+    rangeChar: '-',
+    referenceCharsBefore: '',
+    referenceCharsAfter: '',
+    quoteCharsBefore: '',
+    quoteCharsAfter: '',
+    verseNumberCharsBefore: '',
+    verseNumberCharsAfter: '',
+    translationAbbreviationCharsBefore: '',
+    translationAbbreviationCharsAfter: '',
+  },
+  {
+    name: 'English presentation',
+    referencePosition: 'after',
+    referenceLine: 'new line',
+    translationAbbreviation: 'uppercase',
+    numbers: false,
+    verseNewLine: false,
+    separatorChar: ':',
+    rangeChar: '-',
+    referenceCharsBefore: '',
+    referenceCharsAfter: '',
+    quoteCharsBefore: '',
+    quoteCharsAfter: '',
+    verseNumberCharsBefore: '',
+    verseNumberCharsAfter: '',
+    translationAbbreviationCharsBefore: '',
+    translationAbbreviationCharsAfter: '',
+  },
+  {
+    name: 'Polska prezentacja',
+    referencePosition: 'after',
+    referenceLine: 'new line',
+    translationAbbreviation: 'uppercase',
+    numbers: false,
+    verseNewLine: false,
+    separatorChar: ',',
+    rangeChar: '-',
+    referenceCharsBefore: '',
+    referenceCharsAfter: '',
+    quoteCharsBefore: '',
+    quoteCharsAfter: '',
+    verseNumberCharsBefore: '',
+    verseNumberCharsAfter: '',
+    translationAbbreviationCharsBefore: '',
+    translationAbbreviationCharsAfter: '',
+  },
+  {
+    name: 'Studium',
+    referencePosition: 'before',
+    referenceLine: 'new line',
+    translationAbbreviation: 'uppercase',
+    numbers: true,
+    verseNewLine: false,
+    separatorChar: ':',
+    rangeChar: '-',
+    referenceCharsBefore: '– ',
+    referenceCharsAfter: '',
+    quoteCharsBefore: '',
+    quoteCharsAfter: '',
+    verseNumberCharsBefore: '(',
+    verseNumberCharsAfter: ')',
+    translationAbbreviationCharsBefore: '',
+    translationAbbreviationCharsAfter: ''
+  },
+]
 
 export function getBookNames(lang: LanguageSymbol, name: string): string[] {
   const found = bookNamings.find(it => it.lang === lang && it.name === name)

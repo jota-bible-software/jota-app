@@ -31,15 +31,15 @@ export const useSearchStore = defineStore('search', () => {
   const showPicker = ref(false)
   const words = ref(true)
 
-  const books = settings.appBookNames
-  const chapterCaption = computed(() => jota.chapterCaption(chapterFragment.value, books))
+  const books = computed(() => settings.appBookNames)
+  const chapterCaption = computed(() => jota.chapterCaption(chapterFragment.value, books.value))
   const chapterVerses = computed(() =>
     translation.value?.content ? jota.chapterVerses(translation.value?.content, chapterFragment.value) : [])
   const found = computed(() => !!fragments.value.length)
   const hasSelection = computed(() => chapterFragment.value && chapterFragment.value[2] != null)
   const loading = computed(() => !translation.value?.content)
   const passages = computed(() =>
-    fragments.value.map((osisRef) => jota.formatReference(osisRef, books, separator.value)))
+    fragments.value.map((osisRef) => jota.formatReference(osisRef, books.value, separator.value)))
   const translation = computed(() => translations.getTranslation(currentTranslation.value))
   const translationContent = computed(() => translations.getTranslation(currentTranslation.value)?.content)
   const shouldSortTooltip = computed(() => (shouldSort.value ? 'Wy' : 'W') + 'łącz sortowanie i usuwanie duplikatów wśród wyszukanych fragmentów')
@@ -144,7 +144,6 @@ export const useSearchStore = defineStore('search', () => {
     const beforeFragmentCount = fragments.value.length
     const progressRunner: Progress = {
       step: (value) => {
-        // instant-feedback win the widget does not work
         progress.value = value / (translation.value?.content?.length || 1)
       }
     }
@@ -152,14 +151,12 @@ export const useSearchStore = defineStore('search', () => {
     progress.value = 0.1
     error.value = ''
     try {
-      const fragments = Object.freeze(await jota.search(bible, text, options, progressRunner))
+      const fragments: Passage[] = await jota.search(bible, text, options, progressRunner)
 
       const newLayout =
-        fragments.length < 2
-          ? 'split'
-          : beforeFragmentCount < 2
-            ? settings.persist.defaultSearchResultLayout || layout.value
-            : layout.value
+        fragments.length < 2 ? 'split' :
+          beforeFragmentCount > 1 ? layout.value :
+            'formatted'
 
       layout.value = newLayout
       const searchReplacement = words.value && !text.startsWith('/') ? '$1<span class="bold">$2</span>$3' : '<span class="bold">$1</span>'
@@ -203,7 +200,7 @@ export const useSearchStore = defineStore('search', () => {
 
   function formatSelectedPassage(copyTemplate?: CopyTemplateData): string | Error {
     const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
-    if (!tpl) return new Error(`Nie znaleziono żadnego szablonu kopiowania`)
+    if (!tpl) return new Error('Nie znaleziono żadnego szablonu kopiowania')
     if (!chapterFragment.value) return new Error('Nie zaznaczono fragmentu')
     if (!translation.value?.content) return new Error('Treść tłumaczenia nie została załadowana')
     return formatPassage(chapterFragment.value, tpl, translation.value.content)
@@ -236,7 +233,7 @@ export const useSearchStore = defineStore('search', () => {
         console.warn(`Could not format ${JSON.stringify(fragment)}`)
         return
       }
-      const bibleReference = jota.formatReference(fragment, books, separator.value)
+      const bibleReference = jota.formatReference(fragment, books.value, separator.value)
       const symbol = translation.value?.symbol.toUpperCase() || ''
       const content = '"' + highlightSearchTerm(verses.join('\n')) + '"'
       formatted.push({ bibleReference, symbol, content })

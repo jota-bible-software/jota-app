@@ -2,30 +2,8 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import { LOCAL_STORAGE_KEY } from 'src/util'
 import { Ref, computed, ref } from 'vue'
-import { bookNamings, translations } from 'src/logic/data'
-import { CopyTemplateData, FormatTemplateData, LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey, SettingsPersistType } from 'src/types'
-
-type SettingsPersistType = {
-  [key: string]: unknown;
-  version: string;
-  appearance: {
-    defaultLang: LanguageSymbol;
-    fontSize: number;
-    screenMode: ScreenMode;
-    primaryColor: string;
-  };
-  languages: Record<LanguageSymbol, {
-    appBookNaming: string;
-    bookNamings: Array<{ lang: string; name: string; books: string[] }>;
-    selectedTranslations: string[];
-  }>;
-  formatTemplates: FormatTemplateData[];
-  copyTemplates: CopyTemplateData[];
-  appFormatTemplate: string;
-  defaultCopyTemplate: string;
-  defaultSearchResultLayout: PassageListLayout;
-  defaultTranslation: TranslationKey;
-};
+import { bookNamings, translations, formatTemplates, copyTemplates } from 'src/logic/data'
+import { LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey, SettingsPersistType } from 'src/types'
 
 const initialPersistValue: SettingsPersistType = {
   version: '1',
@@ -47,108 +25,8 @@ const initialPersistValue: SettingsPersistType = {
       selectedTranslations: ['EIB', 'BT5', 'BW', 'UBG'],
     },
   },
-  formatTemplates: [
-    {
-      name: 'App format',
-      referencePosition: 'before',
-      referenceLine: 'same line',
-      translationAbbreviation: 'none',
-      numbers: false,
-      verseNewLine: false,
-      separatorChar: ':',
-      rangeChar: '-',
-      referenceCharsBefore: '',
-      referenceCharsAfter: '',
-      quoteCharsBefore: '',
-      quoteCharsAfter: '',
-      verseNumberCharsBefore: '',
-      verseNumberCharsAfter: '',
-      translationAbbreviationCharsBefore: '',
-      translationAbbreviationCharsAfter: '',
-    } as FormatTemplateData,
-    {
-      name: 'English presentation',
-      referencePosition: 'after',
-      referenceLine: 'new line',
-      translationAbbreviation: 'uppercase',
-      numbers: false,
-      verseNewLine: false,
-      separatorChar: ':',
-      rangeChar: '-',
-      referenceCharsBefore: '',
-      referenceCharsAfter: '',
-      quoteCharsBefore: '',
-      quoteCharsAfter: '',
-      verseNumberCharsBefore: '',
-      verseNumberCharsAfter: '',
-      translationAbbreviationCharsBefore: '',
-      translationAbbreviationCharsAfter: '',
-    } as FormatTemplateData,
-    {
-      name: 'Polska prezentacja',
-      referencePosition: 'after',
-      referenceLine: 'new line',
-      translationAbbreviation: 'uppercase',
-      numbers: false,
-      verseNewLine: false,
-      separatorChar: ',',
-      rangeChar: '-',
-      referenceCharsBefore: '',
-      referenceCharsAfter: '',
-      quoteCharsBefore: '',
-      quoteCharsAfter: '',
-      verseNumberCharsBefore: '',
-      verseNumberCharsAfter: '',
-      translationAbbreviationCharsBefore: '',
-      translationAbbreviationCharsAfter: '',
-    } as FormatTemplateData,
-    {
-      name: 'Studium',
-      referencePosition: 'before',
-      referenceLine: 'new line',
-      translationAbbreviation: 'uppercase',
-      numbers: true,
-      verseNewLine: false,
-      separatorChar: ':',
-      rangeChar: '-',
-      referenceCharsBefore: '– ',
-      referenceCharsAfter: '',
-      quoteCharsBefore: '',
-      quoteCharsAfter: '',
-      verseNumberCharsBefore: '(',
-      verseNumberCharsAfter: ')',
-      translationAbbreviationCharsBefore: '',
-      translationAbbreviationCharsAfter: ''
-    } as FormatTemplateData,
-  ] as FormatTemplateData[],
-  copyTemplates: [
-    {
-      name: 'Prezentacja',
-      lang: {
-        en: {
-          formatTemplate: 'English presentation',
-          bookNaming: 'Standard'
-        },
-        pl: {
-          formatTemplate: 'Polska prezentacja',
-          bookNaming: 'EIB skrócone'
-        }
-      }
-    },
-    {
-      name: 'Studium',
-      lang: {
-        en: {
-          formatTemplate: 'Studium',
-          bookNaming: 'SBL abbreviations'
-        },
-        pl: {
-          formatTemplate: 'Studium',
-          bookNaming: 'Moje pl'
-        }
-      }
-    }
-  ] as CopyTemplateData[],
+  formatTemplates,
+  copyTemplates,
   appFormatTemplate: 'App format',
   defaultCopyTemplate: 'Studium',
   defaultSearchResultLayout: 'split' as PassageListLayout,

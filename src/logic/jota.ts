@@ -298,7 +298,7 @@ export const jota = {
    * @param {object} progress A an object that would be updated about the progress
    * @returns {[]} Array of fragments (arrays including [bookIndex, chapterIndex, startVerse, endVerse])
    */
-  search(bible: TranslationContent, text: string, options: SearchOptions, progress: Progress) {
+  async search(bible: TranslationContent, text: string, options: SearchOptions, progress: Progress) {
     // If text is a regular expression
     text = text.replace(/[\u202d\u202c]/gm, '') // Those characters happened when copying from iPhone to mac, the source was https://bible.com/bible/138/2sa.24.18-24.UBG
     if (text.startsWith('/')) {
@@ -402,7 +402,7 @@ export const jota = {
    * @param {[]} fragments Array of [bookIndex, chapterIndex, startVerse, endVerse]
    * @returns Sorted and deduplicated list
    */
-  sortAndDeduplicate(fragments: Passage[]) {
+  async sortAndDeduplicate(fragments: Passage[]) {
     // Sort
     fragments.sort((a, b) =>
       a[0] > b[0] ? 1 : a[0] < b[0] ? -1 :

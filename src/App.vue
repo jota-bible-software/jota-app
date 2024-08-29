@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { useQuasar, setCssVar } from 'quasar'
 import { useTheme } from 'src/composables/useTheme'
+import { QuasarIconSet } from 'quasar'
 import customIcons from 'src/custom-icons/custom-icons.js'
 import { useSettingsStore } from './stores/settings-store'
 
@@ -24,5 +25,5 @@ watch(() => store.persist.appearance.fontSize, applyFontSize)
 
 // Set icons
 const q = useQuasar()
-q.iconSet.set(customIcons)
+q.iconSet.set(customIcons as QuasarIconSet)
 </script>
