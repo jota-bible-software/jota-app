@@ -163,6 +163,12 @@ function copyTemplateClass(name: string) {
 function toggleAudio() {
   store.audioOn = !store.audioOn
 }
+
+function selectInChapter(start: number, end?: number): void {
+  if (!chapterFragment.value) return
+  const [book, chapter] = chapterFragment.value
+  setChapterFragment([book, chapter, start, end ?? start])
+}
 </script>
 
 <style lang="scss" scoped></style>

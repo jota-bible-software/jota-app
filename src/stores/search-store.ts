@@ -58,9 +58,15 @@ export const useSearchStore = defineStore('search', () => {
     }
   }
 
-  function setChapterFragment(newFragment: Passage) {
+  function setChapterFragment(newFragment: Passage, keepTextSelection = false) {
     chapterFragment.value = newFragment
     updateSelectionClasses()
+    if (!keepTextSelection) {
+      const selection = window.getSelection()
+      if (selection) {
+        selection.removeAllRanges()
+      }
+    }
   }
 
   function updateSelectionClasses() {

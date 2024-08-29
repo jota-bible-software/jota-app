@@ -32,5 +32,8 @@
   "cSpell.words": [
     "composables",
     "vueuse"
+  ],
+  "i18n-ally.localesPaths": [
+    "src/i18n"
   ]
 }

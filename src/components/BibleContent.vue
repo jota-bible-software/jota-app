@@ -32,7 +32,7 @@ const store = useSearchStore()
 const { chapterFragment, fragmentIndex, formattedSearchResults,
   layout, loading, passages, readInContext, scrollToSelection, showPicker } = toRefs(store)
 
-const { goToAdjacentChapter, goToAdjacentVerse, moveFragmentIndex } = store
+const { goToAdjacentChapter, goToAdjacentVerse, moveFragmentIndex, setChapterFragment } = store
 const chapter = ref(null)
 // const itemRefs = computedArray.from({ length: chapterVerses.value.length }, (_, index) => ref<HTMLElement[] | null>(null))
 
@@ -50,7 +50,7 @@ useEventListener(document, 'selectionchange', () => {
     const [start, end] = (index1 < index2) ? [index1, index2] : [index2, index1]
     scrollToSelection.value = false
     const [book, chapter] = chapterFragment.value
-    chapterFragment.value = [book, chapter, start, end]
+    setChapterFragment([book, chapter, start, end], true)
   }
 })
 
