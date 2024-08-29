@@ -131,7 +131,7 @@ async function finish() {
 
   store.layout = 'split' // Set layout to 'split'
   if (!isChapterSelected.value) chapterIndex.value = 0
-  store.chapterFragment = [bookIndex.value, chapterIndex.value, 0, 0]
+  store.setChapterFragment([bookIndex.value, chapterIndex.value, 0, 0])
   store.showPicker = false
 
   // Reset reference picker

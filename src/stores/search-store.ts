@@ -125,7 +125,7 @@ export const useSearchStore = defineStore('search', () => {
     searchTerm.value = ''
     fragments.value = []
     fragmentIndex.value = -1
-    chapterFragment.value = [0, 0, 0, 0]
+    setChapterFragment([0, 0, 0, 0])
   }
 
   async function findByInput(input: string, options: SearchOptions) {
@@ -179,7 +179,9 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function highlightSearchTerm(s: string) {
-    return searchTermHighlightRegex.value ? s.replace(searchTermHighlightRegex.value, searchTermHighlightReplacement.value) : s
+    return searchTermHighlightRegex.value && searchTermHighlightReplacement.value
+      ? s.replace(searchTermHighlightRegex.value, searchTermHighlightReplacement.value)
+      : s
   }
 
   function formatFound(copyTemplate?: CopyTemplateData): string | Error {
@@ -272,6 +274,8 @@ export const useSearchStore = defineStore('search', () => {
     setFragments([])
     input.value = ''
     searchTerm.value = ''
+    searchTermHighlightRegex.value = ''
+    searchTermHighlightReplacement.value = ''
   }
 
   return {

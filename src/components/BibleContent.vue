@@ -39,7 +39,7 @@ const chapter = ref(null)
 
 useEventListener(document, 'selectionchange', () => {
   const selection = window.getSelection()
-  if (!selection || !chapterFragment.value) return
+  if (!selection || selection.rangeCount === 0 || !chapterFragment.value) return
   const range = selection.getRangeAt(0)
   const node1 = range.startContainer.parentElement?.closest('#chapter .q-item')
   const node2 = range.endContainer.parentElement?.closest('#chapter .q-item')
