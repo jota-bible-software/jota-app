@@ -138,7 +138,7 @@ const languages = ref(languageData)
 
 
 function bookNamings(lang: LanguageSymbol) {
-  return store.persist.languages[lang].bookNamings
+  return store.persist.languageSettings[lang].bookNamings
 }
 
 const formatTemplates = store.persist.formatTemplates

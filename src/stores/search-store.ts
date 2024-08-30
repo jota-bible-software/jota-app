@@ -209,7 +209,7 @@ export const useSearchStore = defineStore('search', () => {
   function formatPassage(passage: Passage, tpl: CopyTemplateData, translationContent: TranslationContent) {
     const lang = currentTranslation.value.lang
     const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.lang[lang].formatTemplate)
-    const bookNaming = settings.persist.languages[lang].bookNamings.find(it => it.name === tpl.lang[lang].bookNaming)?.books
+    const bookNaming = settings.persist.languageSettings[lang].bookNamings.find(it => it.name === tpl.lang[lang].bookNaming)?.books
     const abbreviation = currentTranslation.value.symbol
     if (!formatTemplate || !bookNaming) return ''
     return format(formatTemplate, passage, translationContent, bookNaming, abbreviation)
@@ -218,7 +218,7 @@ export const useSearchStore = defineStore('search', () => {
   function formattedSample(tpl: CopyTemplateData) {
     const lang = currentTranslation.value.lang
     const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.lang[lang].formatTemplate)
-    const bookNaming = settings.persist.languages[lang].bookNamings.find(it => it.name === tpl.lang[lang].bookNaming)?.books
+    const bookNaming = settings.persist.languageSettings[lang].bookNamings.find(it => it.name === tpl.lang[lang].bookNaming)?.books
     const abbreviation = currentTranslation.value.symbol
     if (!formatTemplate || !bookNaming) return ''
     return formatSample(formatTemplate, bookNaming, abbreviation)

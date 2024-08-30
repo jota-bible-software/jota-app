@@ -964,6 +964,7 @@ export const defaultBookNames = {
   en: 'Standard',
   pl: 'EIB skrócone',
 }
+
 export const appBookAbbreviations = {
   en: 'SBL abbreviations',
   pl: 'BT skróty',
@@ -1165,6 +1166,7 @@ export const translations: TranslationMeta[] = [
     bookNames: 'protestancki',
   },
 ]
+
 export const translationMeta = translations
 
 export const supportedLanguageSymbols: LanguageSymbol[] = ['en', 'pl']

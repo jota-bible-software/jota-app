@@ -1,3 +1,6 @@
+import { LanguageSymbol } from './types'
+import { languageData } from './logic/data'
+
 export const LOCAL_STORAGE_KEY = 'pl.netanel.jota-app'
 
 export enum Direction {
@@ -93,6 +96,14 @@ export function focusElement(ref: HTMLElement | null) {
 }
 
 export function errorMessage(prefix: string, ex: unknown): string {
-  const message = ex instanceof Error ? ex.message : String(ex);
-  return `${prefix} ${message}`;
+  const message = ex instanceof Error ? ex.message : String(ex)
+  return `${prefix} ${message}`
 }
+
+export function getLanguageFromNavigator(): LanguageSymbol {
+  const navigatorLanguage = navigator.language.split('-')[0].toLowerCase()
+  const supported = languageData.some(lang => lang.symbol === navigatorLanguage)
+  return supported ? navigatorLanguage : 'en'
+}
+
+

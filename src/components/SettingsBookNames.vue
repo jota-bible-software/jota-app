@@ -3,7 +3,7 @@
 
     <div class="row items-center">
       <div class="q-mr-md">Na ekranie aplikacji</div>
-      <q-select v-model="appBookNaming" :options="names"/>
+      <q-select v-model="appBookNaming" :options="names" />
     </div>
 
     <q-list bordered separator>
@@ -24,7 +24,7 @@
             </div>
           </div>
 
-          <FormContainer v-if="selected === item.name" >
+          <FormContainer v-if="selected === item.name">
             <!-- <q-separator class="q-my-md" /> -->
             <q-input v-model="editedItem.name" label="Nazwa standardu" />
             <q-input v-model="editedBooksText" label="Nazwy ksiąg" autogrow />
@@ -42,7 +42,7 @@
                   <q-icon left name="undo" />
                   <div>Cofnij</div>
                 </q-btn>
-                
+
                 <q-btn outline color="primary" @click="appBookNaming = selected">
                   <q-icon left name="desktop_windows" />
                   <div>Użyj na ekranie aplikacji</div>
@@ -69,16 +69,16 @@
       <FormContainer>
         <span>Dodaj nowe nazewnictwo</span>
         <q-input v-model="newItem.name" label="Nazwa standardu" :rules="[
-          (val: string) => !!val || 'Nazwa nie może być pusta',
-          (val: string) => !names.includes(val) || 'Taka nazwa już występuje'
-        ]" />
+        (val: string) => !!val || 'Nazwa nie może być pusta',
+        (val: string) => !names.includes(val) || 'Taka nazwa już występuje'
+      ]" />
         <q-input v-model="newBooksText" label="Nazwy ksiąg" autogrow :rules="[
-          (val: string) => !!val || 'Lista ksiąg nie może być pusta',
-          (val: string) => {
-            const bookCount = val.split(',').length;
-            return bookCount === 73 || `Lista musi zawierać dokładnie 73 księgi. Obecnie zawiera ${bookCount} ${bookCount === 1 ? 'księgę' : bookCount < 5 ? 'księgi' : 'ksiąg'}.`;
-          }
-        ]" />
+        (val: string) => !!val || 'Lista ksiąg nie może być pusta',
+        (val: string) => {
+          const bookCount = val.split(',').length
+          return bookCount === 73 || `Lista musi zawierać dokładnie 73 księgi. Obecnie zawiera ${bookCount} ${bookCount === 1 ? 'księgę' : bookCount < 5 ? 'księgi' : 'ksiąg'}.`
+        }
+      ]" />
         <div class="q-mt-md">
           <div class="row q-gutter-sm">
             <q-btn color="accent" @click="add">
@@ -104,15 +104,15 @@ import { BookNamesStandardData } from 'src/types'
 const store = useSettingsStore()
 
 const bookNamings: ComputedRef<BookNamesStandardData[]> = computed(() =>
-  store.persist.languages[store.lang].bookNamings.toSorted(
+  store.persist.languageSettings[store.lang].bookNamings.toSorted(
     (a, b) => a.name.localeCompare(b.name, store.lang, { sensitivity: 'base', ignorePunctuation: true })))
 
 const appBookNaming = computed({
   get(): string {
-    return store.persist.languages[store.lang].appBookNaming
+    return store.persist.languageSettings[store.lang].appBookNaming
   },
   set(value: string) {
-    store.persist.languages[store.lang].appBookNaming = value
+    store.persist.languageSettings[store.lang].appBookNaming = value
   }
 })
 const names = computed(() => bookNamings.value.map(it => it.name))
@@ -157,7 +157,7 @@ const removeTooltip = computed(() => {
 })
 
 function remove() {
-  const a = store.persist.languages[store.lang].bookNamings
+  const a = store.persist.languageSettings[store.lang].bookNamings
   const i = a.findIndex(it => it.name === selected.value)
   if (i !== -1) a.splice(i, 1)
   selected.value = ''
@@ -167,7 +167,7 @@ const newItem = ref<BookNamesStandardData>({ ...emptyItem })
 const newBooksText = ref('')
 function add() {
   newItem.value.books = newBooksText.value.split(',').map(it => it.trim())
-  store.persist.languages[store.lang].bookNamings.push(newItem.value)
+  store.persist.languageSettings[store.lang].bookNamings.push(newItem.value)
   newItem.value = { ...emptyItem }
   newBooksText.value = ''
 }

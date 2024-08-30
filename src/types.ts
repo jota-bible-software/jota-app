@@ -52,32 +52,32 @@ export type ScreenMode = 'dark' | 'light' | 'auto'
 export type SearchOptions = { apocrypha?: boolean, shouldSort?: boolean, words?: boolean }
 
 export type SettingsPersistType = {
-  [key: string]: unknown;
-  version: string;
+  [key: string]: unknown
+  version: string
   appearance: {
-    defaultLang: LanguageSymbol;
-    fontSize: number;
-    screenMode: ScreenMode;
-    primaryColor: string;
-  };
-  languages: {
+    defaultLang: LanguageSymbol
+    fontSize: number
+    screenMode: ScreenMode
+    primaryColor: string
+  }
+  languageSettings: {
     en: {
-      appBookNaming: string;
-      bookNamings: { lang: string; name: string; books: string[] }[];
-      selectedTranslations: string[];
-    };
+      appBookNaming: string
+      bookNamings: { lang: string; name: string; books: string[] }[]
+      selectedTranslations: string[]
+    }
     pl: {
-      appBookNaming: string;
-      bookNamings: { lang: string; name: string; books: string[] }[];
-      selectedTranslations: string[];
-    };
-  };
-  formatTemplates: FormatTemplateData[];
-  copyTemplates: CopyTemplateData[];
-  appFormatTemplate: string;
-  defaultCopyTemplate: string;
-  defaultSearchResultLayout: PassageListLayout;
-  defaultTranslation: TranslationKey;
+      appBookNaming: string
+      bookNamings: { lang: string; name: string; books: string[] }[]
+      selectedTranslations: string[]
+    }
+  }
+  formatTemplates: FormatTemplateData[]
+  copyTemplates: CopyTemplateData[]
+  appFormatTemplate: string
+  defaultCopyTemplate: string
+  defaultSearchResultLayout: PassageListLayout
+  defaultTranslation: TranslationKey
 }
 
 export type Translation = TranslationMeta & { selected: boolean, stored: boolean, content?: TranslationContent }

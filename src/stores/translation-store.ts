@@ -10,7 +10,7 @@ export const useTranslationStore = defineStore('translation', () => {
   const lang = ref(settings.lang)
 
   const translations = reactive(translationMeta.map(it => {
-    const selected = settings.persist.languages[it.lang].selectedTranslations.includes(it.symbol)
+    const selected = settings.persist.languageSettings[it.lang].selectedTranslations.includes(it.symbol)
     return { ...it, selected, stored: false, content: undefined } as Translation
   }))
 

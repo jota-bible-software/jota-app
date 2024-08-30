@@ -1,6 +1,6 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useStorage } from '@vueuse/core'
-import { LOCAL_STORAGE_KEY } from 'src/util'
+import { getLanguageFromNavigator, LOCAL_STORAGE_KEY } from 'src/util'
 import { Ref, computed, ref } from 'vue'
 import { bookNamings, translations, formatTemplates, copyTemplates } from 'src/logic/data'
 import { LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey, SettingsPersistType } from 'src/types'
@@ -8,12 +8,12 @@ import { LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey, Settings
 const initialPersistValue: SettingsPersistType = {
   version: '1',
   appearance: {
-    defaultLang: navigator.language as LanguageSymbol,
+    defaultLang: getLanguageFromNavigator(),
     fontSize: 16,
     screenMode: 'dark' as ScreenMode,
     primaryColor: '', // Default depends on screen mode
   },
-  languages: {
+  languageSettings: {
     en: {
       appBookNaming: 'SBL abbreviations',
       bookNamings: bookNamings.filter(it => it.lang === 'en'),
@@ -37,7 +37,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', initialPersistValue)
 
   const lang: Ref<LanguageSymbol> = ref(persist.value.appearance.defaultLang)
-  const language = computed(() => persist.value.languages[lang.value])
+  const language = computed(() => persist.value.languageSettings[lang.value])
   const appBookNames = computed(() => language.value.bookNamings.find(it => it.name === language.value.appBookNaming)?.books || [])
   const appFormatTemplate = computed(() => persist.value.formatTemplates.find(it => it.name === persist.value.appFormatTemplate))
 
