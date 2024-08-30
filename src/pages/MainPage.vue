@@ -57,16 +57,17 @@
     </div>
 
     <ReferencePicker v-if="store.showPicker" />
+    <BibleContent v-else />
 
-    <BibleContent />
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { nextTick } from 'vue'
+import { nextTick, ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { useEventListener } from '@vueuse/core'
 import { useSearchStore } from 'src/stores/search-store'
+import { useSettingsStore } from 'src/stores/settings-store'
 import BibleContent from 'src/components/BibleContent.vue'
 import BibleSelector from 'src/components/BibleSelector.vue'
 import ButtonBookSelector from 'src/components/ButtonBookSelector.vue'
@@ -80,6 +81,17 @@ import { SearchOptions } from 'src/types'
 
 const store = useSearchStore()
 const $q = useQuasar()
+const settingsStore = useSettingsStore()
+
+const isFirstRender = ref(true)
+
+onMounted(() => {
+  if (settingsStore.persist.referencePickerOnStart) {
+    store.showPicker = true
+  } else {
+    store.setChapterFragment([0, 0, 0, 0])
+  }
+})
 
 function find(input: string, opt?: SearchOptions) {
   const options = opt || {}
@@ -100,7 +112,6 @@ function updateSize() {
   })
 }
 updateSize()
-
 </script>
 
 <style>

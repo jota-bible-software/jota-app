@@ -103,7 +103,7 @@ export function errorMessage(prefix: string, ex: unknown): string {
 export function getLanguageFromNavigator(): LanguageSymbol {
   const navigatorLanguage = navigator.language.split('-')[0].toLowerCase()
   const supported = languageData.some(lang => lang.symbol === navigatorLanguage)
-  return supported ? navigatorLanguage : 'en'
+  return (supported ? navigatorLanguage : 'en') as LanguageSymbol
 }
 
 

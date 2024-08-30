@@ -78,6 +78,7 @@ export type SettingsPersistType = {
   defaultCopyTemplate: string
   defaultSearchResultLayout: PassageListLayout
   defaultTranslation: TranslationKey
+  referencePickerOnStart: boolean;
 }
 
 export type Translation = TranslationMeta & { selected: boolean, stored: boolean, content?: TranslationContent }

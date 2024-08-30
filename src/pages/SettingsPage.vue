@@ -3,7 +3,8 @@
     <div class="row q-px-xl">
       <div class="col-auto">
         <q-tabs v-model="tab" vertical dense active-color="primary" no-caps outside-arrows mobile-arrows>
-          <q-tab name="general" label="Wygląd" />
+          <q-tab name="general" label="Ogólne" />
+          <q-tab name="appearance" label="Wygląd" />
           <q-tab name="translations" label="Przekłady" />
           <q-tab name="bookNames" label="Nazwy ksiąg" />
           <q-tab name="formatTemplates" label="Szablony formatowania" />
@@ -13,7 +14,8 @@
       </div>
       <div class="col q-px-xs">
         <q-tab-panels v-model="tab">
-          <SettingsAppearance name="general" />
+          <SettingsGeneral name="general" />
+          <SettingsAppearance name="appearance" />
           <SettingsTranslations name="translations" />
           <SettingsBookNames name="bookNames" />
           <SettingsFormatTemplates name="formatTemplates" />
@@ -27,6 +29,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import SettingsGeneral from 'components/SettingsGeneral.vue'
 import SettingsAppearance from 'src/components/SettingsAppearance.vue'
 import SettingsTranslations from 'src/components/SettingsTranslations.vue'
 import SettingsBookNames from 'src/components/SettingsBookNames.vue'

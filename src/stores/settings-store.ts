@@ -30,7 +30,8 @@ const initialPersistValue: SettingsPersistType = {
   appFormatTemplate: 'App format',
   defaultCopyTemplate: 'Studium',
   defaultSearchResultLayout: 'split' as PassageListLayout,
-  defaultTranslation: { lang: 'pl', symbol: 'UBG' } as TranslationKey
+  defaultTranslation: { lang: 'pl', symbol: 'UBG' } as TranslationKey,
+  referencePickerOnStart: true,
 }
 
 export const useSettingsStore = defineStore('settings', () => {
