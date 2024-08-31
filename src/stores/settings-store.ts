@@ -5,6 +5,11 @@ import { Ref, computed, ref } from 'vue'
 import { bookNamings, translations, formatTemplates, copyTemplates } from 'src/logic/data'
 import { LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey, SettingsPersistType } from 'src/types'
 
+function getDefaultTranslation(): TranslationKey {
+  const isPolish = navigator.language.toLowerCase().startsWith('pl')
+  return isPolish ? { lang: 'pl', symbol: 'UBG' } : { lang: 'en', symbol: 'KJV' }
+}
+
 const initialPersistValue: SettingsPersistType = {
   version: '1',
   appearance: {
@@ -17,12 +22,12 @@ const initialPersistValue: SettingsPersistType = {
     en: {
       appBookNaming: 'SBL abbreviations',
       bookNamings: bookNamings.filter(it => it.lang === 'en'),
-      selectedTranslations: ['NIV', 'NLT'],
+      selectedTranslations: ['KJV', 'NIV', 'NLT'],
     },
     pl: {
       appBookNaming: 'Moje pl',
       bookNamings: bookNamings.filter(it => it.lang === 'pl'),
-      selectedTranslations: ['EIB', 'BT5', 'BW', 'UBG'],
+      selectedTranslations: ['UBG', 'EIB', 'BT5', 'BW'],
     },
   },
   formatTemplates,
@@ -30,7 +35,7 @@ const initialPersistValue: SettingsPersistType = {
   appFormatTemplate: 'App format',
   defaultCopyTemplate: 'Studium',
   defaultSearchResultLayout: 'split' as PassageListLayout,
-  defaultTranslation: { lang: 'pl', symbol: 'UBG' } as TranslationKey,
+  defaultTranslation: getDefaultTranslation(),
   referencePickerOnStart: true,
 }
 
@@ -65,7 +70,6 @@ export const useSettingsStore = defineStore('settings', () => {
 
   return { appBookNames, appFormatTemplate, bookNamingList, lang, localeTranslations, nameSorter, persist, reset }
 })
-
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useSettingsStore, import.meta.hot))
