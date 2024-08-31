@@ -33,8 +33,7 @@ export const useSearchStore = defineStore('search', () => {
 
   const books = computed(() => settings.appBookNames)
   const chapterCaption = computed(() => jota.chapterCaption(chapterFragment.value, books.value))
-  const chapterVerses = computed(() =>
-    translation.value?.content ? jota.chapterVerses(translation.value?.content, chapterFragment.value) : [])
+  const chapterVerses = computed(() => translation.value?.content ? jota.chapterVerses(translation.value?.content, chapterFragment.value) : [])
   const found = computed(() => !!fragments.value.length)
   const hasSelection = computed(() => chapterFragment.value && chapterFragment.value[2] != null)
   const loading = computed(() => !translation.value?.content)
