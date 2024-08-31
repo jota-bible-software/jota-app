@@ -102,33 +102,6 @@ function find(input: string, opt?: SearchOptions) {
 const events = ['orientationchange', 'resize']
 events.forEach(eventType => useEventListener(window, eventType, updateSize))
 
-// function goToNextChapter() {
-//   store.goToAdjacentChapter(1)
-// }
-
-// function goToPreviousChapter() {
-//   store.goToAdjacentChapter(-1)
-// }
-
-// onMounted(() => {
-//   $q.addressbarColor.set('#000000')
-// })
-
-// useEventListener('keydown', (event: KeyboardEvent) => {
-//   const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
-//   const modifierKey = isMac ? event.metaKey : event.ctrlKey
-
-//   if (modifierKey && event.key === 'ArrowRight') {
-//     event.preventDefault()
-//     goToNextChapter()
-//   } else if (modifierKey && event.key === 'ArrowLeft') {
-//     event.preventDefault()
-//     goToPreviousChapter()
-//   }
-// })
-
-
-
 function updateSize() {
   nextTick(() => {
     setTimeout(() => {

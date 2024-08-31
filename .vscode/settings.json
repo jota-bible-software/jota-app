@@ -3,7 +3,7 @@
   "editor.guides.bracketPairs": true,
   "-- editor.formatOnSave": true,
   "-- editor.defaultFormatter": "esbenp.prettier-vscode",
-  "-- editor.codeActionsOnSave": [
+  "editor.codeActionsOnSave": [
     "source.fixAll.eslint"
   ],
   "eslint.validate": [
@@ -16,16 +16,6 @@
   "[vue]": {
     "editor.defaultFormatter": "Vue.volar"
   },
-  "vetur.format.defaultFormatterOptions": {
-    "wrap_attributes": "preserve"
-  },
-  "volar.format.defaultFormatterOptions": {
-    "vue.format.wrapAttributes": "preserve",
-  },
-  "vue.format.wrapAttributes": "preserve",
-  "prettier.disableLanguages": [
-    "vue"
-  ],
   "javascript.format.semicolons": "remove",
   "typescript.format.semicolons": "remove",
   "macros": {
