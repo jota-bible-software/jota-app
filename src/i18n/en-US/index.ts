@@ -19,9 +19,9 @@ export default {
     selectBookNaming: 'Select book naming'
   },
   buttonBookSelector: {
+    hideButtons: 'Hide book and chapter selection buttons',
     selectBook: 'Select book',
-    showButtons: 'Show book and chapter selection buttons',
-    hideButtons: 'Hide book and chapter selection buttons'
+    showButtons: 'Show book and chapter selection buttons'
   },
   buttonHelp: {
     help: 'Help'
@@ -33,194 +33,194 @@ export default {
     settings: 'Settings'
   },
   buttonWholeWords: {
-    wholeWords: 'Whole words',
+    disable: 'Disable whole word search',
     enable: 'Enable whole word search',
-    disable: 'Disable whole word search'
-  },
-  messageLine: {
-    searching: 'Searching...',
-    foundPassages: 'Found passages:',
-    copyFound: 'Copy found verses to clipboard',
-    enableNavigation: 'Enable navigation',
-    formattedLayout: 'Change layout to print formatted',
-    sortAndDeduplicate: 'Sort and deduplicate',
-    notFound: 'Nothing found :-(',
-    previousChapter: 'Previous chapter',
-    nextChapter: 'Next chapter',
-    copySelected: 'Copy selected verses to clipboard',
-    playAudio: 'Play chapter in audio version',
-    chapterLabel: 'Chapter',
-    copiedSelectedVerses: 'Copied selected verses',
-    noSelectedVerses: 'No selected verses',
-    copiedFoundVerses: 'Copied found verses',
-    formatFailed: 'Format failed',
-    notConfiguredFor: 'is not configured for',
-    defaultTemplate: 'Default template'
-  },
-  settingsBookNames: {
-    title: 'Bible book naming',
-    appDisplay: 'On application screen',
-    editButton: 'Edit',
-    standardName: 'Standard name',
-    bookNames: 'Book names',
-    removeTooltipAppBookNaming: 'Cannot remove naming that is used on the application screen',
-    removeTooltipCopyTemplate: 'Cannot remove. The naming is used in the copy template "{templateName}" for language {lang}',
-    addNewNaming: 'Add new naming',
-    bookListCannotBeEmpty: 'Book list cannot be empty',
-    bookCountError: 'The list must contain exactly 73 books. Currently it contains {count} {books}.',
-    book: 'book',
-    books2to4: 'books',
-    books5plus: 'books',
-    addButton: 'Add',
-    saveButton: 'Save',
-    cancelButton: 'Cancel',
-    useOnAppScreen: 'Use on application screen',
-    removeButton: 'Remove',
-    nameAlreadyExists: 'This name already exists',
-    nameCannotBeEmpty: 'Name cannot be empty'
-  },
-  settingsFormatTemplates: {
-    title: 'Format Templates',
-    appDisplay: 'On application screen',
-    editTitle: 'Edit template',
-    templateName: 'Template name',
-    addButton: 'Add new template',
-    referencePosition: 'Reference position',
-    beforeContent: 'Before content',
-    afterContent: 'After content',
-    sameLine: 'On the same line',
-    newLine: 'On a new line',
-    translationAbbreviation: 'Translation abbreviation',
-    none: 'None',
-    lowercase: 'Lowercase',
-    uppercase: 'Uppercase',
-    versesWithNumbers: 'Verses with numbers',
-    newLineForEachVerse: 'New line for each verse',
-    separatorChar: 'Separator character',
-    rangeChar: 'Range character',
-    charsAroundReference: 'Characters around reference',
-    charsBefore: 'before',
-    charsAfter: 'after',
-    charsAroundQuote: 'Characters around quote',
-    charsAroundVerseNumber: 'Characters around verse number',
-    charsAroundTranslationAbbreviation: 'Characters around translation abbreviation',
-    removeDialogTitle: 'Remove template',
-    removeDialogMessage: 'Are you sure you want to remove the template',
-    yes: 'Yes',
-    no: 'No',
-    removeTooltip: 'Cannot remove. The template is used in a copy template',
-    forLanguage: 'for language',
-    nameCannotBeEmpty: 'Name cannot be empty',
-    nameAlreadyExists: 'A template with this name already exists',
-    saveButton: 'Save',
-    cancelButton: 'Cancel',
-    removeButton: 'Remove',
-    example: "Example of a formatted passage"
-  },
-  settingsCopyTemplates: {
-    title: 'Copy Templates',
-    defaultTemplate: 'Default template',
-    editTemplate: 'Edit template',
-    templateName: 'Template name',
-    templateDescription: 'Select format template and book naming for each language:',
-    formatTemplate: 'Format template',
-    bookNaming: 'Book naming',
-    addButton: 'Add new template',
-    removeTitle: 'Remove template',
-    removeConfirm: 'Are you sure you want to remove the template',
-    yes: 'Yes',
-    no: 'No',
-    error: 'Error',
-    nameRequired: 'Name is required',
-    nameExists: 'A template with this name already exists',
-    ok: 'OK',
-    saveButton: 'Save',
-    cancelButton: 'Cancel',
-    removeButton: 'Remove',
-    defaultTemplateTooltip: 'Cannot remove the default template'
-  },
-  passageFormatEditor: {
-    bookNamesLabel: 'Book names in passage reference:',
-    separatorChar: {
-      label: 'Character separating chapter from verses in reference:',
-      colon: 'Colon',
-      comma: 'Comma'
-    },
-    translationAbbreviation: {
-      label: 'Translation abbreviation:',
-      none: 'None',
-      lowercase: 'Lowercase',
-      uppercase: 'Uppercase'
-    },
-    options: {
-      quotes: 'Passage content in quotation marks',
-      numbers: 'Verses with numbers',
-      newLine: 'Each verse on a new line'
-    },
-    example: 'Example of formatting a passage with a single verse and with multiple:'
-  },
-  settingsGeneral: {
-    title: 'General Settings',
-    defaultLanguage: 'Default language',
-    defaultTranslation: 'Default translation',
-    referencePickerOnStart: 'Show reference picker on start',
-    defaultSearchResultLayout: 'Default search result layout',
-    split: 'Split',
-    formatted: 'Formatted'
-  },
-  settingsPage: {
-    general: 'General',
-    appearance: 'Appearance',
-    translations: 'Translations',
-    bookNames: 'Book Names',
-    formatTemplates: 'Format Templates',
-    copyTemplates: 'Copy Templates',
-    importExport: 'Import / Export'
-  },
-  settingsAppearance: {
-    title: 'Appearance',
-    fontSize: 'Font size',
-    textIncrease: 'Increase text',
-    textDecrease: 'Decrease text',
-    bibleTextExample: 'Bible text example'
-  },
-  screenModeToggle: {
-    screenMode: 'Screen mode',
-    lightMode: 'Light mode',
-    darkMode: 'Dark mode',
-    autoMode: 'Auto mode'
-  },
-  routes: {
-    settings: 'Settings'
-  },
-  settingsTranslations: {
-    title: 'Translations',
-    defaultTranslation: 'Default translation',
-    allSelected: 'All selected',
-    selected: 'Selected',
-    selectAll: 'Select all for language',
-    downloading: 'Downloading ...'
-  },
-  pageHeader: {
-    backToHome: 'Back to Home'
+    wholeWords: 'Whole words'
   },
   buttonWordWrap: {
-    enable: 'Enable word wrap',
-    disable: 'Disable word wrap'
+    disable: 'Disable word wrap',
+    enable: 'Enable word wrap'
+  },
+  errorNotFound: {
+    backToHome: 'Back to home page',
+    message: 'The page you are looking for was not found.',
+    title: '404'
+  },
+  mainPage: {
+    clearSearch: 'Clear search criteria and results',
+    downloading: 'Downloading translation content ...',
+    placeholderLong: 'Enter text containing Bible references or a phrase to search in the translation text',
+    placeholderShort: 'Reference or phrase',
+    search: 'Search'
   },
   mainToolbar: {
     translationLabel: 'Translation'
   },
-  mainPage: {
-    clearSearch: 'Clear search criteria and results',
-    search: 'Search',
-    downloading: 'Downloading translation content ...',
-    placeholderLong: 'Enter text containing bible references or a phrase to search in the translation text',
-    placeholderShort: 'Reference or phrase'
+  messageLine: {
+    chapterLabel: 'Chapter',
+    copiedFoundVerses: 'Copied found verses',
+    copiedSelectedVerses: 'Copied selected verses',
+    copyFound: 'Copy found verses to clipboard',
+    copySelected: 'Copy selected verses to clipboard',
+    defaultTemplate: 'Default template',
+    enableNavigation: 'Enable navigation',
+    formatFailed: 'Formatting failed',
+    formattedLayout: 'Change layout to formatted for printing',
+    foundPassages: 'Found passages:',
+    nextChapter: 'Next chapter',
+    noSelectedVerses: 'No verses selected',
+    notConfiguredFor: 'is not configured for',
+    notFound: 'Nothing found :-(',
+    playAudio: 'Play chapter in audio version',
+    previousChapter: 'Previous chapter',
+    searching: 'Searching...',
+    sortAndDeduplicate: 'Sort and remove duplicates'
   },
-  errorNotFound: {
-    title: '404',
-    message: 'The page you are looking for was not found.',
-    backToHome: 'Back to Home'
+  pageHeader: {
+    backToHome: 'Back to home page'
+  },
+  passageFormatEditor: {
+    bookNamesLabel: 'Book names in passage reference:',
+    example: 'Example of formatting a passage with a single verse and with multiple:',
+    options: {
+      newLine: 'Each verse on a new line',
+      numbers: 'Verses with numbers',
+      quotes: 'Passage content in quotation marks'
+    },
+    separatorChar: {
+      colon: 'Colon',
+      comma: 'Comma',
+      label: 'Character separating chapter from verses in reference:'
+    },
+    translationAbbreviation: {
+      label: 'Translation abbreviation:',
+      lowercase: 'Lowercase',
+      none: 'None',
+      uppercase: 'Uppercase'
+    }
+  },
+  routes: {
+    settings: 'Settings'
+  },
+  screenModeToggle: {
+    autoMode: 'Auto mode',
+    darkMode: 'Dark mode',
+    lightMode: 'Light mode',
+    screenMode: 'Screen mode'
+  },
+  settingsAppearance: {
+    bibleTextExample: 'Bible text example',
+    fontSize: 'Font size',
+    textDecrease: 'Decrease text',
+    textIncrease: 'Increase text',
+    title: 'Appearance'
+  },
+  settingsBookNames: {
+    addButton: 'Add',
+    addNewNaming: 'Add new naming',
+    appDisplay: 'On app screen',
+    book: 'book',
+    bookCountError: 'The list must contain exactly 73 books. It currently contains {count} {books}.',
+    bookListCannotBeEmpty: 'Book list cannot be empty',
+    bookNames: 'Book names',
+    books2to4: 'books',
+    books5plus: 'books',
+    cancelButton: 'Cancel',
+    editButton: 'Edit',
+    nameAlreadyExists: 'This name already exists',
+    nameCannotBeEmpty: 'Name cannot be empty',
+    removeButton: 'Remove',
+    removeTooltipAppBookNaming: 'Cannot remove naming that is used on the app screen',
+    removeTooltipCopyTemplate: 'Cannot remove. Naming is used in copy template "{templateName}" for language {lang}',
+    saveButton: 'Save',
+    standardName: 'Standard name',
+    title: 'Bible book naming',
+    useOnAppScreen: 'Use on app screen'
+  },
+  settingsCopyTemplates: {
+    addButton: 'Add new template',
+    bookNaming: 'Book naming',
+    cancelButton: 'Cancel',
+    defaultTemplate: 'Default template',
+    defaultTemplateTooltip: 'Cannot remove the default template',
+    editTemplate: 'Edit template',
+    error: 'Error',
+    formatTemplate: 'Format template',
+    nameExists: 'A template with this name already exists',
+    nameRequired: 'Name is required',
+    no: 'No',
+    ok: 'OK',
+    removeButton: 'Remove',
+    removeConfirm: 'Are you sure you want to remove the template',
+    removeTitle: 'Remove template',
+    saveButton: 'Save',
+    templateDescription: 'Select format template and book naming for each language:',
+    templateName: 'Template name',
+    title: 'Copy templates',
+    yes: 'Yes'
+  },
+  settingsFormatTemplates: {
+    addButton: 'Add new template',
+    afterContent: 'After content',
+    appDisplay: 'On app screen',
+    beforeContent: 'Before content',
+    cancelButton: 'Cancel',
+    charsAfter: 'after',
+    charsBefore: 'before',
+    charsAroundQuote: 'Characters around quote',
+    charsAroundReference: 'Characters around reference',
+    charsAroundTranslationAbbreviation: 'Characters around translation abbreviation',
+    charsAroundVerseNumber: 'Characters around verse number',
+    editTitle: 'Edit template',
+    example: 'Example of formatted passage',
+    forLanguage: 'for language',
+    lowercase: 'Lowercase',
+    nameAlreadyExists: 'A template with this name already exists',
+    nameCannotBeEmpty: 'Name cannot be empty',
+    newLine: 'On new line',
+    newLineForEachVerse: 'New line for each verse',
+    no: 'No',
+    none: 'None',
+    rangeChar: 'Range character',
+    referencePosition: 'Reference position',
+    removeButton: 'Remove',
+    removeDialogMessage: 'Are you sure you want to remove the template',
+    removeDialogTitle: 'Remove template',
+    removeTooltip: 'Cannot remove. Template is used in copy template',
+    sameLine: 'On the same line',
+    saveButton: 'Save',
+    separatorChar: 'Separator character',
+    templateName: 'Template name',
+    title: 'Format templates',
+    translationAbbreviation: 'Translation abbreviation',
+    uppercase: 'Uppercase',
+    versesWithNumbers: 'Verses with numbers',
+    yes: 'Yes'
+  },
+  settingsGeneral: {
+    defaultLanguage: 'Default language',
+    defaultSearchResultLayout: 'Default search result layout',
+    defaultTranslation: 'Default translation',
+    formatted: 'Formatted',
+    referencePickerOnStart: 'Show reference picker on start',
+    split: 'Split',
+    title: 'General settings'
+  },
+  settingsPage: {
+    appearance: 'Appearance',
+    bookNames: 'Book names',
+    copyTemplates: 'Copy templates',
+    formatTemplates: 'Format templates',
+    general: 'General',
+    importExport: 'Import / Export',
+    translations: 'Translations'
+  },
+  settingsTranslations: {
+    allSelected: 'All selected',
+    defaultTranslation: 'Default translation',
+    downloading: 'Downloading ...',
+    selectAll: 'Select all for language',
+    selected: 'Selected',
+    title: 'Translations'
   }
 }
