@@ -202,7 +202,7 @@ export default {
     defaultSearchResultLayout: 'Domyślny układ wyników wyszukiwania',
     defaultTranslation: 'Domyślny przekład',
     formatted: 'Sformatowany',
-    referencePickerOnStart: 'Pokaż wybór odnośnika przy starcie',
+    referencePickerOnStart: 'Pokaż selektor księgi/rozdziału na stronie startowej',
     split: 'Podzielony',
     title: 'Ustawienia ogólne'
   },

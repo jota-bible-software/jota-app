@@ -202,7 +202,7 @@ export default {
     defaultSearchResultLayout: 'Макет результатів пошуку за замовчуванням',
     defaultTranslation: 'Переклад за замовчуванням',
     formatted: 'Форматований',
-    referencePickerOnStart: 'Показувати вибір посилання при запуску',
+    referencePickerOnStart: 'Показувати вибір книги/ро��ділу на початковій сторінці',
     split: 'Розділений',
     title: 'Загальні налаштування'
   },

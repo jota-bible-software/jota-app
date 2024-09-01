@@ -202,7 +202,7 @@ export default {
     defaultSearchResultLayout: 'Layout padrão dos resultados de pesquisa',
     defaultTranslation: 'Tradução padrão',
     formatted: 'Formatado',
-    referencePickerOnStart: 'Mostrar seletor de referência ao iniciar',
+    referencePickerOnStart: 'Mostrar seletor de livro/capítulo na página inicial',
     split: 'Dividido',
     title: 'Configurações gerais'
   },
