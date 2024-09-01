@@ -1,8 +1,8 @@
 <template>
-  <SettingsPanel title="Nazewnictwo ksiąg biblijnych" lang>
+  <SettingsPanel :title="$t('settingsBookNames.title')" lang>
 
     <div class="row items-center">
-      <div class="q-mr-md">Na ekranie aplikacji</div>
+      <div class="q-mr-md">{{ $t('settingsBookNames.appDisplay') }}</div>
       <q-select v-model="appBookNaming" :options="names" />
     </div>
 
@@ -25,67 +25,66 @@
           </div>
 
           <FormContainer v-if="selected === item.name">
-            <!-- <q-separator class="q-my-md" /> -->
-            <q-input v-model="editedItem.name" label="Nazwa standardu" />
-            <q-input v-model="editedBooksText" label="Nazwy ksiąg" autogrow />
+            <q-input v-model="editedItem.name" :label="$t('settingsBookNames.standardName')" />
+            <q-input v-model="editedBooksText" :label="$t('settingsBookNames.bookNames')" autogrow />
             <div class="q-my-md">
               <div class="row q-gutter-sm">
 
-                <!-- Save button -->
                 <q-btn color="primary" @click="save(item)">
                   <q-icon left name="save" />
-                  <div>Zapisz</div>
+                  <div>{{ $t('settingsBookNames.saveButton') }}</div>
                 </q-btn>
 
-                <!-- Cancel button -->
                 <q-btn outline color="primary" @click="selected = ''">
                   <q-icon left name="undo" />
-                  <div>Cofnij</div>
+                  <div>{{ $t('settingsBookNames.cancelButton') }}</div>
                 </q-btn>
 
                 <q-btn outline color="primary" @click="appBookNaming = selected">
                   <q-icon left name="desktop_windows" />
-                  <div>Użyj na ekranie aplikacji</div>
+                  <div>{{ $t('settingsBookNames.useOnAppScreen') }}</div>
                 </q-btn>
                 <q-space />
 
                 <q-btn outline color="red-4" @click="remove" :disabled="!!removeTooltip">
                   <q-icon left name="delete" />
-                  <div>Usuń</div>
+                  <div>{{ $t('settingsBookNames.removeButton') }}</div>
                   <q-tooltip v-if="!!removeTooltip">{{ removeTooltip }}</q-tooltip>
                 </q-btn>
 
               </div>
             </div>
-            <!-- <q-separator class="q-my-md" /> -->
           </FormContainer>
 
         </q-item-section>
       </q-item>
     </q-list>
 
-    <!-- Add new naming standard -->
     <div class="q-mt-xl">
       <FormContainer>
-        <span>Dodaj nowe nazewnictwo</span>
-        <q-input v-model="newItem.name" label="Nazwa standardu" :rules="[
-        (val: string) => !!val || 'Nazwa nie może być pusta',
-        (val: string) => !names.includes(val) || 'Taka nazwa już występuje'
-      ]" />
-        <q-input v-model="newBooksText" label="Nazwy ksiąg" autogrow :rules="[
-        (val: string) => !!val || 'Lista ksiąg nie może być pusta',
-        (val: string) => {
-          const bookCount = val.split(',').length
-          return bookCount === 73 || `Lista musi zawierać dokładnie 73 księgi. Obecnie zawiera ${bookCount} ${bookCount === 1 ? 'księgę' : bookCount < 5 ? 'księgi' : 'ksiąg'}.`
-        }
-      ]" />
+        <span>{{ $t('settingsBookNames.addNewNaming') }}</span>
+        <q-input v-model="newItem.name" :label="$t('settingsBookNames.standardName')" :rules="[
+          (val: string) => !!val || $t('settingsBookNames.nameCannotBeEmpty'),
+          (val: string) => !names.includes(val) || $t('settingsBookNames.nameAlreadyExists')
+        ]" />
+        <q-input v-model="newBooksText" :label="$t('settingsBookNames.bookNames')" autogrow :rules="[
+          (val: string) => !!val || $t('settingsBookNames.bookListCannotBeEmpty'),
+          (val: string) => {
+            const bookCount = val.split(',').length
+            return bookCount === 73 || $t('settingsBookNames.bookCountError', {
+              count: bookCount,
+              books: bookCount === 1 ? $t('settingsBookNames.book') : 
+                     bookCount < 5 ? $t('settingsBookNames.books2to4') : 
+                     $t('settingsBookNames.books5plus')
+            })
+          }
+        ]" />
         <div class="q-mt-md">
           <div class="row q-gutter-sm">
             <q-btn color="accent" @click="add">
               <q-icon left name="add" />
-              <div>Dodaj</div>
+              <div>{{ $t('settingsBookNames.addButton') }}</div>
             </q-btn>
-
           </div>
         </div>
       </FormContainer>
@@ -100,6 +99,8 @@ import { useSettingsStore } from 'stores/settings-store'
 import FormContainer from './FormContainer.vue'
 import SettingsPanel from './SettingsPanel.vue'
 import { BookNamesStandardData } from 'src/types'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const store = useSettingsStore()
 
@@ -138,7 +139,7 @@ function save(item: BookNamesStandardData) {
 
 const removeTooltip = computed(() => {
   if (selected.value === appBookNaming.value) {
-    return 'Usunięcie niemożliwe z powodu użycia tego nazewnictwa na ekranie aplikacji'
+    return t('settingsBookNames.removeTooltipAppBookNaming')
   }
 
   let foundTemplateName = ''
@@ -153,7 +154,7 @@ const removeTooltip = computed(() => {
     }
     if (!!foundTemplateName) break
   }
-  return !!foundTemplateName ? `Usunięcie niemożliwe z powodu użycia tego nazewnictwa w szablonie kopiowania "${foundTemplateName}" dla języka ${foundLang}` : ''
+  return !!foundTemplateName ? t('settingsBookNames.removeTooltipCopyTemplate', { templateName: foundTemplateName, lang: foundLang }) : ''
 })
 
 function remove() {

@@ -1,5 +1,6 @@
 import { LanguageSymbol } from './types'
 import { languageData } from './logic/data'
+import locales from './i18n'
 
 export const LOCAL_STORAGE_KEY = 'pl.netanel.jota-app'
 
@@ -106,4 +107,7 @@ export function getLanguageFromNavigator(): LanguageSymbol {
   return (supported ? navigatorLanguage : 'en') as LanguageSymbol
 }
 
-
+export function getDefaultLocale(): string {
+  const navigatorLanguage = navigator.language
+  return Object.keys(locales).find(loc => loc.startsWith(navigatorLanguage)) || 'en-US'
+}

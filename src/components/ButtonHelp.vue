@@ -1,15 +1,14 @@
 <template>
-  <q-btn flat dense icon="icon-mat-help" color="primary"
-    href="https://docs.google.com/document/d/1unCVgpMRlzlaRRXdxdDkmNyVxqG7honM49lSKS9TTnU" target="_blank" v-close-popup>
-    <q-tooltip> Informacje o programie </q-tooltip>
-    <span v-if="inMenu" class="button-menu-item">Instrukcja</span>
+  <q-btn id="help" flat dense icon="icon-mat-help" color="primary" to="/help">
+    <span v-if="inMenu" class="button-menu-item">{{ $t('buttonHelp.help') }}</span>
+    <q-tooltip>{{ $t('buttonHelp.help') }}</q-tooltip>
   </q-btn>
 </template>
 
 <script setup lang="ts">
+import { defineProps } from 'vue'
+
 defineProps({
-  checked: Boolean,
   inMenu: Boolean,
-  menuTitle: String,
 })
 </script>

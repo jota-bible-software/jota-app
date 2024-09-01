@@ -1,16 +1,17 @@
 <template>
   <div class="row items-center">
-    <div class="q-mr-sm">Tryb ekranu</div>
-    <q-btn-toggle v-model="store.persist.appearance.screenMode" label="Tryb ekranu" toggle-color="primary" :options="[
-      { value: 'dark', slot: 'one' },
-      { value: 'light', slot: 'two' },
-      { value: 'auto', slot: 'three' }
-    ]">
+    <div class="q-mr-sm">{{ $t('screenModeToggle.screenMode') }}</div>
+    <q-btn-toggle v-model="store.persist.appearance.screenMode" :label="$t('screenModeToggle.screenMode')"
+      toggle-color="primary" :options="[
+        { value: 'dark', slot: 'one' },
+        { value: 'light', slot: 'two' },
+        { value: 'auto', slot: 'three' }
+      ]">
       <template v-slot:one>
         <div class="row items-center no-wrap">
           <q-icon left name="dark_mode" />
           <div class="text-center">
-            Ciemny
+            {{ $t('screenModeToggle.darkMode') }}
           </div>
         </div>
       </template>
@@ -19,7 +20,7 @@
         <div class="row items-center no-wrap">
           <q-icon left name="light_mode" />
           <div class="text-center">
-            Jasny
+            {{ $t('screenModeToggle.lightMode') }}
           </div>
         </div>
       </template>
@@ -28,7 +29,7 @@
         <div class="row items-center no-wrap">
           <q-icon left right name="auto_mode" />
           <div class="text-center">
-            Auto
+            {{ $t('screenModeToggle.autoMode') }}
           </div>
         </div>
       </template>
@@ -38,9 +39,10 @@
 
 <script setup lang="ts">
 import { useSettingsStore } from 'src/stores/settings-store'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const store = useSettingsStore()
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

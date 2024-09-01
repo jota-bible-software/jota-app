@@ -5,7 +5,7 @@
         <q-item-label class="row items-center">
           <q-radio v-model="model" :val="item.name" :label="item.name" dense class="q-mr-md" />
         </q-item-label>
-        <q-item-label caption>{{ item.booksText }}</q-item-label>
+        <q-item-label caption>{{ $t('bookNamingList.selectBookNaming') }}</q-item-label>
       </q-item-section>
 
     </q-item>
@@ -15,6 +15,8 @@
 <script setup lang="ts">
 import { useSettingsStore } from 'src/stores/settings-store'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const store = useSettingsStore()
 const list = store.bookNamingList

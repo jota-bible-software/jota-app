@@ -1,22 +1,21 @@
 <template>
-  <SettingsPanel title="Import / Export">
-
+  <SettingsPanel :title="$t('settingsImportExport.title')">
 
     <!-- Display last uploaded file name -->
     <div v-if="store.persist.lastUploadedFile" class="q-mb-md">
-      Ostatnio zaimportowany plik ustawień: <b>{{ store.persist.lastUploadedFile }}</b>
+      {{ $t('settingsImportExport.lastImportedFile') }} <b>{{ store.persist.lastUploadedFile }}</b>
     </div>
 
     <div>
       <div class="row  q-gutter-sm">
-        <q-file ref="fileInput" class="col-auto" v-model="file" label="Wybierz plik ustawień" filled autosize>
+        <q-file ref="fileInput" class="col-auto" v-model="file" :label="$t('settingsImportExport.selectSettingsFile')" filled autosize>
           <template v-slot:prepend>
             <q-icon name="icon-mat-file_open" />
           </template>
         </q-file>
         <q-btn class="col-auto" @click="importSettings">
           <q-icon left name="icon-mat-upload" />
-          <div>Importuj plik ustawień</div>
+          <div>{{ $t('settingsImportExport.importButton') }}</div>
         </q-btn>
       </div>
     </div>
@@ -24,18 +23,16 @@
     <div class="row">
       <q-btn class="col-auto" @click="exportSettings">
         <q-icon left name="icon-mat-download" />
-        <div>Eksportuj ustawienia do pliku</div>
+        <div>{{ $t('settingsImportExport.exportButton') }}</div>
       </q-btn>
     </div>
 
     <div class="row">
       <q-btn class="col-auto" @click="resetSettings">
         <q-icon left name="icon-mat-undo" />
-        <div>Resetuj ustawienia</div>
+        <div>{{ $t('settingsImportExport.resetSettings') }}</div>
       </q-btn>
-
     </div>
-
 
   </SettingsPanel>
 </template>
@@ -45,6 +42,8 @@ import SettingsPanel from './SettingsPanel.vue'
 import { useSettingsStore } from 'src/stores/settings-store'
 import { Dialog, exportFile, Notify } from 'quasar'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 
 const store = useSettingsStore()
@@ -57,12 +56,11 @@ function exportSettings() {
   const status = exportFile(exportFileName, JSON.stringify(store.persist))
 
   if (status === true) {
-    Dialog.create({ message: `Ustawienia zostały zapisane w pliku "${exportFileName}" w folderze pobierania przeglądarki` })
+    Dialog.create({ message: t('settingsImportExport.settingsSaved', { filename: exportFileName }) })
   }
   else {
-    // browser denied it
     Notify.create({
-      message: 'Ustawienia nie zostały zapisane ponieważ przeglądarka blokuje tę operację',
+      message: t('settingsImportExport.settingsNotSaved'),
       type: 'negative'
     })
   }
@@ -72,28 +70,26 @@ function importSettings() {
   if (file.value) {
     const reader = new FileReader()
     reader.onload = (e) => {
-      store.persist = { ...store.persist, ...JSON.parse(e.target?.result as string) } // Would be good to merge recursively
-      // Store the last uploaded file name
+      store.persist = { ...store.persist, ...JSON.parse(e.target?.result as string) }
       store.persist.lastUploadedFile = file.value!.name
-      Notify.create({ message: 'Ustawienia zostały zaimportowane' })
+      Notify.create({ message: t('settingsImportExport.importSuccess') })
     }
     reader.readAsText(file.value)
   } else {
-    Dialog.create({ message: 'Wybierze najpierw plik ustawień w polu obok' })
+    Dialog.create({ message: t('settingsImportExport.selectFileFirst') })
     fileInput.value?.focus()
-    // (fileInput.value?.querySelector('input') as HTMLInputElement).click()
   }
 }
 
 function resetSettings() {
   Dialog.create({
-    title: 'Reset ustawień',
-    message: 'Czy na pewno chcesz zresetować ustawienia?',
-    ok: 'Tak',
-    cancel: 'Nie',
+    title: t('settingsImportExport.resetConfirmTitle'),
+    message: t('settingsImportExport.resetConfirmMessage'),
+    ok: t('settingsImportExport.yes'),
+    cancel: t('settingsImportExport.no'),
   }).onOk(() => {
     store.reset()
-    Notify.create({ message: 'Ustawienia zostały zresetowane', type: 'positive' })
+    Notify.create({ message: t('settingsImportExport.resetSuccess'), type: 'positive' })
   })
 }
 

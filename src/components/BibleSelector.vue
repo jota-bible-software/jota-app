@@ -38,6 +38,9 @@ import { useTranslationStore } from 'src/stores/translation-store'
 import { computed } from 'vue'
 import { Translation } from 'src/types'
 import FlagIcon from './FlagIcon.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue'])

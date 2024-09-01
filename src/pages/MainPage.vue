@@ -5,17 +5,17 @@
       <BibleSelector v-model="store.currentTranslation" class="q-mr-md lt-md" />
 
       <q-input ref="input" v-model="store.input" :outlined="false"
-        :placeholder="$q.screen.gt.sm ? 'Podaj tekst zawierający odnośniki biblijne lub frazę do wyszukania w tekście przekładu' : 'Odnośnik lub fraza'"
+        :placeholder="$q.screen.gt.sm ? $t('mainPage.placeholderLong') : $t('mainPage.placeholderShort')"
         dense style="margin-top: 0" autofocus @keyup.enter="find(store.input)" @keyup.esc="store.input = ''" full-width
         class="col">
         <template v-slot:append>
           <q-icon v-if="store.input !== ''" name="icon-mat-close" class="cursor-pointer" style="font-size: 0.8em"
             @click="find('')">
-            <q-tooltip>Wyczyść kryteria i wyniki wyszukiwania</q-tooltip>
+            <q-tooltip>{{ $t('mainPage.clearSearch') }}</q-tooltip>
           </q-icon>
 
           <q-icon name="icon-mat-search" @click="find(store.input)" class="cursor-pointer">
-            <q-tooltip>Szukaj</q-tooltip>
+            <q-tooltip>{{ $t('mainPage.search') }}</q-tooltip>
           </q-icon>
         </template>
 
@@ -53,7 +53,7 @@
 
     <div v-show="store.loading">
       <q-circular-progress indeterminate size="30px" color="accent" class="q-my-md q-mr-md" />
-      <span>Pobieranie treści przekładu ...</span>
+      <span>{{ $t('mainPage.downloading') }}</span>
     </div>
 
     <ReferencePicker v-if="store.showPicker" />
@@ -78,7 +78,9 @@ import ReferencePicker from 'src/components/ReferencePicker.vue'
 import MessageLine from 'src/components/MessageLine.vue'
 import MainToolbar from 'src/components/MainToolbar.vue'
 import { SearchOptions } from 'src/types'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const store = useSearchStore()
 const $q = useQuasar()
 const settingsStore = useSettingsStore()

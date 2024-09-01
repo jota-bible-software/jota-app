@@ -1,9 +1,9 @@
 <template>
-  <SettingsPanel title="Przekłady">
-    <LabelRow label="Domyślny przekład">
+  <SettingsPanel :title="$t('settingsTranslations.title')">
+    <LabelRow :label="$t('settingsTranslations.defaultTranslation')">
       <BibleSelector v-model="settings.persist.defaultTranslation" />
     </LabelRow>
-    <LabelRow label="Wszystkich wybranych">
+    <LabelRow :label="$t('settingsTranslations.allSelected')">
       <span class="text-bold">{{ allSelectedCount }} / {{ allCount }}</span>
     </LabelRow>
     <q-list id="translations" class="rounded-borders">
@@ -16,7 +16,7 @@
             <div class="row items-center q-gutter-sm">
               <q-toggle :model-value="store.selectionStatus(lang.symbol)"
                 @update:model-value="v => store.selectLang(lang.symbol, v)">
-                <q-tooltip>Wybierz wszystkie dla języka {{ lang.symbol }}</q-tooltip>
+                <q-tooltip>{{ $t('settingsTranslations.selectAll') }} {{ lang.symbol }}</q-tooltip>
               </q-toggle>
               <q-btn flat>
                 <FlagIcon :lang="lang.symbol" />
@@ -29,7 +29,7 @@
 
           <q-item-section side>
             <div class="row items-center q-gutter-md">
-              <span>Selected: </span>
+              <span>{{ $t('settingsTranslations.selected') }}: </span>
               <span>{{ store.selectedCount(lang.symbol) }} / {{ store.getTranslations(lang.symbol).length }} </span>
             </div>
           </q-item-section>
@@ -59,7 +59,7 @@
             <q-item-section>
               <q-item-label>{{ item.title }}</q-item-label>
               <q-item-label caption v-if="item.selected && !item.content">
-                Pobieranie ...
+                {{ $t('settingsTranslations.downloading') }}
               </q-item-label>
             </q-item-section>
 
@@ -71,14 +71,11 @@
               </div>
             </q-item-section>
           </q-item>
-
         </q-list>
 
         <q-separator v-if="lang.symbol !== store.languages[store.languages.length - 1].symbol" />
-
       </q-expansion-item>
     </q-list>
-
   </SettingsPanel>
 </template>
 
@@ -91,7 +88,9 @@ import SettingsPanel from './SettingsPanel.vue'
 import LabelRow from './LabelRow.vue'
 import FlagIcon from './FlagIcon.vue'
 import BibleSelector from './BibleSelector.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const store = useTranslationStore()
 const settings = useSettingsStore()
 
@@ -102,7 +101,7 @@ console.log(settings.persist.defaultTranslation)
 
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 #translations {
   max-width: 500px;
 }

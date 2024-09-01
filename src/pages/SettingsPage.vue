@@ -3,13 +3,13 @@
     <div class="row q-px-xl">
       <div class="col-auto">
         <q-tabs v-model="tab" vertical dense active-color="primary" no-caps outside-arrows mobile-arrows>
-          <q-tab name="general" label="Ogólne" />
-          <q-tab name="appearance" label="Wygląd" />
-          <q-tab name="translations" label="Przekłady" />
-          <q-tab name="bookNames" label="Nazwy ksiąg" />
-          <q-tab name="formatTemplates" label="Szablony formatowania" />
-          <q-tab name="copyTemplates" label="Szablony kopiowania" />
-          <q-tab name="importExport" label="Import / Export" />
+          <q-tab name="general" :label="$t('settingsPage.general')" />
+          <q-tab name="appearance" :label="$t('settingsPage.appearance')" />
+          <q-tab name="translations" :label="$t('settingsPage.translations')" />
+          <q-tab name="bookNames" :label="$t('settingsPage.bookNames')" />
+          <q-tab name="formatTemplates" :label="$t('settingsPage.formatTemplates')" />
+          <q-tab name="copyTemplates" :label="$t('settingsPage.copyTemplates')" />
+          <q-tab name="importExport" :label="$t('settingsPage.importExport')" />
         </q-tabs>
       </div>
       <div class="col q-px-xs">
@@ -29,12 +29,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import SettingsGeneral from 'components/SettingsGeneral.vue'
+import SettingsGeneral from 'src/components/SettingsGeneral.vue'
 import SettingsAppearance from 'src/components/SettingsAppearance.vue'
 import SettingsTranslations from 'src/components/SettingsTranslations.vue'
 import SettingsBookNames from 'src/components/SettingsBookNames.vue'
-import SettingsCopyTemplates from 'src/components/SettingsCopyTemplates.vue'
 import SettingsFormatTemplates from 'src/components/SettingsFormatTemplates.vue'
+import SettingsCopyTemplates from 'src/components/SettingsCopyTemplates.vue'
 import SettingsImportExport from 'src/components/SettingsImportExport.vue'
 
 const tab = ref('general')

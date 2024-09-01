@@ -1,9 +1,9 @@
 <template>
-  <SettingsPanel v-if="!selected && !isNewItem" title="Szablony formatowania wersetów">
+  <SettingsPanel v-if="!selected && !isNewItem" :title="$t('settingsFormatTemplates.title')">
 
     <!-- List of items -->
     <div class="col">
-      <LabelRow label="Na ekranie aplikacji">
+      <LabelRow :label="$t('settingsFormatTemplates.appDisplay')">
         <q-select v-model="store.persist.appFormatTemplate" :options="templates" option-label="name" />
       </LabelRow>
 
@@ -28,86 +28,86 @@
       <div class="row q-mt-md">
         <q-btn color="accent" @click="add">
           <q-icon left name="add" />
-          <div>Dodaj</div>
+          <div>{{ $t('settingsFormatTemplates.addButton') }}</div>
         </q-btn>
       </div>
     </div>
   </SettingsPanel>
 
-  <SettingsPanel v-else title="Edycja szablonu formatowania" @back="reset" style="max-width: 560px">
+  <SettingsPanel v-else :title="$t('settingsFormatTemplates.editTitle')" @back="reset" style="max-width: 560px">
     <div class="q-px-none">
       <q-form ref="myForm" class="col q-gutter-md" :no-error-focus="false" @submit="save" @reset="reset">
 
         <!-- <q-separator class="q-my-md" /> -->
-        <LabelRow label="Nazwa szablonu" lifted>
+        <LabelRow :label="$t('settingsFormatTemplates.templateName')" lifted>
           <q-input v-model="editedItem.name" class="col" :rules="[validateName]" />
         </LabelRow>
 
-        <div>Lokalizacja odnośnika w stosunku do treści</div>
+        <div>{{ $t('settingsFormatTemplates.referencePosition') }}</div>
         <LabelRow>
-          <q-radio v-model="editedItem.referencePosition" val="before" label="Przed treścią" />
-          <q-radio v-model="editedItem.referencePosition" val="after" label="Po treści" />
+          <q-radio v-model="editedItem.referencePosition" val="before" :label="$t('settingsFormatTemplates.beforeContent')" />
+          <q-radio v-model="editedItem.referencePosition" val="after" :label="$t('settingsFormatTemplates.afterContent')" />
         </LabelRow>
         <LabelRow>
-          <q-radio v-model="editedItem.referenceLine" val="same line" label="W tej samej linii" />
-          <q-radio v-model="editedItem.referenceLine" val="new line" label="W oddzielnej linii" />
+          <q-radio v-model="editedItem.referenceLine" val="same line" :label="$t('settingsFormatTemplates.sameLine')" />
+          <q-radio v-model="editedItem.referenceLine" val="new line" :label="$t('settingsFormatTemplates.newLine')" />
         </LabelRow>
 
         <!-- <div>Skrótu przekładu</div> -->
-        <LabelRow label="Skrótu przekładu" class="q-py-sm">
-          <q-radio v-model="editedItem.translationAbbreviation" val="none" label="Żaden" />
-          <q-radio v-model="editedItem.translationAbbreviation" val="lowercase" label="Małymi literami" />
-          <q-radio v-model="editedItem.translationAbbreviation" val="uppercase" label="Dużymi literami" />
+        <LabelRow :label="$t('settingsFormatTemplates.translationAbbreviation')" class="q-py-sm">
+          <q-radio v-model="editedItem.translationAbbreviation" val="none" :label="$t('settingsFormatTemplates.none')" />
+          <q-radio v-model="editedItem.translationAbbreviation" val="lowercase" :label="$t('settingsFormatTemplates.lowercase')" />
+          <q-radio v-model="editedItem.translationAbbreviation" val="uppercase" :label="$t('settingsFormatTemplates.uppercase')" />
         </LabelRow>
 
         <LabelRow class="q-pb-sm">
-          <q-toggle v-model="editedItem.numbers" label="Wersety z numerami"></q-toggle>
-          <q-toggle v-model="editedItem.verseNewLine" label="Każdy wersety od nowej linii"></q-toggle>
+          <q-toggle v-model="editedItem.numbers" :label="$t('settingsFormatTemplates.versesWithNumbers')"></q-toggle>
+          <q-toggle v-model="editedItem.verseNewLine" :label="$t('settingsFormatTemplates.newLineForEachVerse')"></q-toggle>
         </LabelRow>
 
         <LabelRow>
-          <div class="col">Znak oddzielający rozdział od wersetów w odnośniku</div>
+          <div class="col">{{ $t('settingsFormatTemplates.separatorChar') }}</div>
           <q-input v-model="editedItem.separatorChar" class="short-input" />
         </LabelRow>
 
         <LabelRow>
-          <div class="col">Znak określający przedział wersetów od - do</div>
+          <div class="col">{{ $t('settingsFormatTemplates.rangeChar') }}</div>
           <q-input v-model="editedItem.rangeChar" class="short-input" />
         </LabelRow>
 
         <LabelRow>
-          <div class="chars-around-label">Znaki wokół odnośnika</div>
-          <div class="chars before">przed</div>
+          <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundReference') }}</div>
+          <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
           <q-input v-model="editedItem.referenceCharsBefore" class="short-input" />
-          <div class="chars after">po</div>
+          <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
           <q-input v-model="editedItem.referenceCharsAfter" class="short-input" />
         </LabelRow>
 
         <LabelRow>
-          <div class="chars-around-label">Znaki wokół treści cytatu</div>
-          <div class="chars before">przed</div>
+          <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundQuote') }}</div>
+          <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
           <q-input v-model="editedItem.quoteCharsBefore" class="short-input" />
-          <div class="chars after">po</div>
+          <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
           <q-input v-model="editedItem.quoteCharsAfter" class="short-input" />
         </LabelRow>
 
         <LabelRow>
-          <div class="chars-around-label">Znaki wokół numeru wersetu</div>
-          <div class="chars before">przed</div>
+          <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundVerseNumber') }}</div>
+          <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
           <q-input v-model="editedItem.verseNumberCharsBefore" class="short-input" />
-          <div class="chars after">po</div>
+          <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
           <q-input v-model="editedItem.verseNumberCharsAfter" class="short-input" />
         </LabelRow>
 
         <LabelRow>
-          <div class="chars-around-label">Znaki wokół skrótu przekładu</div>
-          <div class="chars before">przed</div>
+          <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundTranslationAbbreviation') }}</div>
+          <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
           <q-input v-model="editedItem.translationAbbreviationCharsBefore" class="short-input" />
-          <div class="chars after">po</div>
+          <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
           <q-input v-model="editedItem.translationAbbreviationCharsAfter" class="short-input" />
         </LabelRow>
 
-        <div>Przykład użycia powyższych reguł formatowania</div>
+        <div>{{ $t('settingsFormatTemplates.example') }}</div>
         <pre v-html="formatted" class="default-font-family border q-py-sm q-px-md q-mt-sm"
           style="background-color: var(--q-background-10); white-space:pre-wrap"></pre>
 
@@ -117,13 +117,13 @@
 
             <q-btn type="submit" color="primary">
               <q-icon left name="icon-mat-check" />
-              <div>Zapisz</div>
+              <div>{{ $t('settingsFormatTemplates.saveButton') }}</div>
             </q-btn>
 
             <!-- Cancel button -->
             <q-btn outline color="primary" @click="reset">
               <q-icon left name="icon-mat-undo" />
-              <div>Anuluj</div>
+              <div>{{ $t('settingsFormatTemplates.cancelButton') }}</div>
             </q-btn>
 
             <!-- <q-btn outline color="primary" @click="selected = ''">
@@ -134,7 +134,7 @@
 
             <q-btn outline color="red-4" :disabled="!!removeTooltip" @click="remove">
               <q-icon left name="delete" />
-              <div>Usuń</div>
+              <div>{{ $t('settingsFormatTemplates.removeButton') }}</div>
               <q-tooltip v-if="!!removeTooltip">{{ removeTooltip }}</q-tooltip>
             </q-btn>
 
@@ -157,6 +157,8 @@ import { useSettingsStore } from 'stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
 import LabelRow from './LabelRow.vue'
 import { formatSample } from 'src/logic/format'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 
 const store = useSettingsStore()
@@ -223,15 +225,15 @@ const removeTooltip = computed(() => {
     }
     if (!!foundTemplateName) break
   }
-  return !!foundTemplateName ? `Usunięcie niemożliwe z powodu użycia tego szablonu w szablonie kopiowania "${foundTemplateName}" dla języka ${foundLang}` : ''
+  return !!foundTemplateName ? `${t('settingsFormatTemplates.removeTooltip')} "${foundTemplateName}" ${t('settingsFormatTemplates.forLanguage')} ${foundLang}` : ''
 })
 
 function remove() {
   Dialog.create({
-    title: 'Usuwanie',
-    message: `Czy na pewno chcesz usunąć szablon "${selected.value}"?`,
-    ok: 'Tak',
-    cancel: 'Nie',
+    title: t('settingsFormatTemplates.removeDialogTitle'),
+    message: `${t('settingsFormatTemplates.removeDialogMessage')} "${selected.value}"?`,
+    ok: t('settingsFormatTemplates.yes'),
+    cancel: t('settingsFormatTemplates.no'),
   }).onOk(() => {
     const i = items.findIndex(it => it.name === selected.value)
     if (i !== -1) items.splice(i, 1)
@@ -254,9 +256,9 @@ const formatted = computed(() => formatSample(editedItem.value))
 
 function validateName(v: string) {
   return v.length === 0
-    ? 'Nazwa nie może być pusta'
+    ? t('settingsFormatTemplates.nameCannotBeEmpty')
     : items.find((it, i) => it.name === v && i !== selectedIndex.value)
-      ? 'Taka nazwa już występuje'
+      ? t('settingsFormatTemplates.nameAlreadyExists')
       : true
 }
 

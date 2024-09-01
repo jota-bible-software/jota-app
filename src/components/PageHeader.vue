@@ -3,7 +3,7 @@
   <q-toolbar v-if="!isMainRoute" class="q-pa-none">
     <!-- Come back button -->
     <q-btn flat icon="icon-mat-arrow_back_ios" to="/" class="print-hide">
-      <q-tooltip> Powrót do strony głównej </q-tooltip>
+      <q-tooltip> {{ $t('pageHeader.backToHome') }} </q-tooltip>
     </q-btn>
     <q-toolbar-title class="text-primary page-title"> {{ pageTitle }} </q-toolbar-title>
   </q-toolbar>
@@ -12,15 +12,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 
 const route = useRoute()
 const isMainRoute = computed(() => route.path === '/')
 
 const pageTitle = computed(() => {
-  const title = route.meta.title
+  const title = route.meta.title as string
   const prefix = 'Jota' + (title ? ' - ' : '')
-  return prefix + (title || '')
+  return prefix + (title ? t(title) : '')
 })
 
 </script>
