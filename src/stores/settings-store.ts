@@ -1,6 +1,6 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useStorage } from '@vueuse/core'
-import { getLanguageFromNavigator, LOCAL_STORAGE_KEY } from 'src/util'
+import { getDefaultLocale, getLanguageFromNavigator, LOCAL_STORAGE_KEY } from 'src/util'
 import { Ref, computed, ref } from 'vue'
 import { bookNamings, translations, formatTemplates, copyTemplates } from 'src/logic/data'
 import { LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey, SettingsPersistType } from 'src/types'
@@ -13,6 +13,7 @@ function getDefaultTranslation(): TranslationKey {
 const initialPersistValue: SettingsPersistType = {
   version: '1',
   appearance: {
+    locale: getDefaultLocale(),
     defaultLang: getLanguageFromNavigator(),
     fontSize: 16,
     screenMode: 'dark' as ScreenMode,

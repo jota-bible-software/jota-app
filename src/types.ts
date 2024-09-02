@@ -31,6 +31,7 @@ export type FormatTemplateData = {
 }
 
 export type LanguageSymbol = 'en' | 'pl'
+export type LocaleSymbol = 'en-US' | 'pl-PL' | 'es-ES' | 'pt-PT' | 'uk-UA'
 
 export type Passage = [number, number, number?, number?]
 
@@ -57,7 +58,7 @@ export type SettingsPersistType = {
   [key: string]: any
   version: string
   appearance: {
-    currentLang: LanguageSymbol
+    locale: LocaleSymbol
     defaultLang: LanguageSymbol
     fontSize: number
     screenMode: ScreenMode

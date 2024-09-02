@@ -198,14 +198,13 @@ export default {
     yes: 'Yes'
   },
   settingsGeneral: {
-    defaultLanguage: 'Default language',
+    locale: 'Language', // Changed from Default language
     defaultSearchResultLayout: 'Default search result layout',
     defaultTranslation: 'Default translation',
     formatted: 'Formatted',
     referencePickerOnStart: 'Show book/chapter selector on start page',
     split: 'Split',
-    title: 'General settings',
-    language: 'Language' // Updated translation
+    title: 'General settings'
   },
   settingsPage: {
     appearance: 'Appearance',

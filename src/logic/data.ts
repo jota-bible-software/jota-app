@@ -1,4 +1,4 @@
-import { CopyTemplateData, FormatTemplateData, LanguageSymbol, TranslationContent, TranslationMeta } from 'src/types'
+import { CopyTemplateData, FormatTemplateData, LanguageSymbol, LocaleSymbol, TranslationContent, TranslationMeta } from 'src/types'
 
 export const languageData: Array<{ symbol: LanguageSymbol, name: string }> = [
   {
@@ -9,6 +9,34 @@ export const languageData: Array<{ symbol: LanguageSymbol, name: string }> = [
     symbol: 'pl',
     name: 'Polski'
   },
+]
+
+export const localeData: Array<{ symbol: LocaleSymbol, langName: string, regionName: string }> = [
+  {
+    symbol: 'en-US',
+    langName: 'English',
+    regionName: 'United States'
+  },
+  {
+    symbol: 'es-ES',
+    langName: 'Español',
+    regionName: 'España'
+  },
+  {
+    symbol: 'pl-PL',
+    langName: 'Polski',
+    regionName: 'Polska'
+  },
+  {
+    symbol: 'pt-PT',
+    langName: 'Português',
+    regionName: 'Portugal'
+  },
+  {
+    symbol: 'uk-UA',
+    langName: 'Українська',
+    regionName: 'Україна'
+  }
 ]
 
 export const bookNamings = [

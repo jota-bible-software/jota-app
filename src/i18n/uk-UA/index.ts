@@ -72,7 +72,7 @@ export default {
     notConfiguredFor: 'не налаштовано для',
     notFound: 'Нічого не знайдено :-(',
     playAudio: 'Відтворити розділ в аудіоверсії',
-    previousChapter: 'Попе��едній розділ',
+    previousChapter: 'Попередній розділ',
     searching: 'Пошук...',
     sortAndDeduplicate: 'Сортувати та видалити дублікати'
   },
@@ -106,7 +106,7 @@ export default {
     autoMode: 'Автоматичний режим',
     darkMode: 'Темний режим',
     lightMode: 'Світлий режим',
-    screenMode: '��ежим екрану'
+    screenMode: 'Режим екрану'
   },
   settingsAppearance: {
     bibleTextExample: 'Приклад тексту Біблії',
@@ -131,7 +131,7 @@ export default {
     nameCannotBeEmpty: 'Назва не може бути порожньою',
     removeButton: 'Видалити',
     removeTooltipAppBookNaming: 'Неможливо видалити найменування, яке використовується на екрані додатку',
-    removeTooltipCopyTemplate: 'Неможливо видалити. На��менування використовується в шаблоні копіювання "{templateName}" для мови {lang}',
+    removeTooltipCopyTemplate: 'Неможливо видалити. Найменування використовується в шаблоні копіювання "{templateName}" для мови {lang}',
     saveButton: 'Зберегти',
     standardName: 'Стандартна назва',
     title: 'Найменування біблійних книг',
@@ -142,7 +142,7 @@ export default {
     bookNaming: 'Найменування книг',
     cancelButton: 'Скасувати',
     defaultTemplate: 'Шаблон за замовчуванням',
-    defaultTemplateTooltip: 'Нможливо видалити шаблон за замовчуванням',
+    defaultTemplateTooltip: 'Неможливо видалити шаблон за замовчуванням',
     editTemplate: 'Редагувати шаблон',
     error: 'Помилка',
     formatTemplate: 'Шаблон форматування',
@@ -154,7 +154,7 @@ export default {
     removeConfirm: 'Ви впевнені, що хочете видалити шаблон',
     removeTitle: 'Видалити шаблон',
     saveButton: 'Зберегти',
-    templateDescription: 'Виберіть шаблон форматування та ��айменування книг для кожної мови:',
+    templateDescription: 'Виберіть шаблон форматування та найменування книг для кожної мови:',
     templateName: 'Назва шаблону',
     title: 'Шаблони копіювання',
     yes: 'Так'
@@ -168,10 +168,10 @@ export default {
     charsAfter: 'після',
     charsBefore: 'перед',
     charsAroundQuote: 'Символи навколо цитати',
-    charsAroundReference: 'Символи навколо оиання',
+    charsAroundReference: 'Символи навколо посилання',
     charsAroundTranslationAbbreviation: 'Символи навколо скорочення перекладу',
     charsAroundVerseNumber: 'Символи навколо номера вірша',
-    editTitle: 'Редаувати шаблон',
+    editTitle: 'Редагувати шаблон',
     example: 'Приклад форматованого уривку',
     forLanguage: 'для мови',
     lowercase: 'Малі літери',
@@ -198,14 +198,13 @@ export default {
     yes: 'Так'
   },
   settingsGeneral: {
-    defaultLanguage: 'Мова за замовчуванням',
+    locale: 'Мова', // Changed from Мова за замовчуванням
     defaultSearchResultLayout: 'Макет результатів пошуку за замовчуванням',
     defaultTranslation: 'Переклад за замовчуванням',
     formatted: 'Форматований',
-    referencePickerOnStart: 'Показувати вибір книги/роділу на початк��вій сторінці',
+    referencePickerOnStart: 'Показувати вибір книги/роділу на початковій сторінці',
     split: 'Розділений',
-    title: 'Загальні налаштування',
-    language: 'Мова' // Updated translation
+    title: 'Загальні налаштування'
   },
   settingsPage: {
     appearance: 'Зовнішній вигляд',

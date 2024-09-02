@@ -198,14 +198,13 @@ export default {
     yes: 'Tak'
   },
   settingsGeneral: {
-    defaultLanguage: 'Domyślny język',
+    locale: 'Język', // Changed from Domyślny język
     defaultSearchResultLayout: 'Domyślny układ wyników wyszukiwania',
     defaultTranslation: 'Domyślny przekład',
     formatted: 'Sformatowany',
     referencePickerOnStart: 'Pokaż selektor księgi/rozdziału na stronie startowej',
     split: 'Podzielony',
-    title: 'Ustawienia ogólne',
-    language: 'Język' // Updated translation
+    title: 'Ustawienia ogólne'
   },
   settingsPage: {
     appearance: 'Wygląd',
