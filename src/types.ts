@@ -1,4 +1,6 @@
-export type BookNamesStandardData = { lang: string, name: string, books: string[] }
+import { ShallowRef } from "vue"
+
+export type BookNaming = { lang: string, name: string, books: string[] }
 
 export type CopyTemplateData = {
   name: string,
@@ -52,36 +54,33 @@ export type ScreenMode = 'dark' | 'light' | 'auto'
 export type SearchOptions = { apocrypha?: boolean, shouldSort?: boolean, words?: boolean }
 
 export type SettingsPersistType = {
-  [key: string]: unknown
+  [key: string]: any
   version: string
   appearance: {
+    currentLang: LanguageSymbol
     defaultLang: LanguageSymbol
     fontSize: number
     screenMode: ScreenMode
     primaryColor: string
   }
-  languageSettings: {
-    en: {
-      appBookNaming: string
-      bookNamings: { lang: string; name: string; books: string[] }[]
-      selectedTranslations: string[]
-    }
-    pl: {
-      appBookNaming: string
-      bookNamings: { lang: string; name: string; books: string[] }[]
-      selectedTranslations: string[]
-    }
-  }
+  languageSettings: Record<LanguageSymbol, LanguageSettings>
   formatTemplates: FormatTemplateData[]
   copyTemplates: CopyTemplateData[]
   appFormatTemplate: string
   defaultCopyTemplate: string
   defaultSearchResultLayout: PassageListLayout
   defaultTranslation: TranslationKey
-  referencePickerOnStart: boolean;
+  referencePickerOnStart: boolean
 }
 
-export type Translation = TranslationMeta & { selected: boolean, stored: boolean, content?: TranslationContent }
+export type LanguageSettings = {
+  appBookNaming: string
+  bookNamings: BookNaming[]
+  selectedTranslations: string[]
+  defaultTranslation: TranslationKey
+}
+
+export type Translation = TranslationMeta & { selected: boolean, stored: boolean, content?: ShallowRef<TranslationContent> }
 
 export type TranslationContent = string[][][]
 

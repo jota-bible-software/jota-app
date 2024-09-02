@@ -73,9 +73,9 @@
             const bookCount = val.split(',').length
             return bookCount === 73 || $t('settingsBookNames.bookCountError', {
               count: bookCount,
-              books: bookCount === 1 ? $t('settingsBookNames.book') : 
-                     bookCount < 5 ? $t('settingsBookNames.books2to4') : 
-                     $t('settingsBookNames.books5plus')
+              books: bookCount === 1 ? $t('settingsBookNames.book') :
+                bookCount < 5 ? $t('settingsBookNames.books2to4') :
+                  $t('settingsBookNames.books5plus')
             })
           }
         ]" />
@@ -98,13 +98,13 @@ import { supportedLanguageSymbols } from 'src/logic/data'
 import { useSettingsStore } from 'stores/settings-store'
 import FormContainer from './FormContainer.vue'
 import SettingsPanel from './SettingsPanel.vue'
-import { BookNamesStandardData } from 'src/types'
+import { BookNaming } from 'src/types'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const store = useSettingsStore()
 
-const bookNamings: ComputedRef<BookNamesStandardData[]> = computed(() =>
+const bookNamings: ComputedRef<BookNaming[]> = computed(() =>
   store.persist.languageSettings[store.lang].bookNamings.toSorted(
     (a, b) => a.name.localeCompare(b.name, store.lang, { sensitivity: 'base', ignorePunctuation: true })))
 
@@ -120,16 +120,16 @@ const names = computed(() => bookNamings.value.map(it => it.name))
 const selected = ref('')
 
 
-const emptyItem: BookNamesStandardData = { lang: store.lang, name: '', books: [] as string[] }
+const emptyItem: BookNaming = { lang: store.lang, name: '', books: [] as string[] }
 const editedBooksText = ref('')
-const editedItem = ref<BookNamesStandardData>({ ...emptyItem })
-function edit(item: BookNamesStandardData) {
+const editedItem = ref<BookNaming>({ ...emptyItem })
+function edit(item: BookNaming) {
   selected.value = item.name
   editedItem.value = { ...item }
   editedBooksText.value = item.books.join(', ')
 }
 
-function save(item: BookNamesStandardData) {
+function save(item: BookNaming) {
   console.log('save ' + JSON.stringify(item))
   editedItem.value.books = editedBooksText.value.split(',').map(it => it.trim())
   Object.assign(item, editedItem.value)
@@ -164,7 +164,7 @@ function remove() {
   selected.value = ''
 }
 
-const newItem = ref<BookNamesStandardData>({ ...emptyItem })
+const newItem = ref<BookNaming>({ ...emptyItem })
 const newBooksText = ref('')
 function add() {
   newItem.value.books = newBooksText.value.split(',').map(it => it.trim())

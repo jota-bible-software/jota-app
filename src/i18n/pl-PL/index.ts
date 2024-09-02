@@ -204,7 +204,8 @@ export default {
     formatted: 'Sformatowany',
     referencePickerOnStart: 'Pokaż selektor księgi/rozdziału na stronie startowej',
     split: 'Podzielony',
-    title: 'Ustawienia ogólne'
+    title: 'Ustawienia ogólne',
+    language: 'Język' // Updated translation
   },
   settingsPage: {
     appearance: 'Wygląd',

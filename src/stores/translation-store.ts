@@ -11,7 +11,7 @@ export const useTranslationStore = defineStore('translation', () => {
 
   const translations = reactive(translationMeta.map(it => {
     const selected = settings.persist.languageSettings[it.lang].selectedTranslations.includes(it.symbol)
-    return { ...it, selected, stored: false, content: undefined } as Translation
+    return { ...it, selected, stored: false, content: undefined }
   }))
 
   translations.forEach(it => {
@@ -19,7 +19,6 @@ export const useTranslationStore = defineStore('translation', () => {
       fetchTranslationContent(it)
     }
   })
-
 
   function getTranslations(lang: LanguageSymbol): Translation[] {
     return translations.filter(it => it.lang === lang)
@@ -66,9 +65,20 @@ export const useTranslationStore = defineStore('translation', () => {
   // }
 
   function select(item: Translation, selected: boolean) {
-    console.log(item, selected)
-    if (selected) {
-      fetchTranslationContent(item)
+    const items = settings.persist.languageSettings[item.lang].selectedTranslations
+    settings.persist.languageSettings[item.lang].selectedTranslations = selected ? [...items, item.symbol] : items.filter(it => it !== item.symbol)
+
+    // If the toggled item is the default translation and it's being deselected,
+    // we need to update the default translation
+    const currentLang = item.lang
+    const defaultTranslation = settings.persist.languageSettings[currentLang].defaultTranslation
+
+    if (!value && defaultTranslation.symbol === item.symbol) {
+      const newDefault = store.getTranslations(currentLang).find(t => t.selected) || item
+      settings.persist.languageSettings[currentLang].defaultTranslation = {
+        lang: newDefault.lang,
+        symbol: newDefault.symbol
+      }
     }
   }
 

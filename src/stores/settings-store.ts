@@ -23,11 +23,13 @@ const initialPersistValue: SettingsPersistType = {
       appBookNaming: 'SBL abbreviations',
       bookNamings: bookNamings.filter(it => it.lang === 'en'),
       selectedTranslations: ['KJV', 'NIV', 'NLT'],
+      defaultTranslation: { lang: 'en', symbol: 'KJV' },
     },
     pl: {
       appBookNaming: 'Moje pl',
       bookNamings: bookNamings.filter(it => it.lang === 'pl'),
       selectedTranslations: ['UBG', 'EIB', 'BT5', 'BW'],
+      defaultTranslation: { lang: 'pl', symbol: 'UBG' },
     },
   },
   formatTemplates,

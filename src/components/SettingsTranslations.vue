@@ -1,8 +1,5 @@
 <template>
   <SettingsPanel :title="$t('settingsTranslations.title')">
-    <LabelRow :label="$t('settingsTranslations.defaultTranslation')">
-      <BibleSelector v-model="settings.persist.defaultTranslation" />
-    </LabelRow>
     <LabelRow :label="$t('settingsTranslations.allSelected')">
       <span class="text-bold">{{ allSelectedCount }} / {{ allCount }}</span>
     </LabelRow>
@@ -15,7 +12,7 @@
           <q-item-section>
             <div class="row items-center q-gutter-sm">
               <q-toggle :model-value="store.selectionStatus(lang.symbol)"
-                @update:model-value="v => store.selectLang(lang.symbol, v)">
+                @update:model-value="(v: boolean) => store.selectLang(lang.symbol, v)">
                 <q-tooltip>{{ $t('settingsTranslations.selectAll') }} {{ lang.symbol }}</q-tooltip>
               </q-toggle>
               <q-btn flat>
@@ -35,8 +32,15 @@
           </q-item-section>
         </template>
 
+        <!-- New BibleSelector for default translation -->
+        <LabelRow :label="$t('settingsTranslations.defaultTranslation')" class="q-pa-md ">
+          <BibleSelector :model-value="getDefaultTranslation(lang.symbol)"
+            @update:model-value="updateDefaultTranslation(lang.symbol, $event)" :lang="lang.symbol" class="col" />
+        </LabelRow>
+
         <!-- Translations -->
-        <q-list padding dense>
+        <q-list dense class="q-pb-md">
+
 
           <!-- Hint -->
           <!-- <q-item-label class="q-pr-md q-py-sm">
@@ -53,21 +57,19 @@
           <!-- Translation -->
           <q-item v-for="item in store.getTranslations(lang.symbol)" :key="item.symbol" v-ripple class="items-center">
             <q-item-section side top>
-              <q-toggle v-model="item.selected" @update:model-value="v => store.select(item, v)" />
+              <q-toggle v-model="item.selected" @update:model-value="(v: boolean) => handleToggle(item, v)" />
             </q-item-section>
 
             <q-item-section>
               <q-item-label>{{ item.title }}</q-item-label>
-              <q-item-label caption v-if="item.selected && !item.content">
+              <!-- <q-item-label caption v-if="item.selected && !item.content">
                 {{ $t('settingsTranslations.downloading') }}
-              </q-item-label>
+              </q-item-label> -->
             </q-item-section>
 
             <q-item-section side>
               <div class="row items-center q-gutter-md">
                 <span>{{ item.symbol }}</span>
-                <!-- <span class="gt-sx">{{ store.formatMB(item.size) }} MB</span> -->
-                <!-- <q-toggle color="blue" v-model="store.selected" val="battery" dense /> -->
               </div>
             </q-item-section>
           </q-item>
@@ -80,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { supportedLanguageSymbols } from 'src/logic/data'
 import { useTranslationStore } from 'stores/translation-store'
 import { useSettingsStore } from 'src/stores/settings-store'
@@ -89,21 +91,42 @@ import LabelRow from './LabelRow.vue'
 import FlagIcon from './FlagIcon.vue'
 import BibleSelector from './BibleSelector.vue'
 import { useI18n } from 'vue-i18n'
+import { LanguageSymbol, Translation } from 'src/types'
 
 const { t } = useI18n()
 const store = useTranslationStore()
 const settings = useSettingsStore()
 
+
 const allSelectedCount = computed(() => supportedLanguageSymbols.reduce((sum, lang) => sum + store.selectedCount(lang), 0))
 const allCount = store.translations.length
 
-console.log(settings.persist.defaultTranslation)
+function isDefault(item: Translation) {
+  return item.symbol === getDefaultTranslation(item.lang).symbol
+}
 
+function handleToggle(item: Translation, value: boolean) {
+  store.select(item, value)
+}
+
+function getDefaultTranslation(lang: LanguageSymbol) {
+  return settings.persist.languageSettings[lang].defaultTranslation
+}
+
+function updateDefaultTranslation(lang: LanguageSymbol, event: any) {
+  settings.persist.languageSettings[lang].defaultTranslation = event
+  const translations = store.getTranslations(event.lang)
+  if (!settings.persist.languageSettings[lang].selectedTranslations.includes(event.symbol)) {
+    // settings.persist.languageSettings[lang].selectedTranslations.push(event.symbol)
+    const found = translations.find(it => it.symbol === event.symbol)
+    if (found) found.selected = true
+  }
+}
 </script>
 
 <style lang="scss">
 #translations {
-  max-width: 500px;
+  max-width: 550px;
 }
 
 .highlight {

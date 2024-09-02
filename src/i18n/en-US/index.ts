@@ -204,7 +204,8 @@ export default {
     formatted: 'Formatted',
     referencePickerOnStart: 'Show book/chapter selector on start page',
     split: 'Split',
-    title: 'General settings'
+    title: 'General settings',
+    language: 'Language' // Updated translation
   },
   settingsPage: {
     appearance: 'Appearance',
