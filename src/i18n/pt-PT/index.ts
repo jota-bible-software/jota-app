@@ -59,7 +59,7 @@ export default {
   messageLine: {
     chapterLabel: 'Capítulo',
     copiedFoundVerses: 'Versículos encontrados copiados',
-    copiedSelectedVerses: 'Versculos selecionados copiados',
+    copiedSelectedVerses: 'Vers��culos selecionados copiados',
     copyFound: 'Copiar versículos encontrados para a área de transferência',
     copySelected: 'Copiar versículos selecionados para a área de transferência',
     defaultTemplate: 'Modelo padrão',
@@ -198,7 +198,7 @@ export default {
     yes: 'Sim'
   },
   settingsGeneral: {
-    locale: 'Idioma', // Changed from Idioma padrão
+    locale: 'Idioma padrão', // Changed from defaultLanguage
     defaultSearchResultLayout: 'Layout padrão dos resultados de pesquisa',
     defaultTranslation: 'Tradução padrão',
     formatted: 'Formatado',

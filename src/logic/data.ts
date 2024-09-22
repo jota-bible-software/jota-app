@@ -1,4 +1,4 @@
-import { CopyTemplateData, FormatTemplateData, LanguageSymbol, LocaleSymbol, TranslationContent, TranslationMeta } from 'src/types'
+import { CopyTemplateData, FormatTemplateData, LanguageSymbol, LocaleSymbol, EditionContent, EditionMeta } from 'src/types'
 
 export const languageData: Array<{ symbol: LanguageSymbol, name: string }> = [
   {
@@ -1113,20 +1113,20 @@ export const bookOrder = {
   }
 }
 
-const enTranslationContent: TranslationContent = []
+const enTranslationContent: EditionContent = []
 enTranslationContent[42] = [[
   'In the beginning the Word already existed. The Word was with God, and the Word was God.',
   'He existed in the beginning with God.',
   'God created everything through him, and nothing was created except through him.']]
 
-const plTranslationContent: TranslationContent = []
+const plTranslationContent: EditionContent = []
 plTranslationContent[42] = [[
   'Na początku było Słowo, a Słowo było u Boga i Bogiem było Słowo.',
   'Ono było na początku u Boga.',
   'Wszystko przez nie się stało, a bez niego nic się nie stało, co się stało.'
 ]]
 
-export const translationSamples = {
+export const editionSamples = {
   en: enTranslationContent,
   pl: plTranslationContent
 }
@@ -1141,7 +1141,7 @@ The format of translations:
 If 'bookNames' is not specified, then it will be taken from bookNames[lang].default
 */
 
-export const translations: TranslationMeta[] = [
+export const editionsData: EditionMeta[] = [
   {
     lang: 'en',
     title: 'King James Version',
@@ -1195,7 +1195,7 @@ export const translations: TranslationMeta[] = [
   },
 ]
 
-export const translationMeta = translations
+export const translationMeta = editionsData
 
 export const supportedLanguageSymbols: LanguageSymbol[] = ['en', 'pl']
 

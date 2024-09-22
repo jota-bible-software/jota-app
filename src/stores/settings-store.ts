@@ -1,20 +1,18 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useStorage } from '@vueuse/core'
-import { getDefaultLocale, getLanguageFromNavigator, LOCAL_STORAGE_KEY } from 'src/util'
-import { Ref, computed, ref } from 'vue'
-import { bookNamings, translations, formatTemplates, copyTemplates } from 'src/logic/data'
-import { LanguageSymbol, PassageListLayout, ScreenMode, TranslationKey, SettingsPersistType } from 'src/types'
+import { getDefaultLocale, LOCAL_STORAGE_KEY } from 'src/util'
+import { Ref, computed } from 'vue'
+import { bookNamings, editionsData, formatTemplates, copyTemplates } from 'src/logic/data'
+import { LanguageSymbol, PassageListLayout, ScreenMode, SettingsPersistType, LanguageSettings } from 'src/types'
 
-function getDefaultTranslation(): TranslationKey {
-  const isPolish = navigator.language.toLowerCase().startsWith('pl')
-  return isPolish ? { lang: 'pl', symbol: 'UBG' } : { lang: 'en', symbol: 'KJV' }
-}
 
+const locale = getDefaultLocale()
+
+/** this value is persisted in the LocalStorage */
 const initialPersistValue: SettingsPersistType = {
   version: '1',
   appearance: {
-    locale: getDefaultLocale(),
-    defaultLang: getLanguageFromNavigator(),
+    locale,
     fontSize: 16,
     screenMode: 'dark' as ScreenMode,
     primaryColor: '', // Default depends on screen mode
@@ -23,32 +21,31 @@ const initialPersistValue: SettingsPersistType = {
     en: {
       appBookNaming: 'SBL abbreviations',
       bookNamings: bookNamings.filter(it => it.lang === 'en'),
-      selectedTranslations: ['KJV', 'NIV', 'NLT'],
-      defaultTranslation: { lang: 'en', symbol: 'KJV' },
+      selectedEditions: ['KJV', 'NIV', 'NLT'],
+      defaultEdition: 'KJV',
     },
     pl: {
       appBookNaming: 'Moje pl',
       bookNamings: bookNamings.filter(it => it.lang === 'pl'),
-      selectedTranslations: ['UBG', 'EIB', 'BT5', 'BW'],
-      defaultTranslation: { lang: 'pl', symbol: 'UBG' },
-    },
+      selectedEditions: ['EIB', 'BW', 'UBG'],
+      defaultEdition: 'UBG',
+    }
   },
   formatTemplates,
   copyTemplates,
-  appFormatTemplate: 'App format',
+  appFormatTemplateName: 'App format',
   defaultCopyTemplate: 'Studium',
   defaultSearchResultLayout: 'split' as PassageListLayout,
-  defaultTranslation: getDefaultTranslation(),
   referencePickerOnStart: true,
 }
 
 export const useSettingsStore = defineStore('settings', () => {
-  const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', initialPersistValue)
+  const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', initialPersistValue, localStorage, { deep: true })
 
-  const lang: Ref<LanguageSymbol> = ref(persist.value.appearance.defaultLang)
-  const language = computed(() => persist.value.languageSettings[lang.value])
-  const appBookNames = computed(() => language.value.bookNamings.find(it => it.name === language.value.appBookNaming)?.books || [])
-  const appFormatTemplate = computed(() => persist.value.formatTemplates.find(it => it.name === persist.value.appFormatTemplate))
+  const lang: Ref<LanguageSymbol> = computed(() => persist.value.appearance.locale.split('-')[0] as LanguageSymbol)
+  const languageSettings: Ref<LanguageSettings> = computed(() => persist.value.languageSettings[lang.value])
+  const appBookNames = computed(() => languageSettings.value.bookNamings.find(it => it.name === languageSettings.value.appBookNaming)?.books || [])
+  const appFormatTemplate = computed(() => persist.value.formatTemplates.find(it => it.name === persist.value.appFormatTemplateName))
 
   // Computed
 
@@ -59,7 +56,7 @@ export const useSettingsStore = defineStore('settings', () => {
     .sort((a, b) => a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })))
 
 
-  const localeTranslations = computed(() => translations.filter(it => it.lang === lang.value).map(it => it.symbol).sort())
+  const localeTranslations = computed(() => editionsData.filter(it => it.lang === lang.value).map(it => it.symbol).sort())
 
   function nameSorter(a: { name: string }, b: { name: string }) {
     return a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })
@@ -71,8 +68,14 @@ export const useSettingsStore = defineStore('settings', () => {
     }
   }
 
-  return { appBookNames, appFormatTemplate, bookNamingList, lang, localeTranslations, nameSorter, persist, reset }
+  return {
+    appBookNames, appFormatTemplate, bookNamingList, lang, localeTranslations,
+    /** Contains settings for the language in the currently selected locale (settings.persist.appearance.locale) */
+    languageSettings,
+    nameSorter, persist, reset
+  }
 })
+
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useSettingsStore, import.meta.hot))

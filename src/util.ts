@@ -1,4 +1,4 @@
-import { LanguageSymbol } from './types'
+import { LanguageSymbol, LocaleSymbol } from './types'
 import { languageData } from './logic/data'
 import locales from './i18n'
 
@@ -101,13 +101,19 @@ export function errorMessage(prefix: string, ex: unknown): string {
   return `${prefix} ${message}`
 }
 
-export function getLanguageFromNavigator(): LanguageSymbol {
-  const navigatorLanguage = navigator.language.split('-')[0].toLowerCase()
-  const supported = languageData.some(lang => lang.symbol === navigatorLanguage)
-  return (supported ? navigatorLanguage : 'en') as LanguageSymbol
+export function getDefaultLocale(): LocaleSymbol {
+  return (Object.keys(locales).find(l => l.startsWith(navigator.language)) || 'en-US') as LocaleSymbol
 }
 
-export function getDefaultLocale(): string {
-  const navigatorLanguage = navigator.language
-  return Object.keys(locales).find(loc => loc.startsWith(navigatorLanguage)) || 'en-US'
+export function convertObject<T extends object, M extends object>(
+  obj: T,
+  protoMethods: M
+): T & M {
+  const newObj = Object.create(protoMethods) as T & M
+  Object.assign(newObj, obj)
+  return newObj
+}
+
+export function nativeLanguageName(lang: LanguageSymbol): string {
+  return languageData.find(it => it.symbol === lang)?.name || lang
 }

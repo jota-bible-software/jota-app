@@ -4,7 +4,7 @@
     <!-- List of items -->
     <div class="col">
       <LabelRow :label="$t('settingsFormatTemplates.appDisplay')">
-        <q-select v-model="store.persist.appFormatTemplate" :options="templates" option-label="name" />
+        <q-select v-model="store.persist.appFormatTemplateName" :options="templates" option-label="name" />
       </LabelRow>
 
       <div class="row q-mt-md">
@@ -45,8 +45,10 @@
 
         <div>{{ $t('settingsFormatTemplates.referencePosition') }}</div>
         <LabelRow>
-          <q-radio v-model="editedItem.referencePosition" val="before" :label="$t('settingsFormatTemplates.beforeContent')" />
-          <q-radio v-model="editedItem.referencePosition" val="after" :label="$t('settingsFormatTemplates.afterContent')" />
+          <q-radio v-model="editedItem.referencePosition" val="before"
+            :label="$t('settingsFormatTemplates.beforeContent')" />
+          <q-radio v-model="editedItem.referencePosition" val="after"
+            :label="$t('settingsFormatTemplates.afterContent')" />
         </LabelRow>
         <LabelRow>
           <q-radio v-model="editedItem.referenceLine" val="same line" :label="$t('settingsFormatTemplates.sameLine')" />
@@ -55,14 +57,18 @@
 
         <!-- <div>Skrótu przekładu</div> -->
         <LabelRow :label="$t('settingsFormatTemplates.translationAbbreviation')" class="q-py-sm">
-          <q-radio v-model="editedItem.translationAbbreviation" val="none" :label="$t('settingsFormatTemplates.none')" />
-          <q-radio v-model="editedItem.translationAbbreviation" val="lowercase" :label="$t('settingsFormatTemplates.lowercase')" />
-          <q-radio v-model="editedItem.translationAbbreviation" val="uppercase" :label="$t('settingsFormatTemplates.uppercase')" />
+          <q-radio v-model="editedItem.translationAbbreviation" val="none"
+            :label="$t('settingsFormatTemplates.none')" />
+          <q-radio v-model="editedItem.translationAbbreviation" val="lowercase"
+            :label="$t('settingsFormatTemplates.lowercase')" />
+          <q-radio v-model="editedItem.translationAbbreviation" val="uppercase"
+            :label="$t('settingsFormatTemplates.uppercase')" />
         </LabelRow>
 
         <LabelRow class="q-pb-sm">
           <q-toggle v-model="editedItem.numbers" :label="$t('settingsFormatTemplates.versesWithNumbers')"></q-toggle>
-          <q-toggle v-model="editedItem.verseNewLine" :label="$t('settingsFormatTemplates.newLineForEachVerse')"></q-toggle>
+          <q-toggle v-model="editedItem.verseNewLine"
+            :label="$t('settingsFormatTemplates.newLineForEachVerse')"></q-toggle>
         </LabelRow>
 
         <LabelRow>

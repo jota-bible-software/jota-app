@@ -1,9 +1,9 @@
-import { FormatTemplateData, Formatted, Passage, TranslationContent } from 'src/types'
+import { FormatTemplateData, Formatted, Passage, EditionContent } from 'src/types'
 
 /**
  * Returns a structure that holds the reference separately from the verses content.
  */
-export function formatComposable(template: FormatTemplateData, passage: Passage, translationContent: TranslationContent, bookNames: string[], translationAbbreviation: string): Formatted | undefined {
+export function formatComposable(template: FormatTemplateData, passage: Passage, translationContent: EditionContent, bookNames: string[], translationAbbreviation: string): Formatted | undefined {
   // All the variables used in the template must declared as loca variables here
   const t = template
   const [bi, ci, si, ei] = passage
@@ -44,7 +44,7 @@ export function formatComposable(template: FormatTemplateData, passage: Passage,
   return { reference, separator, content, referenceFirst }
 }
 
-export function format(template: FormatTemplateData, passage: Passage, translationContent: TranslationContent, bookNames: string[], translationAbbreviation: string): string {
+export function format(template: FormatTemplateData, passage: Passage, translationContent: EditionContent, bookNames: string[], translationAbbreviation: string): string {
   const format2Result = formatComposable(template, passage, translationContent, bookNames, translationAbbreviation)
   if (!format2Result) return ''
   const { reference, separator, content, referenceFirst } = format2Result

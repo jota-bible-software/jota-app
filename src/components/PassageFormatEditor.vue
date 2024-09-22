@@ -53,7 +53,7 @@
 import { computed, reactive } from 'vue'
 import BookNamesEditor from './BookNamesEditor.vue'
 import { usePassageFormat } from 'src/composables/usePassageFormat'
-import { translationSamples } from 'src/logic/data'
+import { editionSamples } from 'src/logic/data'
 import { useSettingsStore } from 'src/stores/settings-store'
 
 const props = defineProps(['modelValue', 'label'])
@@ -69,11 +69,11 @@ const editor = reactive({ ...props.modelValue })
 
 const format_1Html = computed(() => {
   const formatter = usePassageFormat(editor)
-  return formatter.format([42, 0, 0], translationSamples[store.lang]).replace(/\n/g, '<br/>')
+  return formatter.format([42, 0, 0], editionSamples[store.lang]).replace(/\n/g, '<br/>')
 })
 const format_2Html = computed(() => {
   const formatter = usePassageFormat(editor)
-  return formatter.format([42, 0, 0, 2], translationSamples[store.lang]).replace(/\n/g, '<br/>')
+  return formatter.format([42, 0, 0, 2], editionSamples[store.lang]).replace(/\n/g, '<br/>')
 })
 
 </script>

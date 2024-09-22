@@ -39,9 +39,7 @@
 
 <script setup lang="ts">
 import { useSettingsStore } from 'src/stores/settings-store'
-import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
 const store = useSettingsStore()
 </script>
 

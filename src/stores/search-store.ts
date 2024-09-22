@@ -1,18 +1,18 @@
 import { defineStore } from 'pinia'
-import { CopyTemplateData, Passage, PassageListLayout, Progress, SearchOptions, TranslationContent } from 'src/types'
+import { CopyTemplateData, Passage, PassageListLayout, Progress, SearchOptions, EditionContent } from 'src/types'
 import { jota } from 'src/logic/jota'
 import { format, formatSample } from 'src/logic/format'
 import { useSettingsStore } from './settings-store'
-import { useTranslationStore } from './translation-store'
+import { useEditionStore } from './edition-store'
 import { Direction, errorMessage } from 'src/util'
 
 export const useSearchStore = defineStore('search', () => {
   const settings = useSettingsStore()
-  const translations = useTranslationStore()
+  const editions = useEditionStore()
 
   const audioOn = ref(false)
   const chapterFragment: Ref<Passage> = ref([0, 0, 0, 0])
-  const currentTranslation = ref(settings.persist.defaultTranslation)
+  const editionContent = computed(() => editions.currentContent)
   const error = ref('')
   const fragments: Ref<readonly Passage[]> = ref([])
   const fragmentIndex = ref(-1)
@@ -33,18 +33,14 @@ export const useSearchStore = defineStore('search', () => {
 
   const books = computed(() => settings.appBookNames)
   const chapterCaption = computed(() => jota.chapterCaption(chapterFragment.value, books.value))
-  const chapterVerses = computed(() =>
-    translation.value?.content ? jota.chapterVerses(translation.value?.content, chapterFragment.value) : [])
+  const chapterVerses = computed(() => editionContent.value ? jota.chapterVerses(editionContent.value, chapterFragment.value) : [])
   const found = computed(() => !!fragments.value.length)
   const hasSelection = computed(() => chapterFragment.value && chapterFragment.value[2] != null)
-  const loading = computed(() => !translation.value?.content)
+  const loading = computed(() => !editions.currentContent)
   const passages = computed(() =>
     fragments.value.map((osisRef) => jota.formatReference(osisRef, books.value, separator.value)))
-  const translation = computed(() => translations.getTranslation(currentTranslation.value))
-  const translationContent = computed(() => translations.getTranslation(currentTranslation.value)?.content)
-  const shouldSortTooltip = computed(() => (shouldSort.value ? 'Wy' : 'W') + 'łącz sortowanie i usuwanie duplikatów wśród wyszukanych fragmentów')
 
-  // Mutations
+  const shouldSortTooltip = computed(() => (shouldSort.value ? 'Wy' : 'W') + 'łącz sortowanie i usuwanie duplikatów wśród wyszukanych fragmentów')
 
   function setFragments(payload: Passage[]) {
     fragments.value = payload
@@ -95,7 +91,7 @@ export const useSearchStore = defineStore('search', () => {
   // actions
 
   async function goToAdjacentVerse(direction: Direction) {
-    if (!translationContent.value) return
+    if (!editionContent.value) return
     const [bible, chapter, start, end] = chapterFragment.value
     const s = direction === Direction.Prev ? Math.max(0, (start ?? 0) - 1) :
       direction === Direction.Next ? Math.min(chapterVerses.value.length - 1, (end ?? 0) + 1) : start
@@ -103,8 +99,8 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   async function goToAdjacentChapter(direction: Direction) {
-    if (!translationContent.value) return
-    const adjacent = jota.adjacentChapter(translationContent.value, chapterFragment.value, direction) as Passage | undefined
+    if (!editionContent.value) return
+    const adjacent = jota.adjacentChapter(editionContent.value, chapterFragment.value, direction) as Passage | undefined
     if (adjacent) {
       const [b, c] = adjacent
       setChapterFragment([b, c, 0, 0])
@@ -112,8 +108,8 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   async function goToAdjacentPage(direction: Direction) {
-    if (!translationContent.value) return
-    const adjacent = jota.adjacentChapter(translationContent.value, chapterFragment.value, direction) as Passage | undefined
+    if (!editionContent.value) return
+    const adjacent = jota.adjacentChapter(editionContent.value, chapterFragment.value, direction) as Passage | undefined
     if (adjacent) {
       const [b, c] = adjacent
       setChapterFragment([b, c, 0, 0])
@@ -129,10 +125,10 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   async function findByInput(input: string, options: SearchOptions) {
-    if (!translationContent.value) return
+    if (!editionContent.value) return
     const t0 = Date.now()
-    const bible = translationContent.value
-    const translationSymbol = translation.value?.symbol
+    const bible = editionContent.value
+    const editionSymbol = editions.currentEdition?.symbol
     const text = input.replace(/\n/g, '#')
     if (!text) {
       clearSearch()
@@ -144,10 +140,10 @@ export const useSearchStore = defineStore('search', () => {
     const beforeFragmentCount = fragments.value.length
     const progressRunner: Progress = {
       step: (value) => {
-        progress.value = value / (translation.value?.content?.length || 1)
+        progress.value = value / (editionContent.value?.length || 1)
       }
     }
-    Object.assign(options, { words: words.value, shouldSort: shouldSort.value, translationSymbol })
+    Object.assign(options, { words: words.value, shouldSort: shouldSort.value, editionSymbol })
     progress.value = 0.1
     error.value = ''
     try {
@@ -183,16 +179,16 @@ export const useSearchStore = defineStore('search', () => {
 
   function formatFound(copyTemplate?: CopyTemplateData): string | Error {
     const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
-    const content = translation.value?.content
+
     if (!tpl) return new Error('Nie znaleziono żadnego szablonu kopiowania')
-    if (!content) return new Error('Treść tłumaczenia nie została załadowana')
+    if (!editionContent.value) return new Error('Treść tłumaczenia nie została załadowana')
     if (fragments.value.length === 0) return new Error('Nie znaleziono żadnych fragmentów')
 
     try {
       return fragments.value.reduce((acc, cur) => {
-        const formatted = formatPassage(cur, tpl, content)
+        const formatted = formatPassage(cur, tpl, editionContent.value as EditionContent)
         return formatted ? acc + '\n\n' + formatted : ''
-      })
+      }, '')
     } catch (error) {
       return new Error(errorMessage('Błąd podczas formatowania:', error))
     }
@@ -202,41 +198,41 @@ export const useSearchStore = defineStore('search', () => {
     const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
     if (!tpl) return new Error('Nie znaleziono żadnego szablonu kopiowania')
     if (!chapterFragment.value) return new Error('Nie zaznaczono fragmentu')
-    if (!translation.value?.content) return new Error('Treść tłumaczenia nie została załadowana')
-    return formatPassage(chapterFragment.value, tpl, translation.value.content)
+    if (!editionContent.value) return new Error('Treść tłumaczenia nie została załadowana')
+    return formatPassage(chapterFragment.value, tpl, editionContent.value)
   }
 
-  function formatPassage(passage: Passage, tpl: CopyTemplateData, translationContent: TranslationContent) {
-    const lang = currentTranslation.value.lang
+  function formatPassage(passage: Passage, tpl: CopyTemplateData, content: EditionContent) {
+    const lang = editions.currentEdition.lang
     const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.lang[lang].formatTemplate)
     const bookNaming = settings.persist.languageSettings[lang].bookNamings.find(it => it.name === tpl.lang[lang].bookNaming)?.books
-    const abbreviation = currentTranslation.value.symbol
+    const abbreviation = editions.currentEdition.symbol
     if (!formatTemplate || !bookNaming) return ''
-    return format(formatTemplate, passage, translationContent, bookNaming, abbreviation)
+    return format(formatTemplate, passage, content, bookNaming, abbreviation)
   }
 
   function formattedSample(tpl: CopyTemplateData) {
-    const lang = currentTranslation.value.lang
+    const lang = editions.currentEdition.lang
     const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.lang[lang].formatTemplate)
     const bookNaming = settings.persist.languageSettings[lang].bookNamings.find(it => it.name === tpl.lang[lang].bookNaming)?.books
-    const abbreviation = currentTranslation.value.symbol
+    const abbreviation = editions.currentEdition.symbol
     if (!formatTemplate || !bookNaming) return ''
     return formatSample(formatTemplate, bookNaming, abbreviation)
   }
 
   function formattedSearchResults() {
-    const formatted: Array<{ bibleReference: string, symbol: string, content: string }> = []
+    const formatted: Array<{ bibleReference: string, symbol: string, text: string }> = []
     fragments.value.forEach(fragment => {
-      if (!translationContent.value) return ''
-      const verses = jota.verses(translationContent.value, fragment)
+      if (!editionContent.value) return ''
+      const verses = jota.verses(editionContent.value, fragment)
       if (!verses.length) {
         console.warn(`Could not format ${JSON.stringify(fragment)}`)
         return
       }
       const bibleReference = jota.formatReference(fragment, books.value, separator.value)
-      const symbol = translation.value?.symbol.toUpperCase() || ''
-      const content = '"' + highlightSearchTerm(verses.join('\n')) + '"'
-      formatted.push({ bibleReference, symbol, content })
+      const symbol = editions.currentEdition.symbol.toUpperCase() || ''
+      const text = '"' + highlightSearchTerm(verses.join('\n')) + '"'
+      formatted.push({ bibleReference, symbol, text })
     })
     return formatted
   }
@@ -284,7 +280,6 @@ export const useSearchStore = defineStore('search', () => {
     chapterFragment,
     chapterVerses,
     copyTemplates: settings.persist.copyTemplates,
-    currentTranslation,
     error,
     findByInput,
     formatFound,
@@ -312,9 +307,9 @@ export const useSearchStore = defineStore('search', () => {
     searchTerm,
     searchTermHighlightReplacement,
     separator,
+    setFragmentIndex,
     shouldSort,
     shouldSortTooltip,
-    translation,
     words,
     showPicker,
     sortAndDeduplicate,

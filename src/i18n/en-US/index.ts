@@ -198,7 +198,7 @@ export default {
     yes: 'Yes'
   },
   settingsGeneral: {
-    locale: 'Language', // Changed from Default language
+    locale: 'Default language', // Changed from defaultLanguage
     defaultSearchResultLayout: 'Default search result layout',
     defaultTranslation: 'Default translation',
     formatted: 'Formatted',

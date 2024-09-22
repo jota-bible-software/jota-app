@@ -2,11 +2,11 @@
   <q-page id="search" class="q-px-md q-pb-md">
     <MainToolbar />
     <div class="row full-width">
-      <BibleSelector v-model="store.currentTranslation" class="q-mr-md lt-md" />
+      <BibleSelector v-model="editionStore.currentKey" :editions="editionStore.editions" class="q-mr-md lt-md" />
 
       <q-input ref="input" v-model="store.input" :outlined="false"
-        :placeholder="$q.screen.gt.sm ? $t('mainPage.placeholderLong') : $t('mainPage.placeholderShort')"
-        dense style="margin-top: 0" autofocus @keyup.enter="find(store.input)" @keyup.esc="store.input = ''" full-width
+        :placeholder="$q.screen.gt.sm ? $t('mainPage.placeholderLong') : $t('mainPage.placeholderShort')" dense
+        style="margin-top: 0" autofocus @keyup.enter="find(store.input)" @keyup.esc="store.input = ''" full-width
         class="col">
         <template v-slot:append>
           <q-icon v-if="store.input !== ''" name="icon-mat-close" class="cursor-pointer" style="font-size: 0.8em"
@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, onMounted } from 'vue'
+import { nextTick, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { useEventListener } from '@vueuse/core'
 import { useSearchStore } from 'src/stores/search-store'
@@ -78,14 +78,14 @@ import ReferencePicker from 'src/components/ReferencePicker.vue'
 import MessageLine from 'src/components/MessageLine.vue'
 import MainToolbar from 'src/components/MainToolbar.vue'
 import { SearchOptions } from 'src/types'
-import { useI18n } from 'vue-i18n'
+import { useEditionStore } from 'src/stores/edition-store'
 
-const { t } = useI18n()
-const store = useSearchStore()
 const $q = useQuasar()
+const store = useSearchStore()
 const settingsStore = useSettingsStore()
+const editionStore = useEditionStore()
 
-const isFirstRender = ref(true)
+// const isFirstRender = ref(true)
 
 onMounted(() => {
   if (settingsStore.persist.referencePickerOnStart) {

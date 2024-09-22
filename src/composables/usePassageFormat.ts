@@ -1,4 +1,4 @@
-import { Passage, PassageFormat, TranslationContent } from 'src/types'
+import { Passage, PassageFormat, EditionContent } from 'src/types'
 
 type Settings = {
   defaultPassageFormatName: unknown
@@ -44,7 +44,7 @@ class Formatter {
     this.rules = rules
   }
 
-  formatContent(passage: Passage, translationContent: TranslationContent) {
+  formatContent(passage: Passage, translationContent: EditionContent) {
     const { quotes, verseNewLine, numbers } = this.rules
     const [bi, ci, si, ei] = passage
     const chapterContent = translationContent[bi][ci]
@@ -67,7 +67,7 @@ class Formatter {
     return s
   }
 
-  formatReference(passage: Passage, translationContent: TranslationContent) {
+  formatReference(passage: Passage, translationContent: EditionContent) {
     const { bookNames, separatorChar } = this.rules
     const [bi, ci, si, ei] = passage
     const chapterContent = translationContent[bi][ci]
@@ -81,7 +81,7 @@ class Formatter {
   }
 
   /** Formats a reference to a one chapter passage */
-  format(passage: Passage, translationContent: TranslationContent) {
+  format(passage: Passage, translationContent: EditionContent) {
     // ${book} ${chapter}${separator}${start}-${end} "${textWithNumbers}"
     const { bookNames, referencePosition, referenceNewLine, separatorChar, quotes, verseNewLine, numbers } = this.rules
     const [bi, ci, si, ei] = passage

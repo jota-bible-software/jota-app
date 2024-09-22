@@ -95,23 +95,23 @@
       <div class="row q-gutter-sm">
 
         <!-- Save button -->
-        <q-btn type="submit" color="primary">
+        <q-btn color="primary" @click="save">
           <q-icon left name="icon-mat-check" />
           <div>{{ $t('settingsCopyTemplates.saveButton') }}</div>
         </q-btn>
 
         <!-- Cancel button -->
-        <q-btn outline color="primary" @click="reset">
+        <q-btn outline color="primary" @click="back">
           <q-icon left name="icon-mat-undo" />
           <div>{{ $t('settingsCopyTemplates.cancelButton') }}</div>
         </q-btn>
 
         <q-space />
 
-        <q-btn outline color="red-4" @click="remove" :disabled="isDefault">
+        <q-btn outline color="red-4" @click="remove" :disabled="isDefault(editedItem)">
           <q-icon left name="delete" />
           <div>{{ $t('settingsCopyTemplates.removeButton') }}</div>
-          <!-- <q-tooltip v-if="isDefault">{{ $t('settingsCopyTemplates.defaultTemplateTooltip') }}</q-tooltip> -->
+          <q-tooltip v-if="isDefault(editedItem)">{{ $t('settingsCopyTemplates.defaultTemplateTooltip') }}</q-tooltip>
         </q-btn>
 
       </div>
@@ -122,7 +122,7 @@
 
 
 <script setup lang="ts">
-import { ref, toRaw, computed } from 'vue'
+import { ref, toRaw } from 'vue'
 import { CopyTemplateData, LanguageSymbol } from 'src/types'
 import { languageData } from 'src/logic/data'
 import { useSettingsStore } from 'stores/settings-store'
@@ -169,6 +169,10 @@ const selected = ref('')
 const selectedItem = ref(getEmptyItem())
 const isNewItem = ref(false)
 
+function isDefault(item: CopyTemplateData) {
+  return store.persist.defaultCopyTemplate === item.name
+}
+
 const editedItem = ref<CopyTemplateData>(getEmptyItem())
 function edit(item: CopyTemplateData) {
   selected.value = item.name
@@ -194,8 +198,6 @@ function save() {
     return
   }
 
-  const existingItem = items.find(item => item.name === editedItem.value.name)
-
   if (isNewItem.value) {
     items.push(editedItem.value)
     items.sort(store.nameSorter)
@@ -207,7 +209,7 @@ function save() {
   back()
 }
 
-function removeDialog() {
+function remove() {
   Dialog.create({
     title: t('settingsCopyTemplates.removeTitle'),
     message: `${t('settingsCopyTemplates.removeConfirm')} "${selected.value}"?`,

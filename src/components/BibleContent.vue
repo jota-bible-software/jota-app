@@ -4,7 +4,7 @@
       <!-- List of passages -->
       <div id="passages" v-if="passages.length > 1" class="col bottom-clipped q-list">
         <div v-for="(item, index) in passages  " :key="index" clickable tabindex="0"
-          :class="{ highlight: index === fragmentIndex }" @click=" fragmentIndex = index"
+          :class="{ highlight: index === fragmentIndex }" @click="store.setFragmentIndex(index)"
           @keyup.prevent.stop.left="moveFragmentIndex(-1)" @keyup.prevent.stop.right="moveFragmentIndex(1)"
           class="q-item q-item-type row no-wrap compact q-item--clickable q-link cursor-pointer">{{ item }}</div>
       </div>
@@ -15,7 +15,7 @@
     <div id="formatted" class="row q-pb-md" v-if="layout === 'formatted'">
       <div v-for="(item, i) in formattedSearchResults()  " v-bind:key="i" class="formatted-verse">
         <span class="bref" @click="readInContext(i)">{{ item.bibleReference }} {{ item.symbol }}</span>
-        <span v-html="item.content"></span>
+        <span v-html="item.text"></span>
       </div>
     </div>
   </div>
@@ -24,7 +24,6 @@
 <script setup lang="ts">
 import { useSearchStore } from 'src/stores/search-store'
 import { useEventListener } from '@vueuse/core'
-import { Passage } from 'src/types'
 import { bindKeyEvent, Direction } from 'src/util'
 import ChapterContent from './ChapterContent.vue'
 
@@ -32,9 +31,7 @@ const store = useSearchStore()
 const { chapterFragment, fragmentIndex, formattedSearchResults,
   layout, loading, passages, readInContext, scrollToSelection, showPicker } = toRefs(store)
 
-const { goToAdjacentChapter, goToAdjacentVerse, moveFragmentIndex, setChapterFragment } = store
-const chapter = ref(null)
-// const itemRefs = computedArray.from({ length: chapterVerses.value.length }, (_, index) => ref<HTMLElement[] | null>(null))
+const { goToAdjacentChapter, moveFragmentIndex, setChapterFragment } = store
 
 
 useEventListener(document, 'selectionchange', () => {
@@ -55,51 +52,20 @@ useEventListener(document, 'selectionchange', () => {
 })
 
 const keyboardBindings = [
-  bindKeyEvent('ArrowUp', () => goToAdjacentVerse(Direction.Prev)),
-  bindKeyEvent('ArrowDown', () => goToAdjacentVerse(Direction.Next)),
-  bindKeyEvent('PageUp', () => scrollPage(Direction.Prev)),
-  bindKeyEvent('PageDown', () => scrollPage(Direction.Next)),
-  bindKeyEvent('Ctrl+ArrowLeft', () => { goToAdjacentChapter(Direction.Prev) }),
-  bindKeyEvent('Ctrl+ArrowRight', () => { goToAdjacentChapter(Direction.Next) })
+  bindKeyEvent('Ctrl+ArrowLeft', (event) => {
+    event.preventDefault()
+    goToAdjacentChapter(Direction.Prev)
+  }),
+  bindKeyEvent('Ctrl+ArrowRight', (event) => {
+    event.preventDefault()
+    goToAdjacentChapter(Direction.Next)
+  })
 ]
 
 // Keyup does work for Ctrl+ArrowLeft
 useEventListener(document, 'keydown', (event) => {
   keyboardBindings.forEach(binding => binding(event))
-})
-
-
-watch(() => chapterFragment.value, async (passage: Passage) => {
-  if (!chapter.value) return
-  const versesElement = document.getElementById('chapter')
-  if (scrollToSelection.value && versesElement) {
-    await nextTick()
-    const [, , start, end] = passage
-    const s = start ?? 0
-    const e = end ?? start ?? 0
-    const index: number = s + (e - s) / 2
-    const verseElement = versesElement.children[index]
-    // console.log(itemRefs[index])
-    verseElement.scrollIntoView({ block: 'center' })
-  }
-})
-
-function scrollPage(direction: Direction) {
-  if (!chapter.value) return
-  const container = chapter.value.$el
-  const scrollTop = container.scrollTop
-  const containerHeight = container.clientHeight
-
-  let nextScrollTop
-  if (direction === Direction.Next) {
-    const scrollHeight = container.scrollHeight
-    nextScrollTop = Math.min(scrollTop + containerHeight, scrollHeight - containerHeight)
-  } else {
-    nextScrollTop = Math.max(scrollTop - containerHeight, 0)
-  }
-
-  container.scrollTo({ top: nextScrollTop })
-}
+}, true)
 
 </script>
 

@@ -14,7 +14,7 @@
 import { osis as osisBooks } from './books'
 // import { defaultState } from 'src/store/store-settings'
 import { Parser, en, pl } from 'jota-parser'
-import { Passage, Progress, SearchOptions, TranslationContent } from 'src/types'
+import { Passage, Progress, SearchOptions, EditionContent } from 'src/types'
 
 const parser = new Parser({ locales: [pl, en] })
 
@@ -54,7 +54,7 @@ export const jota = {
    * @param {int[]} fragment [bookIndex, chapterIndex, startVerse, endVerse]
    * @param {int} direction +1 or -1
    */
-  adjacentChapter(bible: TranslationContent, fragment: Passage, direction: 1 | -1) {
+  adjacentChapter(bible: EditionContent, fragment: Passage, direction: 1 | -1) {
     const [bi, ci] = fragment
     return direction === -1 ?
       ci === 0 ? bi === 0 ? null : [bi - 1, bible[bi - 1].length - 1] : [bi, ci - 1] :
@@ -82,7 +82,7 @@ export const jota = {
    * @param {int[]} passage [bookIndex, chapterIndex, startVerse, endVerse]
    * @returns Array of verses (strings)
    */
-  chapterVerses(bible: TranslationContent, passage: Passage) {
+  chapterVerses(bible: EditionContent, passage: Passage) {
     if (!passage) return []
     const [book, chapter] = passage
     let content: string[] = []
@@ -105,7 +105,7 @@ export const jota = {
    * @param {string} translation Name of the translation
    * @returns {string} Formatted fragment
    */
-  format(translationContent: TranslationContent, fragment: Passage, template: string, bookNames: string[], separator: string, translation: string) {
+  format(translationContent: EditionContent, fragment: Passage, template: string, bookNames: string[], separator: string, translation: string) {
     // All the variables used in the template must declared as loca variables here
     const [bi, ci, si, ei] = fragment
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
@@ -207,7 +207,7 @@ export const jota = {
    * @param {boolean} shouldSort specifies whether the list should be sorted by indexes of the fragments
    * @returns {[]} Array of fragments (arrays including [bookIndex, chapterIndex, startVerse, endVerse])
    */
-  fragments(translationContent: TranslationContent, osis: string, shouldSort = false) {
+  fragments(translationContent: EditionContent, osis: string, shouldSort = false) {
     if (!osis) return []
     const fragments: Passage[] = []
     osis.split(',').forEach((it: string) => {
@@ -298,7 +298,7 @@ export const jota = {
    * @param {object} progress A an object that would be updated about the progress
    * @returns {[]} Array of fragments (arrays including [bookIndex, chapterIndex, startVerse, endVerse])
    */
-  async search(bible: TranslationContent, text: string, options: SearchOptions, progress: Progress) {
+  async search(bible: EditionContent, text: string, options: SearchOptions, progress: Progress) {
     // If text is a regular expression
     text = text.replace(/[\u202d\u202c]/gm, '') // Those characters happened when copying from iPhone to mac, the source was https://bible.com/bible/138/2sa.24.18-24.UBG
     if (text.startsWith('/')) {
@@ -370,7 +370,7 @@ export const jota = {
    * @param {*} progress
    * @returns
    */
-  async searchContent(regex: RegExp, bible: TranslationContent, progress: Progress) {
+  async searchContent(regex: RegExp, bible: EditionContent, progress: Progress) {
     const found: number[][] = []
     // const re = new RegExp(term, 'ig')
     // set timeout to give time for progress animation to paint itself
@@ -427,7 +427,7 @@ export const jota = {
     }
   },
 
-  verses(bible: TranslationContent, fragment: Passage) {
+  verses(bible: EditionContent, fragment: Passage) {
     const [bi, ci, si, ei] = fragment
     const content = bible[bi][ci]
     if (!content) return []

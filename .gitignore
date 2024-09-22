@@ -37,3 +37,4 @@ yarn-error.log*
 .env.local*
 /private
 src/assets/data
+.aider*

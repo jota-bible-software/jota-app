@@ -23,9 +23,7 @@ import { useSettingsStore } from 'stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
 import LabelRow from './LabelRow.vue'
 import LocaleSelector from './LocaleSelector.vue'
-import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
 const store = useSettingsStore()
 
 

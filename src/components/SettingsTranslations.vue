@@ -1,25 +1,28 @@
 <template>
   <SettingsPanel :title="$t('settingsTranslations.title')">
     <LabelRow :label="$t('settingsTranslations.allSelected')">
-      <span class="text-bold">{{ allSelectedCount }} / {{ allCount }}</span>
+      <span class="text-bold">{{ store.allSelectedCount }} / {{ store.editions.length }}</span>
     </LabelRow>
     <q-list id="translations" class="rounded-borders">
-      <q-expansion-item v-for="lang in store.languages" :key="lang.symbol" :default-opened="store.isOpen(lang.symbol)"
-        group="a" :class="{ highlight: store.isOpen(lang.symbol) }" @show="store.lang = lang.symbol" bordered>
+      <q-expansion-item v-for="(group, i) in store.groups" :key="group.lang"
+        :default-opened="group.lang === settings.lang" group="a" :class="{ highlight: store.focusLang === group.lang }"
+        @show="store.focusLang = group.lang" bordered>
 
         <!-- Collapsible Header -->
         <template v-slot:header>
           <q-item-section>
             <div class="row items-center q-gutter-sm">
-              <q-toggle :model-value="store.selectionStatus(lang.symbol)"
-                @update:model-value="(v: boolean) => store.selectLang(lang.symbol, v)">
-                <q-tooltip>{{ $t('settingsTranslations.selectAll') }} {{ lang.symbol }}</q-tooltip>
+              <q-toggle :model-value="group.selectedStatus" @update:model-value="group.toggleSelected">
+                <q-tooltip>{{ $t('settingsTranslations.selectAll') }} {{ group.lang }}</q-tooltip>
               </q-toggle>
               <q-btn flat>
-                <FlagIcon :lang="lang.symbol" />
+                <FlagIcon :lang="group.lang" />
               </q-btn>
+              <span class="text-weight-bold w-4">
+                {{ group.lang }}
+              </span>
               <span class="text-weight-bold">
-                {{ lang.name }}
+                {{ nativeLanguageName(group.lang) }}
               </span>
             </div>
           </q-item-section>
@@ -27,15 +30,14 @@
           <q-item-section side>
             <div class="row items-center q-gutter-md">
               <span>{{ $t('settingsTranslations.selected') }}: </span>
-              <span>{{ store.selectedCount(lang.symbol) }} / {{ store.getTranslations(lang.symbol).length }} </span>
+              <span>{{ group.selectedCount }} / {{ group.editionCount }} </span>
             </div>
           </q-item-section>
         </template>
 
         <!-- New BibleSelector for default translation -->
         <LabelRow :label="$t('settingsTranslations.defaultTranslation')" class="q-pa-md ">
-          <BibleSelector :model-value="getDefaultTranslation(lang.symbol)"
-            @update:model-value="updateDefaultTranslation(lang.symbol, $event)" :lang="lang.symbol" class="col" />
+          <BibleSelector v-model="group.defaultEdition.value" :editions="group.editions" class="col" />
         </LabelRow>
 
         <!-- Translations -->
@@ -55,13 +57,13 @@
             </q-item-label> -->
 
           <!-- Translation -->
-          <q-item v-for="item in store.getTranslations(lang.symbol)" :key="item.symbol" v-ripple class="items-center">
+          <q-item v-for="edition in group.editions" :key="edition.symbol" v-ripple class="items-center">
             <q-item-section side top>
-              <q-toggle v-model="item.selected" @update:model-value="(v: boolean) => handleToggle(item, v)" />
+              <q-toggle v-model="edition.selected.value" />
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>{{ item.title }}</q-item-label>
+              <q-item-label>{{ edition.title }}</q-item-label>
               <!-- <q-item-label caption v-if="item.selected && !item.content">
                 {{ $t('settingsTranslations.downloading') }}
               </q-item-label> -->
@@ -69,64 +71,39 @@
 
             <q-item-section side>
               <div class="row items-center q-gutter-md">
-                <span>{{ item.symbol }}</span>
+                <span>{{ edition.symbol }}</span>
               </div>
             </q-item-section>
           </q-item>
         </q-list>
 
-        <q-separator v-if="lang.symbol !== store.languages[store.languages.length - 1].symbol" />
+        <q-separator v-if="i < store.groups.length" />
       </q-expansion-item>
     </q-list>
   </SettingsPanel>
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue'
-import { supportedLanguageSymbols } from 'src/logic/data'
-import { useTranslationStore } from 'stores/translation-store'
+import { useEditionStore } from 'src/stores/edition-store'
 import { useSettingsStore } from 'src/stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
 import LabelRow from './LabelRow.vue'
 import FlagIcon from './FlagIcon.vue'
 import BibleSelector from './BibleSelector.vue'
-import { useI18n } from 'vue-i18n'
-import { LanguageSymbol, Translation } from 'src/types'
+import { nativeLanguageName } from 'src/util'
 
-const { t } = useI18n()
-const store = useTranslationStore()
+const store = useEditionStore()
 const settings = useSettingsStore()
 
-
-const allSelectedCount = computed(() => supportedLanguageSymbols.reduce((sum, lang) => sum + store.selectedCount(lang), 0))
-const allCount = store.translations.length
-
-function isDefault(item: Translation) {
-  return item.symbol === getDefaultTranslation(item.lang).symbol
-}
-
-function handleToggle(item: Translation, value: boolean) {
-  store.select(item, value)
-}
-
-function getDefaultTranslation(lang: LanguageSymbol) {
-  return settings.persist.languageSettings[lang].defaultTranslation
-}
-
-function updateDefaultTranslation(lang: LanguageSymbol, event: any) {
-  settings.persist.languageSettings[lang].defaultTranslation = event
-  const translations = store.getTranslations(event.lang)
-  if (!settings.persist.languageSettings[lang].selectedTranslations.includes(event.symbol)) {
-    // settings.persist.languageSettings[lang].selectedTranslations.push(event.symbol)
-    const found = translations.find(it => it.symbol === event.symbol)
-    if (found) found.selected = true
-  }
-}
 </script>
 
 <style lang="scss">
 #translations {
   max-width: 550px;
+}
+
+.w-4 {
+  width: 2em;
 }
 
 .highlight {

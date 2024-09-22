@@ -198,7 +198,7 @@ export default {
     yes: 'Tak'
   },
   settingsGeneral: {
-    locale: 'Język', // Changed from Domyślny język
+    locale: 'Domyślny język', // Changed from defaultLanguage
     defaultSearchResultLayout: 'Domyślny układ wyników wyszukiwania',
     defaultTranslation: 'Domyślny przekład',
     formatted: 'Sformatowany',

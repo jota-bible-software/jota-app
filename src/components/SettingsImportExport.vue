@@ -8,7 +8,8 @@
 
     <div>
       <div class="row  q-gutter-sm">
-        <q-file ref="fileInput" class="col-auto" v-model="file" :label="$t('settingsImportExport.selectSettingsFile')" filled autosize>
+        <q-file ref="fileInput" class="col-auto" v-model="file" :label="$t('settingsImportExport.selectSettingsFile')"
+          filled autosize>
           <template v-slot:prepend>
             <q-icon name="icon-mat-file_open" />
           </template>
@@ -71,7 +72,7 @@ function importSettings() {
     const reader = new FileReader()
     reader.onload = (e) => {
       store.persist = { ...store.persist, ...JSON.parse(e.target?.result as string) }
-      store.persist.lastUploadedFile = file.value!.name
+      store.persist.lastUploadedFile = file.value?.name
       Notify.create({ message: t('settingsImportExport.importSuccess') })
     }
     reader.readAsText(file.value)

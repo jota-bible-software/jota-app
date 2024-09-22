@@ -49,7 +49,7 @@ export default {
   mainPage: {
     clearSearch: 'Очистити критерії та результати пошуку',
     downloading: 'Завантаження вмісту перекладу ...',
-    placeholderLong: 'Введіть текст, що містить біблійні посилання або фразу для пошуку в тексті перекладу',
+    placeholderLong: 'Введіть текст, що містить біблійні поси��ання або фразу для пошуку в тексті перекладу',
     placeholderShort: 'Посилання або фраза',
     search: 'Пошук'
   },
@@ -154,7 +154,7 @@ export default {
     removeConfirm: 'Ви впевнені, що хочете видалити шаблон',
     removeTitle: 'Видалити шаблон',
     saveButton: 'Зберегти',
-    templateDescription: 'Виберіть шаблон форматування та найменування книг для кожної мови:',
+    templateDescription: 'Виберіть шаблон форматування та найменуванн�� книг для кожної мови:',
     templateName: 'Назва шаблону',
     title: 'Шаблони копіювання',
     yes: 'Так'
@@ -198,11 +198,11 @@ export default {
     yes: 'Так'
   },
   settingsGeneral: {
-    locale: 'Мова', // Changed from Мова за замовчуванням
+    locale: 'Мова за замовчуванням', // Changed from defaultLanguage
     defaultSearchResultLayout: 'Макет результатів пошуку за замовчуванням',
     defaultTranslation: 'Переклад за замовчуванням',
     formatted: 'Форматований',
-    referencePickerOnStart: 'Показувати вибір книги/роділу на початковій сторінці',
+    referencePickerOnStart: 'Показув��ти вибір книги/роділу на початковій сторінці',
     split: 'Розділений',
     title: 'Загальні налаштування'
   },

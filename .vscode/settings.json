@@ -13,8 +13,12 @@
     "vue"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[vue]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "Vue.volar"
+    // "editor.defaultFormatter": "Vue.volar"
+    //  "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "javascript.format.semicolons": "remove",
   "typescript.format.semicolons": "remove",
@@ -33,8 +37,15 @@
     "composables",
     "vueuse"
   ],
+  "i18n-ally.enabledParsers": ["js", "ts"],
+
   "i18n-ally.localesPaths": [
     "src/i18n"
   ],
-  "vue.format.wrapAttributes": "preserve"
+  "vue.format.wrapAttributes": "preserve",
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+
+
 }

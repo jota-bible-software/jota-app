@@ -97,7 +97,6 @@ import { useQuasar } from 'quasar'
 import { useClipboard } from '@vueuse/core'
 import { useSearchStore } from 'src/stores/search-store'
 import { useSettingsStore } from 'src/stores/settings-store'
-import { useTranslationStore } from 'src/stores/translation-store'
 import { CopyTemplateData } from 'src/types'
 import AudioPlayer from 'src/components/AudioPlayer.vue'
 import { useI18n } from 'vue-i18n'
@@ -105,13 +104,11 @@ const { t } = useI18n()
 
 const store = useSearchStore()
 const { goToAdjacentChapter: adjacentChapter, chapterCaption, chapterFragment, copyTemplates, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, showPicker, sortAndDeduplicate } = toRefs(store)
-const { setChapterFragment } = store
 
 const settings = useSettingsStore()
 
 const q = useQuasar()
 const { copy } = useClipboard()
-const translation = useTranslationStore()
 
 function formattedSample(item: CopyTemplateData) {
   return store.formattedSample(item)
@@ -147,7 +144,7 @@ function copyFound(item?: CopyTemplateData) {
     })
   } else if (!result) {
     q.notify({
-      message: `${t('messageLine.formatFailed')} ${item?.name} ${t('messageLine.notConfiguredFor')} ${translation.lang}`,
+      message: `${t('messageLine.formatFailed')} ${item?.name} ${t('messageLine.notConfiguredFor')} ${settings.lang}`,
       type: 'negative'
     })
   } else {
@@ -172,11 +169,11 @@ function toggleAudio() {
   store.audioOn = !store.audioOn
 }
 
-function selectInChapter(start: number, end?: number): void {
-  if (!chapterFragment.value) return
-  const [book, chapter] = chapterFragment.value
-  setChapterFragment([book, chapter, start, end ?? start])
-}
+// function selectInChapter(start: number, end?: number): void {
+//   if (!chapterFragment.value) return
+//   const [book, chapter] = chapterFragment.value
+//   setChapterFragment([book, chapter, start, end ?? start])
+// }
 </script>
 
 <style lang="scss" scoped></style>

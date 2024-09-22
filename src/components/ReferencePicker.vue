@@ -53,12 +53,14 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import ReferencePickerButton from 'src/components/ReferencePickerButton.vue'
-import { useSearchStore } from 'src/stores/search-store'
+import { useEditionStore } from 'src/stores/edition-store'
 import { useSettingsStore } from 'src/stores/settings-store'
+import { useSearchStore } from 'src/stores/search-store'
 import { nextTick } from 'vue'
 
-const settingsStore = useSettingsStore()
-const store = useSearchStore()
+const settings = useSettingsStore()
+const store = useEditionStore()
+const searchStore = useSearchStore()
 
 const alternate = [
   1, 1, 1, 1, 1,
@@ -77,10 +79,10 @@ const bookIndex = ref(-1)
 const chapterIndex = ref(-1)
 const verseIndex = ref(-1)
 
-const bookList = computed(() => settingsStore.appBookNames)
+const bookList = computed(() => settings.appBookNames)
 const chapters = computed(() => {
   if (!isBookSelected.value) return []
-  const n = store.translation?.content ? store.translation.content[bookIndex.value].length : 0
+  const n = store.currentContent ? store.currentContent[bookIndex.value].length : 0
   return [...Array(n).keys()]
 })
 // const verses = computed(() => {
@@ -88,7 +90,7 @@ const chapters = computed(() => {
 //   const n = bibleStore.content[bookIndex.value][chapterIndex.value].length
 //   return [...Array(n).keys()]
 // })
-const sep = computed(() => settingsStore.appFormatTemplate.separatorChar)
+const sep = computed(() => settings.appFormatTemplate?.separatorChar)
 const bookName = computed(() => bookList.value[bookIndex.value])
 const backTooltip = computed(() => isChapterSelected.value ? 'rozdziałów' : 'ksiąg')
 const isBookSelected = computed(() => bookIndex.value !== -1)
@@ -126,13 +128,13 @@ function back() {
 }
 
 async function finish() {
-  store.clearFragments() // Clear fragments
+  searchStore.clearFragments() // Clear fragments
   await nextTick()
 
-  store.layout = 'split' // Set layout to 'split'
+  searchStore.layout = 'split' // Set layout to 'split'
   if (!isChapterSelected.value) chapterIndex.value = 0
-  store.setChapterFragment([bookIndex.value, chapterIndex.value, 0, 0])
-  store.showPicker = false
+  searchStore.setChapterFragment([bookIndex.value, chapterIndex.value, 0, 0])
+  searchStore.showPicker = false
 
   // Reset reference picker
   bookIndex.value = -1

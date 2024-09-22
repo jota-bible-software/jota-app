@@ -1,4 +1,4 @@
-import { ShallowRef } from "vue"
+import { ShallowRef } from 'vue'
 
 export type BookNaming = { lang: string, name: string, books: string[] }
 
@@ -8,6 +8,18 @@ export type CopyTemplateData = {
 }
 
 export type CopyTemplateLangData = Record<LanguageSymbol, { formatTemplate: string, bookNaming: string }>
+
+export type Edition = EditionMeta & {
+  selected: Ref<boolean>,
+  // stored: boolean,
+  content: ShallowRef<EditionContent | undefined>
+}
+
+export type EditionContent = string[][][]
+
+export type EditionKey = { lang: LanguageSymbol, symbol: string }
+
+export type EditionMeta = EditionKey & { title: string, size: number, year?: string, bookNames?: string, bookOrder?: string }
 
 export type Formatted = { reference: string, separator: string, content: string, referenceFirst: boolean }
 
@@ -30,7 +42,15 @@ export type FormatTemplateData = {
   translationAbbreviationCharsAfter: string,
 }
 
-export type LanguageSymbol = 'en' | 'pl'
+export type LanguageSymbol = string
+
+export type LanguageSettings = {
+  appBookNaming: string
+  bookNamings: BookNaming[]
+  selectedEditions: string[]
+  defaultEdition: string
+}
+
 export type LocaleSymbol = 'en-US' | 'pl-PL' | 'es-ES' | 'pt-PT' | 'uk-UA'
 
 export type Passage = [number, number, number?, number?]
@@ -55,11 +75,10 @@ export type ScreenMode = 'dark' | 'light' | 'auto'
 export type SearchOptions = { apocrypha?: boolean, shouldSort?: boolean, words?: boolean }
 
 export type SettingsPersistType = {
-  [key: string]: any
+  [key: string]: unknown
   version: string
   appearance: {
     locale: LocaleSymbol
-    defaultLang: LanguageSymbol
     fontSize: number
     screenMode: ScreenMode
     primaryColor: string
@@ -67,26 +86,12 @@ export type SettingsPersistType = {
   languageSettings: Record<LanguageSymbol, LanguageSettings>
   formatTemplates: FormatTemplateData[]
   copyTemplates: CopyTemplateData[]
-  appFormatTemplate: string
+  appFormatTemplateName: string
   defaultCopyTemplate: string
   defaultSearchResultLayout: PassageListLayout
-  defaultTranslation: TranslationKey
   referencePickerOnStart: boolean
 }
 
-export type LanguageSettings = {
-  appBookNaming: string
-  bookNamings: BookNaming[]
-  selectedTranslations: string[]
-  defaultTranslation: TranslationKey
-}
 
-export type Translation = TranslationMeta & { selected: boolean, stored: boolean, content?: ShallowRef<TranslationContent> }
-
-export type TranslationContent = string[][][]
-
-export type TranslationKey = { lang: LanguageSymbol, symbol: string }
-
-export type TranslationMeta = TranslationKey & { title: string, size: number, year?: string, bookNames?: string, bookOrder?: string }
 
 // ... other existing types ...

@@ -28,9 +28,7 @@ import SettingsPanel from './SettingsPanel.vue'
 import ScreenModeToggle from './ScreenModeToggle.vue'
 import { useSettingsStore } from 'src/stores/settings-store'
 import ChapterContent from './ChapterContent.vue'
-import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
 const store = useSettingsStore()
 
 function adjustFont(amount: number) {
