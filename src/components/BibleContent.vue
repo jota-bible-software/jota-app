@@ -2,10 +2,10 @@
   <div id="content" v-scroll class="q-pb-md" v-show="!loading && !showPicker">
     <div class="row" v-if="layout === 'split'">
       <!-- List of passages -->
-      <div id="passages" v-if="passages.length > 1" class="col bottom-clipped q-list">
-        <div v-for="(item, index) in passages  " :key="index" clickable tabindex="0"
+      <div id="passages" v-if="passages.length > 1" class="col bottom-clipped q-list" ref="passagesRef" tabindex="0">
+        <div v-for="(item, index) in passages" :key="index" clickable tabindex="0"
           :class="{ highlight: index === fragmentIndex }" @click="store.setFragmentIndex(index)"
-          @keyup.prevent.stop.left="moveFragmentIndex(-1)" @keyup.prevent.stop.right="moveFragmentIndex(1)"
+          :ref="el => { if (el) passageItemRefs[index] = (el as HTMLElement) }"
           class="q-item q-item-type row no-wrap compact q-item--clickable q-link cursor-pointer">{{ item }}</div>
       </div>
 
@@ -13,7 +13,7 @@
     </div>
 
     <div id="formatted" class="row q-pb-md" v-if="layout === 'formatted'">
-      <div v-for="(item, i) in formattedSearchResults()  " v-bind:key="i" class="formatted-verse">
+      <div v-for="(item, i) in formattedSearchResults()" :key="i" class="formatted-verse">
         <span class="bref" @click="readInContext(i)">{{ item.bibleReference }} {{ item.symbol }}</span>
         <span v-html="item.text"></span>
       </div>
@@ -23,50 +23,74 @@
 
 <script setup lang="ts">
 import { useSearchStore } from 'src/stores/search-store'
-import { useEventListener } from '@vueuse/core'
-import { bindKeyEvent, Direction } from 'src/util'
+import { useEventListener, useFocusWithin } from '@vueuse/core'
+import { Direction } from 'src/util'
 import ChapterContent from './ChapterContent.vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 
 const store = useSearchStore()
-const { chapterFragment, fragmentIndex, formattedSearchResults,
-  layout, loading, passages, readInContext, scrollToSelection, showPicker } = toRefs(store)
+const { fragmentIndex, formattedSearchResults, layout, loading, passages, readInContext, showPicker } = toRefs(store)
+const { goToAdjacentChapter, moveFragmentIndex } = store
 
-const { goToAdjacentChapter, moveFragmentIndex, setChapterFragment } = store
+const passagesRef = ref<HTMLElement | null>(null)
+const passageItemRefs = ref<HTMLElement[]>([])
 
+const { focused: passagesFocused } = useFocusWithin(passagesRef)
 
-useEventListener(document, 'selectionchange', () => {
-  const selection = window.getSelection()
-  if (!selection || selection.rangeCount === 0 || !chapterFragment.value) return
-  const range = selection.getRangeAt(0)
-  const node1 = range.startContainer.parentElement?.closest('#chapter .q-item')
-  const node2 = range.endContainer.parentElement?.closest('#chapter .q-item')
-  if (node1 && node2) {
-    const siblings = Array.from(node1.parentElement?.children || [])
-    const index1 = siblings.indexOf(node1)
-    const index2 = siblings.indexOf(node2)
-    const [start, end] = (index1 < index2) ? [index1, index2] : [index2, index1]
-    scrollToSelection.value = false
-    const [book, chapter] = chapterFragment.value
-    setChapterFragment([book, chapter, start, end], true)
+onMounted(() => {
+  if (passages.value.length > 1 && passagesRef.value) {
+    passagesRef.value.focus()
   }
 })
 
-const keyboardBindings = [
-  bindKeyEvent('Ctrl+ArrowLeft', (event) => {
+function handleArrowKeys(event: KeyboardEvent) {
+  if (!passagesFocused.value) return
+
+  if (event.key === 'ArrowUp') {
+    event.preventDefault()
+    moveFragmentIndex(-1)
+  } else if (event.key === 'ArrowDown') {
+    event.preventDefault()
+    moveFragmentIndex(1)
+  }
+}
+
+function scrollToHighlightedItem() {
+  if (!passagesRef.value || fragmentIndex.value === undefined) return
+
+  const container = passagesRef.value
+  const item = passageItemRefs.value[fragmentIndex.value]
+
+  if (!item) return
+
+  const containerRect = container.getBoundingClientRect()
+  const itemRect = item.getBoundingClientRect()
+
+  if (itemRect.bottom > containerRect.bottom) {
+    container.scrollTop += itemRect.bottom - containerRect.bottom
+  } else if (itemRect.top < containerRect.top) {
+    container.scrollTop += itemRect.top - containerRect.top
+  }
+}
+
+useEventListener(document, 'keydown', handleArrowKeys)
+
+watch(fragmentIndex, () => {
+  nextTick(() => {
+    scrollToHighlightedItem()
+  })
+})
+
+
+useEventListener(document, 'keydown', (event) => {
+  if (event.ctrlKey && event.key === 'ArrowLeft') {
     event.preventDefault()
     goToAdjacentChapter(Direction.Prev)
-  }),
-  bindKeyEvent('Ctrl+ArrowRight', (event) => {
+  } else if (event.ctrlKey && event.key === 'ArrowRight') {
     event.preventDefault()
     goToAdjacentChapter(Direction.Next)
-  })
-]
-
-// Keyup does work for Ctrl+ArrowLeft
-useEventListener(document, 'keydown', (event) => {
-  keyboardBindings.forEach(binding => binding(event))
-}, true)
-
+  }
+})
 </script>
 
 <style lang="scss">
@@ -88,8 +112,9 @@ useEventListener(document, 'keydown', (event) => {
 
 #passages {
   flex: 0 0 auto;
+  position: relative;
+  padding-left: 2px;
   padding-right: 4px;
-  margin-right: 4px;
   border-right: var(--q-border) solid 1px;
 
   .compact {
@@ -108,6 +133,23 @@ useEventListener(document, 'keydown', (event) => {
     box-shadow: inset 1px 1px var(--q-primary), inset -1px -1px var(--q-primary);
   }
 }
+
+
+// #passages:focus-visible {
+//   outline: none;
+// }
+
+// #passages:focus-within::after {
+//   content: "";
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   border: 1px solid var(--q-background-05);
+//   border-radius: 4px;
+//   pointer-events: none;
+// }
 
 .formatted-verse {
   padding-top: 4px;

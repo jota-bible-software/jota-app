@@ -19,7 +19,7 @@ export const useSearchStore = defineStore('search', () => {
   const input = ref('')
   const layout: Ref<PassageListLayout> = ref('split')
   const progress = ref(0.0)
-  const scrollToSelection = ref(false)
+  const scrollToIndex = ref(0)
   const selectionEnd = ref(-1)
   const selectionStart = ref(-1)
   const selectionClasses: Ref<string[]> = ref([])
@@ -54,7 +54,7 @@ export const useSearchStore = defineStore('search', () => {
     }
   }
 
-  function setChapterFragment(newFragment: Passage, keepTextSelection = false) {
+  function setChapterFragment(newFragment: Passage, keepTextSelection = false, scroll = true) {
     chapterFragment.value = newFragment
     updateSelectionClasses()
     if (!keepTextSelection) {
@@ -62,6 +62,13 @@ export const useSearchStore = defineStore('search', () => {
       if (selection) {
         selection.removeAllRanges()
       }
+    }
+    if (scroll) {
+      const [, , start, end] = newFragment
+      const s = start ?? 0
+      const e = end ?? start ?? 0
+      scrollToIndex.value = s + Math.floor((e - s) / 2)
+
     }
   }
 
@@ -135,7 +142,6 @@ export const useSearchStore = defineStore('search', () => {
       return
     }
     searchTerm.value = input
-    scrollToSelection.value = true
 
     const beforeFragmentCount = fragments.value.length
     const progressRunner: Progress = {
@@ -298,7 +304,7 @@ export const useSearchStore = defineStore('search', () => {
     passages,
     progress,
     readInContext,
-    scrollToSelection,
+    scrollToIndex,
     selectInChapter,
     selectionEnd,
     selectionStart,
