@@ -5,7 +5,7 @@
         <q-tabs v-model="tab" vertical dense active-color="primary" no-caps outside-arrows mobile-arrows>
           <q-tab name="general" :label="$t('settingsPage.general')" />
           <q-tab name="appearance" :label="$t('settingsPage.appearance')" />
-          <q-tab name="translations" :label="$t('settingsPage.translations')" />
+          <q-tab name="editions" :label="$t('settingsPage.editions')" />
           <q-tab name="bookNames" :label="$t('settingsPage.bookNames')" />
           <q-tab name="formatTemplates" :label="$t('settingsPage.formatTemplates')" />
           <q-tab name="copyTemplates" :label="$t('settingsPage.copyTemplates')" />
@@ -16,7 +16,7 @@
         <q-tab-panels v-model="tab">
           <SettingsGeneral name="general" />
           <SettingsAppearance name="appearance" />
-          <SettingsTranslations name="translations" />
+          <SettingsEditions name="editions" />
           <SettingsBookNames name="bookNames" />
           <SettingsFormatTemplates name="formatTemplates" />
           <SettingsCopyTemplates name="copyTemplates" />
@@ -31,7 +31,7 @@
 import { ref } from 'vue'
 import SettingsGeneral from 'src/components/SettingsGeneral.vue'
 import SettingsAppearance from 'src/components/SettingsAppearance.vue'
-import SettingsTranslations from 'src/components/SettingsTranslations.vue'
+import SettingsEditions from 'src/components/SettingsEditions.vue'
 import SettingsBookNames from 'src/components/SettingsBookNames.vue'
 import SettingsFormatTemplates from 'src/components/SettingsFormatTemplates.vue'
 import SettingsCopyTemplates from 'src/components/SettingsCopyTemplates.vue'

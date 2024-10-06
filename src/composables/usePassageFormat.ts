@@ -18,7 +18,7 @@ export const defaultSettings: Settings = {
         quotes: false,
         numbers: false,
         verseNewLine: false,
-        translation: 'uppercase'
+        edition: 'uppercase'
       }
     },
     {
@@ -31,7 +31,7 @@ export const defaultSettings: Settings = {
         quotes: false,
         numbers: false,
         verseNewLine: false,
-        translation: 'uppercase'
+        edition: 'uppercase'
       }
     },
   ],
@@ -44,10 +44,10 @@ class Formatter {
     this.rules = rules
   }
 
-  formatContent(passage: Passage, translationContent: EditionContent) {
+  formatContent(passage: Passage, editionContent: EditionContent) {
     const { quotes, verseNewLine, numbers } = this.rules
     const [bi, ci, si, ei] = passage
-    const chapterContent = translationContent[bi][ci]
+    const chapterContent = editionContent[bi][ci]
     const start = si === undefined ? 1 : si + 1
     const end = ei === undefined ? si === undefined ? chapterContent.length : si + 1 : ei + 1
     const verses = chapterContent.slice(start - 1, end)
@@ -67,10 +67,10 @@ class Formatter {
     return s
   }
 
-  formatReference(passage: Passage, translationContent: EditionContent) {
+  formatReference(passage: Passage, editionContent: EditionContent) {
     const { bookNames, separatorChar } = this.rules
     const [bi, ci, si, ei] = passage
-    const chapterContent = translationContent[bi][ci]
+    const chapterContent = editionContent[bi][ci]
     const book = bookNames[bi]
     const chapter = ci + 1
     const start = si === undefined ? 1 : si + 1
@@ -81,11 +81,11 @@ class Formatter {
   }
 
   /** Formats a reference to a one chapter passage */
-  format(passage: Passage, translationContent: EditionContent) {
+  format(passage: Passage, editionContent: EditionContent) {
     // ${book} ${chapter}${separator}${start}-${end} "${textWithNumbers}"
     const { bookNames, referencePosition, referenceNewLine, separatorChar, quotes, verseNewLine, numbers } = this.rules
     const [bi, ci, si, ei] = passage
-    const chapterContent = translationContent[bi][ci]
+    const chapterContent = editionContent[bi][ci]
     const book = bookNames[bi]
     const chapter = ci + 1
     const start = si === undefined ? 1 : si + 1

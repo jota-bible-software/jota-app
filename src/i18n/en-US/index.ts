@@ -48,13 +48,13 @@ export default {
   },
   mainPage: {
     clearSearch: 'Clear search criteria and results',
-    downloading: 'Downloading translation content ...',
-    placeholderLong: 'Enter text containing Bible references or a phrase to search in the translation text',
+    downloading: 'Downloading edition content ...',
+    placeholderLong: 'Enter text containing Bible references or a phrase to search in the edition text',
     placeholderShort: 'Reference or phrase',
     search: 'Search'
   },
   mainToolbar: {
-    translationLabel: 'Translation'
+    editionLabel: 'Edition'
   },
   messageLine: {
     chapterLabel: 'Chapter',
@@ -92,8 +92,8 @@ export default {
       comma: 'Comma',
       label: 'Character separating chapter from verses in reference:'
     },
-    translationAbbreviation: {
-      label: 'Translation abbreviation:',
+    editionAbbreviation: {
+      label: 'Edition abbreviation:',
       lowercase: 'Lowercase',
       none: 'None',
       uppercase: 'Uppercase'
@@ -169,7 +169,7 @@ export default {
     charsBefore: 'before',
     charsAroundQuote: 'Characters around quote',
     charsAroundReference: 'Characters around reference',
-    charsAroundTranslationAbbreviation: 'Characters around translation abbreviation',
+    charsAroundEditionAbbreviation: 'Characters around edition abbreviation',
     charsAroundVerseNumber: 'Characters around verse number',
     editTitle: 'Edit template',
     example: 'Example of formatted passage',
@@ -192,7 +192,7 @@ export default {
     separatorChar: 'Separator character',
     templateName: 'Template name',
     title: 'Format templates',
-    translationAbbreviation: 'Translation abbreviation',
+    editionAbbreviation: 'Edition abbreviation',
     uppercase: 'Uppercase',
     versesWithNumbers: 'Verses with numbers',
     yes: 'Yes'
@@ -200,7 +200,7 @@ export default {
   settingsGeneral: {
     locale: 'Default language', // Changed from defaultLanguage
     defaultSearchResultLayout: 'Default search result layout',
-    defaultTranslation: 'Default translation',
+    defaultEdition: 'Default edition',
     formatted: 'Formatted',
     referencePickerOnStart: 'Show book/chapter selector on start page',
     split: 'Split',
@@ -213,14 +213,14 @@ export default {
     formatTemplates: 'Format templates',
     general: 'General',
     importExport: 'Import / Export',
-    translations: 'Translations'
+    editions: 'Editions'
   },
-  settingsTranslations: {
+  settingsEditions: {
     allSelected: 'All selected',
-    defaultTranslation: 'Default translation',
+    defaultEdition: 'Default edition',
     downloading: 'Downloading ...',
     selectAll: 'Select all for language',
     selected: 'Selected',
-    title: 'Translations'
+    title: 'Editions'
   }
 }

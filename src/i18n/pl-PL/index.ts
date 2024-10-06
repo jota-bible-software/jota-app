@@ -54,7 +54,7 @@ export default {
     search: 'Szukaj'
   },
   mainToolbar: {
-    translationLabel: 'Przekład'
+    editionLabel: 'Przekład'
   },
   messageLine: {
     chapterLabel: 'Rozdział',
@@ -92,7 +92,7 @@ export default {
       comma: 'Przecinek',
       label: 'Znak oddzielający rozdział od wersetów w odnośniku:'
     },
-    translationAbbreviation: {
+    editionAbbreviation: {
       label: 'Skrótu przekładu:',
       lowercase: 'Małymi literami',
       none: 'Żaden',
@@ -169,7 +169,7 @@ export default {
     charsBefore: 'przed',
     charsAroundQuote: 'Znaki wokół cytatu',
     charsAroundReference: 'Znaki wokół odnośnika',
-    charsAroundTranslationAbbreviation: 'Znaki wokół skrótu przekładu',
+    charsAroundEditionAbbreviation: 'Znaki wokół skrótu przekładu',
     charsAroundVerseNumber: 'Znaki wokół numeru wersetu',
     editTitle: 'Edytuj szablon',
     example: 'Przykład sformatowanego fragmentu',
@@ -192,7 +192,7 @@ export default {
     separatorChar: 'Znak separatora',
     templateName: 'Nazwa szablonu',
     title: 'Szablony formatowania',
-    translationAbbreviation: 'Skrót przekładu',
+    editionAbbreviation: 'Skrót przekładu',
     uppercase: 'Wielkie litery',
     versesWithNumbers: 'Wersety z numerami',
     yes: 'Tak'
@@ -200,7 +200,7 @@ export default {
   settingsGeneral: {
     locale: 'Domyślny język', // Changed from defaultLanguage
     defaultSearchResultLayout: 'Domyślny układ wyników wyszukiwania',
-    defaultTranslation: 'Domyślny przekład',
+    defaultEdition: 'Domyślny przekład',
     formatted: 'Sformatowany',
     referencePickerOnStart: 'Pokaż selektor księgi/rozdziału na stronie startowej',
     split: 'Podzielony',
@@ -213,11 +213,11 @@ export default {
     formatTemplates: 'Szablony formatowania',
     general: 'Ogólne',
     importExport: 'Import / Export',
-    translations: 'Przekłady'
+    editions: 'Przekłady'
   },
-  settingsTranslations: {
+  settingsEditions: {
     allSelected: 'Wszystkich wybranych',
-    defaultTranslation: 'Domyślny przekład',
+    defaultEdition: 'Domyślny przekład',
     downloading: 'Pobieranie ...',
     selectAll: 'Wybierz wszystkie dla języka',
     selected: 'Wybrano',

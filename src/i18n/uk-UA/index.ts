@@ -48,13 +48,13 @@ export default {
   },
   mainPage: {
     clearSearch: 'Очистити критерії та результати пошуку',
-    downloading: 'Завантаження вмісту перекладу ...',
-    placeholderLong: 'Введіть текст, що містить біблійні поси��ання або фразу для пошуку в тексті перекладу',
+    downloading: 'Завантаження вмісту видання ...',
+    placeholderLong: 'Введіть текст, що містить біблійні посилання або фразу для пошуку в тексті видання',
     placeholderShort: 'Посилання або фраза',
     search: 'Пошук'
   },
   mainToolbar: {
-    translationLabel: 'Переклад'
+    editionLabel: 'Видання'
   },
   messageLine: {
     chapterLabel: 'Розділ',
@@ -92,8 +92,8 @@ export default {
       comma: 'Кома',
       label: 'Симол, що відокремлює розділ від віршів у посиланні:'
     },
-    translationAbbreviation: {
-      label: 'Скорочення перекладу:',
+    editionAbbreviation: {
+      label: 'Скорочення видання:',
       lowercase: 'Малими літерами',
       none: 'Немає',
       uppercase: 'Великими літерами'
@@ -169,7 +169,7 @@ export default {
     charsBefore: 'перед',
     charsAroundQuote: 'Символи навколо цитати',
     charsAroundReference: 'Символи навколо посилання',
-    charsAroundTranslationAbbreviation: 'Символи навколо скорочення перекладу',
+    charsAroundEditionAbbreviation: 'Символи навколо скорочення видання',
     charsAroundVerseNumber: 'Символи навколо номера вірша',
     editTitle: 'Редагувати шаблон',
     example: 'Приклад форматованого уривку',
@@ -192,7 +192,7 @@ export default {
     separatorChar: 'Символ-роздільник',
     templateName: 'Назва шаблону',
     title: 'Шаблони форматування',
-    translationAbbreviation: 'Скорочення перекладу',
+    editionAbbreviation: 'Скорочення видання',
     uppercase: 'Великі літери',
     versesWithNumbers: 'Вірші з номерами',
     yes: 'Так'
@@ -200,7 +200,7 @@ export default {
   settingsGeneral: {
     locale: 'Мова за замовчуванням', // Changed from defaultLanguage
     defaultSearchResultLayout: 'Макет результатів пошуку за замовчуванням',
-    defaultTranslation: 'Переклад за замовчуванням',
+    defaultEdition: 'Видання за замовчуванням',
     formatted: 'Форматований',
     referencePickerOnStart: 'Показув��ти вибір книги/роділу на початковій сторінці',
     split: 'Розділений',
@@ -213,14 +213,14 @@ export default {
     formatTemplates: 'Шаблони форматування',
     general: 'Загальні',
     importExport: 'Імпорт / Експорт',
-    translations: 'Переклади'
+    editions: 'Переклади'
   },
-  settingsTranslations: {
+  settingsEditions: {
     allSelected: 'Всі вибрані',
-    defaultTranslation: 'Переклад за замовчуванням',
+    defaultEdition: 'Видання за замовчуванням',
     downloading: 'Завантаження ...',
     selectAll: 'Вибрати всі для мови',
     selected: 'Вибрано',
-    title: 'Переклади'
+    title: 'Видання'
   }
 }

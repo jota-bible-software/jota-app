@@ -22,9 +22,9 @@
     <div>Skrótu przekładu:</div>
     <div>
       <div class="row q-gutter-md">
-        <q-radio v-model="editor.translation" val="none" label="Żaden" />
-        <q-radio v-model="editor.translation" val="lowercase" label="Małymi literami" />
-        <q-radio v-model="editor.translation" val="uppercase" label="Dużymi literami" />
+        <q-radio v-model="editor.edition" val="none" label="Żaden" />
+        <q-radio v-model="editor.edition" val="lowercase" label="Małymi literami" />
+        <q-radio v-model="editor.edition" val="uppercase" label="Dużymi literami" />
       </div>
     </div>
     <div>

@@ -56,12 +56,11 @@
         </LabelRow>
 
         <!-- <div>Skrótu przekładu</div> -->
-        <LabelRow :label="$t('settingsFormatTemplates.translationAbbreviation')" class="q-py-sm">
-          <q-radio v-model="editedItem.translationAbbreviation" val="none"
-            :label="$t('settingsFormatTemplates.none')" />
-          <q-radio v-model="editedItem.translationAbbreviation" val="lowercase"
+        <LabelRow :label="$t('settingsFormatTemplates.editionAbbreviation')" class="q-py-sm">
+          <q-radio v-model="editedItem.editionAbbreviation" val="none" :label="$t('settingsFormatTemplates.none')" />
+          <q-radio v-model="editedItem.editionAbbreviation" val="lowercase"
             :label="$t('settingsFormatTemplates.lowercase')" />
-          <q-radio v-model="editedItem.translationAbbreviation" val="uppercase"
+          <q-radio v-model="editedItem.editionAbbreviation" val="uppercase"
             :label="$t('settingsFormatTemplates.uppercase')" />
         </LabelRow>
 
@@ -106,11 +105,11 @@
         </LabelRow>
 
         <LabelRow>
-          <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundTranslationAbbreviation') }}</div>
+          <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundEditionAbbreviation') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <q-input v-model="editedItem.translationAbbreviationCharsBefore" class="short-input" />
+          <q-input v-model="editedItem.editionAbbreviationCharsBefore" class="short-input" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <q-input v-model="editedItem.translationAbbreviationCharsAfter" class="short-input" />
+          <q-input v-model="editedItem.editionAbbreviationCharsAfter" class="short-input" />
         </LabelRow>
 
         <div>{{ $t('settingsFormatTemplates.example') }}</div>
@@ -176,7 +175,7 @@ const emptyItem: FormatTemplateData = {
   name: '',
   referencePosition: 'after',
   referenceLine: 'new line',
-  translationAbbreviation: 'uppercase',
+  editionAbbreviation: 'uppercase',
   numbers: false,
   verseNewLine: false,
   separatorChar: ':',
@@ -187,8 +186,8 @@ const emptyItem: FormatTemplateData = {
   quoteCharsAfter: '',
   verseNumberCharsBefore: '',
   verseNumberCharsAfter: '',
-  translationAbbreviationCharsBefore: '',
-  translationAbbreviationCharsAfter: '',
+  editionAbbreviationCharsBefore: '',
+  editionAbbreviationCharsAfter: '',
 }
 
 const selected = ref('')

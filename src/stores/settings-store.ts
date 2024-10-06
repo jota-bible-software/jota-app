@@ -56,7 +56,7 @@ export const useSettingsStore = defineStore('settings', () => {
     .sort((a, b) => a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })))
 
 
-  const localeTranslations = computed(() => editionsData.filter(it => it.lang === lang.value).map(it => it.symbol).sort())
+  const localeEditions = computed(() => editionsData.filter(it => it.lang === lang.value).map(it => it.symbol).sort())
 
   function nameSorter(a: { name: string }, b: { name: string }) {
     return a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })
@@ -69,7 +69,7 @@ export const useSettingsStore = defineStore('settings', () => {
   }
 
   return {
-    appBookNames, appFormatTemplate, bookNamingList, lang, localeTranslations,
+    appBookNames, appFormatTemplate, bookNamingList, lang, localeEditions,
     /** Contains settings for the language in the currently selected locale (settings.persist.appearance.locale) */
     languageSettings,
     nameSorter, persist, reset

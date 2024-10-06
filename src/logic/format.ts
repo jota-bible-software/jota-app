@@ -3,20 +3,20 @@ import { FormatTemplateData, Formatted, Passage, EditionContent } from 'src/type
 /**
  * Returns a structure that holds the reference separately from the verses content.
  */
-export function formatComposable(template: FormatTemplateData, passage: Passage, translationContent: EditionContent, bookNames: string[], translationAbbreviation: string): Formatted | undefined {
+export function formatComposable(template: FormatTemplateData, passage: Passage, editionContent: EditionContent, bookNames: string[], editionAbbreviation: string): Formatted | undefined {
   // All the variables used in the template must declared as loca variables here
   const t = template
   const [bi, ci, si, ei] = passage
   const chapter = ci + 1
-  const chapterContent = translationContent[bi][ci]
+  const chapterContent = editionContent[bi][ci]
 
   const bookName = bookNames[bi]
   const start = si === undefined ? 1 : si + 1
   const end = ei === undefined ? si === undefined ? (chapterContent?.length || 1) : si + 1 : ei + 1
   const ending = start === end ? '' : t.rangeChar + end
-  const ta = t.translationAbbreviation
-  const ab = ta === 'none' ? '' : ta === 'lowercase' ? translationAbbreviation.toLowerCase() : translationAbbreviation.toUpperCase()
-  const abb = ab ? ` ${t.translationAbbreviationCharsBefore}${ab}${t.translationAbbreviationCharsAfter}` : ''
+  const ta = t.editionAbbreviation
+  const ab = ta === 'none' ? '' : ta === 'lowercase' ? editionAbbreviation.toLowerCase() : editionAbbreviation.toUpperCase()
+  const abb = ab ? ` ${t.editionAbbreviationCharsBefore}${ab}${t.editionAbbreviationCharsAfter}` : ''
 
   // Format Reference
   const reference = `${t.referenceCharsBefore}${bookName} ${chapter}${t.separatorChar}${start}${ending}${abb}${t.referenceCharsAfter}`
@@ -44,8 +44,8 @@ export function formatComposable(template: FormatTemplateData, passage: Passage,
   return { reference, separator, content, referenceFirst }
 }
 
-export function format(template: FormatTemplateData, passage: Passage, translationContent: EditionContent, bookNames: string[], translationAbbreviation: string): string {
-  const format2Result = formatComposable(template, passage, translationContent, bookNames, translationAbbreviation)
+export function format(template: FormatTemplateData, passage: Passage, editionContent: EditionContent, bookNames: string[], editionAbbreviation: string): string {
+  const format2Result = formatComposable(template, passage, editionContent, bookNames, editionAbbreviation)
   if (!format2Result) return ''
   const { reference, separator, content, referenceFirst } = format2Result
   return referenceFirst ? reference + separator + content : content + separator + reference

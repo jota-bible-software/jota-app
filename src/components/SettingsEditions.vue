@@ -1,9 +1,9 @@
 <template>
-  <SettingsPanel :title="$t('settingsTranslations.title')">
-    <LabelRow :label="$t('settingsTranslations.allSelected')">
+  <SettingsPanel :title="$t('settingsEditions.title')">
+    <LabelRow :label="$t('settingsEditions.allSelected')">
       <span class="text-bold">{{ store.allSelectedCount }} / {{ store.editions.length }}</span>
     </LabelRow>
-    <q-list id="translations" class="rounded-borders">
+    <q-list id="editions" class="rounded-borders">
       <q-expansion-item v-for="(group, i) in store.groups" :key="group.lang"
         :default-opened="group.lang === settings.lang" group="a" :class="{ highlight: store.focusLang === group.lang }"
         @show="store.focusLang = group.lang" bordered>
@@ -13,7 +13,7 @@
           <q-item-section>
             <div class="row items-center q-gutter-sm">
               <q-toggle :model-value="group.selectedStatus" @update:model-value="group.toggleSelected">
-                <q-tooltip>{{ $t('settingsTranslations.selectAll') }} {{ group.lang }}</q-tooltip>
+                <q-tooltip>{{ $t('settingsEditions.selectAll') }} {{ group.lang }}</q-tooltip>
               </q-toggle>
               <q-btn flat>
                 <FlagIcon :lang="group.lang" />
@@ -29,18 +29,18 @@
 
           <q-item-section side>
             <div class="row items-center q-gutter-md">
-              <span>{{ $t('settingsTranslations.selected') }}: </span>
+              <span>{{ $t('settingsEditions.selected') }}: </span>
               <span>{{ group.selectedCount }} / {{ group.editionCount }} </span>
             </div>
           </q-item-section>
         </template>
 
-        <!-- New BibleSelector for default translation -->
-        <LabelRow :label="$t('settingsTranslations.defaultTranslation')" class="q-pa-md ">
+        <!-- New BibleSelector for default edition -->
+        <LabelRow :label="$t('settingsEditions.defaultEdition')" class="q-pa-md ">
           <BibleSelector v-model="group.defaultEdition.value" :editions="group.editions" class="col" />
         </LabelRow>
 
-        <!-- Translations -->
+        <!-- Editions -->
         <q-list dense class="q-pb-md">
 
 
@@ -56,7 +56,7 @@
               </q-item-section>
             </q-item-label> -->
 
-          <!-- Translation -->
+          <!-- Edition -->
           <q-item v-for="edition in group.editions" :key="edition.symbol" v-ripple class="items-center">
             <q-item-section side top>
               <q-toggle v-model="edition.selected.value" />
@@ -65,7 +65,7 @@
             <q-item-section>
               <q-item-label>{{ edition.title }}</q-item-label>
               <!-- <q-item-label caption v-if="item.selected && !item.content">
-                {{ $t('settingsTranslations.downloading') }}
+                {{ $t('settingsEditions.downloading') }}
               </q-item-label> -->
             </q-item-section>
 
@@ -98,7 +98,7 @@ const settings = useSettingsStore()
 </script>
 
 <style lang="scss">
-#translations {
+#editions {
   max-width: 550px;
 }
 

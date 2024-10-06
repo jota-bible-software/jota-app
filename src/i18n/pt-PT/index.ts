@@ -54,7 +54,7 @@ export default {
     search: 'Pesquisar'
   },
   mainToolbar: {
-    translationLabel: 'Tradução'
+    editionLabel: 'Tradução'
   },
   messageLine: {
     chapterLabel: 'Capítulo',
@@ -92,7 +92,7 @@ export default {
       comma: 'Vírgula',
       label: 'Caractere que separa o capítulo dos versículos na referência:'
     },
-    translationAbbreviation: {
+    editionAbbreviation: {
       label: 'Abreviação da tradução:',
       lowercase: 'Minúsculas',
       none: 'Nenhuma',
@@ -169,7 +169,7 @@ export default {
     charsBefore: 'antes',
     charsAroundQuote: 'Caracteres ao redor da citação',
     charsAroundReference: 'Caracteres ao redor da referência',
-    charsAroundTranslationAbbreviation: 'Caracteres ao redor da abreviação da tradução',
+    charsAroundEditionAbbreviation: 'Caracteres ao redor da abreviação da tradução',
     charsAroundVerseNumber: 'Caracteres ao redor do número do versículo',
     editTitle: 'Editar modelo',
     example: 'Exemplo de passagem formatada',
@@ -192,7 +192,7 @@ export default {
     separatorChar: 'Caractere separador',
     templateName: 'Nome do modelo',
     title: 'Modelos de formatação',
-    translationAbbreviation: 'Abreviação da tradução',
+    editionAbbreviation: 'Abreviação da tradução',
     uppercase: 'Maiúsculas',
     versesWithNumbers: 'Versículos com números',
     yes: 'Sim'
@@ -200,7 +200,7 @@ export default {
   settingsGeneral: {
     locale: 'Idioma padrão', // Changed from defaultLanguage
     defaultSearchResultLayout: 'Layout padrão dos resultados de pesquisa',
-    defaultTranslation: 'Tradução padrão',
+    defaultEdition: 'Tradução padrão',
     formatted: 'Formatado',
     referencePickerOnStart: 'Mostrar seletor de livro/capítulo na página inicial',
     split: 'Dividido',
@@ -213,11 +213,11 @@ export default {
     formatTemplates: 'Modelos de formatação',
     general: 'Geral',
     importExport: 'Importar / Exportar',
-    translations: 'Traduções'
+    editions: 'Traduções'
   },
-  settingsTranslations: {
+  settingsEditions: {
     allSelected: 'Todas selecionadas',
-    defaultTranslation: 'Tradução padrão',
+    defaultEdition: 'Tradução padrão',
     downloading: 'Baixando ...',
     selectAll: 'Selecionar todas para o idioma',
     selected: 'Selecionadas',

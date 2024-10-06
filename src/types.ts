@@ -27,7 +27,7 @@ export type FormatTemplateData = {
   name: string,
   referencePosition: 'before' | 'after',
   referenceLine: 'same line' | 'new line',
-  translationAbbreviation: 'none' | 'lowercase' | 'uppercase'
+  editionAbbreviation: 'none' | 'lowercase' | 'uppercase'
   numbers: boolean,
   verseNewLine: boolean,
   separatorChar: string,
@@ -38,8 +38,8 @@ export type FormatTemplateData = {
   quoteCharsAfter: string,
   verseNumberCharsBefore: string,
   verseNumberCharsAfter: string,
-  translationAbbreviationCharsBefore: string,
-  translationAbbreviationCharsAfter: string,
+  editionAbbreviationCharsBefore: string,
+  editionAbbreviationCharsAfter: string,
 }
 
 export type LanguageSymbol = string
@@ -63,7 +63,7 @@ export type PassageFormat = {
   quotes: boolean,
   numbers: boolean,
   verseNewLine: boolean,
-  translation: 'none' | 'lowercase' | 'uppercase'
+  edition: 'none' | 'lowercase' | 'uppercase'
 }
 
 export type PassageListLayout = 'split' | 'formatted'

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /**
- * The main application logic to process the bible translations.
+ * The main application logic to process the bible editions.
  *
- * The format of the bible translation content is a three dimensional array,
+ * The format of the bible edition content is a three dimensional array,
  * consisting of books, chapters and verses. The apocrypha books are at the end.
  *
  * A passages descriptor is called a fragment and it is a four element int array containing
@@ -78,7 +78,7 @@ export const jota = {
 
   /**
    * Returns array of verses for the whole chapter containing the given fragment.
-   * @param {[]} bible Three dimensional array with the content of the bible translation
+   * @param {[]} bible Three dimensional array with the content of the bible edition
    * @param {int[]} passage [bookIndex, chapterIndex, startVerse, endVerse]
    * @returns Array of verses (strings)
    */
@@ -97,22 +97,22 @@ export const jota = {
    * Formats a given fragment according to the given template, both reference and the content.
    * Used in formatted search results layout and for copying to the clipboard.
    *
-   * @param {[]} translationContent Three dimensional array with the content of the bible translation
+   * @param {[]} editionContent Three dimensional array with the content of the bible edition
    * @param {int[]} fragment [bookIndex, chapterIndex, startVerse, endVerse]
    * @param {string} template String template replacing the variables reference with the values from this function scope
    * @param {string[]} bookNames Collection of book names to be used
    * @param {string} separator Separator between chapter and verses
-   * @param {string} translation Name of the translation
+   * @param {string} edition Name of the edition
    * @returns {string} Formatted fragment
    */
-  format(translationContent: EditionContent, fragment: Passage, template: string, bookNames: string[], separator: string, translation: string) {
+  format(editionContent: EditionContent, fragment: Passage, template: string, bookNames: string[], separator: string, edition: string) {
     // All the variables used in the template must declared as loca variables here
     const [bi, ci, si, ei] = fragment
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const book = bookNames[bi]
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const chapter = ci + 1
-    const content = translationContent[bi][ci]
+    const content = editionContent[bi][ci]
     if (!content) return ''
 
     const start = si == null ? 1 : si + 1
@@ -123,7 +123,7 @@ export const jota = {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const verse = start
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    const translationUpperCase = translation ? translation.toUpperCase() : ''
+    const editionUpperCase = edition ? edition.toUpperCase() : ''
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     let text, textNumbers, textNewLines, textNumbersNewLines
     const includesNumbers = template.includes('Numbers')
@@ -176,25 +176,25 @@ export const jota = {
   //  * @param {[]} thresholdFormats Array of formats coupled with the lower and upper limits of verses numbers
   //  *    they should be applied to
   //  * @param {int[]} fragment [bookIndex, chapterIndex, startVerse, endVerse]
-  //  * @param {[]} bible Three dimensional array with the content of the bible translation
+  //  * @param {[]} bible Three dimensional array with the content of the bible edition
   //  * @param {string[]} bookNames Collection of book names to be used
   //  * @param {string} separator Separator between chapter and verses
-  //  * @param {string} translation Name of the translation
+  //  * @param {string} edition Name of the edition
   //  * @returns {string} Formatted fragment
   //  * @returns
   //  */
-  // formatThreshold(thresholdFormats: [any, any, any], fragment: Passage, bible: TranslationContent, bookNames: string[], separator: string, translation: string) {
+  // formatThreshold(thresholdFormats: [any, any, any], fragment: Passage, bible: EditionContent, bookNames: string[], separator: string, edition: string) {
   //   const [bi, ci, start, end] = fragment
   //   const count = start == null ? bible[bi][ci].length : end == null ? 1 : end - start + 1
   //   const [ts1, ts2, ts3] = thresholdFormats
   //   let template = count < ts2.threshold ? ts1.format : count < ts3.threshold ? ts2.format : ts3.format || ts2.format
   //   let result
   //   try {
-  //     result = jota.format(bible, fragment, template, bookNames, separator, translation)
+  //     result = jota.format(bible, fragment, template, bookNames, separator, edition)
   //   } catch {
   //     template = count < ts2.threshold ?
   //       defaultState.format1 : count < ts3.threshold ? defaultState.format2 : defaultState.format3
-  //     result = jota.format(bible, fragment, template, bookNames, separator, translation)
+  //     result = jota.format(bible, fragment, template, bookNames, separator, edition)
   //   }
   //   return result
   // },
@@ -202,12 +202,12 @@ export const jota = {
   /**
    * Get the list of fragments from the osis string.
    *
-   * @param {[]} translationContent Three dimensional array with the content of the bible translation
+   * @param {[]} editionContent Three dimensional array with the content of the bible edition
    * @param {string} osis comma separated list of fragment codes like: Deut.25.13-14
    * @param {boolean} shouldSort specifies whether the list should be sorted by indexes of the fragments
    * @returns {[]} Array of fragments (arrays including [bookIndex, chapterIndex, startVerse, endVerse])
    */
-  fragments(translationContent: EditionContent, osis: string, shouldSort = false) {
+  fragments(editionContent: EditionContent, osis: string, shouldSort = false) {
     if (!osis) return []
     const fragments: Passage[] = []
     osis.split(',').forEach((it: string) => {
@@ -221,7 +221,7 @@ export const jota = {
         to = to || true
       }
       if (to) {
-        const b = to === true ? [a[0], translationContent[a[0]].length - 1] : this.osis2passage(to)
+        const b = to === true ? [a[0], editionContent[a[0]].length - 1] : this.osis2passage(to)
         // Only scopes within the same chapter are allowed
         if (a[0] !== b[0] || a[1] !== b[1]) {
           a[2] = a[2] || 0
@@ -229,11 +229,11 @@ export const jota = {
             a.splice(2, 1)
             fragments.push(a as Passage)
           } else {
-            push(a, translationContent[a[0]][a[1]].length - 1)
+            push(a, editionContent[a[0]][a[1]].length - 1)
           }
           if (a[0] < b[0]) {
             // Add the rest of chapters from the starting book
-            addChapters(a[0], a[1] + 1, translationContent[a[0]].length)
+            addChapters(a[0], a[1] + 1, editionContent[a[0]].length)
           } else {
             // Add all the chapters in between if start end end are in the same book
             addChapters(a[0], a[1] + 1, b[1])
@@ -241,15 +241,15 @@ export const jota = {
           if (a[0] + 1 < b[0]) {
             // Add books in between, this should be forbidden probably
             for (let bi = a[0] + 1; bi < b[0]; bi++) {
-              addChapters(bi, 0, translationContent[bi].length)
+              addChapters(bi, 0, editionContent[bi].length)
             }
           }
           if (a[0] < b[0]) {
             // Add the starting chapters from the ending book
-            addChapters(b[0], 0, isNaN(b[1]) ? translationContent[b[0]].length : b[1])
+            addChapters(b[0], 0, isNaN(b[1]) ? editionContent[b[0]].length : b[1])
           }
           if (!isNaN(b[1])) {
-            if (isNaN(b[2]) || b[2] === translationContent[b[0]][b[1]].length - 1) {
+            if (isNaN(b[2]) || b[2] === editionContent[b[0]][b[1]].length - 1) {
               fragments.push([b[0], b[1]])
             } else {
               fragments.push([b[0], b[1], 0, b[2]])
@@ -289,11 +289,11 @@ export const jota = {
    * If text does not start with "/" then try to find passage references.
    * Otherwise or if passage references not found search for the text in the current bible contents.
    *
-   * @param {[]} bible Three dimensional array with the content of the bible translation
+   * @param {[]} bible Three dimensional array with the content of the bible edition
    * @param {string} text Search input
    * @param {object} options Search options such as
    *   words - Should search for whole words or just characters chains
-   *   translation - Name of the translation used for the versification system
+   *   edition - Name of the edition used for the versification system
    *   shouldSort - should the results be sorted by the indexes of book, chapter and verse
    * @param {object} progress A an object that would be updated about the progress
    * @returns {[]} Array of fragments (arrays including [bookIndex, chapterIndex, startVerse, endVerse])
@@ -349,7 +349,7 @@ export const jota = {
    * @param {string} parses BCV Parser instance to use
    * @param {object} object Options specifying
    *   apocrypha - should it search in apocrypha books,
-   *   translation - name of the translation to use for the versification system,
+   *   edition - name of the edition to use for the versification system,
    *   merge - should it combine consecutive passage references
    * @returns {string} List of passages encoded using osis standard
    */

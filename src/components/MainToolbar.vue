@@ -4,7 +4,7 @@
     <div class="row no-wrap items-center">
       <div class="gt-sm page-title"> Jota </div>
       <q-space />
-      <span id="translation-label" class="text-secondary q-mr-sm">{{ $t('mainToolbar.translationLabel') }}</span>
+      <span id="edition-label" class="text-secondary q-mr-sm">{{ $t('mainToolbar.editionLabel') }}</span>
       <BibleSelector :model-value="store.currentEdition" @update:model-value="value => store.currentKey = value"
         :editions="store.editionsGrouped" flag="true" class="q-pr-sm gt-sm" />
 

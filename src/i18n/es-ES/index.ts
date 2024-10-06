@@ -54,7 +54,7 @@ export default {
     search: 'Buscar'
   },
   mainToolbar: {
-    translationLabel: 'Traducción'
+    editionLabel: 'Traducción'
   },
   messageLine: {
     chapterLabel: 'Capítulo',
@@ -92,7 +92,7 @@ export default {
       comma: 'Coma',
       label: 'Carácter que separa el capítulo de los versículos en la referencia:'
     },
-    translationAbbreviation: {
+    editionAbbreviation: {
       label: 'Abreviatura de la traducción:',
       lowercase: 'Minúsculas',
       none: 'Ninguna',
@@ -169,7 +169,7 @@ export default {
     charsBefore: 'antes',
     charsAroundQuote: 'Caracteres alrededor de la cita',
     charsAroundReference: 'Caracteres alrededor de la referencia',
-    charsAroundTranslationAbbreviation: 'Caracteres alrededor de la abreviatura de la traducción',
+    charsAroundEditionAbbreviation: 'Caracteres alrededor de la abreviatura de la traducción',
     charsAroundVerseNumber: 'Caracteres alrededor del número de versículo',
     editTitle: 'Editar plantilla',
     example: 'Ejemplo de pasaje formateado',
@@ -192,7 +192,7 @@ export default {
     separatorChar: 'Carácter separador',
     templateName: 'Nombre de la plantilla',
     title: 'Plantillas de formato',
-    translationAbbreviation: 'Abreviatura de la traducción',
+    editionAbbreviation: 'Abreviatura de la traducción',
     uppercase: 'Mayúsculas',
     versesWithNumbers: 'Versículos con números',
     yes: 'Sí'
@@ -200,7 +200,7 @@ export default {
   settingsGeneral: {
     locale: 'Idioma predeterminado',
     defaultSearchResultLayout: 'Diseño predeterminado de los resultados de búsqueda',
-    defaultTranslation: 'Traducción predeterminada',
+    defaultEdition: 'Traducción predeterminada',
     formatted: 'Formateado',
     referencePickerOnStart: 'Mostrar selector de libro/capítulo en la página de inicio',
     split: 'Dividido',
@@ -213,11 +213,11 @@ export default {
     formatTemplates: 'Plantillas de formato',
     general: 'General',
     importExport: 'Importar / Exportar',
-    translations: 'Traducciones'
+    editions: 'Traducciones'
   },
-  settingsTranslations: {
+  settingsEditions: {
     allSelected: 'Todas seleccionadas',
-    defaultTranslation: 'Traducción predeterminada',
+    defaultEdition: 'Traducción predeterminada',
     downloading: 'Descargando ...',
     selectAll: 'Seleccionar todas para el idioma',
     selected: 'Seleccionadas',

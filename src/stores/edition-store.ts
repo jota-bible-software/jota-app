@@ -68,8 +68,8 @@ export const useEditionStore = defineStore('edition', () => {
       get(): EditionKey {
         return { lang, symbol: languageSettings[lang].defaultEdition }
       },
-      set(translationKey: EditionKey) {
-        setDefaultEdition(lang, translationKey.symbol)
+      set(editionKey: EditionKey) {
+        setDefaultEdition(lang, editionKey.symbol)
       }
     })
     const editionCount = groupEditions.length
@@ -123,7 +123,7 @@ export const useEditionStore = defineStore('edition', () => {
     })
   }
 
-  /** Fetch content for selected editions, starting from the default translation */
+  /** Fetch content for selected editions, starting from the default edition */
   const startPromise = currentEdition.value ? fetchEditionContent(currentEdition.value) : Promise.resolve()
   startPromise.then(() => {
     editions.forEach(edition => {

@@ -1032,7 +1032,7 @@ export const formatTemplates: FormatTemplateData[] = [
     name: 'App format',
     referencePosition: 'before',
     referenceLine: 'same line',
-    translationAbbreviation: 'none',
+    editionAbbreviation: 'none',
     numbers: false,
     verseNewLine: false,
     separatorChar: ':',
@@ -1043,14 +1043,14 @@ export const formatTemplates: FormatTemplateData[] = [
     quoteCharsAfter: '',
     verseNumberCharsBefore: '',
     verseNumberCharsAfter: '',
-    translationAbbreviationCharsBefore: '',
-    translationAbbreviationCharsAfter: '',
+    editionAbbreviationCharsBefore: '',
+    editionAbbreviationCharsAfter: '',
   },
   {
     name: 'English presentation',
     referencePosition: 'after',
     referenceLine: 'new line',
-    translationAbbreviation: 'uppercase',
+    editionAbbreviation: 'uppercase',
     numbers: false,
     verseNewLine: false,
     separatorChar: ':',
@@ -1061,14 +1061,14 @@ export const formatTemplates: FormatTemplateData[] = [
     quoteCharsAfter: '',
     verseNumberCharsBefore: '',
     verseNumberCharsAfter: '',
-    translationAbbreviationCharsBefore: '',
-    translationAbbreviationCharsAfter: '',
+    editionAbbreviationCharsBefore: '',
+    editionAbbreviationCharsAfter: '',
   },
   {
     name: 'Polska prezentacja',
     referencePosition: 'after',
     referenceLine: 'new line',
-    translationAbbreviation: 'uppercase',
+    editionAbbreviation: 'uppercase',
     numbers: false,
     verseNewLine: false,
     separatorChar: ',',
@@ -1079,14 +1079,14 @@ export const formatTemplates: FormatTemplateData[] = [
     quoteCharsAfter: '',
     verseNumberCharsBefore: '',
     verseNumberCharsAfter: '',
-    translationAbbreviationCharsBefore: '',
-    translationAbbreviationCharsAfter: '',
+    editionAbbreviationCharsBefore: '',
+    editionAbbreviationCharsAfter: '',
   },
   {
     name: 'Studium',
     referencePosition: 'before',
     referenceLine: 'new line',
-    translationAbbreviation: 'uppercase',
+    editionAbbreviation: 'uppercase',
     numbers: true,
     verseNewLine: false,
     separatorChar: ':',
@@ -1097,8 +1097,8 @@ export const formatTemplates: FormatTemplateData[] = [
     quoteCharsAfter: '',
     verseNumberCharsBefore: '(',
     verseNumberCharsAfter: ')',
-    translationAbbreviationCharsBefore: '',
-    translationAbbreviationCharsAfter: ''
+    editionAbbreviationCharsBefore: '',
+    editionAbbreviationCharsAfter: ''
   },
 ]
 
@@ -1113,26 +1113,26 @@ export const bookOrder = {
   }
 }
 
-const enTranslationContent: EditionContent = []
-enTranslationContent[42] = [[
+const enEditionContent: EditionContent = []
+enEditionContent[42] = [[
   'In the beginning the Word already existed. The Word was with God, and the Word was God.',
   'He existed in the beginning with God.',
   'God created everything through him, and nothing was created except through him.']]
 
-const plTranslationContent: EditionContent = []
-plTranslationContent[42] = [[
+const plEditionContent: EditionContent = []
+plEditionContent[42] = [[
   'Na początku było Słowo, a Słowo było u Boga i Bogiem było Słowo.',
   'Ono było na początku u Boga.',
   'Wszystko przez nie się stało, a bez niego nic się nie stało, co się stało.'
 ]]
 
 export const editionSamples = {
-  en: enTranslationContent,
-  pl: plTranslationContent
+  en: enEditionContent,
+  pl: plEditionContent
 }
 
 /*
-The format of translations:
+The format of editions:
 {
   title: '',
   symbol: '',
@@ -1155,7 +1155,7 @@ export const editionsData: EditionMeta[] = [
     size: 3_902_640,
   },
   {
-    title: 'New Living Translation',
+    title: 'New Living Edition',
     lang: 'en',
     symbol: 'NLT',
     size: 4_097_509,
@@ -1195,7 +1195,7 @@ export const editionsData: EditionMeta[] = [
   },
 ]
 
-export const translationMeta = editionsData
+export const editionMeta = editionsData
 
 export const supportedLanguageSymbols: LanguageSymbol[] = ['en', 'pl']
 
