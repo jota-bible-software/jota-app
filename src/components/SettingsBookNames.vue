@@ -1,5 +1,5 @@
 <template>
-  <SettingsPanel :title="$t('settingsBookNames.title')" lang>
+  <SettingsPanel :title="$t('settingsBookNames.title')" locale>
 
     <div class="row items-center">
       <div class="q-mr-md">{{ $t('settingsBookNames.appDisplay') }}</div>
@@ -7,7 +7,7 @@
     </div>
 
     <q-list bordered separator>
-      <q-item v-for="item in bookNamings" :key="item.name" class="q-px-none1">
+      <q-item v-for="item in items" :key="item.name" class="q-px-none1">
         <q-item-section>
           <div v-if="selected !== item.name">
             <div class="row items-center">
@@ -24,103 +24,95 @@
             </div>
           </div>
 
-          <FormContainer v-if="selected === item.name">
-            <q-input v-model="editedItem.name" :label="$t('settingsBookNames.standardName')" />
-            <q-input v-model="editedBooksText" :label="$t('settingsBookNames.bookNames')" autogrow />
-            <div class="q-my-md">
-              <div class="row q-gutter-sm">
+          <div>
+            <q-form ref="editItemFrom" @submit="save(item)" class="col q-gutter-sm" v-if="selected === item.name">
+              <q-input v-model="editedItem.name" :label="$t('settingsBookNames.standardName')"
+                :rules="nameValidationRules" />
+              <q-input v-model="editedBooksText" :label="$t('settingsBookNames.bookNames')" autogrow
+                :rules="booksValidationRules" />
+              <div class="q-my-md">
+                <div class="row q-gutter-sm">
 
-                <q-btn color="primary" @click="save(item)">
-                  <q-icon left name="save" />
-                  <div>{{ $t('settingsBookNames.saveButton') }}</div>
-                </q-btn>
+                  <q-btn color="primary" type="submit">
+                    <q-icon left name="save" />
+                    <div>{{ $t('settingsBookNames.saveButton') }}</div>
+                  </q-btn>
 
-                <q-btn outline color="primary" @click="selected = ''">
-                  <q-icon left name="undo" />
-                  <div>{{ $t('settingsBookNames.cancelButton') }}</div>
-                </q-btn>
+                  <q-btn outline color="primary" @click="selected = ''">
+                    <q-icon left name="undo" />
+                    <div>{{ $t('settingsBookNames.cancelButton') }}</div>
+                  </q-btn>
 
-                <q-btn outline color="primary" @click="appBookNaming = selected">
-                  <q-icon left name="desktop_windows" />
-                  <div>{{ $t('settingsBookNames.useOnAppScreen') }}</div>
-                </q-btn>
-                <q-space />
+                  <q-btn outline color="primary" @click="appBookNaming = selected">
+                    <q-icon left name="desktop_windows" />
+                    <div>{{ $t('settingsBookNames.useOnAppScreen') }}</div>
+                  </q-btn>
+                  <q-space />
 
-                <q-btn outline color="red-4" @click="remove" :disabled="!!removeTooltip">
-                  <q-icon left name="delete" />
-                  <div>{{ $t('settingsBookNames.removeButton') }}</div>
-                  <q-tooltip v-if="!!removeTooltip">{{ removeTooltip }}</q-tooltip>
-                </q-btn>
+                  <q-btn outline color="red-4" @click="remove" :disabled="!!removeTooltip">
+                    <q-icon left name="delete" />
+                    <div>{{ $t('settingsBookNames.removeButton') }}</div>
+                    <q-tooltip v-if="!!removeTooltip">{{ removeTooltip }}</q-tooltip>
+                  </q-btn>
 
+                </div>
               </div>
-            </div>
-          </FormContainer>
+            </q-form>
+          </div>
 
         </q-item-section>
       </q-item>
     </q-list>
 
-    <div class="q-mt-xl">
-      <FormContainer>
+    <div>
+      <q-form ref="addItemFrom" @submit="add" class="col q-mt-xl q-gutter-sm">
         <span>{{ $t('settingsBookNames.addNewNaming') }}</span>
-        <q-input v-model="newItem.name" :label="$t('settingsBookNames.standardName')" :rules="[
-          (val: string) => !!val || $t('settingsBookNames.nameCannotBeEmpty'),
-          (val: string) => !names.includes(val) || $t('settingsBookNames.nameAlreadyExists')
-        ]" />
-        <q-input v-model="newBooksText" :label="$t('settingsBookNames.bookNames')" autogrow :rules="[
-          (val: string) => !!val || $t('settingsBookNames.bookListCannotBeEmpty'),
-          (val: string) => {
-            const bookCount = val.split(',').length
-            return bookCount === 73 || $t('settingsBookNames.bookCountError', {
-              count: bookCount,
-              books: bookCount === 1 ? $t('settingsBookNames.book') :
-                bookCount < 5 ? $t('settingsBookNames.books2to4') :
-                  $t('settingsBookNames.books5plus')
-            })
-          }
-        ]" />
+        <q-input v-model="newItem.name" :label="$t('settingsBookNames.standardName')" :rules="nameValidationRules" />
+        <q-input v-model="newBooksText" :label="$t('settingsBookNames.bookNames')" autogrow
+          :rules="booksValidationRules" />
+
+        <!-- Button bar -->
         <div class="q-mt-md">
           <div class="row q-gutter-sm">
-            <q-btn color="accent" @click="add">
+            <q-btn color="accent" type="submit">
               <q-icon left name="add" />
               <div>{{ $t('settingsBookNames.addButton') }}</div>
             </q-btn>
           </div>
         </div>
-      </FormContainer>
+
+      </q-form>
     </div>
+
   </SettingsPanel>
 </template>
 
 <script setup lang="ts">
-import { ComputedRef, computed, ref } from 'vue'
-import { supportedLanguageSymbols } from 'src/logic/data'
+import { computed, ref } from 'vue'
 import { useSettingsStore } from 'stores/settings-store'
-import FormContainer from './FormContainer.vue'
 import SettingsPanel from './SettingsPanel.vue'
 import { BookNaming } from 'src/types'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-const store = useSettingsStore()
-
-const bookNamings: ComputedRef<BookNaming[]> = computed(() =>
-  store.persist.languageSettings[store.lang].bookNamings.toSorted(
-    (a, b) => a.name.localeCompare(b.name, store.lang, { sensitivity: 'base', ignorePunctuation: true })))
+const settings = useSettingsStore()
+const addItemFrom = ref()
 
 const appBookNaming = computed({
   get(): string {
-    return store.persist.languageSettings[store.lang].appBookNaming
+    return settings.focusedLocalized?.appBookNaming || ''
   },
   set(value: string) {
-    store.persist.languageSettings[store.lang].appBookNaming = value
+    const v = settings.persist.localized[settings.focusedLocale]
+    if (v) v.appBookNaming = value
   }
 })
-const names = computed(() => bookNamings.value.map(it => it.name))
+
+const items = computed(() => settings.focusedLocalized.bookNamings)
+const names = computed(() => items.value.map(it => it.name))
 const selected = ref('')
 
-
-const emptyItem: BookNaming = { lang: store.lang, name: '', books: [] as string[] }
+const emptyItem: BookNaming = { locale: settings.focusedLocale, name: '', books: [] as string[] }
 const editedBooksText = ref('')
 const editedItem = ref<BookNaming>({ ...emptyItem })
 function edit(item: BookNaming) {
@@ -143,22 +135,22 @@ const removeTooltip = computed(() => {
   }
 
   let foundTemplateName = ''
-  let foundLang = ''
-  for (const t of store.persist.copyTemplates) {
-    for (const lang of supportedLanguageSymbols) {
-      if (t.lang[lang].bookNaming === selected.value) {
+  let foundLocale = ''
+  for (const t of settings.persist.copyTemplates) {
+    for (const locale of settings.locales) {
+      if (t.locale[locale].bookNaming === selected.value) {
         foundTemplateName = t.name
-        foundLang = lang
+        foundLocale = locale
         break
       }
     }
     if (!!foundTemplateName) break
   }
-  return !!foundTemplateName ? t('settingsBookNames.removeTooltipCopyTemplate', { templateName: foundTemplateName, lang: foundLang }) : ''
+  return !!foundTemplateName ? t('settingsBookNames.removeTooltipCopyTemplate', { templateName: foundTemplateName, locale: foundLocale }) : ''
 })
 
 function remove() {
-  const a = store.persist.languageSettings[store.lang].bookNamings
+  const a = settings.focusedLocalized.bookNamings
   const i = a.findIndex(it => it.name === selected.value)
   if (i !== -1) a.splice(i, 1)
   selected.value = ''
@@ -168,10 +160,29 @@ const newItem = ref<BookNaming>({ ...emptyItem })
 const newBooksText = ref('')
 function add() {
   newItem.value.books = newBooksText.value.split(',').map(it => it.trim())
-  store.persist.languageSettings[store.lang].bookNamings.push(newItem.value)
+  settings.focusedLocalized.bookNamings.push(newItem.value)
+  settings.focusedLocalized.bookNamings.sort((a, b) => a.name.localeCompare(b.name, newItem.value.locale, { sensitivity: 'base', ignorePunctuation: true }))
   newItem.value = { ...emptyItem }
   newBooksText.value = ''
+  nextTick(() => {
+    addItemFrom.value.resetValidation()
+  })
 }
 
-
+const nameValidationRules = [
+  (val: string) => !!val || t('settingsBookNames.nameCannotBeEmpty'),
+  (val: string) => val === selected.value || !names.value.includes(val) || t('settingsBookNames.nameAlreadyExists')
+]
+const booksValidationRules = [
+  (val: string) => !!val || t('settingsBookNames.bookListCannotBeEmpty'),
+  (val: string) => {
+    const bookCount = val.split(',').length
+    return bookCount === 73 || t('settingsBookNames.bookCountError', {
+      count: bookCount,
+      books: bookCount === 1 ? t('settingsBookNames.book') :
+        bookCount < 5 ? t('settingsBookNames.books2to4') :
+          t('settingsBookNames.books5plus')
+    })
+  }
+]
 </script>

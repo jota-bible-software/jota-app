@@ -1,17 +1,12 @@
-import { CopyTemplateData, FormatTemplateData, LanguageSymbol, LocaleSymbol, EditionContent, EditionMeta } from 'src/types'
+import { LocaleSymbol, EditionMeta, CopyTemplateData, FormatTemplateData, LanguageSymbol, BookNaming } from 'src/types'
 
-export const languageData: Array<{ symbol: LanguageSymbol, name: string }> = [
-  {
-    symbol: 'en',
-    name: 'English'
-  },
-  {
-    symbol: 'pl',
-    name: 'Polski'
-  },
-]
 
 export const localeData: Array<{ symbol: LocaleSymbol, langName: string, regionName: string }> = [
+  {
+    symbol: 'en-GB',
+    langName: 'English',
+    regionName: 'Great Britain'
+  },
   {
     symbol: 'en-US',
     langName: 'English',
@@ -41,7 +36,7 @@ export const localeData: Array<{ symbol: LocaleSymbol, langName: string, regionN
 
 export const bookNamings = [
   {
-    lang: 'en',
+    locale: 'en',
     name: 'Standard',
     books: [
       'Genesis',
@@ -112,18 +107,16 @@ export const bookNamings = [
       'Revelation',
       'Tobit',
       'Judith',
+      '1 Maccabees',
+      '2 Maccabees',
       'Wisdom of Solomon',
       'Sirach (Ecclesiasticus)',
       'Baruch',
-      '1 Maccabees',
-      '2 Maccabees',
-      'Additions to Esther',
-      'Additions to Daniel'
     ]
   },
   {
     // Source: https://guide.unwsp.edu/c.php?g=1321431&p=9721749
-    lang: 'en',
+    locale: 'en',
     name: 'SBL abbreviations',
     books: [
       'Gen',
@@ -203,7 +196,7 @@ export const bookNamings = [
   },
   {
     // Source: https://wiki.crosswire.org/OSIS_Book_Abbreviations
-    lang: 'en',
+    locale: 'en',
     name: 'OSIS abbreviations',
     books: [
       'Gen',
@@ -282,7 +275,7 @@ export const bookNamings = [
     ]
   },
   {
-    lang: 'pl',
+    locale: 'pl',
     name: 'EIB skrócone',
     books: [
       'Rodzaju',
@@ -361,7 +354,7 @@ export const bookNamings = [
     ]
   },
   {
-    lang: 'pl',
+    locale: 'pl',
     name: 'EIB pełne',
     books: [
       'Księga Rodzaju',
@@ -441,7 +434,7 @@ export const bookNamings = [
   },
   {
     // Source: https://pl.wikipedia.org/wiki/Biblia_Tysi%C4%85clecia
-    lang: 'pl',
+    locale: 'pl',
     name: 'BT5 pełne',
     books: [
       'Księga Rodzaju',
@@ -521,7 +514,7 @@ export const bookNamings = [
   },
   {
     // Source: https://biblia.deon.pl/menu.php?st_id=4
-    lang: 'pl',
+    locale: 'pl',
     name: 'BT5 średnie',
     books: [
       'Ks. Rodzaju',
@@ -600,7 +593,7 @@ export const bookNamings = [
   },
   {
     // Source https://pl.wikipedia.org/wiki/Biblia_warszawska
-    lang: 'pl',
+    locale: 'pl',
     name: 'BW pełne',
     books: [
       'Pierwsza Księga Mojżeszowa',
@@ -679,7 +672,7 @@ export const bookNamings = [
   },
   {
     // Short names
-    lang: 'pl',
+    locale: 'pl',
     name: 'BW średnie',
     books: [
       '1 Mojżoszowa',
@@ -752,7 +745,7 @@ export const bookNamings = [
   },
   {
     // Source: https://pl.wikipedia.org/wiki/Biblia_Tysi%C4%85clecia
-    lang: 'pl',
+    locale: 'pl',
     name: 'BT skróty',
     books: [
       'Rdz',
@@ -832,7 +825,7 @@ export const bookNamings = [
   },
   {
     // Source https://pl.wikipedia.org/wiki/Biblia_warszawska
-    lang: 'pl',
+    locale: 'pl',
     name: 'BW skróty',
     books: [
       'I Mojż.',
@@ -903,7 +896,7 @@ export const bookNamings = [
     ]
   },
   {
-    lang: 'pl',
+    locale: 'pl' as LocaleSymbol,
     name: 'Moje pl',
     books: [
       'Rdz',
@@ -986,27 +979,17 @@ export const bookNamings = [
   //   name: '',
   //   books: []
   // },
-]
-
-export const defaultBookNames = {
-  en: 'Standard',
-  pl: 'EIB skrócone',
-}
-
-export const appBookAbbreviations = {
-  en: 'SBL abbreviations',
-  pl: 'BT skróty',
-}
+] as BookNaming[]
 
 export const copyTemplates: CopyTemplateData[] = [
   {
     name: 'Prezentacja',
-    lang: {
-      en: {
+    locale: {
+      'en-US': {
         formatTemplate: 'English presentation',
         bookNaming: 'Standard'
       },
-      pl: {
+      'pl-PL': {
         formatTemplate: 'Polska prezentacja',
         bookNaming: 'EIB skrócone'
       }
@@ -1014,12 +997,12 @@ export const copyTemplates: CopyTemplateData[] = [
   },
   {
     name: 'Studium',
-    lang: {
-      en: {
+    locale: {
+      'en-US': {
         formatTemplate: 'Studium',
         bookNaming: 'SBL abbreviations'
       },
-      pl: {
+      'pl-PL': {
         formatTemplate: 'Studium',
         bookNaming: 'Moje pl'
       }
@@ -1102,34 +1085,12 @@ export const formatTemplates: FormatTemplateData[] = [
   },
 ]
 
-export function getBookNames(lang: LanguageSymbol, name: string): string[] {
-  const found = bookNamings.find(it => it.lang === lang && it.name === name)
-  return found && found.books || []
-}
-
 export const bookOrder = {
   pl: {
     bt5: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 66, 67, 16, 68, 69, 17, 18, 19, 20, 21, 70, 71, 22, 23, 24, 72, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65]
   }
 }
 
-const enEditionContent: EditionContent = []
-enEditionContent[42] = [[
-  'In the beginning the Word already existed. The Word was with God, and the Word was God.',
-  'He existed in the beginning with God.',
-  'God created everything through him, and nothing was created except through him.']]
-
-const plEditionContent: EditionContent = []
-plEditionContent[42] = [[
-  'Na początku było Słowo, a Słowo było u Boga i Bogiem było Słowo.',
-  'Ono było na początku u Boga.',
-  'Wszystko przez nie się stało, a bez niego nic się nie stało, co się stało.'
-]]
-
-export const editionSamples = {
-  en: enEditionContent,
-  pl: plEditionContent
-}
 
 /*
 The format of editions:
@@ -1143,28 +1104,27 @@ If 'bookNames' is not specified, then it will be taken from bookNames[lang].defa
 
 export const editionsData: EditionMeta[] = [
   {
-    lang: 'en',
+    locale: 'en-US',
     title: 'King James Version',
     symbol: 'KJV',
     size: 4_472_372,
   },
   {
-    lang: 'en',
+    locale: 'en-US',
     title: 'New International Version',
     symbol: 'NIV',
     size: 3_902_640,
   },
   {
-    title: 'New Living Edition',
-    lang: 'en',
+    title: 'New Living Translation',
+    locale: 'en-US',
     symbol: 'NLT',
     size: 4_097_509,
   },
-
   {
     title: 'Biblia Ewangeliczna',
     symbol: 'EIB',
-    lang: 'pl',
+    locale: 'pl-PL',
     size: 4_104_753,
     year: '2016',
     bookNames: 'protestancki',
@@ -1172,7 +1132,7 @@ export const editionsData: EditionMeta[] = [
   {
     title: 'Biblia Tysiąclecia V',
     symbol: 'BT5',
-    lang: 'pl',
+    locale: 'pl-PL',
     size: 4_552_494,
     year: '2000',
     bookOrder: 'bt5',
@@ -1180,7 +1140,7 @@ export const editionsData: EditionMeta[] = [
   {
     title: 'Biblia Warszawska (brytyjka)',
     symbol: 'BW',
-    lang: 'pl',
+    locale: 'pl-PL',
     size: 4_024_215,
     year: '1975',
     bookNames: 'bw pełne',
@@ -1188,17 +1148,13 @@ export const editionsData: EditionMeta[] = [
   {
     title: 'Uwspółcześniona Biblia Gdańska',
     symbol: 'UBG',
-    lang: 'pl',
+    locale: 'pl-PL',
     size: 3_962_719,
     year: '2017',
     bookNames: 'protestancki',
   },
 ]
 
-export const editionMeta = editionsData
-
 export const supportedLanguageSymbols: LanguageSymbol[] = ['en', 'pl']
 
-
 // Check the uniqueness of symbols and names
-

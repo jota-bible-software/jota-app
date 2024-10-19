@@ -12,12 +12,6 @@ export default {
     selectBible: 'Selecionar Bíblia',
     selectFromList: 'Selecionar da lista'
   },
-  bookNamesEditor: {
-    selectFromList: 'Selecionar da lista'
-  },
-  bookNamingList: {
-    selectBookNaming: 'Selecionar nomenclatura dos livros'
-  },
   buttonBookSelector: {
     hideButtons: 'Ocultar botões de seleção de livro e capítulo',
     selectBook: 'Selecionar livro',
@@ -45,6 +39,11 @@ export default {
     backToHome: 'Voltar à página inicial',
     message: 'A página que você está procurando não foi encontrada.',
     title: '404'
+  },
+  editionStore: {
+    editionNotFound: 'Conteúdo da edição não encontrado para {symbol} ({locale})',
+    editionFetchError: 'Erro ao buscar conteúdo da edição para {symbol} ({locale})',
+    noDataReceived: 'Nenhum dado recebido da solicitação de busca',
   },
   mainPage: {
     clearSearch: 'Limpar critérios e resultados de pesquisa',
@@ -79,26 +78,6 @@ export default {
   pageHeader: {
     backToHome: 'Voltar à página inicial'
   },
-  passageFormatEditor: {
-    bookNamesLabel: 'Nomes dos livros na referência da passagem:',
-    example: 'Exemplo de formatação de passagem com um único versículo e com vários:',
-    options: {
-      newLine: 'Cada versículo em uma nova linha',
-      numbers: 'Versículos com números',
-      quotes: 'Conteúdo da passagem entre aspas'
-    },
-    separatorChar: {
-      colon: 'Dois pontos',
-      comma: 'Vírgula',
-      label: 'Caractere que separa o capítulo dos versículos na referência:'
-    },
-    editionAbbreviation: {
-      label: 'Abreviação da tradução:',
-      lowercase: 'Minúsculas',
-      none: 'Nenhuma',
-      uppercase: 'Maiúsculas'
-    }
-  },
   routes: {
     settings: 'Configurações'
   },
@@ -114,6 +93,16 @@ export default {
     textDecrease: 'Diminuir texto',
     textIncrease: 'Aumentar texto',
     title: 'Aparência'
+  },
+  searchStore: {
+    errorPrefix: 'Erro:',
+    noTemplateFound: 'Nenhum modelo de cópia encontrado',
+    editionContentNotLoaded: 'Conteúdo da edição não carregado',
+    noFragmentsFound: 'Nenhum fragmento encontrado',
+    formattingError: 'Erro durante a formatação:',
+    noPassageSelected: 'Nenhuma passagem selecionada',
+    sortTooltip: 'Alternar classificação e remoção de duplicatas entre os fragmentos encontrados',
+    warningCouldNotFormat: 'Não foi possível formatar',
   },
   settingsBookNames: {
     addButton: 'Adicionar',
@@ -198,13 +187,30 @@ export default {
     yes: 'Sim'
   },
   settingsGeneral: {
-    locale: 'Idioma padrão', // Changed from defaultLanguage
+    locale: 'Idioma e região padrão', // Changed from defaultLanguage
     defaultSearchResultLayout: 'Layout padrão dos resultados de pesquisa',
     defaultEdition: 'Tradução padrão',
     formatted: 'Formatado',
     referencePickerOnStart: 'Mostrar seletor de livro/capítulo na página inicial',
     split: 'Dividido',
     title: 'Configurações gerais'
+  },
+  settingsImportExport: {
+    title: 'Importar / Exportar',
+    lastImportedFile: 'Último arquivo carregado',
+    selectSettingsFile: 'Selecione o arquivo de configurações',
+    importButton: 'Importar',
+    exportButton: 'Exportar',
+    resetSettings: 'Redefinir configurações',
+    settingsSaved: 'Configurações salvas no arquivo {filename}',
+    settingsNotSaved: 'Não foi possível salvar as configurações',
+    importSuccess: 'Configurações importadas com sucesso',
+    resetConfirmTitle: 'Redefinir configurações',
+    resetConfirmMessage: 'Tem certeza de que deseja redefinir todas as configurações?',
+    yes: 'Sim',
+    no: 'Não',
+    resetSuccess: 'Configurações redefinidas com sucesso',
+    selectFileFirst: 'Primeiro selecione um arquivo'
   },
   settingsPage: {
     appearance: 'Aparência',

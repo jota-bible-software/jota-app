@@ -1,9 +1,9 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useStorage } from '@vueuse/core'
-import { getDefaultLocale, LOCAL_STORAGE_KEY } from 'src/util'
-import { Ref, computed } from 'vue'
-import { bookNamings, editionsData, formatTemplates, copyTemplates } from 'src/logic/data'
-import { LanguageSymbol, PassageListLayout, ScreenMode, SettingsPersistType, LanguageSettings } from 'src/types'
+import { getDefaultLocale, getLang, LOCAL_STORAGE_KEY } from 'src/util'
+import { Ref, computed, ref } from 'vue'
+import { bookNamings, formatTemplates, copyTemplates } from 'src/logic/data'
+import { PassageListLayout, ScreenMode, SettingsPersistType, Localized, LocaleSymbol, BookNaming } from 'src/types'
 
 
 const locale = getDefaultLocale()
@@ -17,16 +17,16 @@ const initialPersistValue: SettingsPersistType = {
     screenMode: 'dark' as ScreenMode,
     primaryColor: '', // Default depends on screen mode
   },
-  languageSettings: {
-    en: {
+  localized: {
+    'en-US': {
       appBookNaming: 'SBL abbreviations',
-      bookNamings: bookNamings.filter(it => it.lang === 'en'),
-      selectedEditions: ['KJV', 'NIV', 'NLT'],
+      bookNamings: getBookNamings('en'),
+      selectedEditions: ['NIV', 'NLT', 'KJV'],
       defaultEdition: 'KJV',
     },
-    pl: {
+    'pl-PL': {
       appBookNaming: 'Moje pl',
-      bookNamings: bookNamings.filter(it => it.lang === 'pl'),
+      bookNamings: getBookNamings('pl'),
       selectedEditions: ['EIB', 'BW', 'UBG'],
       defaultEdition: 'UBG',
     }
@@ -39,28 +39,28 @@ const initialPersistValue: SettingsPersistType = {
   referencePickerOnStart: true,
 }
 
+function getBookNamings(localeOrLang: string): BookNaming[] {
+  const localLang = getLang(localeOrLang)
+  return bookNamings
+    .filter(_ => getLang(_.locale) === localLang)
+    .map(_ => ({ ..._, booksText: _.books.join(', ') }))
+    .sort((a, b) => a.name.localeCompare(b.name, localLang, { sensitivity: 'base', ignorePunctuation: true }))
+}
+
+
 export const useSettingsStore = defineStore('settings', () => {
   const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', initialPersistValue, localStorage, { deep: true })
 
-  const lang: Ref<LanguageSymbol> = computed(() => persist.value.appearance.locale.split('-')[0] as LanguageSymbol)
-  const languageSettings: Ref<LanguageSettings> = computed(() => persist.value.languageSettings[lang.value])
-  const appBookNames = computed(() => languageSettings.value.bookNamings.find(it => it.name === languageSettings.value.appBookNaming)?.books || [])
+  /** Language symbol of the currently selected locale for the application*/
+  const localized: Ref<Localized> = computed(() => persist.value.localized[persist.value.appearance.locale])
+  const appBookNames = computed(() => localized.value.bookNamings.find(it => it.name === localized.value.appBookNaming)?.books || [])
   const appFormatTemplate = computed(() => persist.value.formatTemplates.find(it => it.name === persist.value.appFormatTemplateName))
 
-  // Computed
+  /** Language currently focused in the settings to store the accordion state for edition or filter items in namings*/
+  const focusedLocale = ref<LocaleSymbol>(persist.value.appearance.locale)
+  const focusedLocalized = computed(() => persist.value.localized[focusedLocale.value])
 
-  /** List of book namings for the currently selected lang in langDefaults */
-  const bookNamingList = computed(() => bookNamings
-    .filter(_ => _.lang === lang.value)
-    .map(_ => ({ ..._, booksText: _.books.join(', ') }))
-    .sort((a, b) => a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })))
-
-
-  const localeEditions = computed(() => editionsData.filter(it => it.lang === lang.value).map(it => it.symbol).sort())
-
-  function nameSorter(a: { name: string }, b: { name: string }) {
-    return a.name.localeCompare(b.name, lang.value, { sensitivity: 'base', ignorePunctuation: true })
-  }
+  const locales = computed(() => Object.keys(persist.value.localized).sort() as LocaleSymbol[])
 
   function reset() {
     for (const key in initialPersistValue) {
@@ -68,14 +68,8 @@ export const useSettingsStore = defineStore('settings', () => {
     }
   }
 
-  return {
-    appBookNames, appFormatTemplate, bookNamingList, lang, localeEditions,
-    /** Contains settings for the language in the currently selected locale (settings.persist.appearance.locale) */
-    languageSettings,
-    nameSorter, persist, reset
-  }
+  return { appBookNames, appFormatTemplate, getBookNamings, focusedLocale, focusedLocalized, locales, localized, persist, reset }
 })
-
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useSettingsStore, import.meta.hot))

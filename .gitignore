@@ -33,8 +33,10 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-# local .env files
+# Other local files
 .env.local*
 /private
 src/assets/data
 .aider*
+
+

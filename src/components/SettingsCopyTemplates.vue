@@ -2,7 +2,7 @@
   <SettingsPanel v-if="!selected && !isNewItem" :title="$t('settingsCopyTemplates.title')">
 
     <LabelRow :label="$t('settingsCopyTemplates.defaultTemplate')">
-      <q-select v-model="store.persist.defaultCopyTemplate" :options="items" option-label="name" />
+      <q-select v-model="settings.persist.defaultCopyTemplate" :options="items" option-label="name" />
     </LabelRow>
 
     <div>
@@ -40,32 +40,15 @@
       </div>
     </LabelRow>
 
-    <!-- <q-list bordered separator class="col-auto" style="min-width: 350px; max-width: 650px">
-      <q-item v-for="lang in languages" :key="lang.symbol" class="q-px-none1" clickable @click="1 == 1">
-        <q-item-section>
-          <q-item-label>
-            <LabelRow>
-              <FlagIcon :lang="lang.symbol" />
-              <div class="col">{{ editedItem.bookNaming }}</div>
-              <div class="col">{{ editedItem.formatTemplate }}</div>
-            </LabelRow>
-          </q-item-label>
-        </q-item-section>
-        <q-item-section avatar>
-          <q-icon color="primary" name="chevron_right" />
-        </q-item-section>
-      </q-item>
-    </q-list> -->
-
     <LabelRow>
-      <FlagIcon lang="en" style="visibility: hidden" />
+      <FlagIcon region="en" style="visibility: hidden" /> <!-- To preserve the appropriate space for column header -->
       <div class="col">{{ $t('settingsCopyTemplates.formatTemplate') }}</div>
       <div class="col">{{ $t('settingsCopyTemplates.bookNaming') }}</div>
     </LabelRow>
-    <LabelRow v-for="lang in languages" :key="lang.symbol">
-      <FlagIcon :lang="lang.symbol" />
+    <LabelRow v-for="locale in settings.locales" :key="locale">
+      <FlagIcon :region="locale2region(locale)" />
 
-      <q-select v-model="editedItem.lang[lang.symbol].formatTemplate" :options="formatTemplates" option-label="name"
+      <q-select v-model="editedItem.locale[locale].formatTemplate" :options="formatTemplates" option-label="name"
         option-value="name" map-options emit-value use-input class="col">
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
@@ -77,7 +60,7 @@
         </template>
       </q-select>
 
-      <q-select v-model="editedItem.lang[lang.symbol].bookNaming" :options="bookNamings(lang.symbol)"
+      <q-select v-model="editedItem.locale[locale].bookNaming" :options="settings.getBookNamings(locale)"
         option-label="name" option-value="name" map-options emit-value use-input class="col">
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
@@ -123,39 +106,30 @@
 
 <script setup lang="ts">
 import { ref, toRaw } from 'vue'
-import { CopyTemplateData, LanguageSymbol } from 'src/types'
-import { languageData } from 'src/logic/data'
+import { CopyTemplateData, LocaleSymbol } from 'src/types'
 import { useSettingsStore } from 'stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
 import FlagIcon from './FlagIcon.vue'
 import LabelRow from './LabelRow.vue'
 import { Dialog } from 'quasar'
+import { nameSorter, locale2region } from 'src/util'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-const store = useSettingsStore()
-const languages = ref(languageData)
-
-
-function bookNamings(lang: LanguageSymbol) {
-  return store.persist.languageSettings[lang].bookNamings
-}
-
-const formatTemplates = store.persist.formatTemplates
-
-// const templates: ComputedRef<CopyTemplateData[]> = computed(() => store.persist.copyTemplates)
-const items: CopyTemplateData[] = store.persist.copyTemplates
+const settings = useSettingsStore()
+const formatTemplates = settings.persist.formatTemplates
+const items: CopyTemplateData[] = settings.persist.copyTemplates
 
 function getEmptyItem() {
   const emptyItem: CopyTemplateData = {
     name: '',
-    lang: languages.value.reduce((acc, cur) => {
-      acc[cur.symbol] = {
+    locale: settings.locales.reduce((acc, cur) => {
+      acc[cur] = {
         bookNaming: '',
         formatTemplate: '',
       }
       return acc
-    }, {} as Record<LanguageSymbol, { formatTemplate: string, bookNaming: string }>)
+    }, {} as Record<LocaleSymbol, { formatTemplate: string, bookNaming: string }>)
   }
 
   return emptyItem
@@ -170,7 +144,7 @@ const selectedItem = ref(getEmptyItem())
 const isNewItem = ref(false)
 
 function isDefault(item: CopyTemplateData) {
-  return store.persist.defaultCopyTemplate === item.name
+  return settings.persist.defaultCopyTemplate === item.name
 }
 
 const editedItem = ref<CopyTemplateData>(getEmptyItem())
@@ -200,7 +174,7 @@ function save() {
 
   if (isNewItem.value) {
     items.push(editedItem.value)
-    items.sort(store.nameSorter)
+    items.sort(nameSorter(settings.persist.appearance.locale))
 
     editedItem.value = getEmptyItem() // Reset the edited item
   } else {
@@ -221,13 +195,13 @@ function remove() {
       items.splice(i, 1)
 
       // Check if the removed item was the default template
-      if (selected.value === store.persist.defaultCopyTemplate) {
+      if (selected.value === settings.persist.defaultCopyTemplate) {
         // If there are remaining items, set the first one as default
         if (items.length > 0) {
-          store.persist.defaultCopyTemplate = items[0].name
+          settings.persist.defaultCopyTemplate = items[0].name
         } else {
           // If no items left, set to empty string
-          store.persist.defaultCopyTemplate = ''
+          settings.persist.defaultCopyTemplate = ''
         }
       }
     }

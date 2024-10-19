@@ -1,5 +1,5 @@
 import { LanguageSymbol, LocaleSymbol } from './types'
-import { languageData } from './logic/data'
+import { localeData } from './logic/data'
 import locales from './i18n'
 
 export const LOCAL_STORAGE_KEY = 'pl.netanel.jota-app'
@@ -96,6 +96,10 @@ export function focusElement(ref: HTMLElement | null) {
   }
 }
 
+export function nameSorter(locale: LocaleSymbol) {
+  return (a: { name: string }, b: { name: string }) => a.name.localeCompare(b.name, locale, { sensitivity: 'base', ignorePunctuation: true })
+}
+
 export function errorMessage(prefix: string, ex: unknown): string {
   const message = ex instanceof Error ? ex.message : String(ex)
   return `${prefix} ${message}`
@@ -115,5 +119,17 @@ export function convertObject<T extends object, M extends object>(
 }
 
 export function nativeLanguageName(lang: LanguageSymbol): string {
-  return languageData.find(it => it.symbol === lang)?.name || lang
+  return localeData.find(it => it.symbol.startsWith(lang))?.langName || lang
+}
+
+export function locale2lang(locale: LocaleSymbol): LanguageSymbol {
+  return locale.split('-')[0] as LanguageSymbol
+}
+
+export function getLang(localeOrLang: string): string {
+  return localeOrLang.substring(0, 2)
+}
+
+export function locale2region(locale: LocaleSymbol): string {
+  return locale ? locale.split('-')[1].toLowerCase() : ''
 }

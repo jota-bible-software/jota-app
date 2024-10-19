@@ -4,25 +4,25 @@
       <span class="text-bold">{{ store.allSelectedCount }} / {{ store.editions.length }}</span>
     </LabelRow>
     <q-list id="editions" class="rounded-borders">
-      <q-expansion-item v-for="(group, i) in store.groups" :key="group.lang"
-        :default-opened="group.lang === settings.lang" group="a" :class="{ highlight: store.focusLang === group.lang }"
-        @show="store.focusLang = group.lang" bordered>
+      <q-expansion-item v-for="(group, i) in store.groups" :key="group.locale"
+        :default-opened="group.locale === settings.persist.appearance.locale" group="a"
+        :class="{ highlight: store.focusLang === group.locale }" @show="store.focusLang = group.locale" bordered>
 
         <!-- Collapsible Header -->
         <template v-slot:header>
           <q-item-section>
             <div class="row items-center q-gutter-sm">
               <q-toggle :model-value="group.selectedStatus" @update:model-value="group.toggleSelected">
-                <q-tooltip>{{ $t('settingsEditions.selectAll') }} {{ group.lang }}</q-tooltip>
+                <q-tooltip>{{ $t('settingsEditions.selectAll') }} {{ group.locale }}</q-tooltip>
               </q-toggle>
               <q-btn flat>
-                <FlagIcon :lang="group.lang" />
+                <FlagIcon :region="locale2region(group.locale)" />
               </q-btn>
               <span class="text-weight-bold w-4">
-                {{ group.lang }}
+                {{ group.locale }}
               </span>
               <span class="text-weight-bold">
-                {{ nativeLanguageName(group.lang) }}
+                {{ nativeLanguageName(group.locale) }}
               </span>
             </div>
           </q-item-section>
@@ -90,7 +90,7 @@ import SettingsPanel from './SettingsPanel.vue'
 import LabelRow from './LabelRow.vue'
 import FlagIcon from './FlagIcon.vue'
 import BibleSelector from './BibleSelector.vue'
-import { nativeLanguageName } from 'src/util'
+import { locale2region, nativeLanguageName } from 'src/util'
 
 const store = useEditionStore()
 const settings = useSettingsStore()
@@ -103,7 +103,7 @@ const settings = useSettingsStore()
 }
 
 .w-4 {
-  width: 2em;
+  width: 4em;
 }
 
 .highlight {

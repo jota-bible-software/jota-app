@@ -1,7 +1,7 @@
 <template>
   <q-select v-model="selected" :options="localeOptions" emit-value popup-content-style="white-space: nowrap" dense>
     <template v-slot:selected>
-      <FlagIcon :lang="getRegionCode(selected)" />
+      <FlagIcon :region="locale2region(selected)" />
       <span class="gt-sm q-ml-md">{{ getDisplayName(selected) }}</span>
     </template>
 
@@ -9,7 +9,7 @@
       <q-item v-bind="scope.itemProps">
         <q-item-section>
           <q-item-label>
-            <FlagIcon :lang="getRegionCode(scope.opt.value)" />
+            <FlagIcon :region="locale2region(scope.opt.value)" />
             <span class="q-ml-md">{{ getDisplayName(scope.opt.value) }}</span>
           </q-item-label>
         </q-item-section>
@@ -22,32 +22,31 @@
 import { computed } from 'vue'
 import { localeData } from 'src/logic/data'
 import FlagIcon from './FlagIcon.vue'
-import { useSettingsStore } from 'src/stores/settings-store'
+import { locale2region } from 'src/util'
 import { LocaleSymbol } from 'src/types'
-import { useI18n } from 'vue-i18n'
+import { useSettingsStore } from 'src/stores/settings-store'
 
 const store = useSettingsStore()
 
-const { locale } = useI18n({ useScope: 'global' })
+const props = defineProps(['modelValue', 'flag', 'editions'])
+const emit = defineEmits(['update:modelValue'])
+
+
+const selected = computed({
+  get(): LocaleSymbol {
+    return props.modelValue
+  },
+  set(value: LocaleSymbol) {
+    emit('update:modelValue', value)
+  }
+})
 
 const localeOptions = computed(() =>
-  localeData.map(locale => ({
+  localeData.filter(locale => store.locales.includes(locale.symbol)).map(locale => ({
     value: locale.symbol,
     label: `${locale.langName} (${locale.regionName})`
   }))
 )
-
-const selected = computed({
-  get: () => store.persist.appearance.locale,
-  set: (value: LocaleSymbol) => {
-    store.persist.appearance.locale = value
-    locale.value = value
-  }
-})
-
-function getRegionCode(locale: string): string {
-  return locale ? locale.split('-')[1].toLowerCase() : ''
-}
 
 function getDisplayName(locale: string): string {
   const localeInfo = localeData.find(l => l.symbol === locale)

@@ -2,20 +2,25 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { editionsData } from 'src/logic/data'
 import { useSettingsStore } from './settings-store'
-import type { Edition as Edition, LanguageSymbol, EditionKey as EditionKey, LanguageSettings } from 'src/types'
+import { Edition, LocaleSymbol, EditionKey, Localized } from 'src/types'
+import { useFetch } from '@vueuse/core'
+import { useQuasar } from 'quasar'
+import { useI18n } from 'vue-i18n'
 
 export const useEditionStore = defineStore('edition', () => {
 
   // Region: Support for SettingsEditions.vue
 
   const settings = useSettingsStore()
+  const q = useQuasar()
+  const { t } = useI18n()
 
-  function isSelected(lang: LanguageSymbol, edition: string) {
-    return languageSettings[lang].selectedEditions.includes(edition)
+  function isSelected(locale: LocaleSymbol, edition: string) {
+    return localized[locale].selectedEditions.includes(edition)
   }
 
-  function setEditionSelection(lang: LanguageSymbol, edition: string, value: boolean) {
-    const ls = languageSettings[lang]
+  function setEditionSelection(locale: LocaleSymbol, edition: string, value: boolean) {
+    const ls = localized[locale]
     // Unselect edition
     const selected = ls.selectedEditions.includes(edition)
     if (selected && !value) {
@@ -32,55 +37,51 @@ export const useEditionStore = defineStore('edition', () => {
     }
   }
 
-  function setDefaultEdition(lang: LanguageSymbol, edition: string) {
-    const ls = languageSettings[lang]
+  function setDefaultEdition(locale: LocaleSymbol, edition: string) {
+    const ls = localized[locale]
     ls.defaultEdition = edition
     if (!ls.selectedEditions.includes(edition)) {
       ls.selectedEditions.push(edition)
     }
   }
 
-  const languageSettings: Record<LanguageSymbol, LanguageSettings> = settings.persist.languageSettings
+  const localized: Record<LocaleSymbol, Localized> = settings.persist.localized
 
   const editions = editionsData.map(ed => ({
     ...ed,
     content: shallowRef(undefined),
     selected: computed({
       get() {
-        return isSelected(ed.lang, ed.symbol)
+        return isSelected(ed.locale, ed.symbol)
       },
       set(selected: boolean) {
-        setEditionSelection(ed.lang, ed.symbol, selected)
+        setEditionSelection(ed.locale, ed.symbol, selected)
         if (selected) {
           fetchEditionContent(ed as Edition)
         }
       }
     })
   } as Edition))
-  /** Languages for which there are some editions */
-  const languages = computed(() => [...editions.reduce((set, it) => { set.add(it.lang); return set }, new Set<string>())].sort())
-  /** Language currently focused in the editions settings to store the accordion state */
-  const focusLang = ref<LanguageSymbol>(settings.lang)
 
-  const groups = computed(() => languages.value.map((lang) => {
-    const groupEditions: Edition[] = editions.filter(it => it.lang === lang)
+  const groups = computed(() => settings.locales.map((locale) => {
+    const groupEditions: Edition[] = editions.filter(it => it.locale === locale)
     const defaultEdition = computed({
       get(): EditionKey {
-        return { lang, symbol: languageSettings[lang].defaultEdition }
+        return { locale, symbol: localized[locale].defaultEdition }
       },
       set(editionKey: EditionKey) {
-        setDefaultEdition(lang, editionKey.symbol)
+        setDefaultEdition(locale, editionKey.symbol)
       }
     })
     const editionCount = groupEditions.length
-    const selectedCount = languageSettings[lang].selectedEditions.length
+    const selectedCount = localized[locale].selectedEditions.length
     const selectedStatus = editionCount === selectedCount ? true : selectedCount === 0 ? false : null
     function toggleSelected() {
       const newSelected = selectedStatus === true ? false : true
       groupEditions.forEach(edition => edition.selected.value = newSelected)
     }
 
-    return { defaultEdition, editions: groupEditions, editionCount, lang, selectedStatus, selectedCount, toggleSelected }
+    return { defaultEdition, editions: groupEditions, editionCount, locale, selectedStatus, selectedCount, toggleSelected }
   }))
 
   const allSelectedCount = computed(() => groups.value.reduce((sum, group) => sum + group.selectedCount, 0))
@@ -88,39 +89,42 @@ export const useEditionStore = defineStore('edition', () => {
 
   // Region: Support for current edition
 
-  const currentKey: Ref<EditionKey> = ref({ lang: settings.lang, symbol: settings.languageSettings.defaultEdition })
+  const currentKey: Ref<EditionKey> = ref({ locale: settings.persist.appearance.locale, symbol: settings.localized.defaultEdition })
   const currentEdition = computed(() => getEdition(currentKey.value))
   const currentContent = computed(() => currentEdition.value?.content?.value)
   const editionsGrouped = computed(() => {
     let previous = ''
     return editions.filter(it => it.selected).map(it => {
-      const isFirstInGroup = previous !== it.lang
-      previous = it.lang
+      const isFirstInGroup = previous !== it.locale
+      previous = it.locale
       return { ...it, isFirstInGroup }
     })
   })
 
 
   function getEdition(key: EditionKey): Edition {
-    return editions.find(it => it.lang === key.lang && it.symbol === key.symbol) || editions[0]
+    return editions.find(it => it.locale === key.locale && it.symbol === key.symbol) || editions[0]
   }
 
-  function fetchEditionContent(edition: Edition): Promise<Edition['content']> {
-    return new Promise((resolve, reject) => {
-      const filePath = `src/assets/data/${edition.lang}/${edition.symbol}.json`
-      fetch(filePath)
-        .then((response) => response.json())
-        .then((data) => {
-          // Assign the fetched JSON data to the jsonData ref
-          edition.content.value = data
-          resolve(edition.content)
-        })
-        .catch(error => {
-          // Handle any errors during fetching
-          console.error('Error fetching JSON:', error)
-          reject(error)
-        })
-    })
+  async function fetchEditionContent(edition: Edition): Promise<Edition['content']> {
+    const url = `src/assets/data/${edition.locale}/${edition.symbol}.json`
+
+    const { data, error, statusCode } = await useFetch(url).get().json()
+
+    if (error.value) {
+      if (statusCode.value === 404) {
+        throw new Error(t('editionStore.editionNotFound', { symbol: edition.symbol, locale: edition.locale }))
+      } else {
+        throw new Error(t('editionStore.editionFetchError', { symbol: edition.symbol, locale: edition.locale }))
+      }
+    }
+
+    if (data.value) {
+      edition.content.value = data.value
+      return edition.content
+    } else {
+      throw new Error(t('editionStore.noDataReceived'))
+    }
   }
 
   /** Fetch content for selected editions, starting from the default edition */
@@ -131,6 +135,11 @@ export const useEditionStore = defineStore('edition', () => {
         fetchEditionContent(edition)
       }
     })
+  }).catch(error => {
+    q.notify({
+      message: error.message,
+      type: 'negative'
+    })
   })
 
   return {
@@ -140,9 +149,7 @@ export const useEditionStore = defineStore('edition', () => {
     currentKey,
     editions,
     editionsGrouped,
-    languages,
-    languageSettings,
-    focusLang,
+    localized,
     groups
   }
 })

@@ -12,12 +12,6 @@ export default {
     selectBible: 'Select Bible',
     selectFromList: 'Select from list'
   },
-  bookNamesEditor: {
-    selectFromList: 'Select from list'
-  },
-  bookNamingList: {
-    selectBookNaming: 'Select book naming'
-  },
   buttonBookSelector: {
     hideButtons: 'Hide book and chapter selection buttons',
     selectBook: 'Select book',
@@ -45,6 +39,11 @@ export default {
     backToHome: 'Back to home page',
     message: 'The page you are looking for was not found.',
     title: '404'
+  },
+  editionStore: {
+     editionNotFound: 'Edition content not found for {symbol} ({locale})',
+     editionFetchError: 'Error fetching edition content for {symbol} ({locale})',
+     noDataReceived: 'No data received from fetch request'
   },
   mainPage: {
     clearSearch: 'Clear search criteria and results',
@@ -79,26 +78,6 @@ export default {
   pageHeader: {
     backToHome: 'Back to home page'
   },
-  passageFormatEditor: {
-    bookNamesLabel: 'Book names in passage reference:',
-    example: 'Example of formatting a passage with a single verse and with multiple:',
-    options: {
-      newLine: 'Each verse on a new line',
-      numbers: 'Verses with numbers',
-      quotes: 'Passage content in quotation marks'
-    },
-    separatorChar: {
-      colon: 'Colon',
-      comma: 'Comma',
-      label: 'Character separating chapter from verses in reference:'
-    },
-    editionAbbreviation: {
-      label: 'Edition abbreviation:',
-      lowercase: 'Lowercase',
-      none: 'None',
-      uppercase: 'Uppercase'
-    }
-  },
   routes: {
     settings: 'Settings'
   },
@@ -107,6 +86,16 @@ export default {
     darkMode: 'Dark mode',
     lightMode: 'Light mode',
     screenMode: 'Screen mode'
+  },
+  searchStore: {
+    errorPrefix: 'Error:',
+    noTemplateFound: 'No copy template found',
+    editionContentNotLoaded: 'Edition content not loaded',
+    noFragmentsFound: 'No fragments found',
+    formattingError: 'Error during formatting:',
+    noPassageSelected: 'No passage selected',
+    sortTooltip: 'Toggle sorting and removing duplicates among found fragments',
+    warningCouldNotFormat: 'Could not format',
   },
   settingsAppearance: {
     bibleTextExample: 'Bible text example',
@@ -202,9 +191,26 @@ export default {
     defaultSearchResultLayout: 'Default search result layout',
     defaultEdition: 'Default edition',
     formatted: 'Formatted',
-    referencePickerOnStart: 'Show book/chapter selector on start page',
+    referencePickerOnStart: 'Show book/chapter selectors on start page',
     split: 'Split',
     title: 'General settings'
+  },
+  settingsImportExport: {
+    title: 'Import / Export',
+    lastImportedFile: 'Last uploaded file',
+    selectSettingsFile: 'Select settings file',
+    importButton: 'Import',
+    exportButton: 'Export',
+    resetSettings: 'Reset settings',
+    settingsSaved: 'Settings saved to file {filename}',
+    settingsNotSaved: 'Settings could not be saved',
+    importSuccess: 'Settings imported successfully',
+    resetConfirmTitle: 'Reset settings',
+    resetConfirmMessage: 'Are you sure you want to reset all settings?',
+    yes: 'Yes',
+    no: 'No',
+    resetSuccess: 'Settings reset successfully',
+    selectFileFirst: 'First select a file'
   },
   settingsPage: {
     appearance: 'Appearance',

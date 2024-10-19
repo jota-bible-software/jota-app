@@ -4,23 +4,19 @@
 
     <template v-slot:selected>
       <div class="row items-center q-gutter-sm">
-        <!-- <FlagIcon :lang="selected.lang" v-if="props.flag" /> -->
         <span>{{ selected.symbol }}</span>
         <span>{{ selected.title }}</span>
       </div>
     </template>
 
     <template v-slot:option="scope">
-      <!-- <div v-if="scope.opt.isFirstInGroup" class="row justify-center header">
-        {{ scope.opt.lang }}
-      </div> -->
       <q-separator v-if="scope.opt.isFirstInGroup" />
 
       <q-item v-bind="scope.itemProps">
         <q-item-section>
           <q-item-label>
             <div class="row items-center q-gutter-md">
-              <FlagIcon :lang="scope.opt.lang" v-if="props.flag" />
+              <FlagIcon :region="locale2region(scope.opt.locale)" v-if="props.flag" />
               <span>{{ scope.opt.symbol }}</span>
               <span>{{ scope.opt.title }}</span>
             </div>
@@ -36,6 +32,7 @@
 import { computed } from 'vue'
 import { Edition } from 'src/types'
 import FlagIcon from './FlagIcon.vue'
+import { locale2region } from 'src/util'
 
 const props = defineProps(['modelValue', 'flag', 'editions'])
 const emit = defineEmits(['update:modelValue'])

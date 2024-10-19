@@ -26,6 +26,4 @@ import LocaleSelector from './LocaleSelector.vue'
 
 const store = useSettingsStore()
 
-
-
 </script>

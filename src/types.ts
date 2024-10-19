@@ -1,10 +1,10 @@
 import { ShallowRef } from 'vue'
 
-export type BookNaming = { lang: string, name: string, books: string[] }
+export type BookNaming = { locale: LocaleSymbol, name: string, books: string[] }
 
 export type CopyTemplateData = {
   name: string,
-  lang: CopyTemplateLangData
+  locale: CopyTemplateLangData
 }
 
 export type CopyTemplateLangData = Record<LanguageSymbol, { formatTemplate: string, bookNaming: string }>
@@ -17,7 +17,7 @@ export type Edition = EditionMeta & {
 
 export type EditionContent = string[][][]
 
-export type EditionKey = { lang: LanguageSymbol, symbol: string }
+export type EditionKey = { locale: LocaleSymbol, symbol: string }
 
 export type EditionMeta = EditionKey & { title: string, size: number, year?: string, bookNames?: string, bookOrder?: string }
 
@@ -43,15 +43,14 @@ export type FormatTemplateData = {
 }
 
 export type LanguageSymbol = string
+export type LocaleSymbol = 'en-GB' | 'en-US' | 'pl-PL' | 'es-ES' | 'pt-PT' | 'uk-UA'
 
-export type LanguageSettings = {
+export type Localized = {
   appBookNaming: string
   bookNamings: BookNaming[]
   selectedEditions: string[]
   defaultEdition: string
 }
-
-export type LocaleSymbol = 'en-US' | 'pl-PL' | 'es-ES' | 'pt-PT' | 'uk-UA'
 
 export type Passage = [number, number, number?, number?]
 
@@ -83,7 +82,7 @@ export type SettingsPersistType = {
     screenMode: ScreenMode
     primaryColor: string
   }
-  languageSettings: Record<LanguageSymbol, LanguageSettings>
+  localized: Record<Locale, Localized>
   formatTemplates: FormatTemplateData[]
   copyTemplates: CopyTemplateData[]
   appFormatTemplateName: string
@@ -91,7 +90,3 @@ export type SettingsPersistType = {
   defaultSearchResultLayout: PassageListLayout
   referencePickerOnStart: boolean
 }
-
-
-
-// ... other existing types ...

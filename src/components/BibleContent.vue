@@ -113,7 +113,7 @@ useEventListener(document, 'keydown', (event) => {
 #passages {
   flex: 0 0 auto;
   position: relative;
-  padding-left: 2px;
+  padding-left: 0;
   padding-right: 4px;
   border-right: var(--q-border) solid 1px;
 

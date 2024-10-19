@@ -46,6 +46,9 @@
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
+  "workbench.colorCustomizations": {
+    "selection.background": "#535353",
+  }
 
 
 }

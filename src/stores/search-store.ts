@@ -5,10 +5,12 @@ import { format, formatSample } from 'src/logic/format'
 import { useSettingsStore } from './settings-store'
 import { useEditionStore } from './edition-store'
 import { Direction, errorMessage } from 'src/util'
+import { useI18n } from 'vue-i18n'
 
 export const useSearchStore = defineStore('search', () => {
   const settings = useSettingsStore()
   const editions = useEditionStore()
+  const { t } = useI18n()
 
   const audioOn = ref(false)
   const chapterFragment: Ref<Passage> = ref([0, 0, 0, 0])
@@ -40,7 +42,8 @@ export const useSearchStore = defineStore('search', () => {
   const passages = computed(() =>
     fragments.value.map((osisRef) => jota.formatReference(osisRef, books.value, separator.value)))
 
-  const shouldSortTooltip = computed(() => (shouldSort.value ? 'Wy' : 'W') + 'łącz sortowanie i usuwanie duplikatów wśród wyszukanych fragmentów')
+  // const shouldSortTooltip = computed(() => (shouldSort.value ? 'Wy' : 'W') + 'łącz sortowanie i usuwanie duplikatów wśród wyszukanych fragmentów')
+  const shouldSortTooltip = computed(() => t('searchStore.sortTooltip'))
 
   function setFragments(payload: Passage[]) {
     fragments.value = payload
@@ -170,7 +173,7 @@ export const useSearchStore = defineStore('search', () => {
       console.log(`Search took ${Date.now() - t0} ms`)
     } catch (ex: unknown) {
       setFragments([])
-      error.value = errorMessage('Błąd:', ex)
+      error.value = errorMessage(t('searchStore.errorPrefix'), ex)
       console.error(ex)
     } finally {
       progress.value = 0
@@ -186,9 +189,10 @@ export const useSearchStore = defineStore('search', () => {
   function formatFound(copyTemplate?: CopyTemplateData): string | Error {
     const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
 
-    if (!tpl) return new Error('Nie znaleziono żadnego szablonu kopiowania')
-    if (!editionContent.value) return new Error('Treść tłumaczenia nie została załadowana')
-    if (fragments.value.length === 0) return new Error('Nie znaleziono żadnych fragmentów')
+    if (!tpl) return new Error(t('searchStore.noTemplateFound'))
+    if (!editionContent.value) return new Error(t('searchStore.editionContentNotLoaded'))
+    if (fragments.value.length === 0) return new Error(t('searchStore.noFragmentsFound'))
+
 
     try {
       return fragments.value.reduce((acc, cur) => {
@@ -196,31 +200,31 @@ export const useSearchStore = defineStore('search', () => {
         return formatted ? acc + '\n\n' + formatted : ''
       }, '')
     } catch (error) {
-      return new Error(errorMessage('Błąd podczas formatowania:', error))
+      return new Error(errorMessage(t('searchStore.formattingError'), error))
     }
   }
 
   function formatSelectedPassage(copyTemplate?: CopyTemplateData): string | Error {
     const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
-    if (!tpl) return new Error('Nie znaleziono żadnego szablonu kopiowania')
-    if (!chapterFragment.value) return new Error('Nie zaznaczono fragmentu')
-    if (!editionContent.value) return new Error('Treść tłumaczenia nie została załadowana')
+    if (!tpl) return new Error(t('searchStore.noTemplateFound'))
+    if (!chapterFragment.value) return new Error(t('searchStore.noPassageSelected'))
+    if (!editionContent.value) return new Error(t('searchStore.editionContentNotLoaded'))
     return formatPassage(chapterFragment.value, tpl, editionContent.value)
   }
 
   function formatPassage(passage: Passage, tpl: CopyTemplateData, content: EditionContent) {
-    const lang = editions.currentEdition.lang
-    const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.lang[lang].formatTemplate)
-    const bookNaming = settings.persist.languageSettings[lang].bookNamings.find(it => it.name === tpl.lang[lang].bookNaming)?.books
+    const locale = editions.currentEdition.locale
+    const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.locale[locale].formatTemplate)
+    const bookNaming = settings.persist.localized[locale].bookNamings.find(it => it.name === tpl.locale[locale].bookNaming)?.books
     const abbreviation = editions.currentEdition.symbol
     if (!formatTemplate || !bookNaming) return ''
     return format(formatTemplate, passage, content, bookNaming, abbreviation)
   }
 
   function formattedSample(tpl: CopyTemplateData) {
-    const lang = editions.currentEdition.lang
-    const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.lang[lang].formatTemplate)
-    const bookNaming = settings.persist.languageSettings[lang].bookNamings.find(it => it.name === tpl.lang[lang].bookNaming)?.books
+    const lang = editions.currentEdition.locale
+    const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.locale[lang].formatTemplate)
+    const bookNaming = settings.persist.localized[lang].bookNamings.find(it => it.name === tpl.locale[lang].bookNaming)?.books
     const abbreviation = editions.currentEdition.symbol
     if (!formatTemplate || !bookNaming) return ''
     return formatSample(formatTemplate, bookNaming, abbreviation)
@@ -232,7 +236,7 @@ export const useSearchStore = defineStore('search', () => {
       if (!editionContent.value) return ''
       const verses = jota.verses(editionContent.value, fragment)
       if (!verses.length) {
-        console.warn(`Could not format ${JSON.stringify(fragment)}`)
+        console.warn(t('searchStore.warningCouldNotFormat'), JSON.stringify(fragment))
         return
       }
       const bibleReference = jota.formatReference(fragment, books.value, separator.value)

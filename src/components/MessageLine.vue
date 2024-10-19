@@ -144,7 +144,7 @@ function copyFound(item?: CopyTemplateData) {
     })
   } else if (!result) {
     q.notify({
-      message: `${t('messageLine.formatFailed')} ${item?.name} ${t('messageLine.notConfiguredFor')} ${settings.lang}`,
+      message: `${t('messageLine.formatFailed')} ${item?.name} ${t('messageLine.notConfiguredFor')} ${settings.persist.appearance.locale}`,
       type: 'negative'
     })
   } else {

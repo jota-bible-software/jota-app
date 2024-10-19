@@ -10,8 +10,8 @@
           <!-- Title -->
           <div class="text-h6 ">{{ props.title }}</div>
           <!-- For language selector -->
-          <LabelRow label="dla języka" v-if="props.lang" class="q-ml-md">
-            <LanguageSelector v-model="store.lang" />
+          <LabelRow label="dla języka" v-if="props.locale" class="q-ml-md">
+            <LocaleSelector v-model="settings.focusedLocale" />
           </LabelRow>
         </div>
       </div>
@@ -23,13 +23,13 @@
 
 <script setup lan="ts">
 import { useSettingsStore } from 'stores/settings-store'
-import LanguageSelector from './LanguageSelector.vue'
+import LocaleSelector from './LocaleSelector.vue'
 import LabelRow from './LabelRow.vue'
 
-const store = useSettingsStore()
+const settings = useSettingsStore()
 const props = defineProps({
   title: String,
-  lang: Boolean,
+  locale: Boolean,
   onBack: Function,
 })
 const isBackDefined = !!props.onBack

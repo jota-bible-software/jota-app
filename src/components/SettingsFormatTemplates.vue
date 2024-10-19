@@ -4,12 +4,12 @@
     <!-- List of items -->
     <div class="col">
       <LabelRow :label="$t('settingsFormatTemplates.appDisplay')">
-        <q-select v-model="store.persist.appFormatTemplateName" :options="templates" option-label="name" />
+        <q-select v-model="settings.persist.appFormatTemplateName" :options="items" option-label="name" />
       </LabelRow>
 
       <div class="row q-mt-md">
         <q-list bordered separator class="col-auto" style="max-width: 650px">
-          <q-item v-for="(item, index) in templates" :key="item.name" class="q-px-none1" clickable
+          <q-item v-for="(item, index) in items" :key="item.name" class="q-px-none1" clickable
             @click="edit(item, index)">
             <q-item-section>
               <q-item-label>{{ item.name }}</q-item-label>
@@ -36,7 +36,7 @@
 
   <SettingsPanel v-else :title="$t('settingsFormatTemplates.editTitle')" @back="reset" style="max-width: 560px">
     <div class="q-px-none">
-      <q-form ref="myForm" class="col q-gutter-md" :no-error-focus="false" @submit="save" @reset="reset">
+      <q-form ref="myForm" class="col q-gutter-md" @submit="save" @reset="reset">
 
         <!-- <q-separator class="q-my-md" /> -->
         <LabelRow :label="$t('settingsFormatTemplates.templateName')" lifted>
@@ -157,19 +157,17 @@
 import { Ref, computed, ref } from 'vue'
 import { Dialog, QForm } from 'quasar'
 import { FormatTemplateData } from 'src/types'
-import { supportedLanguageSymbols } from 'src/logic/data'
 import { useSettingsStore } from 'stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
 import LabelRow from './LabelRow.vue'
 import { formatSample } from 'src/logic/format'
 import { useI18n } from 'vue-i18n'
+import { nameSorter } from 'src/util'
 const { t } = useI18n()
 
 
-const store = useSettingsStore()
-const items = store.persist.formatTemplates
-
-const templates = computed(() => items)
+const settings = useSettingsStore()
+const items = settings.persist.formatTemplates
 
 const emptyItem: FormatTemplateData = {
   name: '',
@@ -208,7 +206,7 @@ function edit(item: FormatTemplateData, index: number) {
 function save() {
   if (isNewItem.value) {
     items.push(editedItem.value)
-    items.sort(store.nameSorter)
+    items.sort(nameSorter(settings.persist.appearance.locale))
   } else {
     Object.assign(selectedItem.value, editedItem.value)
   }
@@ -219,18 +217,18 @@ function save() {
 
 const removeTooltip = computed(() => {
   let foundTemplateName = ''
-  let foundLang = ''
-  for (const t of store.persist.copyTemplates) {
-    for (const lang of supportedLanguageSymbols) {
-      if (t.lang[lang].formatTemplate === selected.value) {
+  let foundLocale = ''
+  for (const t of settings.persist.copyTemplates) {
+    for (const locale of settings.locales) {
+      if (t.locale[locale].formatTemplate === selected.value) {
         foundTemplateName = t.name
-        foundLang = lang
+        foundLocale = locale
         break
       }
     }
     if (!!foundTemplateName) break
   }
-  return !!foundTemplateName ? `${t('settingsFormatTemplates.removeTooltip')} "${foundTemplateName}" ${t('settingsFormatTemplates.forLanguage')} ${foundLang}` : ''
+  return !!foundTemplateName ? `${t('settingsFormatTemplates.removeTooltip')} "${foundTemplateName}" ${t('settingsFormatTemplates.forLanguage')} ${foundLocale}` : ''
 })
 
 function remove() {

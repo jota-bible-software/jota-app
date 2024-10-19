@@ -12,12 +12,6 @@ export default {
     selectBible: 'Вибрати Біблію',
     selectFromList: 'Вибрати зі списку'
   },
-  bookNamesEditor: {
-    selectFromList: 'Вибрати зі списку'
-  },
-  bookNamingList: {
-    selectBookNaming: 'Вибрати найменування книг'
-  },
   buttonBookSelector: {
     hideButtons: 'Сховати кнопки вибору книги та розділу',
     selectBook: 'Вибрати книгу',
@@ -45,6 +39,11 @@ export default {
     backToHome: 'Повернутися на головну сторінку',
     message: 'Сторінку, яку ви шукаєте, не знайдено.',
     title: '404'
+  },
+  editionStore: {
+    editionNotFound: 'Вміст видання не знайдено для {symbol} ({locale})',
+    editionFetchError: 'Помилка отримання вмісту видання для {symbol} ({locale})',
+    noDataReceived: 'Не отримано даних із запиту на отримання'
   },
   mainPage: {
     clearSearch: 'Очистити критерії та результати пошуку',
@@ -79,26 +78,6 @@ export default {
   pageHeader: {
     backToHome: 'Повернутися на головну сторінку'
   },
-  passageFormatEditor: {
-    bookNamesLabel: 'Назви книг у посиланні на уривок:',
-    example: 'Приклад форматування уривку з одним віршем та з кількома:',
-    options: {
-      newLine: 'Кожен вірш з нового рядка',
-      numbers: 'Вірші з номерами',
-      quotes: 'Зміст уривку в лапках'
-    },
-    separatorChar: {
-      colon: 'Двокрапка',
-      comma: 'Кома',
-      label: 'Симол, що відокремлює розділ від віршів у посиланні:'
-    },
-    editionAbbreviation: {
-      label: 'Скорочення видання:',
-      lowercase: 'Малими літерами',
-      none: 'Немає',
-      uppercase: 'Великими літерами'
-    }
-  },
   routes: {
     settings: 'Налаштування'
   },
@@ -107,6 +86,16 @@ export default {
     darkMode: 'Темний режим',
     lightMode: 'Світлий режим',
     screenMode: 'Режим екрану'
+  },
+  searchStore: {
+    errorPrefix: 'Помилка:',
+    noTemplateFound: 'Не знайдено шаблону для копіювання',
+    editionContentNotLoaded: 'Зміст видання не завантажено',
+    noFragmentsFound: 'Не знайдено фрагментів',
+    formattingError: 'Помилка під час форматування:',
+    noPassageSelected: 'Не вибрано уривок',
+    sortTooltip: 'Увімкнути/вимкнути сортування та видалення дублікатів серед знайдених фрагментів',
+    warningCouldNotFormat: 'Не вдалося відформатувати',
   },
   settingsAppearance: {
     bibleTextExample: 'Приклад тексту Біблії',
@@ -198,13 +187,30 @@ export default {
     yes: 'Так'
   },
   settingsGeneral: {
-    locale: 'Мова за замовчуванням', // Changed from defaultLanguage
+    locale: 'Мова та регіон за замовчуванням', // Changed from defaultLanguage
     defaultSearchResultLayout: 'Макет результатів пошуку за замовчуванням',
     defaultEdition: 'Видання за замовчуванням',
     formatted: 'Форматований',
     referencePickerOnStart: 'Показув��ти вибір книги/роділу на початковій сторінці',
     split: 'Розділений',
     title: 'Загальні налаштування'
+  },
+  settingsImportExport: {
+    title: 'Імпорт / Експорт',
+    lastImportedFile: 'Останній завантажений файл',
+    selectSettingsFile: 'Виберіть файл налаштувань',
+    importButton: 'Імпорт',
+    exportButton: 'Експорт',
+    resetSettings: 'Скинути налаштування',
+    settingsSaved: 'Налаштування збережено до файлу {filename}',
+    settingsNotSaved: 'Налаштування не можуть бути збережені',
+    importSuccess: 'Налаштування імпортовано успішно',
+    resetConfirmTitle: 'Скинути налаштування',
+    resetConfirmMessage: 'Ви впевнені, що хочете скинути всі налаштування?',
+    yes: 'Так',
+    no: 'Ні',
+    resetSuccess: 'Налаштування скинуто успішно',
+    selectFileFirst: 'Спочатку виберіть файл'
   },
   settingsPage: {
     appearance: 'Зовнішній вигляд',

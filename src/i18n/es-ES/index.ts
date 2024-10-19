@@ -12,12 +12,6 @@ export default {
     selectBible: 'Seleccionar Biblia',
     selectFromList: 'Seleccionar de la lista'
   },
-  bookNamesEditor: {
-    selectFromList: 'Seleccionar de la lista'
-  },
-  bookNamingList: {
-    selectBookNaming: 'Seleccionar nomenclatura de libros'
-  },
   buttonBookSelector: {
     hideButtons: 'Ocultar botones de selección de libro y capítulo',
     selectBook: 'Seleccionar libro',
@@ -45,6 +39,11 @@ export default {
     backToHome: 'Volver a la página principal',
     message: 'La página que estás buscando no se encontró.',
     title: '404'
+  },
+  editionStore: {
+    editionNotFound: 'Contenido de la edición no encontrado para {symbol} ({locale})',
+    editionFetchError: 'Error al obtener el contenido de la edición para {symbol} ({locale})',
+    noDataReceived: 'No se recibieron datos de la solicitud de búsqueda'
   },
   mainPage: {
     clearSearch: 'Borrar criterios y resultados de búsqueda',
@@ -79,26 +78,7 @@ export default {
   pageHeader: {
     backToHome: 'Volver a la página principal'
   },
-  passageFormatEditor: {
-    bookNamesLabel: 'Nombres de los libros en la referencia del pasaje:',
-    example: 'Ejemplo de formato de pasaje con un solo versículo y con varios:',
-    options: {
-      newLine: 'Cada versículo en una nueva línea',
-      numbers: 'Versículos con números',
-      quotes: 'Contenido del pasaje entre comillas'
-    },
-    separatorChar: {
-      colon: 'Dos puntos',
-      comma: 'Coma',
-      label: 'Carácter que separa el capítulo de los versículos en la referencia:'
-    },
-    editionAbbreviation: {
-      label: 'Abreviatura de la traducción:',
-      lowercase: 'Minúsculas',
-      none: 'Ninguna',
-      uppercase: 'Mayúsculas'
-    }
-  },
+
   routes: {
     settings: 'Configuración'
   },
@@ -107,6 +87,16 @@ export default {
     darkMode: 'Modo oscuro',
     lightMode: 'Modo claro',
     screenMode: 'Modo de pantalla'
+  },
+  searchStore: {
+    errorPrefix: 'Error:',
+    noTemplateFound: 'No se encontró ninguna plantilla de copia',
+    editionContentNotLoaded: 'El contenido de la edición no se ha cargado',
+    noFragmentsFound: 'No se encontraron fragmentos',
+    formattingError: 'Error durante el formateo:',
+    noPassageSelected: 'No se ha seleccionado ningún pasaje',
+    sortTooltip: 'Alternar ordenación y eliminación de duplicados entre los fragmentos encontrados',
+    warningCouldNotFormat: 'No se pudo formatear',
   },
   settingsAppearance: {
     bibleTextExample: 'Ejemplo de texto bíblico',
@@ -198,13 +188,30 @@ export default {
     yes: 'Sí'
   },
   settingsGeneral: {
-    locale: 'Idioma predeterminado',
+    locale: 'Idioma y región predeterminados',
     defaultSearchResultLayout: 'Diseño predeterminado de los resultados de búsqueda',
     defaultEdition: 'Traducción predeterminada',
     formatted: 'Formateado',
     referencePickerOnStart: 'Mostrar selector de libro/capítulo en la página de inicio',
     split: 'Dividido',
     title: 'Configuración general'
+  },
+  settingsImportExport: {
+    title: 'Importar / Exportar',
+    lastImportedFile: 'Último archivo subido',
+    selectSettingsFile: 'Seleccionar archivo de configuración',
+    importButton: 'Importar',
+    exportButton: 'Exportar',
+    resetSettings: 'Restablecer configuración',
+    settingsSaved: 'Configuración guardada en el archivo {filename}',
+    settingsNotSaved: 'No se pudo guardar la configuración',
+    importSuccess: 'Configuración importada correctamente',
+    resetConfirmTitle: 'Restablecer configuración',
+    resetConfirmMessage: '¿Estás seguro de que deseas restablecer todas las configuraciones?',
+    yes: 'Sí',
+    no: 'No',
+    resetSuccess: 'Configuración restablecida correctamente',
+    selectFileFirst: 'Primero selecciona un archivo'
   },
   settingsPage: {
     appearance: 'Apariencia',
