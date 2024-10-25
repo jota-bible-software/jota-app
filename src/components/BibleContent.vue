@@ -116,6 +116,7 @@ useEventListener(document, 'keydown', (event) => {
   padding-left: 0;
   padding-right: 4px;
   border-right: var(--q-border) solid 1px;
+  margin-right: 4px;
 
   .compact {
     line-height: 24px;

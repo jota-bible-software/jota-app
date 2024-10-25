@@ -22,7 +22,7 @@
 </template>
 
 <script setup lan="ts">
-import { useSettingsStore } from 'stores/settings-store'
+import { useSettingsStore } from 'src/stores/settings-store'
 import LocaleSelector from './LocaleSelector.vue'
 import LabelRow from './LabelRow.vue'
 

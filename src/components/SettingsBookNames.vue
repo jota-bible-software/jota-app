@@ -89,7 +89,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useSettingsStore } from 'stores/settings-store'
+import { useSettingsStore } from 'src/stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
 import { BookNaming } from 'src/types'
 import { useI18n } from 'vue-i18n'

@@ -95,7 +95,6 @@ function scrollPage(direction: Direction) {
   position: relative;
   height: 100%;
   overflow: auto;
-  padding-left: 4px;
 }
 
 #chapter {

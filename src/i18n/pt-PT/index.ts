@@ -1,3 +1,4 @@
+// cspell: language pt
 export default {
   app: {
     // No visible text in App.vue
