@@ -11,7 +11,7 @@
           <div class="text-h6 ">{{ props.title }}</div>
           <!-- For language selector -->
           <LabelRow label="dla języka" v-if="props.locale" class="q-ml-md">
-            <LocaleSelector v-model="settings.focusedLocale" />
+            <LocaleSelector data-test-id="locale-selector" v-model="settings.focusedLocale" />
           </LabelRow>
         </div>
       </div>

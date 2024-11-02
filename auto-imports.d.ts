@@ -13,6 +13,17 @@ declare global {
   const FormatEditor0: typeof import('./src/components/FormatEditor0.vue')['default']
   const FormatList: typeof import('./src/components/FormatList.vue')['default']
   const PassageFormatList: typeof import('./src/components/PassageFormatList.vue')['default']
+  const QuasarButton: typeof import('./src/components/QuasarButton.vue')['default']
+  const QuasarCheckComponents: typeof import('./src/components/QuasarCheckComponents.vue')['default']
+  const QuasarDark: typeof import('./src/components/QuasarDark.vue')['default']
+  const QuasarDate: typeof import('./src/components/QuasarDate.vue')['default']
+  const QuasarDialog: typeof import('./src/components/QuasarDialog.vue')['default']
+  const QuasarDrawer: typeof import('./src/components/QuasarDrawer.vue')['default']
+  const QuasarMenu: typeof import('./src/components/QuasarMenu.vue')['default']
+  const QuasarPageSticky: typeof import('./src/components/QuasarPageSticky.vue')['default']
+  const QuasarSelect: typeof import('./src/components/QuasarSelect.vue')['default']
+  const QuasarTooltip: typeof import('./src/components/QuasarTooltip.vue')['default']
+  const VModelComponent: typeof import('./src/components/VModelComponent.vue')['default']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const computed: typeof import('vue')['computed']
@@ -302,6 +313,6 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
+  export type { Component, ComponentPublicInstance, ComputedRef, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, VNode, WritableComputedRef } from 'vue'
   import('vue')
 }
