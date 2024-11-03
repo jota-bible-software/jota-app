@@ -5,14 +5,9 @@
 
       <span v-if="isBookSelected" class="bold q-mr-lg">{{ passageName }}</span>
 
-      <q-btn outline dense text-color="primary" class="q-ml-sm" icon="icon-mat-undo" v-show="isBookSelected"
+      <q-btn data-tag="reference-picker-back" outline dense text-color="primary" class="q-ml-sm" icon="icon-mat-undo" v-show="isBookSelected"
         @click="back">
-        <q-tooltip>Przejdź do wybierania {{ backTooltip }}</q-tooltip>
-      </q-btn>
-
-      <q-btn outline dense text-color="primary" icon="icon-mat-done" v-show="isBookSelected && !isVerseSelected"
-        @click="finish">
-        <q-tooltip>Zakończ wybieranie fragmentu</q-tooltip>
+        <q-tooltip>{{ t('referencePicker.backTooltip') }} {{ backTooltip }}</q-tooltip>
       </q-btn>
     </div>
 
@@ -52,12 +47,14 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import ReferencePickerButton from 'src/components/ReferencePickerButton.vue'
 import { useEditionStore } from 'src/stores/edition-store'
 import { useSettingsStore } from 'src/stores/settings-store'
 import { useSearchStore } from 'src/stores/search-store'
 import { nextTick } from 'vue'
 
+const { t } = useI18n()
 const settings = useSettingsStore()
 const store = useEditionStore()
 const searchStore = useSearchStore()
@@ -92,7 +89,7 @@ const chapters = computed(() => {
 // })
 const sep = computed(() => settings.appFormatTemplate?.separatorChar)
 const bookName = computed(() => bookList.value[bookIndex.value])
-const backTooltip = computed(() => isChapterSelected.value ? 'rozdziałów' : 'ksiąg')
+const backTooltip = computed(() => isChapterSelected.value ? t('referencePicker.chapters') : t('referencePicker.books'))
 const isBookSelected = computed(() => bookIndex.value !== -1)
 const isChapterSelected = computed(() => chapterIndex.value !== -1)
 const isVerseSelected = computed(() => verseIndex.value !== -1)
@@ -103,9 +100,9 @@ const passageName = computed(() => {
   return `${book}${chapter}${verse}`
 })
 const message = computed(() => {
-  return !isBookSelected.value ? 'Wybierz księgę:' :
-    !isChapterSelected.value ? 'Wybierz rozdział w księdze:' :
-      'Wybierz werset w:'
+  return !isBookSelected.value ? t('referencePicker.selectBook') :
+    !isChapterSelected.value ? t('referencePicker.selectChapter') :
+      t('referencePicker.selectVerse')
 })
 
 function selectBook(i: number) {

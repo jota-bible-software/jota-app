@@ -12,7 +12,6 @@ export default {
     selectBible: 'Wybierz Biblię',
     selectFromList: 'Wybierz z listy'
   },
-
   buttonBookSelector: {
     hideButtons: 'Schowaj przyciski wyboru księgi i rozdziału',
     selectBook: 'Wybierz księgę',
@@ -78,6 +77,14 @@ export default {
   },
   pageHeader: {
     backToHome: 'Powrót do strony głównej'
+  },
+  referencePicker: {
+    selectBook: 'Wybierz księgę:',
+    selectChapter: 'Wybierz rozdział w księdze:',
+    selectVerse: 'Wybierz werset w:',
+    backTooltip: 'Przejdź do wybierania',
+    chapters: 'rozdziałów',
+    books: 'ksiąg'
   },
   routes: {
     settings: 'Ustawienia'
@@ -188,7 +195,7 @@ export default {
     yes: 'Tak'
   },
   settingsGeneral: {
-    locale: 'Domyślny język i region', // Changed from defaultLanguage
+    locale: 'Domyślny język i region',
     defaultSearchResultLayout: 'Domyślny układ wyników wyszukiwania',
     defaultEdition: 'Domyślny przekład',
     formatted: 'Sformatowany',

@@ -79,7 +79,14 @@ export default {
   pageHeader: {
     backToHome: 'Volver a la página principal'
   },
-
+  referencePicker: {
+    selectBook: 'Seleccionar libro:',
+    selectChapter: 'Seleccionar capítulo en libro:',
+    selectVerse: 'Seleccionar versículo en:',
+    backTooltip: 'Volver a seleccionar',
+    chapters: 'capítulos',
+    books: 'libros'
+  },
   routes: {
     settings: 'Configuración'
   },

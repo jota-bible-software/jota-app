@@ -78,6 +78,14 @@ export default {
   pageHeader: {
     backToHome: 'Back to home page'
   },
+  referencePicker: {
+    selectBook: 'Select book:',
+    selectChapter: 'Select chapter in book:',
+    selectVerse: 'Select verse in:',
+    backTooltip: 'Go back to selecting',
+    chapters: 'chapters',
+    books: 'books'
+  },
   routes: {
     settings: 'Settings'
   },
@@ -187,7 +195,7 @@ export default {
     yes: 'Yes'
   },
   settingsGeneral: {
-    locale: 'Default language', // Changed from defaultLanguage
+    locale: 'Default language',
     defaultSearchResultLayout: 'Default search result layout',
     defaultEdition: 'Default edition',
     formatted: 'Formatted',

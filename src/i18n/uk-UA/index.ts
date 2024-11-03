@@ -79,6 +79,14 @@ export default {
   pageHeader: {
     backToHome: 'Повернутися на головну сторінку'
   },
+  referencePicker: {
+    selectBook: 'Вибрати книгу:',
+    selectChapter: 'Вибрати розділ у книзі:',
+    selectVerse: 'Вибрати вірш у:',
+    backTooltip: 'Повернутися до вибору',
+    chapters: 'розділів',
+    books: 'книг'
+  },
   routes: {
     settings: 'Налаштування'
   },
@@ -144,7 +152,7 @@ export default {
     removeConfirm: 'Ви впевнені, що хочете видалити шаблон',
     removeTitle: 'Видалити шаблон',
     saveButton: 'Зберегти',
-    templateDescription: 'Виберіть шаблон форматування та найменуванн�� книг для кожної мови:',
+    templateDescription: 'Виберіть шаблон форматування та найменування книг для кожної мови:',
     templateName: 'Назва шаблону',
     title: 'Шаблони копіювання',
     yes: 'Так'
@@ -188,11 +196,11 @@ export default {
     yes: 'Так'
   },
   settingsGeneral: {
-    locale: 'Мова та регіон за замовчуванням', // Changed from defaultLanguage
+    locale: 'Мова та регіон за замовчуванням',
     defaultSearchResultLayout: 'Макет результатів пошуку за замовчуванням',
     defaultEdition: 'Видання за замовчуванням',
     formatted: 'Форматований',
-    referencePickerOnStart: 'Показув��ти вибір книги/роділу на початковій сторінці',
+    referencePickerOnStart: 'Показувати вибір книги/роділу на початковій сторінці',
     split: 'Розділений',
     title: 'Загальні налаштування'
   },

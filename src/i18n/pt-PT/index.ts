@@ -59,7 +59,7 @@ export default {
   messageLine: {
     chapterLabel: 'Capítulo',
     copiedFoundVerses: 'Versículos encontrados copiados',
-    copiedSelectedVerses: 'Vers��culos selecionados copiados',
+    copiedSelectedVerses: 'Versículos selecionados copiados',
     copyFound: 'Copiar versículos encontrados para a área de transferência',
     copySelected: 'Copiar versículos selecionados para a área de transferência',
     defaultTemplate: 'Modelo padrão',
@@ -78,6 +78,14 @@ export default {
   },
   pageHeader: {
     backToHome: 'Voltar à página inicial'
+  },
+  referencePicker: {
+    selectBook: 'Selecionar livro:',
+    selectChapter: 'Selecionar capítulo no livro:',
+    selectVerse: 'Selecionar versículo em:',
+    backTooltip: 'Voltar para seleção',
+    chapters: 'capítulos',
+    books: 'livros'
   },
   routes: {
     settings: 'Configurações'
@@ -188,7 +196,7 @@ export default {
     yes: 'Sim'
   },
   settingsGeneral: {
-    locale: 'Idioma e região padrão', // Changed from defaultLanguage
+    locale: 'Idioma e região padrão',
     defaultSearchResultLayout: 'Layout padrão dos resultados de pesquisa',
     defaultEdition: 'Tradução padrão',
     formatted: 'Formatado',
