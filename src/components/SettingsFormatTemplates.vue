@@ -206,10 +206,10 @@ function edit(item: FormatTemplateData, index: number) {
 function save() {
   if (isNewItem.value) {
     items.push(editedItem.value)
-    items.sort(nameSorter(settings.persist.appearance.locale))
   } else {
     Object.assign(selectedItem.value, editedItem.value)
   }
+  items.sort(nameSorter(settings.persist.appearance.locale))
   editedItem.value = { ...emptyItem }
   selected.value = ''
   isNewItem.value = false

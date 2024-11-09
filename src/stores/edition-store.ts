@@ -149,7 +149,8 @@ export const useEditionStore = defineStore('edition', () => {
     currentKey,
     editions,
     editionsGrouped,
+    groups,
     localized,
-    groups
+    startPromise
   }
 })

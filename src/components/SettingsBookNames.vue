@@ -3,56 +3,61 @@
 
     <div class="row items-center">
       <div class="q-mr-md">{{ $t('settingsBookNames.appDisplay') }}</div>
-      <q-select v-model="appBookNaming" :options="names" />
+      <q-select v-model="appBookNaming" :options="names" :data-tag="tags.settingsBookNamingInApp" />
     </div>
 
     <q-list bordered separator>
-      <q-item v-for="item in items" :key="item.name" class="q-px-none1">
+      <q-item v-for="item in items" :key="item.name" class="q-px-none1" :data-tag="tags.settingsBookNamingItem">
         <q-item-section>
           <div v-if="selected !== item.name">
             <div class="row items-center">
-              <div class="col">
+              <div class="col" :data-tag="tags.settingsBookNamingItemName">
                 {{ item.name }}
               </div>
               <div class="col-auto">
-                <q-btn outline color="primary" icon="edit" @click="edit(item)" />
+                <q-btn outline color="primary" icon="edit" @click="edit(item)"
+                  :data-tag="tags.settingsBookNamingItemEditButton" />
               </div>
             </div>
 
             <div class="row q-my-sm">
-              <q-item-label caption>{{ item.books.join(', ') }}</q-item-label>
+              <q-item-label caption
+                :data-tag="tags.settingsBookNamingItemBooks">{{ item.books.join(', ') }}</q-item-label>
             </div>
           </div>
 
           <div>
             <q-form ref="editItemFrom" @submit="save(item)" class="col q-gutter-sm" v-if="selected === item.name">
               <q-input v-model="editedItem.name" :label="$t('settingsBookNames.standardName')"
-                :rules="nameValidationRules" />
+                :rules="nameValidationRules" :data-tag="tags.settingsBookNamingItemEditName" />
               <q-input v-model="editedBooksText" :label="$t('settingsBookNames.bookNames')" autogrow
-                :rules="booksValidationRules" />
+                :rules="booksValidationRules" :data-tag="tags.settingsBookNamingItemEditBooks" />
               <div class="q-my-md">
                 <div class="row q-gutter-sm">
 
-                  <q-btn color="primary" type="submit">
+                  <q-btn color="primary" type="submit" :data-tag="tags.settingsBookNamingItemSaveButton">
                     <q-icon left name="save" />
                     <div>{{ $t('settingsBookNames.saveButton') }}</div>
                   </q-btn>
 
-                  <q-btn outline color="primary" @click="selected = ''">
+                  <q-btn outline color="primary" @click="selected = ''"
+                    :data-tag="tags.settingsBookNamingItemCancelButton">
                     <q-icon left name="undo" />
                     <div>{{ $t('settingsBookNames.cancelButton') }}</div>
                   </q-btn>
 
-                  <q-btn outline color="primary" @click="appBookNaming = selected">
+                  <q-btn outline color="primary" @click="appBookNaming = selected"
+                    :data-tag="tags.settingsBookNamingItemUseButton">
                     <q-icon left name="desktop_windows" />
                     <div>{{ $t('settingsBookNames.useOnAppScreen') }}</div>
                   </q-btn>
                   <q-space />
 
-                  <q-btn outline color="red-4" @click="remove" :disabled="!!removeTooltip">
+                  <q-btn outline color="red-4" @click="remove" :disabled="!!removeTooltip"
+                    :data-tag="tags.settingsBookNamingItemRemoveButton">
                     <q-icon left name="delete" />
                     <div>{{ $t('settingsBookNames.removeButton') }}</div>
-                    <q-tooltip v-if="!!removeTooltip">{{ removeTooltip }}</q-tooltip>
+                    <q-tooltip>{{ removeTooltip }}</q-tooltip>
                   </q-btn>
 
                 </div>
@@ -67,14 +72,15 @@
     <div>
       <q-form ref="addItemFrom" @submit="add" class="col q-mt-xl q-gutter-sm">
         <span>{{ $t('settingsBookNames.addNewNaming') }}</span>
-        <q-input v-model="newItem.name" :label="$t('settingsBookNames.standardName')" :rules="nameValidationRules" />
+        <q-input v-model="newItem.name" :label="$t('settingsBookNames.standardName')" :rules="nameValidationRules"
+          :data-tag="tags.settingsBookNamingAddName" />
         <q-input v-model="newBooksText" :label="$t('settingsBookNames.bookNames')" autogrow
-          :rules="booksValidationRules" />
+          :rules="booksValidationRules" :data-tag="tags.settingsBookNamingAddBookNames" />
 
         <!-- Button bar -->
         <div class="q-mt-md">
           <div class="row q-gutter-sm">
-            <q-btn color="accent" type="submit">
+            <q-btn color="accent" type="submit" :data-tag="tags.settingsBookNamingAddButton">
               <q-icon left name="add" />
               <div>{{ $t('settingsBookNames.addButton') }}</div>
             </q-btn>
@@ -93,6 +99,9 @@ import { useSettingsStore } from 'src/stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
 import { BookNaming } from 'src/types'
 import { useI18n } from 'vue-i18n'
+import * as tags from 'src/tags'
+import { nameSorter } from 'src/util'
+
 const { t } = useI18n()
 
 const settings = useSettingsStore()
@@ -122,14 +131,15 @@ function edit(item: BookNaming) {
 }
 
 function save(item: BookNaming) {
-  console.log('save ' + JSON.stringify(item))
   editedItem.value.books = editedBooksText.value.split(',').map(it => it.trim())
   Object.assign(item, editedItem.value)
+  settings.focusedLocalized.bookNamings.sort(nameSorter(settings.persist.appearance.locale))
   editedItem.value = { ...emptyItem }
   selected.value = ''
 }
 
 const removeTooltip = computed(() => {
+  console.log('removeTooltip', selected.value === appBookNaming.value, selected.value, appBookNaming.value)
   if (selected.value === appBookNaming.value) {
     return t('settingsBookNames.removeTooltipAppBookNaming')
   }

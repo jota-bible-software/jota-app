@@ -333,7 +333,7 @@ export const jota = {
     let regex
     if (options.words) {
       const notWord = '[^a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]' // cspell:disable-line
-      regex = new RegExp(`(^|${notWord})(${text})($|${notWord})`, 'i')
+      regex = new RegExp(`(^|${notWord})(${text.trim()})($|${notWord})`, 'i')
     } else {
       regex = new RegExp(`(${text})`, 'i')
     }

@@ -14,7 +14,7 @@ export default {
   },
   buttonBookSelector: {
     hideButtons: 'Hide book and chapter selection buttons',
-    selectBook: 'Select book',
+    selectBookChapter: 'Select book and chapter',
     showButtons: 'Show book and chapter selection buttons'
   },
   buttonHelp: {
@@ -41,9 +41,9 @@ export default {
     title: '404'
   },
   editionStore: {
-     editionNotFound: 'Edition content not found for {symbol} ({locale})',
-     editionFetchError: 'Error fetching edition content for {symbol} ({locale})',
-     noDataReceived: 'No data received from fetch request'
+    editionNotFound: 'Edition content not found for {symbol} ({locale})',
+    editionFetchError: 'Error fetching edition content for {symbol} ({locale})',
+    noDataReceived: 'No data received from fetch request'
   },
   mainPage: {
     clearSearch: 'Clear search criteria and results',
@@ -128,7 +128,7 @@ export default {
     nameCannotBeEmpty: 'Name cannot be empty',
     removeButton: 'Remove',
     removeTooltipAppBookNaming: 'Cannot remove naming that is used on the app screen',
-    removeTooltipCopyTemplate: 'Cannot remove. Naming is used in copy template "{templateName}" for language {lang}',
+    removeTooltipCopyTemplate: 'Cannot remove. Naming is used in copy template "{templateName}" for language {locale}',
     saveButton: 'Save',
     standardName: 'Standard name',
     title: 'Bible book naming',

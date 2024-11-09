@@ -11,7 +11,8 @@
           <div class="text-h6 ">{{ props.title }}</div>
           <!-- For language selector -->
           <LabelRow label="dla języka" v-if="props.locale" class="q-ml-md">
-            <LocaleSelector data-test-id="locale-selector" v-model="settings.focusedLocale" />
+            <LocaleSelector data-test-id="locale-selector" v-model="settings.focusedLocale"
+              :data-tag="tags.settingsLocaleSelector" />
           </LabelRow>
         </div>
       </div>
@@ -25,6 +26,7 @@
 import { useSettingsStore } from 'src/stores/settings-store'
 import LocaleSelector from './LocaleSelector.vue'
 import LabelRow from './LabelRow.vue'
+import * as tags from 'src/tags'
 
 const settings = useSettingsStore()
 const props = defineProps({

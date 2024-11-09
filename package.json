@@ -18,7 +18,8 @@
     "test:e2e": "cross-env NODE_ENV=test start-test \"quasar dev\" http-get://127.0.0.1:8080 \"cypress open --e2e\"",
     "test:e2e:ci": "cross-env NODE_ENV=test start-test \"quasar dev\" http-get://127.0.0.1:8080 \"cypress run --e2e\"",
     "test:component": "cross-env NODE_ENV=test cypress open --component",
-    "test:component:ci": "cross-env NODE_ENV=test cypress run --component"
+    "test:component:ci": "cross-env NODE_ENV=test cypress run --component",
+    "e2e": "cross-env NODE_ENV=test start-test \"quasar dev\" http-get://127.0.0.1:8080 \"cypress run --e2e --quiet\""
   },
   "dependencies": {
     "@quasar/extras": "^1.16.9",
@@ -37,22 +38,24 @@
     "@quasar/app-vite": "^1.9.0",
     "@quasar/quasar-app-extension-testing-e2e-cypress": "^6.1.0",
     "@quasar/quasar-app-extension-testing-unit-vitest": "^0.4.0",
+    "@types/cypress": "^1.1.6",
     "@types/node": "^20.14.8",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
     "@vue/test-utils": "^2.4.1",
     "autoprefixer": "^10.4.2",
+    "cypress": "^13.6.6",
+    "cypress-real-events": "^1.13.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-vue": "^9.0.0",
     "prettier": "^2.5.1",
     "typescript": "~5.5.4",
-    "vite-plugin-checker": "^0.8.0",
-    "vue-tsc": "^2.0.29",
-    "cypress": "^13.6.6",
-    "eslint-plugin-cypress": "^2.15.1",
     "unplugin-auto-import": "^0.17.6",
-    "vitest": "^0.34.0"
+    "vite-plugin-checker": "^0.8.0",
+    "vitest": "^0.34.0",
+    "vue-tsc": "^2.0.29"
   },
   "engines": {
     "node": "^18 || ^16 || ^14.19",

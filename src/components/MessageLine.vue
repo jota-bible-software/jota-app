@@ -7,7 +7,7 @@
 
     <span v-else-if="passages.length > 1">
       {{ $t('messageLine.foundPassages') }}
-      <span style="font-weight: bold">{{ passages.length }}</span>
+      <span style="font-weight: bold" :data-tag="tags.foundPassages">{{ passages.length }}</span>
 
       <!-- Copy all found passages -->
       <q-btn-dropdown outline dense split class="q-mx-sm" icon="icon-mdi-content-copy" @click="copyFound()">
@@ -48,16 +48,18 @@
     <span v-if="layout === 'split'">
       <span v-if="chapterFragment">
         <span id="chapter-label" class="q-mr-sm gt-xs">{{ $t('messageLine.chapterLabel') }}</span>
-        <span class="bold q-mr-xs text-accent">{{ chapterCaption }}</span>
+        <span class="bold q-mr-xs text-accent" :data-tag="tags.chapterCaption">{{ chapterCaption }}</span>
       </span>
 
       <q-btn-group v-if="chapterFragment" outline class="q-ml-sm">
         <!-- Previous chapter -->
-        <q-btn outline dense text-color="primary" icon="icon-mat-navigate_before" @click="adjacentChapter(-1)">
+        <q-btn outline dense text-color="primary" icon="icon-mat-navigate_before" @click="adjacentChapter(-1)"
+          :data-tag="tags.previousChapterButton">
           <q-tooltip>{{ $t('messageLine.previousChapter') }}</q-tooltip>
         </q-btn>
         <!-- Next chapter -->
-        <q-btn outline dense text-color="primary" icon="icon-mat-navigate_next" @click="adjacentChapter(1)">
+        <q-btn outline dense text-color="primary" icon="icon-mat-navigate_next" @click="adjacentChapter(1)"
+          :data-tag="tags.nextChapterButton">
           <q-tooltip>{{ $t('messageLine.nextChapter') }}</q-tooltip>
         </q-btn>
       </q-btn-group>
@@ -100,6 +102,8 @@ import { useSettingsStore } from 'src/stores/settings-store'
 import { CopyTemplateData } from 'src/types'
 import AudioPlayer from 'src/components/AudioPlayer.vue'
 import { useI18n } from 'vue-i18n'
+import * as tags from 'src/tags'
+
 const { t } = useI18n()
 
 const store = useSearchStore()

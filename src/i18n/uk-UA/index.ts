@@ -15,7 +15,7 @@ export default {
   },
   buttonBookSelector: {
     hideButtons: 'Сховати кнопки вибору книги та розділу',
-    selectBook: 'Вибрати книгу',
+    selectBookChapter: 'Вибрати книгу та розділ',
     showButtons: 'Показати кнопки вибору книги та розділу'
   },
   buttonHelp: {
@@ -129,7 +129,7 @@ export default {
     nameCannotBeEmpty: 'Назва не може бути порожньою',
     removeButton: 'Видалити',
     removeTooltipAppBookNaming: 'Неможливо видалити найменування, яке використовується на екрані додатку',
-    removeTooltipCopyTemplate: 'Неможливо видалити. Найменування використовується в шаблоні копіювання "{templateName}" для мови {lang}',
+    removeTooltipCopyTemplate: 'Неможливо видалити. Найменування використовується в шаблоні копіювання "{templateName}" для мови {locale}',
     saveButton: 'Зберегти',
     standardName: 'Стандартна назва',
     title: 'Найменування біблійних книг',

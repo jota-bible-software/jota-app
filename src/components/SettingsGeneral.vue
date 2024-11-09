@@ -6,7 +6,7 @@
     </LabelRow>
 
     <LabelRow>
-      <q-toggle v-model="store.persist.referencePickerOnStart" :label="t('settingsGeneral.referencePickerOnStart')" />
+      <q-toggle :data-tag="tags.settingsReferencePickerOnStart" v-model="store.persist.referencePickerOnStart" :label="t('settingsGeneral.referencePickerOnStart')" />
     </LabelRow>
 
     <LabelRow :label="t('settingsGeneral.defaultSearchResultLayout')">
@@ -24,6 +24,7 @@ import SettingsPanel from './SettingsPanel.vue'
 import LabelRow from './LabelRow.vue'
 import LocaleSelector from './LocaleSelector.vue'
 import { useI18n } from 'vue-i18n'
+import * as tags from 'src/tags'
 
 const { t } = useI18n()
 

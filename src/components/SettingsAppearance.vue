@@ -6,7 +6,8 @@
     <div class="col">
       <div class="row items-center q-gutter-sm">
         <div>{{ $t('settingsAppearance.fontSize') }}</div>
-        <q-input v-model="store.persist.appearance.fontSize" class="row small" type="number" />
+        <q-input :data-tag="tags.seettingsFontSize" v-model="store.persist.appearance.fontSize" class="row small"
+          type="number" />
         <q-btn icon="icon-mat-text_increase" @click="adjustFont(1)">
           <q-tooltip>{{ $t('settingsAppearance.textIncrease') }}</q-tooltip>
         </q-btn>
@@ -28,6 +29,7 @@ import SettingsPanel from './SettingsPanel.vue'
 import ScreenModeToggle from './ScreenModeToggle.vue'
 import { useSettingsStore } from 'src/stores/settings-store'
 import ChapterContent from './ChapterContent.vue'
+import * as tags from 'src/tags'
 
 const store = useSettingsStore()
 

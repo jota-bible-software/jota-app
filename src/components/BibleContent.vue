@@ -13,7 +13,8 @@
     </div>
 
     <div id="formatted" class="row q-pb-md" v-if="layout === 'formatted'">
-      <div v-for="(item, i) in formattedSearchResults()" :key="i" class="formatted-verse">
+      <div v-for="(item, i) in formattedSearchResults()" :key="i" class="formatted-verse"
+        :data-tag="tags.formattedVerse">
         <span class="bref" @click="readInContext(i)">{{ item.bibleReference }} {{ item.symbol }}</span>
         <span v-html="item.text"></span>
       </div>
@@ -27,6 +28,7 @@ import { useEventListener, useFocusWithin } from '@vueuse/core'
 import { Direction } from 'src/util'
 import ChapterContent from './ChapterContent.vue'
 import { ref, onMounted, watch, nextTick } from 'vue'
+import * as tags from 'src/tags'
 
 const store = useSearchStore()
 const { fragmentIndex, formattedSearchResults, layout, loading, passages, readInContext, showPicker } = toRefs(store)

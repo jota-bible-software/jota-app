@@ -5,9 +5,9 @@
       <BibleSelector v-model="editionStore.currentKey" :editions="editionStore.editions" class="q-mr-md lt-md" />
 
       <q-input ref="input" v-model="store.input" :outlined="false"
-        :placeholder="$q.screen.gt.sm ? $t('mainPage.placeholderLong') : $t('mainPage.placeholderShort')" dense
-        style="margin-top: 0" autofocus @keyup.enter="find(store.input)" @keyup.esc="store.input = ''" full-width
-        class="col">
+        :placeholder="$q.screen.gt.sm ? $t('mainPage.placeholderLong') : $t('mainPage.placeholderShort')"
+        :disabled="store.loading" dense style="margin-top: 0" autofocus @keyup.enter="find(store.input)"
+        @keyup.esc="store.input = ''" full-width class="col" :data-tag="tags.searchInput">
         <template v-slot:append>
           <q-icon v-if="store.input !== ''" name="icon-mat-close" class="cursor-pointer" style="font-size: 0.8em"
             @click="find('')">
@@ -21,11 +21,10 @@
 
         <template v-slot:after>
           <ButtonWholeWords class="gt-xs" />
-          <ButtonBookSelector :checked="store.showPicker" @change="(v: boolean) => store.showPicker = v"
-            class="gt-xs" />
         </template>
       </q-input>
 
+      <ButtonBookSelector class="sm" />
       <ButtonHelp class="sm" />
       <ButtonSettings class="sm" />
 
@@ -36,9 +35,10 @@
               <ButtonWholeWords in-menu />
             </q-item>
             <q-item>
-              <ButtonBookSelector :checked="store.showPicker" @change="(v: boolean) => store.showPicker = v" in-menu />
+              <ButtonBookSelector in-menu />
             </q-item>
-            <q-item>
+            <!-- Make invisible help page is updated -->
+            <q-item v-if="false">
               <ButtonHelp in-menu />
             </q-item>
             <q-item>
@@ -66,6 +66,7 @@
 import { nextTick, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { useEventListener } from '@vueuse/core'
+import { useRoute } from 'vue-router'
 import { useSearchStore } from 'src/stores/search-store'
 import { useSettingsStore } from 'src/stores/settings-store'
 import BibleContent from 'src/components/BibleContent.vue'
@@ -79,21 +80,30 @@ import MessageLine from 'src/components/MessageLine.vue'
 import MainToolbar from 'src/components/MainToolbar.vue'
 import { SearchOptions } from 'src/types'
 import { useEditionStore } from 'src/stores/edition-store'
+import * as tags from 'src/tags'
 
 const $q = useQuasar()
 const store = useSearchStore()
 const settingsStore = useSettingsStore()
 const editionStore = useEditionStore()
-
-// const isFirstRender = ref(true)
+const router = useRoute()
 
 onMounted(() => {
-  if (settingsStore.persist.referencePickerOnStart) {
+  if (router.query.q) {
+    setQuery()
+  } else if (settingsStore.persist.referencePickerOnStart) {
     store.showPicker = true
   } else {
     store.setChapterFragment([0, 0, 0, 0])
   }
 })
+
+function setQuery() {
+  store.input = router.query.q as string
+  editionStore.startPromise.then(() => find(store.input))
+}
+
+watch(() => router.query.q, setQuery)
 
 function find(input: string, opt?: SearchOptions) {
   const options = opt || {}

@@ -1,5 +1,5 @@
 <template v-slot:after>
-  <q-btn :value="store.words" @click="toggle" dense flat icon="icon-mdi-arrow-expand-horizontal"
+  <q-btn :value="store.words" @click="toggle" dense flat no-caps icon="icon-mdi-arrow-expand-horizontal"
     :text-color="store.words ? 'primary' : 'disabled'" v-close-popup>
     <q-tooltip>{{ tooltip }}</q-tooltip>
     <span v-if="inMenu" class="button-menu-item">{{ $t('buttonWholeWords.wholeWords') }}</span>

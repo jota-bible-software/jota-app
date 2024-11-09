@@ -8,6 +8,7 @@
       <BibleSelector :model-value="store.currentEdition" @update:model-value="value => store.currentKey = value"
         :editions="store.editionsGrouped" flag="true" class="q-pr-sm gt-sm" />
 
+      <ButtonBookSelector />
       <ButtonHelp />
       <ButtonSettings />
     </div>
@@ -19,6 +20,7 @@ import { useEditionStore } from 'src/stores/edition-store'
 import BibleSelector from 'src/components/BibleSelector.vue'
 import ButtonHelp from 'src/components/ButtonHelp.vue'
 import ButtonSettings from 'src/components/ButtonSettings.vue'
+import ButtonBookSelector from 'src/components/ButtonBookSelector.vue'
 
 const store = useEditionStore()
 

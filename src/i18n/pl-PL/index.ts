@@ -14,7 +14,7 @@ export default {
   },
   buttonBookSelector: {
     hideButtons: 'Schowaj przyciski wyboru księgi i rozdziału',
-    selectBook: 'Wybierz księgę',
+    selectBookChapter: 'Wybierz księgę and rozdział',
     showButtons: 'Pokaż przyciski wyboru księgi i rozdziału '
   },
   buttonHelp: {
@@ -128,7 +128,7 @@ export default {
     nameCannotBeEmpty: 'Nazwa nie może być pusta',
     removeButton: 'Usuń',
     removeTooltipAppBookNaming: 'Nie można usunąć nazewnictwa, które jest używane na ekranie aplikacji',
-    removeTooltipCopyTemplate: 'Nie można usunąć. Nazewnictwo jest używane w szablonie kopiowania "{templateName}" dla języka {lang}',
+    removeTooltipCopyTemplate: 'Nie można usunąć. Nazewnictwo jest używane w szablonie kopiowania "{templateName}" dla języka {locale}',
     saveButton: 'Zapisz',
     standardName: 'Nazwa standardu',
     title: 'Nazewnictwo ksiąg biblijnych',

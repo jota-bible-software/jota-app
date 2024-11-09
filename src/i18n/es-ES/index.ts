@@ -15,7 +15,7 @@ export default {
   },
   buttonBookSelector: {
     hideButtons: 'Ocultar botones de selección de libro y capítulo',
-    selectBook: 'Seleccionar libro',
+    selectBookChapter: 'Seleccionar libro y capítulo',
     showButtons: 'Mostrar botones de selección de libro y capítulo'
   },
   buttonHelp: {
@@ -129,7 +129,7 @@ export default {
     nameCannotBeEmpty: 'El nombre no puede estar vacío',
     removeButton: 'Eliminar',
     removeTooltipAppBookNaming: 'No se puede eliminar la nomenclatura que se está utilizando en la pantalla de la aplicación',
-    removeTooltipCopyTemplate: 'No se puede eliminar. La nomenclatura se utiliza en la plantilla de copia "{templateName}" para el idioma {lang}',
+    removeTooltipCopyTemplate: 'No se puede eliminar. La nomenclatura se utiliza en la plantilla de copia "{templateName}" para el idioma {locale}',
     saveButton: 'Guardar',
     standardName: 'Nombre estándar',
     title: 'Nomenclatura de libros bíblicos',

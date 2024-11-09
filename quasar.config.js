@@ -9,7 +9,7 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require('quasar/wrappers')
-const AutoImport = require('unplugin-auto-import/vite')
+// const AutoImport = require('unplugin-auto-import/vite')
 const path = require('path')
 
 module.exports = configure(function (/* ctx */) {
