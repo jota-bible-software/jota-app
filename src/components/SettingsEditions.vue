@@ -1,24 +1,27 @@
 <template>
   <SettingsPanel :title="$t('settingsEditions.title')">
     <LabelRow :label="$t('settingsEditions.allSelected')">
-      <span class="text-bold">{{ store.allSelectedCount }} / {{ store.editions.length }}</span>
+      <span class="text-bold" :data-tag="tags.settingsEditionsAllSelected">{{ store.allSelectedCount }} /
+        {{ store.editions.length }}</span>
     </LabelRow>
     <q-list id="editions" class="rounded-borders">
       <q-expansion-item v-for="(group, i) in store.groups" :key="group.locale"
         :default-opened="group.locale === settings.persist.appearance.locale" group="a"
-        :class="{ highlight: store.focusLang === group.locale }" @show="store.focusLang = group.locale" bordered>
+        :class="{ highlight: store.currentKey.locale === group.locale }" @show="store.currentKey.locale = group.locale"
+        bordered :data-tag="tags.settingsEditionGroup">
 
         <!-- Collapsible Header -->
         <template v-slot:header>
-          <q-item-section>
+          <q-item-section :data-tag="tags.settingsEditionGroupHeader">
             <div class="row items-center q-gutter-sm">
-              <q-toggle :model-value="group.selectedStatus" @update:model-value="group.toggleSelected">
+              <q-toggle :model-value="group.selectedStatus" @update:model-value="group.toggleSelected"
+                :data-tag="tags.settingsEditionGroupToggle">
                 <q-tooltip>{{ $t('settingsEditions.selectAll') }} {{ group.locale }}</q-tooltip>
               </q-toggle>
-              <q-btn flat>
+              <q-btn flat :data-tag="tags.settingsEditionGroupFlag">
                 <FlagIcon :region="locale2region(group.locale)" />
               </q-btn>
-              <span class="text-weight-bold w-4">
+              <span class="text-weight-bold w-4" :data-tag="tags.settingsEditionsLocale">
                 {{ group.locale }}
               </span>
               <span class="text-weight-bold">
@@ -30,17 +33,19 @@
           <q-item-section side>
             <div class="row items-center q-gutter-md">
               <span>{{ $t('settingsEditions.selected') }}: </span>
-              <span>{{ group.selectedCount }} / {{ group.editionCount }} </span>
+              <span :data-tag="tags.settingsEditionGroupSelected">{{ group.selectedCount }} / {{ group.editionCount }}
+              </span>
             </div>
           </q-item-section>
         </template>
 
-        <!-- New BibleSelector for default edition -->
-        <LabelRow :label="$t('settingsEditions.defaultEdition')" class="q-pa-md ">
-          <BibleSelector v-model="group.defaultEdition.value" :editions="group.editions" class="col" />
+        <!-- Updated BibleSelector with None option -->
+        <LabelRow :label="$t('settingsEditions.defaultEdition')" class="q-pa-md">
+          <BibleSelector v-model="group.defaultEdition.value" :editions="[{ symbol: '', title: '' }, ...group.editions]"
+            class="col" :data-tag="tags.settingsEditionDefault" />
         </LabelRow>
 
-        <!-- Editions -->
+        <!-- Rest of the component remains the same -->
         <q-list dense class="q-pb-md">
 
 
@@ -57,9 +62,10 @@
             </q-item-label> -->
 
           <!-- Edition -->
-          <q-item v-for="edition in group.editions" :key="edition.symbol" v-ripple class="items-center">
+          <q-item v-for="edition in group.editions" :key="edition.symbol" v-ripple class="items-center"
+            :data-tag="tags.settingsEditionItem">
             <q-item-section side top>
-              <q-toggle v-model="edition.selected.value" />
+              <q-toggle v-model="edition.selected.value" :data-tag="tags.settingsEditionItemToggle" />
             </q-item-section>
 
             <q-item-section>
@@ -91,6 +97,7 @@ import LabelRow from './LabelRow.vue'
 import FlagIcon from './FlagIcon.vue'
 import BibleSelector from './BibleSelector.vue'
 import { locale2region, nativeLanguageName } from 'src/util'
+import * as tags from 'src/tags'
 
 const store = useEditionStore()
 const settings = useSettingsStore()

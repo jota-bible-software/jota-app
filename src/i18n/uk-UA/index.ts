@@ -10,7 +10,7 @@ export default {
     // No visible text in BibleContent.vue
   },
   bibleSelector: {
-    selectBible: 'Вибрати Біблію',
+    selectBible: 'Вибрати правопис',
     selectFromList: 'Вибрати зі списку'
   },
   buttonBookSelector: {
@@ -42,6 +42,7 @@ export default {
     title: '404'
   },
   editionStore: {
+    cannotUnselectAllEditions: 'Неможливо відзначити всі видання',
     editionNotFound: 'Вміст видання не знайдено для {symbol} ({locale})',
     editionFetchError: 'Помилка отримання вмісту видання для {symbol} ({locale})',
     noDataReceived: 'Не отримано даних із запиту на отримання'
@@ -200,7 +201,7 @@ export default {
     defaultSearchResultLayout: 'Макет результатів пошуку за замовчуванням',
     defaultEdition: 'Видання за замовчуванням',
     formatted: 'Форматований',
-    referencePickerOnStart: 'Показувати вибір книги/роділу на початковій сторінці',
+    referencePickerOnStart: 'Показувати кнопки вибору книги/роділу при відкритті сторінки',
     split: 'Розділений',
     title: 'Загальні налаштування'
   },

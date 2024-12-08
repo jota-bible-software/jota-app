@@ -16,5 +16,7 @@ export default defineConfig({
     baseUrl: 'http://localhost:8080/',
     supportFile: false, // 'test/cypress/support/e2e.ts',
     specPattern: 'test/cypress/e2e/**/*.{cy,test}.{js,jsx,ts,tsx}',
+    viewportWidth: 1080, // Set the desired width
+    viewportHeight: 768, // Set the desired height
   },
 })

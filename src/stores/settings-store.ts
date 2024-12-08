@@ -21,7 +21,7 @@ const initialPersistValue: SettingsPersistType = {
     'en-US': {
       appBookNaming: 'SBL abbreviations',
       bookNamings: getBookNamings('en'),
-      selectedEditions: ['NIV', 'NLT', 'KJV'],
+      selectedEditions: ['KJV'],
       defaultEdition: 'KJV',
     },
     'pl-PL': {
@@ -62,13 +62,15 @@ export const useSettingsStore = defineStore('settings', () => {
 
   const locales = computed(() => Object.keys(persist.value.localized).sort() as LocaleSymbol[])
 
+  const currentTab = ref('general')
+
   function reset() {
     for (const key in initialPersistValue) {
       persist.value[key] = initialPersistValue[key]
     }
   }
 
-  return { appBookNames, appFormatTemplate, getBookNamings, focusedLocale, focusedLocalized, locales, localized, persist, reset }
+  return { appBookNames, appFormatTemplate, currentTab,getBookNamings, focusedLocale, focusedLocalized, locales, localized, persist, reset }
 })
 
 if (import.meta.hot) {

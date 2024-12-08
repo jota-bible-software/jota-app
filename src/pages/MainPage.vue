@@ -2,7 +2,7 @@
   <q-page id="search" class="q-px-md q-pb-md">
     <MainToolbar />
     <div class="row full-width">
-      <BibleSelector v-model="editionStore.currentKey" :editions="editionStore.editions" class="q-mr-md lt-md" />
+      <MainBibleSelector class="q-mr-md lt-md" />
 
       <q-input ref="input" v-model="store.input" :outlined="false"
         :placeholder="$q.screen.gt.sm ? $t('mainPage.placeholderLong') : $t('mainPage.placeholderShort')"
@@ -70,7 +70,7 @@ import { useRoute } from 'vue-router'
 import { useSearchStore } from 'src/stores/search-store'
 import { useSettingsStore } from 'src/stores/settings-store'
 import BibleContent from 'src/components/BibleContent.vue'
-import BibleSelector from 'src/components/BibleSelector.vue'
+import MainBibleSelector from 'src/components/MainBibleSelector.vue'
 import ButtonBookSelector from 'src/components/ButtonBookSelector.vue'
 import ButtonWholeWords from 'src/components/ButtonWholeWords.vue'
 import ButtonHelp from 'src/components/ButtonHelp.vue'

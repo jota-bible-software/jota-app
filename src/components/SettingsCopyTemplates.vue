@@ -10,7 +10,7 @@
         <q-list bordered separator class="col-auto" style="min-width: 350px; max-width: 650px">
           <q-item v-for="item in items" :key="item.name" class="q-px-none1" clickable @click="edit(item)">
             <q-item-section>
-              <q-item-label>{{ item.name }}</q-item-label>
+              <q-item-label :data-tag="tags.settingsCopyTemplatesName">{{ item.name }}</q-item-label>
             </q-item-section>
             <q-item-section avatar>
               <q-icon color="primary" name="chevron_right" />
@@ -19,7 +19,7 @@
         </q-list>
       </div>
       <div class="row q-mt-md">
-        <q-btn color="accent" @click="add">
+        <q-btn color="accent" @click="add" :data-tag="tags.settingsCopyTemplatesAdd">
           <q-icon left name="add" />
           <div>{{ $t('settingsCopyTemplates.addButton') }}</div>
         </q-btn>
@@ -31,7 +31,8 @@
   <SettingsPanel v-else :title="$t('settingsCopyTemplates.editTemplate')" @back="back" style="max-width: 650px">
     <!-- <q-separator class="q-my-md" /> -->
     <LabelRow :label="$t('settingsCopyTemplates.templateName')" lifted>
-      <q-input v-model="editedItem.name" class="col" :rules="[validateName]" />
+      <q-input v-model="editedItem.name" class="col" :rules="[validateName]"
+        :data-tag="tags.settingsCopyTemplatesEditName" />
     </LabelRow>
 
     <LabelRow>
@@ -49,7 +50,7 @@
       <FlagIcon :region="locale2region(locale)" />
 
       <q-select v-model="editedItem.locale[locale].formatTemplate" :options="formatTemplates" option-label="name"
-        option-value="name" map-options emit-value use-input class="col">
+        option-value="name" map-options emit-value use-input class="col" :data-tag="tags.settingsCopyTemplatesFormat">
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
             <q-item-section>
@@ -61,7 +62,7 @@
       </q-select>
 
       <q-select v-model="editedItem.locale[locale].bookNaming" :options="settings.getBookNamings(locale)"
-        option-label="name" option-value="name" map-options emit-value use-input class="col">
+        option-label="name" option-value="name" map-options emit-value use-input class="col" :data-tag="tags.settingsCopyTemplatesBookNaming">
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
             <q-item-section>
@@ -78,20 +79,21 @@
       <div class="row q-gutter-sm">
 
         <!-- Save button -->
-        <q-btn color="primary" @click="save">
+        <q-btn color="primary" @click="save" :data-tag="tags.settingsCopyTemplatesSave">
           <q-icon left name="icon-mat-check" />
           <div>{{ $t('settingsCopyTemplates.saveButton') }}</div>
         </q-btn>
 
         <!-- Cancel button -->
-        <q-btn outline color="primary" @click="back">
+        <q-btn outline color="primary" @click="back" :data-tag="tags.settingsCopyTemplatesCancel">
           <q-icon left name="icon-mat-undo" />
           <div>{{ $t('settingsCopyTemplates.cancelButton') }}</div>
         </q-btn>
 
         <q-space />
 
-        <q-btn outline color="red-4" @click="remove" :disabled="isDefault(editedItem)">
+        <q-btn outline color="red-4" @click="remove" :disabled="isDefault(editedItem)"
+          :data-tag="tags.settingsCopyTemplatesRemove">
           <q-icon left name="delete" />
           <div>{{ $t('settingsCopyTemplates.removeButton') }}</div>
           <q-tooltip v-if="isDefault(editedItem)">{{ $t('settingsCopyTemplates.defaultTemplateTooltip') }}</q-tooltip>
@@ -114,6 +116,7 @@ import LabelRow from './LabelRow.vue'
 import { Dialog } from 'quasar'
 import { nameSorter, locale2region } from 'src/util'
 import { useI18n } from 'vue-i18n'
+import * as tags from 'src/tags'
 const { t } = useI18n()
 
 const settings = useSettingsStore()

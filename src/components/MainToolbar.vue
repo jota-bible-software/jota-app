@@ -5,8 +5,7 @@
       <div class="gt-sm page-title"> Jota </div>
       <q-space />
       <span id="edition-label" class="text-secondary q-mr-sm">{{ $t('mainToolbar.editionLabel') }}</span>
-      <BibleSelector :model-value="store.currentEdition" @update:model-value="value => store.currentKey = value"
-        :editions="store.editionsGrouped" flag="true" class="q-pr-sm gt-sm" />
+      <MainBibleSelector class="q-pr-sm gt-sm" />
 
       <ButtonBookSelector />
       <ButtonHelp />
@@ -16,14 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import { useEditionStore } from 'src/stores/edition-store'
-import BibleSelector from 'src/components/BibleSelector.vue'
+import MainBibleSelector from 'src/components/MainBibleSelector.vue'
 import ButtonHelp from 'src/components/ButtonHelp.vue'
 import ButtonSettings from 'src/components/ButtonSettings.vue'
 import ButtonBookSelector from 'src/components/ButtonBookSelector.vue'
-
-const store = useEditionStore()
-
 </script>
 
 <style lang="scss" scoped></style>

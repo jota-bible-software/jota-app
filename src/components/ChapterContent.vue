@@ -1,6 +1,6 @@
 <template>
   <div ref="chapterRef" tabindex="0" class="chapter-container col bottom-clipped full-width">
-    <q-list :data-tag="tags.chapterContent" id="chapter" class="full-width" v-if="chapterVerses.length">
+    <q-list id="chapter" class="full-width" v-if="chapterVerses.length">
       <q-item v-for="( s, i ) in chapterVerses" :key="i" :class="selectionClasses[i]" class="compact"
         :ref="(el: ComponentPublicInstance) => { if (el) chapterItemRefs[i] = el }">
         <q-item-section class="reference text-secondary">{{ i + 1 }}</q-item-section>
@@ -15,7 +15,6 @@ import { useSearchStore } from 'src/stores/search-store'
 import { bindKeyEvent, Direction } from 'src/util'
 import { useEventListener, useFocusWithin } from '@vueuse/core'
 import { ComponentPublicInstance, ref, onMounted, watch } from 'vue'
-import * as tags from 'src/tags'
 
 const store = useSearchStore()
 const { chapterVerses, highlightSearchTerm, selectionClasses } = toRefs(store)

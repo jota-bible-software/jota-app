@@ -10,7 +10,7 @@ export default {
     // No visible text in BibleContent.vue
   },
   bibleSelector: {
-    selectBible: 'Seleccionar Biblia',
+    selectBible: 'Seleccionar edición',
     selectFromList: 'Seleccionar de la lista'
   },
   buttonBookSelector: {
@@ -42,6 +42,7 @@ export default {
     title: '404'
   },
   editionStore: {
+    cannotUnselectAllEditions: 'No se puede deseleccionar todas las ediciones',
     editionNotFound: 'Contenido de la edición no encontrado para {symbol} ({locale})',
     editionFetchError: 'Error al obtener el contenido de la edición para {symbol} ({locale})',
     noDataReceived: 'No se recibieron datos de la solicitud de búsqueda'
@@ -200,7 +201,7 @@ export default {
     defaultSearchResultLayout: 'Diseño predeterminado de los resultados de búsqueda',
     defaultEdition: 'Traducción predeterminada',
     formatted: 'Formateado',
-    referencePickerOnStart: 'Mostrar selector de libro/capítulo en la página de inicio',
+    referencePickerOnStart: 'Mostrar selector de libro/capítulo al abrir la página', 
     split: 'Dividido',
     title: 'Configuración general'
   },

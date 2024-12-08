@@ -6,12 +6,13 @@
     <div class="col">
       <div class="row items-center q-gutter-sm">
         <div>{{ $t('settingsAppearance.fontSize') }}</div>
-        <q-input :data-tag="tags.seettingsFontSize" v-model="store.persist.appearance.fontSize" class="row small"
-          type="number" />
-        <q-btn icon="icon-mat-text_increase" @click="adjustFont(1)">
+        <q-input v-model="store.persist.appearance.fontSize" class="row small" type="number"
+          :data-tag="tags.settingsFontSize" />
+        <q-btn icon="icon-mat-text_increase" @click="adjustFont(1)" :data-tag="tags.settingsFontSizeIncrease">
           <q-tooltip>{{ $t('settingsAppearance.textIncrease') }}</q-tooltip>
         </q-btn>
-        <q-btn icon="icon-mat-text_decrease" @click="adjustFont(-1)" size="sm">
+        <q-btn icon="icon-mat-text_decrease" @click="adjustFont(-1)" size="sm"
+          :data-tag="tags.settingsFontSizeDecrease">
           <q-tooltip>{{ $t('settingsAppearance.textDecrease') }}</q-tooltip>
         </q-btn>
       </div>
@@ -27,11 +28,17 @@
 <script setup lang="ts">
 import SettingsPanel from './SettingsPanel.vue'
 import ScreenModeToggle from './ScreenModeToggle.vue'
-import { useSettingsStore } from 'src/stores/settings-store'
 import ChapterContent from './ChapterContent.vue'
+import { useSearchStore } from 'src/stores/search-store'
+import { useSettingsStore } from 'src/stores/settings-store'
 import * as tags from 'src/tags'
 
 const store = useSettingsStore()
+const searchStore = useSearchStore()
+
+if (!searchStore.chapterFragment) {
+  searchStore.setChapterFragment([0, 0, 0, 0])
+}
 
 function adjustFont(amount: number) {
   store.persist.appearance.fontSize = (store.persist.appearance.fontSize ?? 16) + amount

@@ -41,11 +41,10 @@
 
     <span v-else-if="error">{{ error }}</span>
 
-    <span
-      v-else-if="passages.length === 0 && !chapterFragment && searchTerm !== ''">{{ $t('messageLine.notFound') }}</span>
+    <span v-else-if="passages.length === 0 && searchTerm !== ''" :data-tag="tags.nothingFound">{{ $t('messageLine.notFound') }}</span>
 
     <!-- Passage displayed -->
-    <span v-if="layout === 'split'">
+    <span v-else-if="layout === 'split'">
       <span v-if="chapterFragment">
         <span id="chapter-label" class="q-mr-sm gt-xs">{{ $t('messageLine.chapterLabel') }}</span>
         <span class="bold q-mr-xs text-accent" :data-tag="tags.chapterCaption">{{ chapterCaption }}</span>
@@ -81,8 +80,8 @@
         </q-list>
       </q-btn-dropdown>
 
-      <q-btn id="player" v-show="store.chapterFragment" outline dense text-color="primary" class="q-ml-sm"
-        icon="icon-mat-volume_up" @click="toggleAudio">
+      <q-btn id="player" v-if="settings.persist.appearance.locale === 'pl-PL'" v-show="store.chapterFragment" outline
+        dense text-color="primary" class="q-ml-sm" icon="icon-mat-volume_up" @click="toggleAudio">
 
         <q-tooltip>{{ $t('messageLine.playAudio') }}</q-tooltip>
       </q-btn>

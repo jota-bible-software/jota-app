@@ -9,7 +9,7 @@
           class="q-item q-item-type row no-wrap compact q-item--clickable q-link cursor-pointer">{{ item }}</div>
       </div>
 
-      <ChapterContent />
+      <ChapterContent v-if="chapterFragment" :data-tag="tags.chapterContent" />
     </div>
 
     <div id="formatted" class="row q-pb-md" v-if="layout === 'formatted'">
@@ -31,7 +31,7 @@ import { ref, onMounted, watch, nextTick } from 'vue'
 import * as tags from 'src/tags'
 
 const store = useSearchStore()
-const { fragmentIndex, formattedSearchResults, layout, loading, passages, readInContext, showPicker } = toRefs(store)
+const { chapterFragment, fragmentIndex, formattedSearchResults, layout, loading, passages, readInContext, showPicker } = toRefs(store)
 const { goToAdjacentChapter, moveFragmentIndex } = store
 
 const passagesRef = ref<HTMLElement | null>(null)

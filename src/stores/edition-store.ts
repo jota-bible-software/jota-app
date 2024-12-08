@@ -9,8 +9,6 @@ import { useI18n } from 'vue-i18n'
 
 export const useEditionStore = defineStore('edition', () => {
 
-  // Region: Support for SettingsEditions.vue
-
   const settings = useSettingsStore()
   const q = useQuasar()
   const { t } = useI18n()
@@ -24,26 +22,61 @@ export const useEditionStore = defineStore('edition', () => {
     // Unselect edition
     const selected = ls.selectedEditions.includes(edition)
     if (selected && !value) {
-      // Ensure at least one edition is selected
-      if (ls.selectedEditions.length > 1) {
+      const areOtherSelected = ls.selectedEditions.length < allSelectedCount.value
+
+      if (areOtherSelected || ls.selectedEditions.length > 1) {
+        // Remove this edition from selected editions
         const index = ls.selectedEditions.indexOf(edition)
         ls.selectedEditions.splice(index, 1)
-        ls.defaultEdition = ls.selectedEditions[0]
+
+        // If no editions are selected for this locale, set to empty
+        if (ls.selectedEditions.length === 0) {
+          ls.defaultEdition = ''
+        }
+        // If current default was removed, set first selected edition as default
+        else if (ls.defaultEdition === edition) {
+          ls.defaultEdition = ls.selectedEditions[0]
+        }
+      } else {
+        q.notify({
+          message: t('editionStore.cannotUnselectAllEditions'),
+          type: 'negative'
+        })
       }
     }
     // Select edition
     else if (!selected && value) {
-      ls.selectedEditions.push(edition)
+      if (edition !== '') {
+        ls.selectedEditions.push(edition)
+      }
+
+      // If there was no previous default, replace it with this edition
+      if (ls.defaultEdition === '') {
+        ls.defaultEdition = edition
+      }
     }
   }
 
   function setDefaultEdition(locale: LocaleSymbol, edition: string) {
     const ls = localized[locale]
+
+    // If edition is empty, clear the default
+    if (edition === '') {
+      ls.defaultEdition = ''
+      return
+    }
+
     ls.defaultEdition = edition
     if (!ls.selectedEditions.includes(edition)) {
       ls.selectedEditions.push(edition)
     }
+
+    if (settings.persist.appearance.locale === locale) {
+      currentKey.value = { locale, symbol: ls.defaultEdition }
+    }
   }
+
+  watch(() => settings.persist.appearance.locale, locale => currentKey.value = { locale, symbol: localized[locale].defaultEdition })
 
   const localized: Record<LocaleSymbol, Localized> = settings.persist.localized
 
@@ -57,7 +90,7 @@ export const useEditionStore = defineStore('edition', () => {
       set(selected: boolean) {
         setEditionSelection(ed.locale, ed.symbol, selected)
         if (selected) {
-          fetchEditionContent(ed as Edition)
+          fetchEditionContent({ ...ed, selected: ref(true), content: shallowRef(undefined) })
         }
       }
     })
@@ -67,7 +100,11 @@ export const useEditionStore = defineStore('edition', () => {
     const groupEditions: Edition[] = editions.filter(it => it.locale === locale)
     const defaultEdition = computed({
       get(): EditionKey {
-        return { locale, symbol: localized[locale].defaultEdition }
+        // If defaultEdition is empty, return ''
+        return {
+          locale,
+          symbol: localized[locale].defaultEdition === '' ? '' : localized[locale].defaultEdition
+        }
       },
       set(editionKey: EditionKey) {
         setDefaultEdition(locale, editionKey.symbol)
@@ -92,9 +129,10 @@ export const useEditionStore = defineStore('edition', () => {
   const currentKey: Ref<EditionKey> = ref({ locale: settings.persist.appearance.locale, symbol: settings.localized.defaultEdition })
   const currentEdition = computed(() => getEdition(currentKey.value))
   const currentContent = computed(() => currentEdition.value?.content?.value)
+  const selectedEditions = computed(() => editions.filter(it => it.selected.value))
   const editionsGrouped = computed(() => {
     let previous = ''
-    return editions.filter(it => it.selected).map(it => {
+    return selectedEditions.value.map(it => {
       const isFirstInGroup = previous !== it.locale
       previous = it.locale
       return { ...it, isFirstInGroup }
@@ -103,7 +141,7 @@ export const useEditionStore = defineStore('edition', () => {
 
 
   function getEdition(key: EditionKey): Edition {
-    return editions.find(it => it.locale === key.locale && it.symbol === key.symbol) || editions[0]
+    return editions.find(it => it.locale === key.locale && it.symbol === key.symbol) || selectedEditions.value[0] || editions[0]
   }
 
   async function fetchEditionContent(edition: Edition): Promise<Edition['content']> {

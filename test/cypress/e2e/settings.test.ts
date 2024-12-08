@@ -41,7 +41,7 @@ describe('Settings', () => {
     const addItemName = tag(tags.settingsBookNamingAddName)
     const addItemBooks = tag(tags.settingsBookNamingAddBookNames)
     const addItemButton = tag(tags.settingsBookNamingAddButton)
-    const localeSelector = tag(tags.settingsLocaleSelector)
+    const localeFilter = tag(tags.settingsLocaleFilter)
 
     beforeEach(() => {
       click(bookNames)
@@ -180,12 +180,8 @@ describe('Settings', () => {
     })
 
     it('should show items for the selected locale', () => {
-      select(localeSelector, 'Polski')
+      select(localeFilter, 'Polski')
       assertShowing(containsText('EIB skrócone'))
     })
   })
-
-
 })
-
-

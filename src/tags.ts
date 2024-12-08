@@ -1,18 +1,23 @@
 
-export const chapterContent = 'chapter-content'
+
 export const referencePickerToggle = 'reference-picker-toggle'
 
 export const referencePickerBookButton = 'reference-picker-book'
 export const referencePickerChapterButtons = 'reference-picker-chapter'
 export const referencePickerBackButton = 'reference-picker-back'
 
+export const editionSelector = 'edition-selector'
+export const editionSelectorItem = 'edition-selector-item'
 export const searchInput = 'search-input'
 export const foundPassages = 'found-passages'
 export const chapterCaption = 'chapter-caption'
 export const nextChapterButton = 'next-chapter-button'
 export const previousChapterButton = 'previous-chapter-button'
 export const passages = 'passages'
+export const chapterContent = 'chapter-content'
 export const formattedVerse = 'formatted-verse'
+export const nothingFound = 'nothing-found'
+export const pageBackButton = 'page-back-button'
 
 // Settings page left sidebar
 export const settingsPageGeneral = 'settings-page-general'
@@ -23,11 +28,17 @@ export const settingsPageFormatTemplates = 'settings-page-format-templates'
 export const settingsPageCopyTemplates = 'settings-page-copy-templates'
 export const settingsPageImportExport = 'settings-page-import-export'
 
+export const settingsPanelBack = 'settings-panel-back'
+export const settingsPanelTitle = 'settings-panel-title'
 export const settingsLocaleSelector = 'settings-locale-selector'
-
+export const settingsLocaleFilter = 'settings-locale-filter'
+export const settingsLayoutToggle = 'settings-layout-toggle'
 export const settingsReferencePickerOnStart = 'settings-reference-picker-on-start'
+
 export const settingsScreenMode = 'settings-screen-mode'
 export const settingsFontSize = 'settings-font-size'
+export const settingsFontSizeIncrease = 'settings-font-size-increase'
+export const settingsFontSizeDecrease = 'settings-font-size-decrease'
 
 // Settings book names
 export const settingsBookNamingInApp = 'settings-book-naming-in-app'
@@ -45,3 +56,41 @@ export const settingsBookNamingAddName = 'settings-book-naming-add-name'
 export const settingsBookNamingAddBookNames = 'settings-book-naming-add-book-names'
 export const settingsBookNamingAddButton = 'settings-book-naming-add-button'
 
+// Settings copy templates
+export const settingsCopyTemplatesDefault = 'settings-copy-templates-default'
+export const settingsCopyTemplatesName = 'settings-copy-templates-name'
+export const settingsCopyTemplatesAdd = 'settings-copy-templates-add'
+export const settingsCopyTemplatesEditName = 'settings-copy-templates-edit-name'
+export const settingsCopyTemplatesSave = 'settings-copy-templates-save'
+export const settingsCopyTemplatesCancel = 'settings-copy-templates-cancel'
+export const settingsCopyTemplatesRemove = 'settings-copy-templates-remove'
+export const settingsCopyTemplatesFormat = 'settings-copy-templates-format'
+export const settingsCopyTemplatesBookNaming = 'settings-copy-templates-book-naming'
+
+// Settings Format Templates
+export const settingsFormatTemplatesOnScreen = 'settings-format-templates-on-screen'
+export const settingsFormatTemplatesAdd = 'settings-format-templates-add'
+export const settingsFormatTemplateName = 'settings-format-templates-name'
+export const settingsFormatTemplateRefPosition = 'settings-format-templates-reference-position'
+export const settingsFormatTemplateAbbreviation = 'settings-format-templates-edition-abbreviation'
+export const settingsFormatTemplateWithNumbers = 'settings-format-templates-with-numbers'
+export const settingsFormatTemplateVerseNewLine = 'settings-format-templates-verse-new-line'
+export const settingsFormatTemplateSeparatorChar = 'settings-format-templates-separator-char'
+export const settingsFormatTemplateRangeChar = 'settings-format-templates-range-char'
+// ... skip some properties
+export const settingsFormatTemplateSave = 'settings-format-templates-save'
+export const settingsFormatTemplateCancel = 'settings-format-templates-cancel'
+export const settingsFormatTemplateRemove = 'settings-format-templates-remove'
+
+// Settings editions
+export const settingsEditions = 'settings-editions'
+export const settingsEditionGroup = 'settings-edition-group'
+export const settingsEditionGroupHeader = 'settings-edition-group-header'
+export const settingsEditionGroupToggle = 'settings-edition-group-toggle'
+export const settingsEditionItem = 'settings-edition-item'
+export const settingsEditionItemToggle = 'settings-edition-item-toggle'
+export const settingsEditionDefault = 'settings-edition-default'
+export const settingsEditionGroupFlag = 'settings-edition-group-flag'
+export const settingsEditionGroupSelected = 'settings-edition-group-selected'
+export const settingsEditionsAllSelected = 'settings-editions-all-selected'
+export const settingsEditionsLocale = 'settings-editions-locale'

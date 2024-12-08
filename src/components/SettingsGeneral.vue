@@ -2,18 +2,33 @@
   <SettingsPanel :title="t('settingsGeneral.title')">
 
     <LabelRow :label="t('settingsGeneral.locale')">
-      <LocaleSelector v-model="store.persist.appearance.locale" />
+      <LocaleSelector v-model="store.persist.appearance.locale" :data-tag="tags.settingsLocaleSelector" />
     </LabelRow>
 
     <LabelRow>
-      <q-toggle :data-tag="tags.settingsReferencePickerOnStart" v-model="store.persist.referencePickerOnStart" :label="t('settingsGeneral.referencePickerOnStart')" />
+      <q-toggle v-model="store.persist.referencePickerOnStart" :label="t('settingsGeneral.referencePickerOnStart')"
+        :data-tag="tags.settingsReferencePickerOnStart" />
+      <q-icon name="icon-mat-checklist" size="sm" class="border q-pa-sm"/>
     </LabelRow>
 
     <LabelRow :label="t('settingsGeneral.defaultSearchResultLayout')">
       <q-btn-toggle v-model="store.persist.defaultSearchResultLayout" spread no-caps :options="[
-        { label: t('settingsGeneral.split'), value: 'split' },
-        { label: t('settingsGeneral.formatted'), value: 'formatted' }
-      ]" />
+        { value: 'split', slot: 'split' },
+        { value: 'formatted', slot: 'formatted' }
+      ]" class="nowrap" :data-tag="tags.settingsLayoutToggle">
+        <template v-slot:split>
+          <div class="row no-wrap">
+            <div>{{ t('settingsGeneral.split') }}</div>
+            <q-icon right name="icon-mat-vertical_split" />
+          </div>
+        </template>
+        <template v-slot:formatted>
+          <div class="row no-wrap">
+            <div>{{ t('settingsGeneral.formatted') }}</div>
+            <q-icon right name="icon-mat-view_agenda" />
+          </div>
+        </template>
+      </q-btn-toggle>
     </LabelRow>
   </SettingsPanel>
 </template>

@@ -4,7 +4,7 @@ import { jota } from 'src/logic/jota'
 import { format, formatSample } from 'src/logic/format'
 import { useSettingsStore } from './settings-store'
 import { useEditionStore } from './edition-store'
-import { Direction, errorMessage } from 'src/util'
+import { decodeHtml, Direction, errorMessage } from 'src/util'
 import { useI18n } from 'vue-i18n'
 
 export const useSearchStore = defineStore('search', () => {
@@ -13,7 +13,7 @@ export const useSearchStore = defineStore('search', () => {
   const { t } = useI18n()
 
   const audioOn = ref(false)
-  const chapterFragment: Ref<Passage> = ref([0, 0, 0, 0])
+  const chapterFragment: Ref<Passage | undefined> = ref()
   const editionContent = computed(() => editions.currentContent)
   const error = ref('')
   const fragments: Ref<readonly Passage[]> = ref([])
@@ -34,8 +34,8 @@ export const useSearchStore = defineStore('search', () => {
   const words = ref(true)
 
   const books = computed(() => settings.appBookNames)
-  const chapterCaption = computed(() => jota.chapterCaption(chapterFragment.value, books.value))
-  const chapterVerses = computed(() => editionContent.value ? jota.chapterVerses(editionContent.value, chapterFragment.value) : [])
+  const chapterCaption = computed(() => chapterFragment.value ? jota.chapterCaption(chapterFragment.value, books.value) : '')
+  const chapterVerses = computed(() => editionContent.value && chapterFragment.value ? jota.chapterVerses(editionContent.value, chapterFragment.value) : [])
   const found = computed(() => !!fragments.value.length)
   const hasSelection = computed(() => chapterFragment.value && chapterFragment.value[2] != null)
   const loading = computed(() => !editions.currentContent)
@@ -101,7 +101,7 @@ export const useSearchStore = defineStore('search', () => {
   // actions
 
   async function goToAdjacentVerse(direction: Direction) {
-    if (!editionContent.value) return
+    if (!editionContent.value || !chapterFragment.value) return
     const [bible, chapter, start, end] = chapterFragment.value
     const s = direction === Direction.Prev ? Math.max(0, (start ?? 0) - 1) :
       direction === Direction.Next ? Math.min(chapterVerses.value.length - 1, (end ?? 0) + 1) : start
@@ -109,7 +109,7 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   async function goToAdjacentChapter(direction: Direction) {
-    if (!editionContent.value) return
+    if (!editionContent.value || !chapterFragment.value) return
     const adjacent = jota.adjacentChapter(editionContent.value, chapterFragment.value, direction) as Passage | undefined
     if (adjacent) {
       const [b, c] = adjacent
@@ -118,7 +118,7 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   async function goToAdjacentPage(direction: Direction) {
-    if (!editionContent.value) return
+    if (!editionContent.value || !chapterFragment.value) return
     const adjacent = jota.adjacentChapter(editionContent.value, chapterFragment.value, direction) as Passage | undefined
     if (adjacent) {
       const [b, c] = adjacent
@@ -131,7 +131,8 @@ export const useSearchStore = defineStore('search', () => {
     searchTerm.value = ''
     fragments.value = []
     fragmentIndex.value = -1
-    setChapterFragment([0, 0, 0, 0])
+    chapterFragment.value = undefined
+    // setChapterFragment()
   }
 
   async function findByInput(input: string, options: SearchOptions) {
@@ -140,10 +141,9 @@ export const useSearchStore = defineStore('search', () => {
     const bible = editionContent.value
     const editionSymbol = editions.currentEdition?.symbol
     const text = input.replace(/\n/g, '#')
-    if (!text) {
-      clearSearch()
-      return
-    }
+    clearSearch()
+    if (!text) return
+
     searchTerm.value = input
 
     const beforeFragmentCount = fragments.value.length
@@ -181,9 +181,10 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function highlightSearchTerm(s: string) {
+    const text = decodeHtml(s)
     return searchTermHighlightRegex.value && searchTermHighlightReplacement.value
-      ? s.replace(searchTermHighlightRegex.value, searchTermHighlightReplacement.value)
-      : s
+      ? text.replace(searchTermHighlightRegex.value, searchTermHighlightReplacement.value)
+      : text
   }
 
   function formatFound(copyTemplate?: CopyTemplateData): string | Error {

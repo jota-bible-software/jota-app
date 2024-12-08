@@ -17,26 +17,47 @@ export function navigate(url: string) {
 export function tag(name: string) {
   return `[data-tag=${name}]`
 }
+type SingleTarget = string | Cypress.Chainable<any>
+type NestedTarget = { head: SingleTarget, tail: string[] }
+type Target = SingleTarget | NestedTarget // Cypress.Chainable<JQuery<HTMLElement>> | Cypress.Chainable<string> | Cypress.Chainable<undefined>
+type HtmlElementWrapper = Cypress.Chainable<JQuery<HTMLElement>>
 
-type Target = string | Cypress.Chainable<any> // Cypress.Chainable<JQuery<HTMLElement>> | Cypress.Chainable<string> | Cypress.Chainable<undefined>
-type HTMLElementWrapper = Cypress.Chainable<JQuery<HTMLElement>>
 
-export function find(target: Target): HTMLELementWrapper {
-  return typeof target === 'string' ? cy.get(target) : target
+export function nested(head: SingleTarget, ...tail: string[]): NestedTarget {
+  return { head, tail }
+}
+// export function find3(target: Target): HtmlElementWrapper {
+//   return typeof target === 'string' ? cy.get(target) : target
+// }
+
+// export function find2(target: Target, ...nested: string[]): HtmlElementWrapper {
+//   return nested.reduce((acc, cur) => acc.find(cur), typeof target === 'string' ? cy.get(target) : target)
+// }
+
+export function find(target: Target): HtmlElementWrapper {
+  function findNested(target: Target): HtmlElementWrapper {
+    const t = target as NestedTarget
+    return t.tail.reduce((acc, cur) => acc.find(cur), find(t.head))
+  }
+  return typeof target === 'string' ? cy.get(target) : target.hasOwnProperty('head') ? findNested(target) : target as HtmlElementWrapper
 }
 
-export function errorHint(target: Target): HTMLELementWrapper {
+export function errorHint(target: Target): HtmlElementWrapper {
   // This throws Syntax error, unrecognized expression: ...
   // return `('.q-field:has(${tag}) div[role=alert]')`
 
   return find(target).parents('.q-field').find('div[role="alert"]')
 }
 
-export function tooltip(target: Target): HTMLELementWrapper {
+export function tooltip(target: Target): HtmlElementWrapper {
   return find(target).realHover().then(() => {
     cy.get('.q-tooltip')
   })
 }
+
+// export function text(target: Target): string {
+//   return find(target).invoke('text')
+// }
 
 export function assertNoErrorHint(target: Target) {
   return find(target).parents('.q-field').find('div[role="alert"]').should('not.exist')
@@ -47,17 +68,29 @@ export function t(key: string, options?: Record<string, unknown>) {
   return i18n.global.t(key, options ?? {})
 }
 
-export function first(target: Target): HTMLELementWrapper {
+export function first(target: Target): HtmlElementWrapper {
   return find(target).first()
 }
 
 /** Position is 1-based */
-export function nth(target: Target, position: number): HTMLELementWrapper {
+export function nth(target: Target, position: number): HtmlElementWrapper {
   return find(target).eq(position - 1)
 }
 
-export function last(target: Target): HTMLELementWrapper {
+export function second(target: Target): HtmlElementWrapper {
+  return find(target).eq(1)
+}
+
+export function third(target: Target): HtmlElementWrapper {
+  return find(target).eq(2)
+}
+
+export function last(target: Target): HtmlElementWrapper {
   return find(target).last()
+}
+
+export function visible(target: Target): HtmlElementWrapper {
+  return find(target).filter(':visible')
 }
 
 export function containsText(selector: string) {
@@ -95,10 +128,19 @@ export function type(target: Target, text: string, replace: boolean = false) {
 }
 
 export function select(target: Target, value: string) {
-  return find(target).click().then(() => cy.get('.q-menu').contains(value).click())
+  return find(target).click().then(() => {
+    //  cy.get('.q-menu').contains(value).click()
+    cy.get('.q-menu').find('.q-item')
+      .each((option) => {
+        const text = Cypress.$(option).text().trim()
+        if (!value && text === '' || value && text.includes(value)) {
+          cy.wrap(option).click()
+        }
+      })
+  })
 }
 
-export function forEach<T>(target: Target, items: T[], assertFn: (element: HTMLELementWrapper, expected: T) => void) {
+export function forEach<T>(target: Target, items: T[], assertFn: (element: HtmlElementWrapper, expected: T) => void) {
   find(target).each(($el, index: number) => {
     const element = cy.wrap($el) // Wrap each element to keep Cypress chainable
     const expectedValue = items[index] // Get corresponding value from items array
@@ -149,6 +191,14 @@ export function assertTextNotContains(target: Target, text: string) {
 
 export function assertValue(target: Target, text: string) {
   return find(target).should('have.value', text)
+}
+
+export function assertChecked(target: Target) {
+  return find(target).find('.q-toggle__inner--truthy').should('exist')
+}
+
+export function assertNotChecked(target: Target) {
+  return find(target).find('.q-toggle__inner--falsy').should('exist')
 }
 
 export function assertValueContains(target: Target, value: string) {

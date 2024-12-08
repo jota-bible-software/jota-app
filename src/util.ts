@@ -59,6 +59,11 @@ export function copyTextToClipboard(text: string): void {
   document.body.removeChild(textArea)
 }
 
+
+export function decodeHtml(html: string): string {
+  return html.replace(/&/g, '&amp;').replace(/>/g, '&gt;').replace(/</g, '&lt;').replace(/"/g, '&quot;')
+}
+
 export function bindKeyEvent(binding: string, callback: (event: KeyboardEvent) => void) {
   const parts = binding.split('+')
   const key = parts[parts.length - 1]

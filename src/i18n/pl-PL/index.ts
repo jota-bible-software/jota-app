@@ -9,7 +9,7 @@ export default {
     // No visible text in BibleContent.vue
   },
   bibleSelector: {
-    selectBible: 'Wybierz Biblię',
+    selectBible: 'Wybierz przekład',
     selectFromList: 'Wybierz z listy'
   },
   buttonBookSelector: {
@@ -31,18 +31,15 @@ export default {
     enable: 'Włącz wyszukiwanie całych słów',
     wholeWords: 'Całe słowa'
   },
-  buttonWordWrap: {
-    disable: 'Wyłącz zawijanie słów',
-    enable: 'Włącz zawijanie słów'
-  },
   errorNotFound: {
     backToHome: 'Powrót do strony głównej',
     message: 'Strona, której szukasz, nie została znaleziona.',
     title: '404'
   },
   editionStore: {
-    editionNotFound: 'Nie znaleziono treści dla edycji {symbol} ({locale})',
-    editionFetchError: 'Błąd podczas pobierania treści edycji dla {symbol} ({locale})',
+    cannotUnselectAllEditions: 'Nie można odznaczyć wszystkich przekładów',
+    editionNotFound: 'Nie znaleziono treści dla przekładu {symbol} ({locale})',
+    editionFetchError: 'Błąd podczas pobierania treści przekładu dla {symbol} ({locale})',
     noDataReceived: 'Nie otrzymano danych z żądania pobrania'
   },
   mainPage: {
@@ -199,7 +196,7 @@ export default {
     defaultSearchResultLayout: 'Domyślny układ wyników wyszukiwania',
     defaultEdition: 'Domyślny przekład',
     formatted: 'Sformatowany',
-    referencePickerOnStart: 'Pokaż przyciski wyboru księgi/rozdziału na stronie startowej',
+    referencePickerOnStart: 'Pokaż przyciski wyboru księgi/rozdziału po otwarciu strony',
     split: 'Podzielony',
     title: 'Ustawienia ogólne'
   },
