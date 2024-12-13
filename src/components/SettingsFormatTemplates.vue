@@ -3,16 +3,18 @@
 
     <!-- List of items -->
     <div class="col">
-      <LabelRow :label="$t('settingsFormatTemplates.appDisplay')">
-        <q-select v-model="settings.persist.appFormatTemplateName" :options="items" option-label="name" />
-      </LabelRow>
+      <!-- The app screen template was a premature feature, don't turn it on yet -->
+      <!-- <LabelRow :label="$t('settingsFormatTemplates.appDisplay')">
+        <q-select v-model="settings.persist.appFormatTemplateName" :options="items" option-value="name" emit-value
+          option-label="name" :data-tag="tags.settingsFormatTemplateAppScreen" />
+      </LabelRow> -->
 
       <div class="row q-mt-md">
         <q-list bordered separator class="col-auto" style="max-width: 650px">
           <q-item v-for="(item, index) in items" :key="item.name" class="q-px-none1" clickable
             @click="edit(item, index)">
             <q-item-section>
-              <q-item-label>{{ item.name }}</q-item-label>
+              <q-item-label :data-tag="tags.settingsFormatTemplatesItemName">{{ item.name }}</q-item-label>
               <q-item-label>
                 <pre v-html="formatSample(item)" class="text-caption default-font-family"
                   style=" white-space:pre-wrap"></pre>
@@ -26,7 +28,7 @@
       </div>
 
       <div class="row q-mt-md">
-        <q-btn color="accent" @click="add">
+        <q-btn color="accent" @click="add" :data-tag="tags.settingsFormatTemplatesAdd">
           <q-icon left name="add" />
           <div>{{ $t('settingsFormatTemplates.addButton') }}</div>
         </q-btn>
@@ -40,68 +42,84 @@
 
         <!-- <q-separator class="q-my-md" /> -->
         <LabelRow :label="$t('settingsFormatTemplates.templateName')" lifted>
-          <q-input v-model="editedItem.name" class="col" :rules="[validateName]" />
+          <q-input v-model="editedItem.name" class="col" :rules="[validateName]"
+            :data-tag="tags.settingsFormatTemplateName" />
         </LabelRow>
 
         <div>{{ $t('settingsFormatTemplates.referencePosition') }}</div>
         <LabelRow>
           <q-radio v-model="editedItem.referencePosition" val="before"
-            :label="$t('settingsFormatTemplates.beforeContent')" />
+            :label="$t('settingsFormatTemplates.beforeContent')"
+            :data-tag="tags.settingsFormatTemplateRefPositionBefore" />
           <q-radio v-model="editedItem.referencePosition" val="after"
-            :label="$t('settingsFormatTemplates.afterContent')" />
+            :label="$t('settingsFormatTemplates.afterContent')"
+            :data-tag="tags.settingsFormatTemplateRefPositionAfter" />
         </LabelRow>
         <LabelRow>
-          <q-radio v-model="editedItem.referenceLine" val="same line" :label="$t('settingsFormatTemplates.sameLine')" />
-          <q-radio v-model="editedItem.referenceLine" val="new line" :label="$t('settingsFormatTemplates.newLine')" />
+          <q-radio v-model="editedItem.referenceLine" val="same line" :label="$t('settingsFormatTemplates.sameLine')"
+            :data-tag="tags.settingsFormatTemplateRefPositionSameLine" />
+          <q-radio v-model="editedItem.referenceLine" val="new line" :label="$t('settingsFormatTemplates.newLine')"
+            :data-tag="tags.settingsFormatTemplateRefPositionNewLine" />
         </LabelRow>
 
-        <!-- <div>Skrótu przekładu</div> -->
         <LabelRow :label="$t('settingsFormatTemplates.editionAbbreviation')" class="q-py-sm">
-          <q-radio v-model="editedItem.editionAbbreviation" val="none" :label="$t('settingsFormatTemplates.none')" />
+          <q-radio v-model="editedItem.editionAbbreviation" val="none" :label="$t('settingsFormatTemplates.none')"
+            :data-tag="tags.settingsFormatTemplateEditionAbbreviationNone" />
           <q-radio v-model="editedItem.editionAbbreviation" val="lowercase"
-            :label="$t('settingsFormatTemplates.lowercase')" />
+            :label="$t('settingsFormatTemplates.lowercase')"
+            :data-tag="tags.settingsFormatTemplateEditionAbbreviationLowercase" />
           <q-radio v-model="editedItem.editionAbbreviation" val="uppercase"
-            :label="$t('settingsFormatTemplates.uppercase')" />
+            :label="$t('settingsFormatTemplates.uppercase')"
+            :data-tag="tags.settingsFormatTemplateEditionAbbreviationUppercase" />
         </LabelRow>
 
         <LabelRow class="q-pb-sm">
-          <q-toggle v-model="editedItem.numbers" :label="$t('settingsFormatTemplates.versesWithNumbers')"></q-toggle>
-          <q-toggle v-model="editedItem.verseNewLine"
-            :label="$t('settingsFormatTemplates.newLineForEachVerse')"></q-toggle>
+          <q-toggle v-model="editedItem.numbers" :label="$t('settingsFormatTemplates.versesWithNumbers')"
+            :data-tag="tags.settingsFormatTemplateWithNumbers" />
+          <q-toggle v-model="editedItem.verseNewLine" :label="$t('settingsFormatTemplates.newLineForEachVerse')"
+            :data-tag="tags.settingsFormatTemplateVerseNewLine" />
         </LabelRow>
 
         <LabelRow>
           <div class="col">{{ $t('settingsFormatTemplates.separatorChar') }}</div>
-          <q-input v-model="editedItem.separatorChar" class="short-input" />
+          <q-input v-model="editedItem.separatorChar" class="short-input"
+            :data-tag="tags.settingsFormatTemplateSeparatorChar" />
         </LabelRow>
 
         <LabelRow>
           <div class="col">{{ $t('settingsFormatTemplates.rangeChar') }}</div>
-          <q-input v-model="editedItem.rangeChar" class="short-input" />
+          <q-input v-model="editedItem.rangeChar" class="short-input"
+            :data-tag="tags.settingsFormatTemplateRangeChar" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundReference') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <q-input v-model="editedItem.referenceCharsBefore" class="short-input" />
+          <q-input v-model="editedItem.referenceCharsBefore" class="short-input"
+            :data-tag="tags.settingsFormatTemplateReferenceCharsBefore" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <q-input v-model="editedItem.referenceCharsAfter" class="short-input" />
+          <q-input v-model="editedItem.referenceCharsAfter" class="short-input"
+            :data-tag="tags.settingsFormatTemplateReferenceCharsAfter" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundQuote') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <q-input v-model="editedItem.quoteCharsBefore" class="short-input" />
+          <q-input v-model="editedItem.quoteCharsBefore" class="short-input"
+            :data-tag="tags.settingsFormatTemplateQuoteCharsBefore" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <q-input v-model="editedItem.quoteCharsAfter" class="short-input" />
+          <q-input v-model="editedItem.quoteCharsAfter" class="short-input"
+            :data-tag="tags.settingsFormatTemplateQuoteCharsAfter" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundVerseNumber') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <q-input v-model="editedItem.verseNumberCharsBefore" class="short-input" />
+          <q-input v-model="editedItem.verseNumberCharsBefore" class="short-input"
+            :data-tag="tags.settingsFormatTemplateNumberCharsBefore" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <q-input v-model="editedItem.verseNumberCharsAfter" class="short-input" />
+          <q-input v-model="editedItem.verseNumberCharsAfter" class="short-input"
+            :data-tag="tags.settingsFormatTemplateNumberCharsAfter" />
         </LabelRow>
 
         <LabelRow>
@@ -120,13 +138,13 @@
         <div class="q-my-lg">
           <div class="row q-gutter-sm">
 
-            <q-btn type="submit" color="primary">
+            <q-btn type="submit" color="primary" :data-tag="tags.settingsFormatTemplateSave">
               <q-icon left name="icon-mat-check" />
               <div>{{ $t('settingsFormatTemplates.saveButton') }}</div>
             </q-btn>
 
             <!-- Cancel button -->
-            <q-btn outline color="primary" @click="reset">
+            <q-btn outline color="primary" @click="reset" :data-tag="tags.settingsFormatTemplateCancel">
               <q-icon left name="icon-mat-undo" />
               <div>{{ $t('settingsFormatTemplates.cancelButton') }}</div>
             </q-btn>
@@ -137,7 +155,8 @@
           </q-btn> -->
             <q-space />
 
-            <q-btn outline color="red-4" :disabled="!!removeTooltip" @click="remove">
+            <q-btn outline color="red-4" :disabled="!!removeTooltip" @click="remove"
+              :data-tag="tags.settingsFormatTemplateRemove">
               <q-icon left name="delete" />
               <div>{{ $t('settingsFormatTemplates.removeButton') }}</div>
               <q-tooltip v-if="!!removeTooltip">{{ removeTooltip }}</q-tooltip>
@@ -154,17 +173,17 @@
 
 <script setup lang="ts">
 // TODO make sure the name is unique
-import { Ref, computed, ref } from 'vue'
 import { Dialog, QForm } from 'quasar'
-import { FormatTemplateData } from 'src/types'
-import { useSettingsStore } from 'stores/settings-store'
-import SettingsPanel from './SettingsPanel.vue'
-import LabelRow from './LabelRow.vue'
 import { formatSample } from 'src/logic/format'
-import { useI18n } from 'vue-i18n'
+import * as tags from 'src/tags'
+import { FormatTemplateData } from 'src/types'
 import { nameSorter } from 'src/util'
+import { useSettingsStore } from 'stores/settings-store'
+import { Ref, computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import LabelRow from './LabelRow.vue'
+import SettingsPanel from './SettingsPanel.vue'
 const { t } = useI18n()
-
 
 const settings = useSettingsStore()
 const items = settings.persist.formatTemplates
@@ -210,12 +229,23 @@ function save() {
     Object.assign(selectedItem.value, editedItem.value)
   }
   items.sort(nameSorter(settings.persist.appearance.locale))
+
+  if (selected.value === settings.persist.appFormatTemplateName) {
+    settings.persist.appFormatTemplateName = editedItem.value.name
+  }
+
   editedItem.value = { ...emptyItem }
   selected.value = ''
   isNewItem.value = false
 }
 
 const removeTooltip = computed(() => {
+  // Check if the current template is app screen template
+  if (selected.value === settings.persist.appFormatTemplateName) {
+    return t('settingsFormatTemplates.removeTooltipAppScreen')
+  }
+
+  // Check if the current template is used in the copy temaplates
   let foundTemplateName = ''
   let foundLocale = ''
   for (const t of settings.persist.copyTemplates) {
@@ -228,7 +258,7 @@ const removeTooltip = computed(() => {
     }
     if (!!foundTemplateName) break
   }
-  return !!foundTemplateName ? `${t('settingsFormatTemplates.removeTooltip')} "${foundTemplateName}" ${t('settingsFormatTemplates.forLanguage')} ${foundLocale}` : ''
+  return !!foundTemplateName ? `${t('settingsFormatTemplates.removeTooltipCopyTemplate')} "${foundTemplateName}" ${t('settingsFormatTemplates.forLanguage')} ${foundLocale}` : ''
 })
 
 function remove() {
@@ -241,6 +271,7 @@ function remove() {
     const i = items.findIndex(it => it.name === selected.value)
     if (i !== -1) items.splice(i, 1)
     selected.value = ''
+    editedItem.value = { ...emptyItem }
   })
 }
 

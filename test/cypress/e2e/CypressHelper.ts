@@ -140,6 +140,14 @@ export function select(target: Target, value: string) {
   })
 }
 
+export function clickDialogNo() {
+  cy.get('.q-dialog').contains(t('settingsFormatTemplates.no')).click()
+}
+
+export function clickDialogYes() {
+  cy.get('.q-dialog').contains(t('settingsFormatTemplates.yes')).click()
+}
+
 export function forEach<T>(target: Target, items: T[], assertFn: (element: HtmlElementWrapper, expected: T) => void) {
   find(target).each(($el, index: number) => {
     const element = cy.wrap($el) // Wrap each element to keep Cypress chainable

@@ -30,7 +30,6 @@ describe('Home Page', () => {
   const passages = tag(tags.passages)
   const formattedVerse = tag(tags.formattedVerse)
   const nothingFound = tag(tags.nothingFound)
-  const localeSelector = tag(tags.settingsLocaleSelector)
 
   beforeEach(() => {
     goHome()
