@@ -148,7 +148,7 @@ export default {
     removeConfirm: 'Czy na pewno chcesz usunąć szablon',
     removeTitle: 'Usuń szablon',
     saveButton: 'Zapisz',
-    templateDescription: 'Wybierz szablon formatowania i nazewnictwo ksiąg dla każdego języka:',
+    templateDescription: 'Wybierz szablon formatowania i nazewnictwo ksiąg:',
     templateName: 'Nazwa szablonu',
     title: 'Szablony kopiowania',
     yes: 'Tak'

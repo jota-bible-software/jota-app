@@ -58,6 +58,7 @@ export const settingsBookNamingAddButton = 'settings-book-naming-add-button'
 
 // Settings copy templates
 export const settingsCopyTemplatesDefault = 'settings-copy-templates-default'
+export const settingsCopyTemplatesItemName = 'settings-copy-templates-item-name'
 export const settingsCopyTemplatesName = 'settings-copy-templates-name'
 export const settingsCopyTemplatesAdd = 'settings-copy-templates-add'
 export const settingsCopyTemplatesEditName = 'settings-copy-templates-edit-name'
@@ -67,7 +68,7 @@ export const settingsCopyTemplatesRemove = 'settings-copy-templates-remove'
 export const settingsCopyTemplatesFormat = 'settings-copy-templates-format'
 export const settingsCopyTemplatesBookNaming = 'settings-copy-templates-book-naming'
 
-// Settings Format Templates
+// Settings format templates
 export const settingsFormatTemplateAppScreen = 'settings-format-templates-app-screen'
 export const settingsFormatTemplatesItemName = 'settings-format-templates-item-name'
 export const settingsFormatTemplatesAdd = 'settings-format-templates-add'

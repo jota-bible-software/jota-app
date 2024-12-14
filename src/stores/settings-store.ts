@@ -21,18 +21,21 @@ const initialPersistValue: SettingsPersistType = {
     'en-US': {
       appBookNaming: 'SBL abbreviations',
       bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
       selectedEditions: ['KJV'],
       defaultEdition: 'KJV',
     },
     'pl-PL': {
       appBookNaming: 'Moje pl',
       bookNamings: getBookNamings('pl'),
+      copyTemplates: copyTemplates['pl-PL']!,
+      defaultCopyTemplate: 'Prezentacja',
       selectedEditions: ['EIB', 'BW', 'UBG'],
       defaultEdition: 'UBG',
     }
   },
   formatTemplates,
-  copyTemplates,
   appFormatTemplateName: 'App format',
   defaultCopyTemplate: 'Studium',
   defaultSearchResultLayout: 'split' as PassageListLayout,
@@ -46,7 +49,6 @@ function getBookNamings(localeOrLang: string): BookNaming[] {
     .map(_ => ({ ..._, booksText: _.books.join(', ') }))
     .sort((a, b) => a.name.localeCompare(b.name, localLang, { sensitivity: 'base', ignorePunctuation: true }))
 }
-
 
 export const useSettingsStore = defineStore('settings', () => {
   const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', initialPersistValue, localStorage, { deep: true })

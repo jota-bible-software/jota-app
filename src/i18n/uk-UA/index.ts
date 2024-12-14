@@ -153,7 +153,7 @@ export default {
     removeConfirm: 'Ви впевнені, що хочете видалити шаблон',
     removeTitle: 'Видалити шаблон',
     saveButton: 'Зберегти',
-    templateDescription: 'Виберіть шаблон форматування та найменування книг для кожної мови:',
+    templateDescription: 'Виберіть шаблон форматування та найменування книг:',
     templateName: 'Назва шаблону',
     title: 'Шаблони копіювання',
     yes: 'Так'

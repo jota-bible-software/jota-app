@@ -153,7 +153,7 @@ export default {
     removeConfirm: '¿Estás seguro de que deseas eliminar la plantilla',
     removeTitle: 'Eliminar plantilla',
     saveButton: 'Guardar',
-    templateDescription: 'Selecciona la plantilla de formato y la nomenclatura de libros para cada idioma:',
+    templateDescription: 'Selecciona la plantilla de formato y la nomenclatura de libros:',
     templateName: 'Nombre de la plantilla',
     title: 'Plantillas de copia',
     yes: 'Sí'

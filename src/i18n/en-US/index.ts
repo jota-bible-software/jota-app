@@ -152,7 +152,7 @@ export default {
     removeConfirm: 'Are you sure you want to remove the template',
     removeTitle: 'Remove template',
     saveButton: 'Save',
-    templateDescription: 'Select format template and book naming for each language:',
+    templateDescription: 'Select format template and book naming:',
     templateName: 'Template name',
     title: 'Copy templates',
     yes: 'Yes'

@@ -185,8 +185,30 @@ export function assertShowing(target: Target) {
   return find(target).should('be.visible')
 }
 
+// export function assertText(target: Target, text: string) {
+//   return find(target).should('have.text', text)
+// }
+
 export function assertText(target: Target, text: string) {
-  return find(target).should('have.text', text)
+  find(target).then(($el) => {
+    const isInput = $el.is('input, textarea') // Check if the element is an input or textarea
+
+    if (isInput) {
+      const value = $el.val() // Get the input value
+      if (value) {
+        // Assert the input value if it's not empty
+        expect(value).to.equal(text)
+      } else {
+        // Assert the text of the parent element if the input value is empty
+        const parentText = $el.parent().text().trim()
+        expect(parentText).to.equal(text)
+      }
+    } else {
+      // Assert the text if the element is not an input
+      const elementText = $el.text().trim()
+      expect(elementText).to.equal(text)
+    }
+  })
 }
 
 export function assertTextContains(target: Target, text: string) {

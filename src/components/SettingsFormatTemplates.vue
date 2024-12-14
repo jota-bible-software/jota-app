@@ -248,9 +248,9 @@ const removeTooltip = computed(() => {
   // Check if the current template is used in the copy temaplates
   let foundTemplateName = ''
   let foundLocale = ''
-  for (const t of settings.persist.copyTemplates) {
+  for (const t of settings.focusedLocalized.copyTemplates) {
     for (const locale of settings.locales) {
-      if (t.locale[locale].formatTemplate === selected.value) {
+      if (t.formatTemplate === selected.value) {
         foundTemplateName = t.name
         foundLocale = locale
         break

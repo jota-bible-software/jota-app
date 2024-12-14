@@ -4,10 +4,9 @@ export type BookNaming = { locale: LocaleSymbol, name: string, books: string[] }
 
 export type CopyTemplateData = {
   name: string,
-  locale: CopyTemplateLangData
+  formatTemplate: string,
+  bookNaming: string
 }
-
-export type CopyTemplateLangData = Record<LanguageSymbol, { formatTemplate: string, bookNaming: string }>
 
 export type Edition = EditionMeta & {
   selected: Ref<boolean>,
@@ -43,11 +42,14 @@ export type FormatTemplateData = {
 }
 
 export type LanguageSymbol = string
-export type LocaleSymbol = 'en-GB' | 'en-US' | 'pl-PL' | 'es-ES' | 'pt-PT' | 'uk-UA'
+export type LocaleSymbol = 'en-US' | 'pl-PL'
+// export type LocaleSymbol = 'en-GB' | 'en-US' | 'pl-PL' | 'es-ES' | 'pt-PT' | 'uk-UA'
 
 export type Localized = {
   appBookNaming: string
   bookNamings: BookNaming[]
+  copyTemplates: CopyTemplateData[]
+  defaultCopyTemplate: string
   selectedEditions: string[]
   defaultEdition: string
 }
@@ -82,11 +84,9 @@ export type SettingsPersistType = {
     screenMode: ScreenMode
     primaryColor: string
   }
-  localized: Record<Locale, Localized>
+  localized: Record<LocaleSymbol, Localized>
   formatTemplates: FormatTemplateData[]
-  copyTemplates: CopyTemplateData[]
   appFormatTemplateName: string
-  defaultCopyTemplate: string
   defaultSearchResultLayout: PassageListLayout
   referencePickerOnStart: boolean
 }

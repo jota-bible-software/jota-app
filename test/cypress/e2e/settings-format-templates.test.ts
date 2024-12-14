@@ -207,7 +207,7 @@ describe('Settings Format Templates', () => {
     it('should prevent removing a template used in a copy template', () => {
       click(containsText('English presentation'))
       assertDisabled(formatTemplateRemove)
-      assertText(tooltip(formatTemplateRemove), `${t('settingsFormatTemplates.removeTooltipCopyTemplate')} "Prezentacja" ${t('settingsFormatTemplates.forLanguage')} en-US`)
+      assertText(tooltip(formatTemplateRemove), `${t('settingsFormatTemplates.removeTooltipCopyTemplate')} "Presentation" ${t('settingsFormatTemplates.forLanguage')} en-US`)
     })
   })
 

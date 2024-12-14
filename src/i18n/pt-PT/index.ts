@@ -153,7 +153,7 @@ export default {
     removeConfirm: 'Tem certeza de que deseja remover o modelo',
     removeTitle: 'Remover modelo',
     saveButton: 'Salvar',
-    templateDescription: 'Selecione o modelo de formatação e a nomenclatura dos livros para cada idioma:',
+    templateDescription: 'Selecione o modelo de formatação e a nomenclatura dos livros:',
     templateName: 'Nome do modelo',
     title: 'Modelos de cópia',
     yes: 'Sim'

@@ -146,9 +146,9 @@ const removeTooltip = computed(() => {
 
   let foundTemplateName = ''
   let foundLocale = ''
-  for (const t of settings.persist.copyTemplates) {
+  for (const t of settings.focusedLocalized.copyTemplates) {
     for (const locale of settings.locales) {
-      if (t.locale[locale].bookNaming === selected.value) {
+      if (t.bookNaming === selected.value) {
         foundTemplateName = t.name
         foundLocale = locale
         break

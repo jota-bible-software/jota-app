@@ -981,34 +981,31 @@ export const bookNamings = [
   // },
 ] as BookNaming[]
 
-export const copyTemplates: CopyTemplateData[] = [
-  {
-    name: 'Prezentacja',
-    locale: {
-      'en-US': {
-        formatTemplate: 'English presentation',
-        bookNaming: 'Standard'
-      },
-      'pl-PL': {
-        formatTemplate: 'Polska prezentacja',
-        bookNaming: 'EIB skrócone'
-      }
+export const copyTemplates: Record<LocaleSymbol, CopyTemplateData[]> = {
+  'en-US': [
+    {
+      name: 'Presentation',
+      formatTemplate: 'English presentation',
+      bookNaming: 'Standard'
+    }, {
+      name: 'Study',
+      formatTemplate: 'Studium',
+      bookNaming: 'SBL abbreviations'
     }
-  },
-  {
-    name: 'Studium',
-    locale: {
-      'en-US': {
-        formatTemplate: 'Studium',
-        bookNaming: 'SBL abbreviations'
-      },
-      'pl-PL': {
-        formatTemplate: 'Studium',
-        bookNaming: 'Moje pl'
-      }
+  ],
+  'pl-PL': [
+    {
+      name: 'Prezentacja',
+      formatTemplate: 'Polska prezentacja',
+      bookNaming: 'EIB skrócone'
+    },
+    {
+      name: 'Studium',
+      formatTemplate: 'Studium',
+      bookNaming: 'Moje pl'
     }
-  }
-]
+  ],
+}
 
 export const formatTemplates: FormatTemplateData[] = [
   {
