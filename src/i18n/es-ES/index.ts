@@ -138,6 +138,7 @@ export default {
   },
   settingsCopyTemplates: {
     addButton: 'Agregar nueva plantilla',
+    addNewTemplate: 'Agregar nueva plantilla',
     bookNaming: 'Nomenclatura de libros',
     cancelButton: 'Cancelar',
     defaultTemplate: 'Plantilla predeterminada',
@@ -153,6 +154,7 @@ export default {
     removeConfirm: '¿Estás seguro de que deseas eliminar la plantilla',
     removeTitle: 'Eliminar plantilla',
     saveButton: 'Guardar',
+    setAsDefault: 'Establecer como predeterminado',
     templateDescription: 'Selecciona la plantilla de formato y la nomenclatura de libros:',
     templateName: 'Nombre de la plantilla',
     title: 'Plantillas de copia',

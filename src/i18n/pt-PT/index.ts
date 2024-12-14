@@ -138,6 +138,7 @@ export default {
   },
   settingsCopyTemplates: {
     addButton: 'Adicionar novo modelo',
+    addNewTemplate: 'Adicionar novo modelo',
     bookNaming: 'Nomenclatura dos livros',
     cancelButton: 'Cancelar',
     defaultTemplate: 'Modelo padrão',
@@ -153,6 +154,7 @@ export default {
     removeConfirm: 'Tem certeza de que deseja remover o modelo',
     removeTitle: 'Remover modelo',
     saveButton: 'Salvar',
+    setAsDefault: 'Definir como padrão',
     templateDescription: 'Selecione o modelo de formatação e a nomenclatura dos livros:',
     templateName: 'Nome do modelo',
     title: 'Modelos de cópia',

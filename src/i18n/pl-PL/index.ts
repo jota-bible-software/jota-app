@@ -133,6 +133,7 @@ export default {
   },
   settingsCopyTemplates: {
     addButton: 'Dodaj nowy szablon',
+    addNewTemplate: 'Dodaj nowy szablon',
     bookNaming: 'Nazewnictwo ksiąg',
     cancelButton: 'Anuluj',
     defaultTemplate: 'Domyślny szablon',
@@ -148,6 +149,7 @@ export default {
     removeConfirm: 'Czy na pewno chcesz usunąć szablon',
     removeTitle: 'Usuń szablon',
     saveButton: 'Zapisz',
+    setAsDefault: 'Ustaw jako domyślny',
     templateDescription: 'Wybierz szablon formatowania i nazewnictwo ksiąg:',
     templateName: 'Nazwa szablonu',
     title: 'Szablony kopiowania',

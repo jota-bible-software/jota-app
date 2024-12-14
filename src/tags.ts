@@ -59,14 +59,19 @@ export const settingsBookNamingAddButton = 'settings-book-naming-add-button'
 // Settings copy templates
 export const settingsCopyTemplatesDefault = 'settings-copy-templates-default'
 export const settingsCopyTemplatesItemName = 'settings-copy-templates-item-name'
+export const settingsCopyTemplatesEdit = 'settings-copy-templates-edit'
 export const settingsCopyTemplatesName = 'settings-copy-templates-name'
-export const settingsCopyTemplatesAdd = 'settings-copy-templates-add'
-export const settingsCopyTemplatesEditName = 'settings-copy-templates-edit-name'
+export const settingsCopyTemplatesFormat = 'settings-copy-templates-format'
+export const settingsCopyTemplatesBookNaming = 'settings-copy-templates-book-naming'
 export const settingsCopyTemplatesSave = 'settings-copy-templates-save'
 export const settingsCopyTemplatesCancel = 'settings-copy-templates-cancel'
 export const settingsCopyTemplatesRemove = 'settings-copy-templates-remove'
-export const settingsCopyTemplatesFormat = 'settings-copy-templates-format'
-export const settingsCopyTemplatesBookNaming = 'settings-copy-templates-book-naming'
+export const settingsCopyTemplatesUseButton = 'settings-copy-templates-use-button'
+
+export const settingsCopyTemplatesAddName = 'settings-copy-templates-add-name'
+export const settingsCopyTemplatesAddFormat = 'settings-copy-templates-add-format'
+export const settingsCopyTemplatesAddBookNaming = 'settings-copy-templates-add-book-naming'
+export const settingsCopyTemplatesAdd = 'settings-copy-templates-add'
 
 // Settings format templates
 export const settingsFormatTemplateAppScreen = 'settings-format-templates-app-screen'
@@ -89,7 +94,7 @@ export const settingsFormatTemplateReferenceCharsAfter = 'settings-format-templa
 export const settingsFormatTemplateQuoteCharsBefore = 'settings-format-templates-quote-chars-before'
 export const settingsFormatTemplateQuoteCharsAfter = 'settings-format-templates-quote-chars-after'
 export const settingsFormatTemplateNumberCharsBefore = 'settings-format-templates-number-chars-before'
-export const settingsFormatTemplateNumberCharsAfter= 'settings-format-templates-number-chars-after'
+export const settingsFormatTemplateNumberCharsAfter = 'settings-format-templates-number-chars-after'
 // ... skip some properties
 export const settingsFormatTemplateSave = 'settings-format-templates-save'
 export const settingsFormatTemplateCancel = 'settings-format-templates-cancel'

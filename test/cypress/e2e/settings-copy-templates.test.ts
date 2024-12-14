@@ -26,7 +26,6 @@ const goSettings = () => navigate('/#/settings')
 
 describe('Settings Copy Templates', () => {
   const copyTemplatesPanel = tag(tags.settingsPageCopyTemplates)
-  const settingsPanelTitle = tag(tags.settingsPanelTitle)
   const copyTemplatesDefault = tag(tags.settingsCopyTemplatesDefault)
   const copyTemplatesItemName = tag(tags.settingsCopyTemplatesItemName)
   const copyTemplatesAdd = tag(tags.settingsCopyTemplatesAdd)
@@ -36,15 +35,17 @@ describe('Settings Copy Templates', () => {
   const copyTemplatesRemove = tag(tags.settingsCopyTemplatesRemove)
   const copyTemplatesFormat = tag(tags.settingsCopyTemplatesFormat)
   const copyTemplatesBookNaming = tag(tags.settingsCopyTemplatesBookNaming)
+  const copyTemplatesAddName = tag(tags.settingsCopyTemplatesAddName)
+  const copyTemplatesAddFormat = tag(tags.settingsCopyTemplatesAddFormat)
+  const copyTemplatesAddBookNaming = tag(tags.settingsCopyTemplatesAddBookNaming)
 
   const newTemplateName = 'aaa'
 
   function addNewItem() {
+    type(copyTemplatesAddName, newTemplateName)
+    select(first(copyTemplatesAddFormat), 'App format')
+    select(copyTemplatesAddBookNaming, 'Standard')
     click(copyTemplatesAdd)
-    type(copyTemplatesName, newTemplateName)
-    select(first(copyTemplatesFormat), 'App format')
-    select(copyTemplatesBookNaming, 'Standard')
-    click(copyTemplatesSave)
     assertCount(copyTemplatesItemName, 3)
   }
 
@@ -59,24 +60,18 @@ describe('Settings Copy Templates', () => {
   })
 
   describe('Adding a New Copy Template', () => {
-    it('should open add copy template form', () => {
-      click(copyTemplatesAdd)
-      assertText(settingsPanelTitle, t('settingsCopyTemplates.editTemplate'))
-      assertShowing(copyTemplatesName)
-    })
 
     it('should validate template name', () => {
-      click(copyTemplatesAdd)
 
       // Try to save without a name
-      type(copyTemplatesName, '')
-      click(copyTemplatesSave)
-      assertText(errorHint(copyTemplatesName), t('settingsCopyTemplates.nameRequired'))
+      type(copyTemplatesAddName, '')
+      click(copyTemplatesAdd)
+      assertText(errorHint(copyTemplatesAddName), t('settingsCopyTemplates.nameRequired'))
 
       // Try to add a template with an existing name
-      type(copyTemplatesName, 'Presentation')
-      click(copyTemplatesSave)
-      assertText(errorHint(copyTemplatesName), t('settingsCopyTemplates.nameExists'))
+      type(copyTemplatesAddName, 'Presentation')
+      click(copyTemplatesAdd)
+      assertText(errorHint(copyTemplatesAddName), t('settingsCopyTemplates.nameExists'))
     })
 
     it('should create a new copy template', () => {
@@ -90,12 +85,6 @@ describe('Settings Copy Templates', () => {
       assertValue(copyTemplatesName, newTemplateName)
       assertText(copyTemplatesFormat, 'App format')
       assertText(copyTemplatesBookNaming, 'Standard')
-    })
-
-    it('should cancel the adding', () => {
-      click(copyTemplatesAdd)
-      click(copyTemplatesCancel)
-      assertCount(copyTemplatesItemName, 2)
     })
 
     it.skip('should prevent adding a copy template with the same values', () => {

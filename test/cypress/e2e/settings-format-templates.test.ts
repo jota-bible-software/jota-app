@@ -62,7 +62,6 @@ describe('Settings Format Templates', () => {
   //   select(appScreenTemplateSelector, 'English presentation')
   //   goHome()
   //   type(searchInput, 'earth{enter}')
-
   // })
 
   describe('Adding a New Format Template', () => {

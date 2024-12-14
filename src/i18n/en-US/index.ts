@@ -137,6 +137,7 @@ export default {
   },
   settingsCopyTemplates: {
     addButton: 'Add new template',
+    addNewTemplate: 'Add new template',
     bookNaming: 'Book naming',
     cancelButton: 'Cancel',
     defaultTemplate: 'Default template',
@@ -152,6 +153,7 @@ export default {
     removeConfirm: 'Are you sure you want to remove the template',
     removeTitle: 'Remove template',
     saveButton: 'Save',
+    setAsDefault: 'Set as default',
     templateDescription: 'Select format template and book naming:',
     templateName: 'Template name',
     title: 'Copy templates',

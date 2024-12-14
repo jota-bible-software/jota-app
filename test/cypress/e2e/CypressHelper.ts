@@ -46,7 +46,7 @@ export function errorHint(target: Target): HtmlElementWrapper {
   // This throws Syntax error, unrecognized expression: ...
   // return `('.q-field:has(${tag}) div[role=alert]')`
 
-  return find(target).parents('.q-field').find('div[role="alert"]')
+  return find(target).closest('.q-field').find('div[role="alert"]')
 }
 
 export function tooltip(target: Target): HtmlElementWrapper {
@@ -190,7 +190,7 @@ export function assertShowing(target: Target) {
 // }
 
 export function assertText(target: Target, text: string) {
-  find(target).then(($el) => {
+  return find(target).then(($el) => {
     const isInput = $el.is('input, textarea') // Check if the element is an input or textarea
 
     if (isInput) {
@@ -267,5 +267,14 @@ export function assertDisabled(target: Target) {
 
 export function assertEnabled(target: Target) {
   return find(target).should('not.be.disabled')
+}
+
+export function assertErrorHint(target: Target, text: string): HtmlElementWrapper {
+  // This throws Syntax error, unrecognized expression: ...
+  // return `('.q-field:has(${tag}) div[role=alert]')`
+
+  cy.wait(500)
+  const el = find(target).closest('.q-field').find('div[role="alert"]')
+  return assertText(el, text)
 }
 

@@ -138,6 +138,7 @@ export default {
   },
   settingsCopyTemplates: {
     addButton: 'Додати новий шаблон',
+    addNewTemplate: 'Додати новий шаблон',
     bookNaming: 'Найменування книг',
     cancelButton: 'Скасувати',
     defaultTemplate: 'Шаблон за замовчуванням',
@@ -153,6 +154,7 @@ export default {
     removeConfirm: 'Ви впевнені, що хочете видалити шаблон',
     removeTitle: 'Видалити шаблон',
     saveButton: 'Зберегти',
+    setAsDefault: 'Встановити за замовчуванням',
     templateDescription: 'Виберіть шаблон форматування та найменування книг:',
     templateName: 'Назва шаблону',
     title: 'Шаблони копіювання',

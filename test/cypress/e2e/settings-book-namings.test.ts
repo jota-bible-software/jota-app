@@ -8,7 +8,8 @@ import {
   nth,
   assertDisabled,
   select,
-  tooltip
+  tooltip,
+  assertTextContains
 } from './CypressHelper'
 import * as tags from 'src/tags'
 
@@ -116,7 +117,8 @@ describe('Settings', () => {
         assertText(errorHint(addItemBooks), t('settingsBookNames.bookListCannotBeEmpty'))
 
         type(addItemBooks, 'a')
-        assertText(errorHint(addItemBooks), t('settingsBookNames.bookCountError', {
+        // The error is not cleared from the previous check, hence using assertTextContains instead fo assertText. using
+        assertTextContains(errorHint(addItemBooks), t('settingsBookNames.bookCountError', {
           count: 1,
           books: t('settingsBookNames.book')
         }))
@@ -159,10 +161,10 @@ describe('Settings', () => {
         click(last(editButton))
         assertDisabled(removeButton)
 
-        assertText(tooltip(removeButton), t('settingsBookNames.removeTooltipCopyTemplate', { templateName: 'Prezentacja', locale: 'en-US' }))
+        assertText(tooltip(removeButton), t('settingsBookNames.removeTooltipCopyTemplate', { templateName: 'Presentation', locale: 'en-US' }))
       })
 
-      it('should preserve the selected fpr app screen when reopened', () => {
+      it('should preserve the selected app screen naming when reopened', () => {
         select(appNaming, 'Standard')
         goHome()
         assertShowing(containsText('Genesis'))

@@ -70,7 +70,7 @@
     </q-list>
 
     <div>
-      <q-form ref="addItemFrom" @submit="add" class="col q-mt-xl q-gutter-sm">
+      <q-form ref="addItemForm" @submit="add" class="col q-mt-xl q-gutter-sm">
         <span>{{ $t('settingsBookNames.addNewNaming') }}</span>
         <q-input v-model="newItem.name" :label="$t('settingsBookNames.standardName')" :rules="nameValidationRules"
           :data-tag="tags.settingsBookNamingAddName" />
@@ -105,7 +105,7 @@ import { nameSorter } from 'src/util'
 const { t } = useI18n()
 
 const settings = useSettingsStore()
-const addItemFrom = ref()
+const addItemForm = ref()
 
 const appBookNaming = computed({
   get(): string {
@@ -134,8 +134,7 @@ function save(item: BookNaming) {
   editedItem.value.books = editedBooksText.value.split(',').map(it => it.trim())
   Object.assign(item, editedItem.value)
   settings.focusedLocalized.bookNamings.sort(nameSorter(settings.persist.appearance.locale))
-  editedItem.value = { ...emptyItem }
-  selected.value = ''
+  reset()
 }
 
 const removeTooltip = computed(() => {
@@ -163,11 +162,17 @@ function remove() {
   const a = settings.focusedLocalized.bookNamings
   const i = a.findIndex(it => it.name === selected.value)
   if (i !== -1) a.splice(i, 1)
+  reset()
+}
+
+function reset() {
+  editedItem.value = { ...emptyItem }
   selected.value = ''
 }
 
 const newItem = ref<BookNaming>({ ...emptyItem })
 const newBooksText = ref('')
+
 function add() {
   newItem.value.books = newBooksText.value.split(',').map(it => it.trim())
   settings.focusedLocalized.bookNamings.push(newItem.value)
@@ -175,7 +180,7 @@ function add() {
   newItem.value = { ...emptyItem }
   newBooksText.value = ''
   nextTick(() => {
-    addItemFrom.value.resetValidation()
+    addItemForm.value.resetValidation()
   })
 }
 
