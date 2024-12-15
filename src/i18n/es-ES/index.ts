@@ -157,6 +157,7 @@ export default {
     setAsDefault: 'Establecer como predeterminado',
     templateDescription: 'Selecciona la plantilla de formato y la nomenclatura de libros:',
     templateName: 'Nombre de la plantilla',
+    theSameExists: 'Ya existe una plantilla con el mismo formato y nomenclatura de libros con el nombre',
     title: 'Plantillas de copia',
     yes: 'Sí'
   },

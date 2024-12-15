@@ -1,52 +1,28 @@
-import {
-  assertText,
-  click,
-  navigate,
-  tag,
-  t,
-  type,
-  select,
-  assertTextContains,
-  assertShowing,
-  containsText,
-  first,
-  assertCount,
-  errorHint,
-  assertEnabled,
-  assertDisabled,
-  nth,
-  clickDialogYes,
-  tooltip,
-  assertValue,
-  clickDialogNo
-} from './CypressHelper'
-import * as tags from 'src/tags'
-
-const goSettings = () => navigate('/#/settings')
-
 describe('Settings Copy Templates', () => {
+  const goSettings = () => navigate('/#/settings')
+  const locale = tag(tags.settingsLocaleFilter)
   const copyTemplatesPanel = tag(tags.settingsPageCopyTemplates)
-  const copyTemplatesDefault = tag(tags.settingsCopyTemplatesDefault)
-  const copyTemplatesItemName = tag(tags.settingsCopyTemplatesItemName)
-  const copyTemplatesAdd = tag(tags.settingsCopyTemplatesAdd)
-  const copyTemplatesName = tag(tags.settingsCopyTemplatesName)
-  const copyTemplatesSave = tag(tags.settingsCopyTemplatesSave)
-  const copyTemplatesCancel = tag(tags.settingsCopyTemplatesCancel)
-  const copyTemplatesRemove = tag(tags.settingsCopyTemplatesRemove)
-  const copyTemplatesFormat = tag(tags.settingsCopyTemplatesFormat)
-  const copyTemplatesBookNaming = tag(tags.settingsCopyTemplatesBookNaming)
-  const copyTemplatesAddName = tag(tags.settingsCopyTemplatesAddName)
-  const copyTemplatesAddFormat = tag(tags.settingsCopyTemplatesAddFormat)
-  const copyTemplatesAddBookNaming = tag(tags.settingsCopyTemplatesAddBookNaming)
+  const defaultTemplate = tag(tags.settingsCopyTemplatesDefault)
+  const itemName = tag(tags.settingsCopyTemplatesItemName)
+  const addButton = tag(tags.settingsCopyTemplatesAdd)
+  const nameField = tag(tags.settingsCopyTemplatesName)
+  const formatField = tag(tags.settingsCopyTemplatesFormat)
+  const bookNamingField = tag(tags.settingsCopyTemplatesBookNaming)
+  const saveButton = tag(tags.settingsCopyTemplatesSave)
+  const cancelButton = tag(tags.settingsCopyTemplatesCancel)
+  const removeButton = tag(tags.settingsCopyTemplatesRemove)
+  const addNameField = tag(tags.settingsCopyTemplatesAddName)
+  const addFormatField = tag(tags.settingsCopyTemplatesAddFormat)
+  const addBookNamingField = tag(tags.settingsCopyTemplatesAddBookNaming)
 
   const newTemplateName = 'aaa'
 
   function addNewItem() {
-    type(copyTemplatesAddName, newTemplateName)
-    select(first(copyTemplatesAddFormat), 'App format')
-    select(copyTemplatesAddBookNaming, 'Standard')
-    click(copyTemplatesAdd)
-    assertCount(copyTemplatesItemName, 3)
+    type(addNameField, newTemplateName)
+    select(first(addFormatField), 'App format')
+    select(addBookNamingField, 'Standard')
+    click(addButton)
+    assertCount(itemName, 3)
   }
 
   beforeEach(() => {
@@ -55,8 +31,13 @@ describe('Settings Copy Templates', () => {
   })
 
   it('should display copy templates panel correctly', () => {
-    assertCount(copyTemplatesItemName, 2) // Assuming there are 2 default copy templates
-    assertShowing(first(copyTemplatesItemName))
+    assertCount(itemName, 2) // Assuming there are 2 default copy templates
+    assertShowing(first(itemName))
+  })
+
+  it('should change the new template default book naming when locale is changed', () => {
+    select(locale, 'Polski')
+    assertText(addBookNamingField, 'BT5 pełne')
   })
 
   describe('Adding a New Copy Template', () => {
@@ -64,77 +45,86 @@ describe('Settings Copy Templates', () => {
     it('should validate template name', () => {
 
       // Try to save without a name
-      type(copyTemplatesAddName, '')
-      click(copyTemplatesAdd)
-      assertText(errorHint(copyTemplatesAddName), t('settingsCopyTemplates.nameRequired'))
+      type(addNameField, '')
+      click(addButton)
+      assertText(errorHint(addNameField), t('settingsCopyTemplates.nameRequired'))
 
       // Try to add a template with an existing name
-      type(copyTemplatesAddName, 'Presentation')
-      click(copyTemplatesAdd)
-      assertText(errorHint(copyTemplatesAddName), t('settingsCopyTemplates.nameExists'))
+      type(addNameField, 'Presentation')
+      click(addButton)
+      assertText(errorHint(addNameField), t('settingsCopyTemplates.nameExists'))
     })
 
     it('should create a new copy template', () => {
       addNewItem()
-      assertCount(copyTemplatesItemName, 3)
+      assertCount(itemName, 3)
       // Should be sorted and come first
-      assertText(first(copyTemplatesItemName), newTemplateName)
+      assertText(first(itemName), newTemplateName)
 
       // Open the new template
-      click(first(copyTemplatesItemName))
-      assertValue(copyTemplatesName, newTemplateName)
-      assertText(copyTemplatesFormat, 'App format')
-      assertText(copyTemplatesBookNaming, 'Standard')
+      click(first(itemName))
+      assertValue(nameField, newTemplateName)
+      assertText(formatField, 'App format')
+      assertText(bookNamingField, 'Standard')
     })
 
-    it.skip('should prevent adding a copy template with the same values', () => {
+    it('should prevent adding a copy template with the same values', () => {
+      type(addNameField, newTemplateName)
+      select(addFormatField, 'English presentation')
+      select(addBookNamingField, 'Standard')
+      click(addButton)
+
+      // Error dialog should be shown
+      clickDialogYes()
+      // Should not clear the new template name
+      assertText(addNameField, newTemplateName)
     })
   })
 
   describe('Editing Existing Copy Template', () => {
     it('should open edit form for an existing template', () => {
-      click(first(copyTemplatesItemName))
+      click(first(itemName))
       // Verify edit form is populated
-      assertShowing(copyTemplatesName)
-      assertEnabled(copyTemplatesName)
+      assertShowing(nameField)
+      assertEnabled(nameField)
     })
 
     it('should modify an existing template', () => {
-      click(first(copyTemplatesItemName))
+      click(first(itemName))
 
       // Change the name
-      type(copyTemplatesName, 'Modified Template', true)
+      type(nameField, 'Modified Template', true)
 
       // Save changes
-      click(copyTemplatesSave)
+      click(saveButton)
 
       // Verify changes were saved
-      click(first(copyTemplatesItemName))
-      assertValue(copyTemplatesName, 'Modified Template')
+      click(first(itemName))
+      assertValue(nameField, 'Modified Template')
     })
 
     it('should verify the values before saving', () => {
-      click(first(copyTemplatesItemName))
-      type(copyTemplatesName, '', true)
-      click(copyTemplatesSave)
-      assertText(errorHint(copyTemplatesName), t('settingsCopyTemplates.nameRequired'))
+      click(first(itemName))
+      type(nameField, '', true)
+      click(saveButton)
+      assertText(errorHint(nameField), t('settingsCopyTemplates.nameRequired'))
     })
 
     it('should cancel the edit', () => {
-      click(first(copyTemplatesItemName))
-      type(copyTemplatesName, 'Temporary Name', true)
-      click(copyTemplatesCancel)
+      click(first(itemName))
+      type(nameField, 'Temporary Name', true)
+      click(cancelButton)
 
       // Reopen the template
-      click(first(copyTemplatesItemName))
-      assertValue(copyTemplatesName, 'Presentation')
+      click(first(itemName))
+      assertValue(nameField, 'Presentation')
     })
 
     it('should modify default template name when changing the name', () => {
-      click(first(copyTemplatesItemName))
-      type(copyTemplatesName, 'bbb', true)
-      click(copyTemplatesSave)
-      assertText(copyTemplatesDefault, 'bbb')
+      click(first(itemName))
+      type(nameField, 'bbb', true)
+      click(saveButton)
+      assertText(defaultTemplate, 'bbb')
     })
   })
 
@@ -143,29 +133,29 @@ describe('Settings Copy Templates', () => {
       addNewItem()
 
       // Open the new template
-      click(first(copyTemplatesItemName))
+      click(first(itemName))
       // Click remove and confirm
-      click(copyTemplatesRemove)
+      click(removeButton)
       clickDialogYes()
 
       // Verify template count decreased
-      assertCount(copyTemplatesItemName, 2)
+      assertCount(itemName, 2)
     })
 
     it('should not remove template when dialog is canceled', () => {
       addNewItem()
 
       // Open the new template
-      click(first(copyTemplatesItemName))
-      click(copyTemplatesRemove)
+      click(first(itemName))
+      click(removeButton)
       clickDialogNo()
-      assertShowing(copyTemplatesRemove)
+      assertShowing(removeButton)
     })
 
     it('should prevent removing the default template', () => {
-      click(first(copyTemplatesItemName))
-      assertDisabled(copyTemplatesRemove)
-      assertText(tooltip(copyTemplatesRemove), t('settingsCopyTemplates.defaultTemplateTooltip'))
+      click(first(itemName))
+      assertDisabled(removeButton)
+      assertText(tooltip(removeButton), t('settingsCopyTemplates.defaultTemplateTooltip'))
     })
   })
 
@@ -177,7 +167,7 @@ describe('Settings Copy Templates', () => {
       goSettings()
       click(copyTemplatesPanel)
       click(containsText(newTemplateName))
-      assertValue(copyTemplatesName, newTemplateName)
+      assertValue(nameField, newTemplateName)
     })
   })
 })

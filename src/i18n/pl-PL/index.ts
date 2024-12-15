@@ -152,6 +152,7 @@ export default {
     setAsDefault: 'Ustaw jako domyślny',
     templateDescription: 'Wybierz szablon formatowania i nazewnictwo ksiąg:',
     templateName: 'Nazwa szablonu',
+    theSameExists: 'Szablon z tym samym formatem i nazewnictwem ksiąg już istnieje pod tym nazwą',
     title: 'Szablony kopiowania',
     yes: 'Tak'
   },

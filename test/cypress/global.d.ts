@@ -1,0 +1,48 @@
+import * as u from './e2e/CypressHelper'
+import * as importedTags from 'src/tags'
+
+declare global {
+  const assertChecked: typeof u.assertChecked
+  const assertCount: typeof u.assertCount
+  const assertDisabled: typeof u.assertDisabled
+  const assertEqual: typeof u.assertEqual
+  const assertEnabled: typeof u.assertEnabled
+  const assertErrorHint: typeof u.assertErrorHint
+  const assertLookDisabled: typeof u.assertLookDisabled
+  const assertLookEnabled: typeof u.assertLookEnabled
+  const assertNotChecked: typeof u.assertNotChecked
+  const assertNotShowing: typeof u.assertNotShowing
+  const assertShowing: typeof u.assertShowing
+  const assertText: typeof u.assertText
+  const assertTextContains: typeof u.assertTextContains
+  const assertTextNotContains: typeof u.assertTextNotContains
+  const assertValue: typeof u.assertValue
+  const assertValueContains: typeof u.assertValueContains
+  const assertValueNotContains: typeof u.assertValueNotContains
+  const click: typeof u.click
+  const clickDialogNo: typeof u.clickDialogNo
+  const clickDialogYes: typeof u.clickDialogYes
+  const containsText: typeof u.containsText
+  const errorHint: typeof u.errorHint
+  const find: typeof u.find
+  const first: typeof u.first
+  const focusOn: typeof u.focusOn
+  const forEach: typeof u.forEach
+  const last: typeof u.last
+  const navigate: typeof u.navigate
+  const nested: typeof u.nested
+  const nth: typeof u.nth
+  const second: typeof u.second
+  const select: typeof u.select
+  const t: typeof u.t
+  const tag: typeof u.tag
+  const third: typeof u.third
+  const title: typeof u.title
+  const tooltip: typeof u.tooltip
+  const type: typeof u.type
+  const visible: typeof u.visible
+
+  const tags: typeof importedTags
+}
+
+export { }

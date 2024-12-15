@@ -1,46 +1,19 @@
-import {
-  assertText,
-  click,
-  navigate,
-  tag,
-  t,
-  type,
-  select,
-  assertTextContains,
-  assertShowing,
-  containsText,
-  first,
-  nested,
-  assertCount,
-  errorHint,
-  assertEnabled,
-  assertDisabled,
-  nth,
-  clickDialogYes,
-  tooltip,
-  assertValue,
-  clickDialogNo
-} from './CypressHelper'
-import * as tags from 'src/tags'
-
-// const goHome = () => navigate('/')
-const goSettings = () => navigate('/#/settings')
-
 describe('Settings Format Templates', () => {
+  const goSettings = () => navigate('/#/settings')
   // const appScreenTemplate = tag(tags.settingsFormatTemplateAppScreen)
   const formatTemplatesPanel = tag(tags.settingsPageFormatTemplates)
   const settingsPanelTitle = tag(tags.settingsPanelTitle)
-  const formatTemplatesItemName = tag(tags.settingsFormatTemplatesItemName)
-  const formatTemplatesAdd = tag(tags.settingsFormatTemplatesAdd)
-  const formatTemplateName = tag(tags.settingsFormatTemplateName)
-  const formatTemplateRefPositionBefore = tag(tags.settingsFormatTemplateRefPositionBefore)
-  const formatTemplateWithNumbers = tag(tags.settingsFormatTemplateWithNumbers)
-  const formatTemplateVerseNewLine = tag(tags.settingsFormatTemplateVerseNewLine)
-  const formatTemplateSeparatorChar = tag(tags.settingsFormatTemplateSeparatorChar)
-  const formatTemplateRangeChar = tag(tags.settingsFormatTemplateRangeChar)
-  const formatTemplateSave = tag(tags.settingsFormatTemplateSave)
-  const formatTemplateCancel = tag(tags.settingsFormatTemplateCancel)
-  const formatTemplateRemove = tag(tags.settingsFormatTemplateRemove)
+  const itemName = tag(tags.settingsFormatTemplatesItemName)
+  const addButton = tag(tags.settingsFormatTemplatesAdd)
+  const nameField = tag(tags.settingsFormatTemplateName)
+  const refPositionBefore = tag(tags.settingsFormatTemplateRefPositionBefore)
+  const withNumbers = tag(tags.settingsFormatTemplateWithNumbers)
+  const verseNewLine = tag(tags.settingsFormatTemplateVerseNewLine)
+  const separatorChar = tag(tags.settingsFormatTemplateSeparatorChar)
+  const rangeChar = tag(tags.settingsFormatTemplateRangeChar)
+  const saveButton = tag(tags.settingsFormatTemplateSave)
+  const cancelButton = tag(tags.settingsFormatTemplateCancel)
+  const removeButton = tag(tags.settingsFormatTemplateRemove)
 
   // const searchInput = tag(tags.searchInput)
   // const formattedVerse = tag(tags.formattedVerse)
@@ -53,8 +26,8 @@ describe('Settings Format Templates', () => {
   })
 
   it('should display format templates panel correctly', () => {
-    assertCount(formatTemplatesItemName, 4)
-    assertShowing(first(formatTemplatesItemName))
+    assertCount(itemName, 4)
+    assertShowing(first(itemName))
   })
 
   // The app screen template was a premature feature, don't turn it on yet
@@ -67,88 +40,88 @@ describe('Settings Format Templates', () => {
   describe('Adding a New Format Template', () => {
 
     it('should open add format template form', () => {
-      click(formatTemplatesAdd)
+      click(addButton)
       assertText(settingsPanelTitle, t('settingsFormatTemplates.editTitle'))
-      assertShowing(formatTemplateName)
+      assertShowing(nameField)
     })
 
     it('should validate template name', () => {
-      click(formatTemplatesAdd)
+      click(addButton)
 
       // Try to save without a name
-      type(formatTemplateName, '')
-      click(formatTemplateSave)
-      assertText(errorHint(formatTemplateName), t('settingsFormatTemplates.nameCannotBeEmpty'))
+      type(nameField, '')
+      click(saveButton)
+      assertText(errorHint(nameField), t('settingsFormatTemplates.nameCannotBeEmpty'))
 
       // Try to add a template with an existing name
-      type(formatTemplateName, 'App format')
-      click(formatTemplateSave)
-      assertText(errorHint(formatTemplateName), t('settingsFormatTemplates.nameAlreadyExists'))
+      type(nameField, 'App format')
+      click(saveButton)
+      assertText(errorHint(nameField), t('settingsFormatTemplates.nameAlreadyExists'))
     })
 
     it('should create a new format template', () => {
-      click(formatTemplatesAdd)
+      click(addButton)
 
       // Add a unique template name
-      type(formatTemplateName, newFormatName)
+      type(nameField, newFormatName)
 
       // Configure template settings
-      click(first(formatTemplateRefPositionBefore))
-      click(formatTemplateWithNumbers)
-      click(formatTemplateVerseNewLine)
-      type(formatTemplateSeparatorChar, '.', true)
-      type(formatTemplateRangeChar, '—', true)
+      click(first(refPositionBefore))
+      click(withNumbers)
+      click(verseNewLine)
+      type(separatorChar, '.', true)
+      type(rangeChar, '—', true)
 
       // Save the template
-      click(formatTemplateSave)
+      click(saveButton)
 
       // Verify the new template is in the list
-      assertCount(formatTemplatesItemName, 5)
+      assertCount(itemName, 5)
       // Should be sorted and come first
-      assertText(first(formatTemplatesItemName), newFormatName)
+      assertText(first(itemName), newFormatName)
     })
 
     it('should cancel the adding', () => {
-      click(first(formatTemplatesItemName))
-      click(formatTemplateCancel)
-      assertCount(formatTemplatesItemName, 4)
-      assertShowing(first(formatTemplatesItemName))
+      click(first(itemName))
+      click(cancelButton)
+      assertCount(itemName, 4)
+      assertShowing(first(itemName))
     })
   })
 
   describe('Editing Existing Format Template', () => {
     it('should open edit form for an existing template', () => {
-      click(first(formatTemplatesItemName))
+      click(first(itemName))
       // Verify edit form is populated
-      assertShowing(formatTemplateName)
-      assertEnabled(formatTemplateName)
-      assertValue(formatTemplateName, 'App format')
+      assertShowing(nameField)
+      assertEnabled(nameField)
+      assertValue(nameField, 'App format')
     })
 
     it('should modify an existing template', () => {
-      click(first(formatTemplatesItemName))
+      click(first(itemName))
 
       // Change some settings
-      type(formatTemplateSeparatorChar, '!', true)
-      type(formatTemplateRangeChar, '~', true)
+      type(separatorChar, '!', true)
+      type(rangeChar, '~', true)
 
       // Save changes
-      click(formatTemplateSave)
+      click(saveButton)
 
       // Verify changes were saved
-      click(first(formatTemplatesItemName))
-      assertValue(formatTemplateSeparatorChar, '!')
-      assertValue(formatTemplateRangeChar, '~')
+      click(first(itemName))
+      assertValue(separatorChar, '!')
+      assertValue(rangeChar, '~')
     })
 
     it('should cancel the edit', () => {
-      click(first(formatTemplatesItemName))
-      type(formatTemplateSeparatorChar, '!', true)
-      click(formatTemplateCancel)
+      click(first(itemName))
+      type(separatorChar, '!', true)
+      click(cancelButton)
 
       // Reopen the template
-      click(first(formatTemplatesItemName))
-      assertValue(formatTemplateSeparatorChar, ':')
+      click(first(itemName))
+      assertValue(separatorChar, ':')
     })
 
     // The app screen template was a premature feature, don't turn it on yet
@@ -165,64 +138,64 @@ describe('Settings Format Templates', () => {
   describe('Removing a Format Template', () => {
     it('should remove a format template', () => {
       // Add new template
-      click(formatTemplatesAdd)
-      type(formatTemplateName, newFormatName)
-      click(formatTemplateSave)
-      assertCount(formatTemplatesItemName, 5)
+      click(addButton)
+      type(nameField, newFormatName)
+      click(saveButton)
+      assertCount(itemName, 5)
 
       // Open the new template
-      click(first(formatTemplatesItemName))
+      click(first(itemName))
       // Click remove and confirm
-      click(formatTemplateRemove)
+      click(removeButton)
       clickDialogYes()
 
       // Verify template count decreased
-      assertCount(formatTemplatesItemName, 4)
+      assertCount(itemName, 4)
 
       // Should clear the form and reset the name
-      click(formatTemplatesAdd)
-      assertValue(formatTemplateName, '')
+      click(addButton)
+      assertValue(nameField, '')
     })
 
     it('should not remove template when dialog is canceled', () => {
-      click(formatTemplatesAdd)
-      type(formatTemplateName, newFormatName)
-      click(formatTemplateSave)
-      assertCount(formatTemplatesItemName, 5)
+      click(addButton)
+      type(nameField, newFormatName)
+      click(saveButton)
+      assertCount(itemName, 5)
 
-      click(first(formatTemplatesItemName))
-      click(formatTemplateRemove)
+      click(first(itemName))
+      click(removeButton)
       clickDialogNo()
-      click(formatTemplateCancel)
-      assertCount(formatTemplatesItemName, 5)
+      click(cancelButton)
+      assertCount(itemName, 5)
     })
 
     it('should prevent removing the app screen template', () => {
-      click(first(formatTemplatesItemName))
-      assertDisabled(formatTemplateRemove)
-      assertText(tooltip(formatTemplateRemove), t('settingsFormatTemplates.removeTooltipAppScreen'))
+      click(first(itemName))
+      assertDisabled(removeButton)
+      assertText(tooltip(removeButton), t('settingsFormatTemplates.removeTooltipAppScreen'))
     })
 
     it('should prevent removing a template used in a copy template', () => {
       click(containsText('English presentation'))
-      assertDisabled(formatTemplateRemove)
-      assertText(tooltip(formatTemplateRemove), `${t('settingsFormatTemplates.removeTooltipCopyTemplate')} "Presentation" ${t('settingsFormatTemplates.forLanguage')} en-US`)
+      assertDisabled(removeButton)
+      assertText(tooltip(removeButton), `${t('settingsFormatTemplates.removeTooltipCopyTemplate')} "Presentation" ${t('settingsFormatTemplates.forLanguage')} en-US`)
     })
   })
 
   describe('Persistence of Format Templates', () => {
     it('should persist changes after page reload', () => {
       // Add new template
-      click(formatTemplatesAdd)
-      type(formatTemplateName, newFormatName)
-      type(formatTemplateSeparatorChar, '/', true)
-      click(formatTemplateSave)
+      click(addButton)
+      type(nameField, newFormatName)
+      type(separatorChar, '/', true)
+      click(saveButton)
 
       // Reload and verify
       goSettings()
       click(formatTemplatesPanel)
       click(containsText(newFormatName))
-      assertValue(formatTemplateSeparatorChar, '/')
+      assertValue(separatorChar, '/')
     })
   })
 })

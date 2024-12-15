@@ -7,7 +7,8 @@
     </div>
 
     <q-list bordered separator>
-      <q-item v-for="item in items" :key="item.name" class="q-px-none1" :data-tag="tags.settingsBookNamingItem">
+      <q-item v-for="item in items" :key="item.name" class="q-px-none1" :clickable="selected !== item.name"
+        @click="edit(item)" :data-tag="tags.settingsBookNamingItem">
         <q-item-section>
           <div v-if="selected !== item.name">
             <div class="row items-center">

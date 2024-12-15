@@ -157,6 +157,7 @@ export default {
     setAsDefault: 'Definir como padrão',
     templateDescription: 'Selecione o modelo de formatação e a nomenclatura dos livros:',
     templateName: 'Nome do modelo',
+    theSameExists: 'Já existe um modelo com o mesmo formato e nomenclatura dos livros com o nome',
     title: 'Modelos de cópia',
     yes: 'Sim'
   },

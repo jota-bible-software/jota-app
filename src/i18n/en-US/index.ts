@@ -156,6 +156,7 @@ export default {
     setAsDefault: 'Set as default',
     templateDescription: 'Select format template and book naming:',
     templateName: 'Template name',
+    theSameExists: 'A template with the same format and book naming already exists under the name',
     title: 'Copy templates',
     yes: 'Yes'
   },

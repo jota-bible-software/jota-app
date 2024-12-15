@@ -1,30 +1,7 @@
-import {
-  assertCount,
-  assertText,
-  click,
-  navigate,
-  tag,
-  t,
-  select,
-  first,
-  last,
-  assertShowing,
-  assertNotShowing,
-  tooltip,
-  containsText,
-  nested,
-  assertChecked,
-  second,
-  assertTextContains,
-  assertNotChecked,
-  visible
-} from './CypressHelper'
-import * as tags from 'src/tags'
-
-const goHome = () => navigate('/')
-const goSettings = () => navigate('/#/settings')
 
 describe('Settings Editions', () => {
+  const goHome = () => navigate('/')
+  const goSettings = () => navigate('/#/settings')
   const editionsPanel = tag(tags.settingsPageEditions)
   const generalPanel = tag(tags.settingsPageGeneral)
   const localeSelector = tag(tags.settingsLocaleSelector)

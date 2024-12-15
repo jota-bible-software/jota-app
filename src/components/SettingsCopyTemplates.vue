@@ -22,9 +22,14 @@
             </div>
 
             <div class="row q-my-sm">
-              <q-item-label caption :data-tag="tags.settingsCopyTemplatesItemDetails">
+              <q-item-label caption>
                 {{ $t('settingsCopyTemplates.formatTemplate') }}: {{ item.formatTemplate }},
                 {{ $t('settingsCopyTemplates.bookNaming') }}: {{ item.bookNaming }}
+              </q-item-label>
+
+              <q-item-label>
+                <pre v-html="formatItem(item)" class="text-caption default-font-family"
+                  style=" white-space:pre-wrap"></pre>
               </q-item-label>
             </div>
           </div>
@@ -141,6 +146,12 @@
           </div>
         </div>
 
+        <LabelRow>
+          <div>{{ $t('settingsFormatTemplates.example') }}</div>
+          <pre v-html="formatItem(newItem)" class="default-font-family border q-py-sm q-px-md q-mt-sm"
+            style="background-color: var(--q-background-10); white-space:pre-wrap"></pre>
+        </LabelRow>
+
         <div class="q-mt-md">
           <div class="row q-gutter-sm">
             <q-btn color="accent" type="submit" :data-tag="tags.settingsCopyTemplatesAdd">
@@ -186,8 +197,13 @@ const editForm = ref()
 const newItem = ref<CopyTemplateData>({
   name: '',
   formatTemplate: settings.persist.formatTemplates[0]?.name ?? '',
-  bookNaming: settings.focusedLocalized.bookNamings[0]?.name ?? '',
+  bookNaming: settings.focusedLocalized.bookNamings[0]?.name ?? '' as string,
 })
+
+watch(() => settings.focusedLocalized, (v) => {
+  newItem.value.bookNaming = v.bookNamings[0]?.name ?? ''
+})
+
 const editedItem = ref<CopyTemplateData>({ ...emptyItem })
 
 function edit(item: CopyTemplateData) {
@@ -200,21 +216,33 @@ function setAsDefault() {
 }
 
 const formatted = computed(() => {
-  const formatTemplate = settings.persist.formatTemplates.find(it => it.name === editedItem.value.formatTemplate)
-  if (!formatTemplate) return ''
-  const bookNames = settings.focusedLocalized.bookNamings.find(it => it.name === editedItem.value.bookNaming)?.books || []
-  return formatSample(formatTemplate, bookNames)
+  return formatItem(editedItem.value)
 })
 
+function formatItem(item: CopyTemplateData) {
+  const formatTemplate = settings.persist.formatTemplates.find(it => it.name === item.formatTemplate)
+  if (!formatTemplate) return ''
+  const bookNames = settings.focusedLocalized.bookNamings.find(it => it.name === item.bookNaming)?.books || []
+  return formatSample(formatTemplate, bookNames)
+}
+
 function add() {
-  items.value.push(newItem.value)
-  items.value.sort(nameSorter(settings.persist.appearance.locale))
+  const theSame = items.value.find(it => it.formatTemplate === newItem.value.formatTemplate && it.bookNaming === newItem.value.bookNaming)
+  if (theSame) {
+    Dialog.create({
+      title: t('settingsCopyTemplates.error'),
+      message: `${t('settingsCopyTemplates.theSameExists')}: "${theSame.name}"`,
+      ok: t('settingsCopyTemplates.yes'),
+    })
+  } else {
+    items.value.push(newItem.value)
+    items.value.sort(nameSorter(settings.persist.appearance.locale))
 
-  newItem.value = { ...emptyItem }
-
-  nextTick(() => {
-    addForm.value.resetValidation()
-  })
+    reset()
+    nextTick(() => {
+      addForm.value.resetValidation()
+    })
+  }
 }
 
 function save() {

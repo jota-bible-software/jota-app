@@ -1,24 +1,8 @@
-// pageTests.spec.ts
-
-import {
-  errorHint, assertCount, forEach, assertEnabled, assertEqual, assertLookDisabled, assertLookEnabled, assertNotShowing,
-  assertShowing, assertText, click, first, last, navigate, tag, containsText, title, type, assertValue, assertValueContains,
-  assertTextNotContains, t, assertNoErrorHint,
-  focusOn,
-  nth,
-  assertDisabled,
-  select,
-  tooltip,
-  assertTextContains
-} from './CypressHelper'
-import * as tags from 'src/tags'
-
-const goHome = () => navigate('/')
-const goSearchTerm = (term: string) => navigate(`/#/?q=${encodeURIComponent(term)}`)
-const goSettings = () => navigate('/#/settings')
-const goWrong = () => navigate('/#/wrong')
-
 describe('Home Page', () => {
+  const goHome = () => navigate('/')
+  const goSearchTerm = (term: string) => navigate(`/#/?q=${encodeURIComponent(term)}`)
+  const goSettings = () => navigate('/#/settings')
+  const goWrong = () => navigate('/#/wrong')
 
   const chapterContent = tag('chapter-content')
   const editionSelector = tag(tags.editionSelector) + ':visible'
