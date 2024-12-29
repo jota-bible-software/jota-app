@@ -1,17 +1,19 @@
-// cypress/support/e2e.ts
-import * as u from '../e2e/CypressHelper';
+import * as u from '../e2e/CypressHelper'
 import * as tags from 'src/tags'
+import './commands'
 
 type TestUtil = typeof u
-const g = global as unknown as TestUtil & { tags: typeof tags }
+const g = globalThis as unknown as TestUtil & { tags: typeof tags }
 
 // Attach to the global scope
 g.assertChecked = u.assertChecked
+g.assertClipboard = u.assertClipboard
 g.assertCount = u.assertCount
 g.assertDisabled = u.assertDisabled
 g.assertEqual = u.assertEqual
 g.assertEnabled = u.assertEnabled
 g.assertErrorHint = u.assertErrorHint
+g.assertHasClass = u.assertHasClass
 g.assertLookDisabled = u.assertLookDisabled
 g.assertLookEnabled = u.assertLookEnabled
 g.assertNotChecked = u.assertNotChecked
@@ -33,11 +35,14 @@ g.first = u.first
 g.focusOn = u.focusOn
 g.forEach = u.forEach
 g.last = u.last
+g.mockClipboard = u.mockClipboard
 g.navigate = u.navigate
 g.nested = u.nested
 g.nth = u.nth
+g.pressKey = u.pressKey
 g.second = u.second
 g.select = u.select
+g.setCaret = u.setCaret
 g.t = u.t
 g.tag = u.tag
 g.third = u.third

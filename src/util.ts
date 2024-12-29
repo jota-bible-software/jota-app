@@ -1,4 +1,4 @@
-import { LanguageSymbol, LocaleSymbol } from './types'
+import { JotaTestSupport, LanguageSymbol, LocaleSymbol } from './types'
 import { localeData } from './logic/data'
 import locales from './i18n'
 
@@ -9,7 +9,12 @@ export enum Direction {
   Prev = -1
 }
 
+export function getShared(): JotaTestSupport {
+  return window._jota_test_support as JotaTestSupport
+}
+
 export function copyTextToClipboard(text: string): void {
+
   const textArea = document.createElement('textarea')
 
   //

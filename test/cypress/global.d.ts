@@ -1,13 +1,16 @@
+import { JotaTestSupport } from 'src/types'
 import * as u from './e2e/CypressHelper'
 import * as importedTags from 'src/tags'
 
 declare global {
   const assertChecked: typeof u.assertChecked
+  const assertClipboard: typeof u.assertClipboard
   const assertCount: typeof u.assertCount
   const assertDisabled: typeof u.assertDisabled
   const assertEqual: typeof u.assertEqual
   const assertEnabled: typeof u.assertEnabled
   const assertErrorHint: typeof u.assertErrorHint
+  const assertHasClass: typeof u.assertHasClass
   const assertLookDisabled: typeof u.assertLookDisabled
   const assertLookEnabled: typeof u.assertLookEnabled
   const assertNotChecked: typeof u.assertNotChecked
@@ -29,11 +32,14 @@ declare global {
   const focusOn: typeof u.focusOn
   const forEach: typeof u.forEach
   const last: typeof u.last
+  const mockClipboard: typeof u.mockClipboard
   const navigate: typeof u.navigate
   const nested: typeof u.nested
   const nth: typeof u.nth
+  const pressKey: typeof u.pressKey
   const second: typeof u.second
   const select: typeof u.select
+  const setCaret: typeof u.setCaret
   const t: typeof u.t
   const tag: typeof u.tag
   const third: typeof u.third
@@ -43,6 +49,20 @@ declare global {
   const visible: typeof u.visible
 
   const tags: typeof importedTags
+
+  interface Window {
+    _jota_test_support: JotaTestSupport
+  }
+}
+
+declare namespace Cypress {
+  interface Chainable {
+    /**
+     * Mocks the clipboard API to capture clipboard data.
+     * @param clipboard.value A string reference to hold the clipboard content.
+     */
+    mockClipboard(clipboard: { value: string }): void
+  }
 }
 
 export { }

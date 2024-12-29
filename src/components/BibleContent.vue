@@ -6,7 +6,8 @@
         <div v-for="(item, index) in passages" :key="index" clickable tabindex="0"
           :class="{ highlight: index === fragmentIndex }" @click="store.setFragmentIndex(index)"
           :ref="el => { if (el) passageItemRefs[index] = (el as HTMLElement) }"
-          class="q-item q-item-type row no-wrap compact q-item--clickable q-link cursor-pointer">{{ item }}</div>
+          class="q-item q-item-type row no-wrap compact q-item--clickable q-link cursor-pointer"
+          :data-tag="tags.foundPassage">{{ item }}</div>
       </div>
 
       <ChapterContent v-if="chapterFragment" :data-tag="tags.chapterContent" />
@@ -85,12 +86,14 @@ watch(fragmentIndex, () => {
 
 
 useEventListener(document, 'keydown', (event) => {
-  if (event.ctrlKey && event.key === 'ArrowLeft') {
-    event.preventDefault()
-    goToAdjacentChapter(Direction.Prev)
-  } else if (event.ctrlKey && event.key === 'ArrowRight') {
-    event.preventDefault()
-    goToAdjacentChapter(Direction.Next)
+  if ((event.ctrlKey || event.metaKey)) {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault()
+      goToAdjacentChapter(Direction.Prev)
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault()
+      goToAdjacentChapter(Direction.Next)
+    }
   }
 })
 </script>

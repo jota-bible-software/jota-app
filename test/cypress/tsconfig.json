@@ -3,6 +3,7 @@
   // It can be removed when https://github.com/cypress-io/cypress/issues/26203 will be fixed
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "sourceMap": false
-  }
+    "sourceMap": false,
+    "types": ["cypress"],
+  },
 }

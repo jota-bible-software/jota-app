@@ -71,22 +71,24 @@ export const useSearchStore = defineStore('search', () => {
       const s = start ?? 0
       const e = end ?? start ?? 0
       scrollToIndex.value = s + Math.floor((e - s) / 2)
-
     }
   }
 
   function updateSelectionClasses() {
     if (!chapterFragment.value) return
     const [, , start, end2] = chapterFragment.value
-    if (start == null) return
-    const end = end2 ?? start
-    const a = selectionClasses.value
-    for (let i = 0; i < chapterVerses.value.length; i++) {
-      a[i] =
-        i === start && i === end ? 'selection-single' :
-          i === start && i !== end ? 'selection-start' :
-            i === end && i !== start ? 'selection-end' :
-              start < i && i < end ? 'selection-middle' : ''
+    const len = chapterVerses.value.length
+    if (start == null) {
+      selectionClasses.value = new Array(len).fill('')
+    } else {
+      const end = end2 ?? start
+      for (let i = 0; i < len; i++) {
+        selectionClasses.value[i] =
+          i === start && i === end ? 'selection-single' :
+            i === start && i !== end ? 'selection-start' :
+              i === end && i !== start ? 'selection-end' :
+                start < i && i < end ? 'selection-middle' : ''
+      }
     }
   }
 
@@ -113,7 +115,7 @@ export const useSearchStore = defineStore('search', () => {
     const adjacent = jota.adjacentChapter(editionContent.value, chapterFragment.value, direction) as Passage | undefined
     if (adjacent) {
       const [b, c] = adjacent
-      setChapterFragment([b, c, 0, 0])
+      setChapterFragment([b, c])
     }
   }
 
@@ -127,7 +129,7 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function clearSearch() {
-    input.value = ''
+    // input.value = ''
     searchTerm.value = ''
     fragments.value = []
     fragmentIndex.value = -1
@@ -188,25 +190,23 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function formatFound(copyTemplate?: CopyTemplateData): string | Error {
-    const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
+    const tpl = copyTemplate ?? settings.localized.copyTemplates.find(it => it.name === settings.localized.defaultCopyTemplate)
 
     if (!tpl) return new Error(t('searchStore.noTemplateFound'))
     if (!editionContent.value) return new Error(t('searchStore.editionContentNotLoaded'))
     if (fragments.value.length === 0) return new Error(t('searchStore.noFragmentsFound'))
 
-
     try {
-      return fragments.value.reduce((acc, cur) => {
-        const formatted = formatPassage(cur, tpl, editionContent.value as EditionContent)
-        return formatted ? acc + '\n\n' + formatted : ''
-      }, '')
+      return fragments.value
+      .map((it) => formatPassage(it, tpl, editionContent.value as EditionContent))
+      .join('\n\n')
     } catch (error) {
       return new Error(errorMessage(t('searchStore.formattingError'), error))
     }
   }
 
   function formatSelectedPassage(copyTemplate?: CopyTemplateData): string | Error {
-    const tpl = copyTemplate ?? settings.persist.copyTemplates.find(it => it.name === settings.persist.defaultCopyTemplate)
+    const tpl = copyTemplate ?? settings.localized.copyTemplates.find(it => it.name === settings.localized.defaultCopyTemplate)
     if (!tpl) return new Error(t('searchStore.noTemplateFound'))
     if (!chapterFragment.value) return new Error(t('searchStore.noPassageSelected'))
     if (!editionContent.value) return new Error(t('searchStore.editionContentNotLoaded'))
@@ -215,8 +215,8 @@ export const useSearchStore = defineStore('search', () => {
 
   function formatPassage(passage: Passage, tpl: CopyTemplateData, content: EditionContent) {
     const locale = editions.currentEdition.locale
-    const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.locale[locale].formatTemplate)
-    const bookNaming = settings.persist.localized[locale].bookNamings.find(it => it.name === tpl.locale[locale].bookNaming)?.books
+    const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.formatTemplate)
+    const bookNaming = settings.persist.localized[locale].bookNamings.find(it => it.name === tpl.bookNaming)?.books
     const abbreviation = editions.currentEdition.symbol
     if (!formatTemplate || !bookNaming) return ''
     return format(formatTemplate, passage, content, bookNaming, abbreviation)
@@ -224,8 +224,8 @@ export const useSearchStore = defineStore('search', () => {
 
   function formattedSample(tpl: CopyTemplateData) {
     const lang = editions.currentEdition.locale
-    const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.locale[lang].formatTemplate)
-    const bookNaming = settings.persist.localized[lang].bookNamings.find(it => it.name === tpl.locale[lang].bookNaming)?.books
+    const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.formatTemplate)
+    const bookNaming = settings.persist.localized[lang].bookNamings.find(it => it.name === tpl.bookNaming)?.books
     const abbreviation = editions.currentEdition.symbol
     if (!formatTemplate || !bookNaming) return ''
     return formatSample(formatTemplate, bookNaming, abbreviation)
@@ -290,7 +290,7 @@ export const useSearchStore = defineStore('search', () => {
     chapterCaption,
     chapterFragment,
     chapterVerses,
-    copyTemplates: settings.persist.copyTemplates,
+    copyTemplates: settings.localized.copyTemplates,
     error,
     findByInput,
     formatFound,

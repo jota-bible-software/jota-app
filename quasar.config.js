@@ -113,7 +113,7 @@ module.exports = configure(function (/* ctx */) {
           },
         ],
         [
-          'unplugin-vue-components/vite',
+          // 'unplugin-vue-components/vite',
           {
             // relative paths to the directory to search for components.
             dirs: ['src/components/**'],

@@ -1,4 +1,4 @@
-import { QBtnDropdown, QCheckbox, QFile, QInput, QList, QSelect, QRadio, QToggle } from 'quasar'
+import { QBtnDropdown, QCheckbox, QFile, QInput, QList, QSelect, QRadio, QToggle, QTooltip } from 'quasar'
 import { boot } from 'quasar/wrappers'
 
 const defaults = {
@@ -21,6 +21,7 @@ export default boot(() => {
   setDefaults(QSelect, defaults.formField)
   setDefaults(QToggle, defaults.formField)
   setDefaults(QFile, defaults.formField)
+  setDefaults(QTooltip, { delay: 500 })
 })
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,4 +31,11 @@ function setDefaults(component: any, defaults: Record<string, unknown>) {
       ? { type: component.props[prop], default: defaults[prop] }
       : { ...component.props[prop], default: defaults[prop] }
   })
+}
+
+window._jota_test_support = {
+  getSelectionRange: () => {
+    const selection = document.getSelection()
+    return selection?.rangeCount ? selection.getRangeAt(0) : undefined
+  },
 }

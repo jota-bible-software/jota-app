@@ -17,11 +17,12 @@ export function navigate(url: string) {
 export function tag(name: string) {
   return `[data-tag=${name}]`
 }
-type SingleTarget = string | Cypress.Chainable<any>
+type SingleTarget = string | Cypress.Chainable<JQuery<HTMLElement>> | Cypress.Chainable<string> | Cypress.Chainable<undefined>
 type NestedTarget = { head: SingleTarget, tail: string[] }
 type Target = SingleTarget | NestedTarget // Cypress.Chainable<JQuery<HTMLElement>> | Cypress.Chainable<string> | Cypress.Chainable<undefined>
+// type Target = string | Cypress.Chainable<JQuery<HTMLElement>>;
 type HtmlElementWrapper = Cypress.Chainable<JQuery<HTMLElement>>
-
+type PositionType = 'topLeft' | 'top' | 'topRight' | 'left' | 'center' | 'right' | 'bottomLeft' | 'bottom' | 'bottomRight'
 
 export function nested(head: SingleTarget, ...tail: string[]): NestedTarget {
   return { head, tail }
@@ -101,12 +102,50 @@ export function title() {
   return cy.title()
 }
 
-export function click(target: Target) {
-  return find(target).click()
+export function click(target: Target, position: PositionType = 'center') {
+  return find(target).click(position)
+}
+
+export const clipboard = { value: ''}
+
+export function mockClipboard() {
+  return cy.mockClipboard(clipboard)
+}
+
+export function assertClipboard(text: string) {
+  cy.window().should(() => expect(clipboard.value).to.equal(text))
+}
+
+export function setCaret(target: Target) {
+  return find(target).click().then(($el) => {
+    const walk = document.createTreeWalker($el[0], NodeFilter.SHOW_TEXT, null)
+    const node = walk.nextNode()
+    if (!node) return
+
+    document.getSelection()?.removeAllRanges()
+    const range = new Range()
+    range.setStart(node, 0)
+    range.setEnd(node, 0)
+    range.collapse(true)
+    cy.window().then(win => win._jota_test_support.getSelectionRange = () => range)
+
+    // This does not work. The selection is not updated.
+    // document.getSelection()?.collapse(node, 0)
+
+    cy.document().trigger('selectionchange')
+  })
 }
 
 export function focusOn(target: Target) {
   return find(target).focus()
+}
+
+export function focused() {
+  return cy.focused()
+}
+
+export function pressKey(key: string) {
+  return focused().type(key)
 }
 
 // Function to type into an input within the found target
@@ -159,26 +198,25 @@ export function forEach<T>(target: Target, items: T[], assertFn: (element: HtmlE
 export function assertNotShowing(target: Target) {
   if (typeof target === 'string') {
     // For string selectors, use cy.$$ to check if elements exist in the DOM
-    const elements = cy.$$(target)
+    const elements = cy.$$(target);
     if (elements.length > 0) {
       // If elements exist, assert they are not visible
-      return find(target).should('not.be.visible')
+      return cy.get(target).should('not.be.visible');
     }
-  } else {
-    // For Cypress.Chainable targets, check both existence and visibility
+  } else if (Cypress.isCy(target)) {
+    // Narrow the type to Cypress.Chainable
     return target.then(($el) => {
       if ($el.length === 0) {
         // Element does not exist
-        cy.wrap(null).should('not.exist')
+        cy.wrap(null).should('not.exist');
       } else {
         // Element exists, check visibility
-        cy.wrap($el).should('not.be.visible')
+        cy.wrap($el).should('not.be.visible');
       }
-    })
+    });
+  } else {
+    throw new Error('Invalid target type');
   }
-
-  // If no elements found for a string selector, return an assertion that passes
-  return cy.wrap(null).should('not.exist')
 }
 
 export function assertShowing(target: Target) {
@@ -267,6 +305,10 @@ export function assertDisabled(target: Target) {
 
 export function assertEnabled(target: Target) {
   return find(target).should('not.be.disabled')
+}
+
+export function assertHasClass(target: Target, className: string) {
+  return find(target).should('have.class', className)
 }
 
 export function assertErrorHint(target: Target, text: string): HtmlElementWrapper {

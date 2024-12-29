@@ -4,13 +4,20 @@ describe('Home Page', () => {
   const goSettings = () => navigate('/#/settings')
   const goWrong = () => navigate('/#/wrong')
 
-  const chapterContent = tag('chapter-content')
+  const chapterContent = tag(tags.chapterContent)
+  const chapterVerse = tag(tags.chapterVerse)
   const editionSelector = tag(tags.editionSelector) + ':visible'
   const searchInput = tag(tags.searchInput)
+  const clearSearchButton = tag(tags.clearSearchButton)
   const foundPassages = tag(tags.foundPassages)
+  const foundPassage = tag(tags.foundPassage)
   const chapterCaption = tag(tags.chapterCaption)
   const nextChapterButton = tag(tags.nextChapterButton)
   const previousChapterButton = tag(tags.previousChapterButton)
+  const copySelectedButton = tag(tags.copySelectedButton)
+  const copySelectedOption = tag(tags.copySelectedOption)
+  const copyFoundButton = tag(tags.copyFoundButton)
+  const layoutToggle = tag(tags.layoutToggle)
   const passages = tag(tags.passages)
   const formattedVerse = tag(tags.formattedVerse)
   const nothingFound = tag(tags.nothingFound)
@@ -98,6 +105,17 @@ describe('Home Page', () => {
       assertNotShowing(chapterContent)
     })
 
+    it('should not clear the input after search', () => {
+      type(searchInput, 'abcd{enter}')
+      assertText(searchInput, 'abcd')
+    })
+
+    it('should clear the input with clear button', () => {
+      type(searchInput, 'abcd{enter}')
+      click(clearSearchButton)
+      assertText(searchInput, '')
+    })
+
     it('should show search results', () => {
       type(searchInput, 'john{enter}')
       assertText(foundPassages, '130')
@@ -122,7 +140,29 @@ describe('Home Page', () => {
       assertTextContains(chapterContent, '<Psalm Dawida, gdy zmienił swoje zachowanie przed Abimelekiem i wypędzony przez niego, odszedł.>')
     })
 
-    it('should go to next and previous chapter', () => {
+    it('should copy the highlighted verses', () => {
+      type(searchInput, 'john 1 1{enter}')
+      assertText(chapterCaption, 'John 1')
+      mockClipboard()
+      click(copySelectedButton, 'left')
+      assertClipboard('In the beginning was the Word, and the Word was with God, and the Word was God.\nJohn 1:1 KJV')
+
+      click(copySelectedButton, 'right')
+      click(second(copySelectedOption))
+      assertClipboard('– John 1:1 KJV\nIn the beginning was the Word, and the Word was with God, and the Word was God.')
+    })
+
+    it('should copy the found verses', () => {
+      type(searchInput, 'demas{enter}')
+      assertText(foundPassages, '3')
+      mockClipboard()
+      click(copyFoundButton, 'left')
+      assertClipboard('Luke, the beloved physician, and Demas, greet you.\nColossians 4:14 KJV\n\nFor Demas hath forsaken me, having loved this present world, and is departed unto Thessalonica; Crescens to Galatia, Titus unto Dalmatia.\n2 Timothy 4:10 KJV\n\nMarcus, Aristarchus, Demas, Lucas, my fellowlabourers.\nPhilemon 1:24 KJV')
+    })
+  })
+
+  describe('Navigation', () => {
+    it('should go to next and previous chapter with click', () => {
       type(searchInput, 'john 1{enter}')
       assertText(chapterCaption, 'John 1')
       click(nextChapterButton)
@@ -133,7 +173,40 @@ describe('Home Page', () => {
       assertText(chapterCaption, 'Luke 24')
     })
 
-    it('should navigate with keyboard', () => { })
+    it('should go to next and previous chapter with keyboard', () => {
+      type(searchInput, 'gen 1{enter}')
+      pressKey('{ctrl+rightArrow}')
+      assertText(chapterCaption, 'Gen 2')
+      pressKey('{ctrl+leftArrow}')
+      assertText(chapterCaption, 'Gen 1')
+    })
+
+    it('should go to next and previous verse with keyboard', () => {
+      type(searchInput, 'gen 1 1{enter}')
+      assertHasClass(first(chapterVerse), 'selection-single')
+      pressKey('{downArrow}')
+      assertHasClass(second(chapterVerse), 'selection-single')
+      pressKey('{upArrow}')
+      assertHasClass(first(chapterVerse), 'selection-single')
+    })
+
+    it('should go to next and previous found passage with keyboard', () => {
+      type(searchInput, 'john{enter}')
+      click(layoutToggle)
+      assertHasClass(first(foundPassage), 'highlight')
+      pressKey('{downArrow}')
+      assertHasClass(second(foundPassage), 'highlight')
+
+      // Click in cypress does not trigger selectionchange event, setCaret mocks it
+      setCaret(first(chapterVerse))
+      assertHasClass(first(chapterVerse), 'selection-single')
+      pressKey('{downArrow}')
+      assertHasClass(second(chapterVerse), 'selection-single')
+
+      click(first(foundPassage))
+      pressKey('{downArrow}')
+      assertHasClass(second(foundPassage), 'highlight')
+    })
   })
 })
 

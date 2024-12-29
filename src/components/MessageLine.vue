@@ -9,26 +9,15 @@
       {{ $t('messageLine.foundPassages') }}
       <span style="font-weight: bold" :data-tag="tags.foundPassages">{{ passages.length }}</span>
 
-      <!-- Copy all found passages -->
-      <q-btn-dropdown outline dense split class="q-mx-sm" icon="icon-mdi-content-copy" @click="copyFound()">
-        <template v-slot:label>
-          <q-tooltip>{{ $t('messageLine.copyFound') }}</q-tooltip>
-        </template>
-        <q-list>
-          <q-item clickable v-close-popup @click="copyFound(item)" v-for="item in copyTemplates" :key="item.name">
-            <q-item-section>
-              <q-item-label :class="copyTemplateClass(item.name)">{{ item.name }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-btn-dropdown>
+      <CopyButton class="q-mx-sm" tooltip="messageLine.copyFound" @click="copyFound" :data-tag="tags.copyFoundButton"
+        :data-tag-item="tags.copyFoundOption" />
 
-      <q-btn outline dense icon="icon-mat-vertical_split" text-color="primary" @click="layout = 'split'"
-        v-show="layout === 'formatted'">
+      <q-btn outline dense icon="icon-mat-vertical_split" text-color="primary" @click="setSplitLayout"
+        v-show="layout === 'formatted'" :data-tag="tags.layoutToggle">
         <q-tooltip>{{ $t('messageLine.enableNavigation') }}</q-tooltip>
       </q-btn>
 
-      <q-btn outline dense icon="icon-mat-view_agenda" text-color="primary" @click="layout = 'formatted'"
+      <q-btn outline dense class="q-mx-sm" icon="icon-mat-view_agenda" text-color="primary" @click="layout = 'formatted'"
         v-show="layout === 'split'">
         <q-tooltip>{{ $t('messageLine.formattedLayout') }}</q-tooltip>
       </q-btn>
@@ -41,7 +30,8 @@
 
     <span v-else-if="error">{{ error }}</span>
 
-    <span v-else-if="passages.length === 0 && searchTerm !== ''" :data-tag="tags.nothingFound">{{ $t('messageLine.notFound') }}</span>
+    <span v-else-if="passages.length === 0 && searchTerm !== ''"
+      :data-tag="tags.nothingFound">{{ $t('messageLine.notFound') }}</span>
 
     <!-- Passage displayed -->
     <span v-else-if="layout === 'split'">
@@ -52,33 +42,20 @@
 
       <q-btn-group v-if="chapterFragment" outline class="q-ml-sm">
         <!-- Previous chapter -->
-        <q-btn outline dense text-color="primary" icon="icon-mat-navigate_before" @click="adjacentChapter(-1)"
+        <q-btn outline dense text-color="primary" icon="icon-mat-navigate_before" @click="goToAdjacentChapter(-1)"
           :data-tag="tags.previousChapterButton">
           <q-tooltip>{{ $t('messageLine.previousChapter') }}</q-tooltip>
         </q-btn>
         <!-- Next chapter -->
-        <q-btn outline dense text-color="primary" icon="icon-mat-navigate_next" @click="adjacentChapter(1)"
+        <q-btn outline dense text-color="primary" icon="icon-mat-navigate_next" @click="goToAdjacentChapter(1)"
           :data-tag="tags.nextChapterButton">
           <q-tooltip>{{ $t('messageLine.nextChapter') }}</q-tooltip>
         </q-btn>
       </q-btn-group>
 
       <!-- Copy single selected passage -->
-      <q-btn-dropdown outline dense split text-color="primary" class="q-ml-sm" icon="icon-mdi-content-copy"
-        @click="copySelected()" v-show="hasSelection">
-        <template v-slot:label>
-          <q-tooltip>{{ $t('messageLine.copySelected') }}</q-tooltip>
-        </template>
-        <q-list>
-          <q-item clickable v-close-popup @click="copySelected(item)" v-for="item in copyTemplates" :key="item.name"
-            style="max-width: 500px">
-            <q-item-section>
-              <q-item-label>{{ item.name }} {{ defaultSuffix(item) }}</q-item-label>
-              <q-item-label caption><span v-html="formattedSample(item)" /></q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-btn-dropdown>
+      <CopyButton v-show="hasSelection" text-color="primary" tooltip="messageLine.copySelected" @click="copySelected"
+        :data-tag="tags.copySelectedButton" :data-tag-item="tags.copySelectedOption" />
 
       <q-btn id="player" v-if="settings.persist.appearance.locale === 'pl-PL'" v-show="store.chapterFragment" outline
         dense text-color="primary" class="q-ml-sm" icon="icon-mat-volume_up" @click="toggleAudio">
@@ -93,32 +70,35 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs } from 'vue'
 import { useQuasar } from 'quasar'
 import { useClipboard } from '@vueuse/core'
 import { useSearchStore } from 'src/stores/search-store'
 import { useSettingsStore } from 'src/stores/settings-store'
 import { CopyTemplateData } from 'src/types'
 import AudioPlayer from 'src/components/AudioPlayer.vue'
+import CopyButton from './CopyButton.vue'
 import { useI18n } from 'vue-i18n'
 import * as tags from 'src/tags'
 
 const { t } = useI18n()
 
 const store = useSearchStore()
-const { goToAdjacentChapter: adjacentChapter, chapterCaption, chapterFragment, copyTemplates, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, showPicker, sortAndDeduplicate } = toRefs(store)
+const { goToAdjacentChapter, chapterCaption, chapterFragment, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, showPicker, sortAndDeduplicate } = toRefs(store)
 
 const settings = useSettingsStore()
 
 const q = useQuasar()
 const { copy } = useClipboard()
 
-function formattedSample(item: CopyTemplateData) {
-  return store.formattedSample(item)
+function setSplitLayout() {
+  store.layout = 'split'
+  nextTick(() => {
+    document.getElementById('passages')?.focus()
+  })
 }
 
-function copySelected() {
-  const result = store.formatSelected()
+function copySelected(template?: CopyTemplateData) {
+  const result = store.formatSelected(template)
   if (result instanceof Error) {
     q.notify({
       message: result.message,
@@ -138,8 +118,8 @@ function copySelected() {
   }
 }
 
-function copyFound(item?: CopyTemplateData) {
-  const result = store.formatFound(item)
+function copyFound(template?: CopyTemplateData) {
+  const result = store.formatFound(template)
   if (result instanceof Error) {
     q.notify({
       message: result.message,
@@ -147,7 +127,7 @@ function copyFound(item?: CopyTemplateData) {
     })
   } else if (!result) {
     q.notify({
-      message: `${t('messageLine.formatFailed')} ${item?.name} ${t('messageLine.notConfiguredFor')} ${settings.persist.appearance.locale}`,
+      message: `${t('messageLine.formatFailed')} ${template?.name} ${t('messageLine.notConfiguredFor')} ${settings.persist.appearance.locale}`,
       type: 'negative'
     })
   } else {
@@ -159,24 +139,10 @@ function copyFound(item?: CopyTemplateData) {
   }
 }
 
-function defaultSuffix(item: CopyTemplateData) {
-  return item && item.name === settings.persist.defaultCopyTemplate ? ` (${t('messageLine.defaultTemplate')})` : ''
-}
-
-function copyTemplateClass(name: string) {
-  const item = copyTemplates.value.find(it => it.name === name)
-  return item && item.name === settings.persist.defaultCopyTemplate ? 'text-primary' : ' '
-}
-
 function toggleAudio() {
   store.audioOn = !store.audioOn
 }
 
-// function selectInChapter(start: number, end?: number): void {
-//   if (!chapterFragment.value) return
-//   const [book, chapter] = chapterFragment.value
-//   setChapterFragment([book, chapter, start, end ?? start])
-// }
 </script>
 
 <style lang="scss" scoped></style>

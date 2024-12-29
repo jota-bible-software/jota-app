@@ -2,7 +2,7 @@
   <div ref="chapterRef" tabindex="0" class="chapter-container col bottom-clipped full-width">
     <q-list id="chapter" class="full-width" v-if="chapterVerses.length">
       <q-item v-for="( s, i ) in chapterVerses" :key="i" :class="selectionClasses[i]" class="compact"
-        :ref="(el: ComponentPublicInstance) => { if (el) chapterItemRefs[i] = el }">
+        :ref="(el: ComponentPublicInstance) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse">
         <q-item-section class="reference text-secondary">{{ i + 1 }}</q-item-section>
         <q-item-section class="verse"><span v-html="highlightSearchTerm(s)" /></q-item-section>
       </q-item>
@@ -14,7 +14,7 @@
 import { useSearchStore } from 'src/stores/search-store'
 import { bindKeyEvent, Direction } from 'src/util'
 import { useEventListener, useFocusWithin } from '@vueuse/core'
-import { ComponentPublicInstance, ref, onMounted, watch } from 'vue'
+import * as tags from 'src/tags'
 
 const store = useSearchStore()
 const { chapterVerses, highlightSearchTerm, selectionClasses } = toRefs(store)
@@ -49,12 +49,13 @@ useEventListener(document, 'keydown', (event) => {
   keyboardBindings.forEach(binding => binding(event))
 })
 
+
 useEventListener(document, 'selectionchange', () => {
-  const selection = window.getSelection()
-  if (!selection || selection.rangeCount === 0 || !store.chapterFragment) return
-  const range = selection.getRangeAt(0)
-  const node1 = range.startContainer.parentElement?.closest('#chapter .q-item')
-  const node2 = range.endContainer.parentElement?.closest('#chapter .q-item')
+  if (!store.chapterFragment) return
+  const range = window._jota_test_support.getSelectionRange()
+  if (!range) return [null, null]
+  const node1 = range.startContainer.parentElement?.closest('#chapter .q-item') ?? null
+  const node2 = range.endContainer.parentElement?.closest('#chapter .q-item') ?? null
   if (node1 && node2) {
     const siblings = Array.from(node1.parentElement?.children || [])
     const index1 = siblings.indexOf(node1)

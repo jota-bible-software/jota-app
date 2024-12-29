@@ -41,6 +41,10 @@ export type FormatTemplateData = {
   editionAbbreviationCharsAfter: string,
 }
 
+export type JotaTestSupport = {
+  getSelectionRange: () => Range | undefined
+}
+
 export type LanguageSymbol = string
 export type LocaleSymbol = 'en-US' | 'pl-PL'
 // export type LocaleSymbol = 'en-GB' | 'en-US' | 'pl-PL' | 'es-ES' | 'pt-PT' | 'uk-UA'

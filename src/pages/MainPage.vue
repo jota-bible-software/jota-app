@@ -9,8 +9,10 @@
         :disabled="store.loading" dense style="margin-top: 0" autofocus @keyup.enter="find(store.input)"
         @keyup.esc="store.input = ''" full-width class="col" :data-tag="tags.searchInput">
         <template v-slot:append>
+
+          <!-- Clear search -->
           <q-icon v-if="store.input !== ''" name="icon-mat-close" class="cursor-pointer" style="font-size: 0.8em"
-            @click="find('')">
+            @click="clear" :data-tag="tags.clearSearchButton">
             <q-tooltip>{{ $t('mainPage.clearSearch') }}</q-tooltip>
           </q-icon>
 
@@ -109,6 +111,11 @@ function find(input: string, opt?: SearchOptions) {
   const options = opt || {}
   store.showPicker = false
   return store.findByInput(input, options)
+}
+
+function clear() {
+  store.input = ''
+  find('') 
 }
 
 const events = ['orientationchange', 'resize']

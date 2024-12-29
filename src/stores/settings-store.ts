@@ -72,7 +72,7 @@ export const useSettingsStore = defineStore('settings', () => {
     }
   }
 
-  return { appBookNames, appFormatTemplate, currentTab,getBookNamings, focusedLocale, focusedLocalized, locales, localized, persist, reset }
+  return { appBookNames, appFormatTemplate, currentTab, getBookNamings, focusedLocale, focusedLocalized, locales, localized, persist, reset }
 })
 
 if (import.meta.hot) {

@@ -60,7 +60,8 @@ describe('Settings', () => {
         assertValueContains(editBooks, booksTestText)
 
         click(last(saveButton))
-        assertText(first(itemNames), 'a') // The list should be sorted
+        // The list should be sorted
+        assertText(first(itemNames), 'a')
 
         // Edit should be preserved after page reload
         goSettings()
@@ -139,8 +140,6 @@ describe('Settings', () => {
         assertText(appNaming, 'SBL abbreviations')
         click(nth(editButton, 2))
         assertDisabled(removeButton)
-        // cy.get(removeButton).realHover()
-        // cy.get('.q-tooltip').should('have.text', t('settingsBookNames.removeTooltipAppBookNaming'))
         assertText(tooltip(removeButton), t('settingsBookNames.removeTooltipAppBookNaming'))
       })
 
