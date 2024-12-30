@@ -10,24 +10,40 @@ jobs:
   run-tests:
     runs-on: ubuntu-24.04
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Step 2: Setup Node.js environment
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 18 # Adjust Node.js version as per your project
-          cache: 'npm'
+          version: 9
+          run_install: false
 
-      # Step 3: Install dependencies
-      - name: Install Dependencies
-        run: npm install
+      - name: Install node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
 
-      # Step 4: Run Vitest tests
-      - name: Run Vitest Tests
-        run: npm run test:unit:ci
+      - name: Install dependencies
+        run: pnpm install
 
-      - name: Run Cypress Tests
-        run: npm run test:e2e:ci
+      - name: Run vitest
+        run: pnpm run test:unit:ci
+
+      - name: Run cypress
+        run: pnpm run test:e2e:ci
+
+      - name: Upload cypress screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: test/cypress/screenshots
+
+      - name: Upload cypress videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: test/cypress/videos

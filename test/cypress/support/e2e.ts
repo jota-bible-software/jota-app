@@ -1,6 +1,7 @@
 import * as u from '../e2e/CypressHelper'
 import * as tags from 'src/tags'
 import './commands'
+// import fs from 'fs'
 
 type TestUtil = typeof u
 const g = globalThis as unknown as TestUtil & { tags: typeof tags }
@@ -52,3 +53,17 @@ g.type = u.type
 g.visible = u.visible
 
 g.tags = tags
+
+beforeEach(() => {
+  cy.intercept('GET', '/src/assets/data/*/*.json', (req) => {
+    const names = req.url.split('/') // e.g., 'kjv.json' or 'niv.json'
+    const fileName = names[names.length - 1].toLowerCase()
+    const locale = names[names.length - 2]
+    const fixture = `${locale}/${fileName}`
+
+    req.reply({
+      statusCode: 200, // default
+      fixture
+    })
+  })
+})

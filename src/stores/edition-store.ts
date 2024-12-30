@@ -148,6 +148,8 @@ export const useEditionStore = defineStore('edition', () => {
     const url = `src/assets/data/${edition.locale}/${edition.symbol}.json`
 
     const { data, error, statusCode } = await useFetch(url).get().json()
+    // Mock long loading time
+    // await new Promise(resolve => setTimeout(resolve, 10_000))
 
     if (error.value) {
       if (statusCode.value === 404) {

@@ -97,6 +97,8 @@ describe('Settings Editions', () => {
 
       // The main bible selector should be affected by the selection
       goHome()
+      // Wait for the edition to load
+      assertShowing(visible(editionSelector), { timeout: 20_000 })
       click(visible(editionSelector))
       assertCount(editionSelectorItem, 5)
     })
@@ -126,6 +128,8 @@ describe('Settings Editions', () => {
       click(pageBackButton)
       assertTextContains(editionSelector, 'NIV')
       goHome()
+      // Wait for the edition to load
+      assertShowing(editionSelector, { timeout: 20_000 })
       assertTextContains(editionSelector, 'NIV')
       goSettings()
       click(editionsPanel)

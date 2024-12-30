@@ -35,12 +35,12 @@ export function nested(head: SingleTarget, ...tail: string[]): NestedTarget {
 //   return nested.reduce((acc, cur) => acc.find(cur), typeof target === 'string' ? cy.get(target) : target)
 // }
 
-export function find(target: Target): HtmlElementWrapper {
+export function find(target: Target, options = {}): HtmlElementWrapper {
   function findNested(target: Target): HtmlElementWrapper {
     const t = target as NestedTarget
-    return t.tail.reduce((acc, cur) => acc.find(cur), find(t.head))
+    return t.tail.reduce((acc, cur) => acc.find(cur), find(t.head, options))
   }
-  return typeof target === 'string' ? cy.get(target) : target.hasOwnProperty('head') ? findNested(target) : target as HtmlElementWrapper
+  return typeof target === 'string' ? cy.get(target, options) : target.hasOwnProperty('head') ? findNested(target) : target as HtmlElementWrapper
 }
 
 export function errorHint(target: Target): HtmlElementWrapper {
@@ -106,7 +106,7 @@ export function click(target: Target, position: PositionType = 'center') {
   return find(target).click(position)
 }
 
-export const clipboard = { value: ''}
+export const clipboard = { value: '' }
 
 export function mockClipboard() {
   return cy.mockClipboard(clipboard)
@@ -198,29 +198,29 @@ export function forEach<T>(target: Target, items: T[], assertFn: (element: HtmlE
 export function assertNotShowing(target: Target) {
   if (typeof target === 'string') {
     // For string selectors, use cy.$$ to check if elements exist in the DOM
-    const elements = cy.$$(target);
+    const elements = cy.$$(target)
     if (elements.length > 0) {
       // If elements exist, assert they are not visible
-      return cy.get(target).should('not.be.visible');
+      return cy.get(target).should('not.be.visible')
     }
   } else if (Cypress.isCy(target)) {
     // Narrow the type to Cypress.Chainable
     return target.then(($el) => {
       if ($el.length === 0) {
         // Element does not exist
-        cy.wrap(null).should('not.exist');
+        cy.wrap(null).should('not.exist')
       } else {
         // Element exists, check visibility
-        cy.wrap($el).should('not.be.visible');
+        cy.wrap($el).should('not.be.visible')
       }
-    });
+    })
   } else {
-    throw new Error('Invalid target type');
+    throw new Error('Invalid target type')
   }
 }
 
-export function assertShowing(target: Target) {
-  return find(target).should('be.visible')
+export function assertShowing(target: Target, options = {}) {
+  return find(target, options).should('be.visible')
 }
 
 // export function assertText(target: Target, text: string) {

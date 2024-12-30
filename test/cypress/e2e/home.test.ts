@@ -55,10 +55,13 @@ describe('Home Page', () => {
       click(first(bookButtons)) // Click on "Gen"
       assertShowing(backButton)
 
+      // Wait for the edition to load
+      assertShowing(chapterButtons, { timeout: 20000 })
       assertText(first(chapterButtons), '1')
+
       click(first(chapterButtons)) // Click on "1"
       assertNotShowing(backButton)
-      assertShowing(chapterContent)
+
 
       assertShowing(containsText('In the beginning'))
     })
@@ -117,60 +120,59 @@ describe('Home Page', () => {
     })
 
     it('should show search results', () => {
-      type(searchInput, 'john{enter}')
-      assertText(foundPassages, '130')
+      type(searchInput, 'abc{enter}')
+      assertText(foundPassages, '2')
       assertNotShowing(passages)
-      assertCount(formattedVerse, 130)
-      assertText(first(formattedVerse), 'Matt 3:1 KJV"In those days came John the Baptist, preaching in the wilderness of Judaea,"')
+      assertCount(formattedVerse, 2)
+      assertText(first(formattedVerse), 'Exod 1:1 KJV"1 abc"')
     })
 
     it('should search from url', () => {
-      goSearchTerm('john')
-      assertText(foundPassages, '130')
-      goSearchTerm('john 3:16')
-      assertText(chapterCaption, 'John 3')
+      goSearchTerm('abc')
+      assertText(foundPassages, '2')
+      goSearchTerm('john 1:1')
+      assertText(chapterCaption, 'John 1')
       assertNotShowing(passages)
     })
   })
 
   describe('Content', () => {
     it('should show html characters', () => {
-      select(editionSelector, 'UBG')
-      type(searchInput, 'ps 34{enter}')
-      assertTextContains(chapterContent, '<Psalm Dawida, gdy zmienił swoje zachowanie przed Abimelekiem i wypędzony przez niego, odszedł.>')
+      type(searchInput, 'num 1:1{enter}')
+      assertTextContains(chapterContent, '<words in brackets>') // Psalm 34:1 UBG has them
     })
 
     it('should copy the highlighted verses', () => {
-      type(searchInput, 'john 1 1{enter}')
-      assertText(chapterCaption, 'John 1')
+      type(searchInput, 'gen 1 1{enter}')
+      assertText(chapterCaption, 'Gen 1')
       mockClipboard()
       click(copySelectedButton, 'left')
-      assertClipboard('In the beginning was the Word, and the Word was with God, and the Word was God.\nJohn 1:1 KJV')
+      assertClipboard('In the beginning God created, the heaven and the earth.\nGenesis 1:1 KJV')
 
       click(copySelectedButton, 'right')
       click(second(copySelectedOption))
-      assertClipboard('– John 1:1 KJV\nIn the beginning was the Word, and the Word was with God, and the Word was God.')
+      assertClipboard('– Gen 1:1 KJV\nIn the beginning God created, the heaven and the earth.')
     })
 
     it('should copy the found verses', () => {
-      type(searchInput, 'demas{enter}')
-      assertText(foundPassages, '3')
+      type(searchInput, 'abc{enter}')
+      assertText(foundPassages, '2')
       mockClipboard()
       click(copyFoundButton, 'left')
-      assertClipboard('Luke, the beloved physician, and Demas, greet you.\nColossians 4:14 KJV\n\nFor Demas hath forsaken me, having loved this present world, and is departed unto Thessalonica; Crescens to Galatia, Titus unto Dalmatia.\n2 Timothy 4:10 KJV\n\nMarcus, Aristarchus, Demas, Lucas, my fellowlabourers.\nPhilemon 1:24 KJV')
+      assertClipboard('1 abc\nExodus 1:1 KJV\n\n2 abc\nLeviticus 1:1 KJV')
     })
   })
 
   describe('Navigation', () => {
     it('should go to next and previous chapter with click', () => {
-      type(searchInput, 'john 1{enter}')
-      assertText(chapterCaption, 'John 1')
+      type(searchInput, 'Exod 1{enter}')
+      assertText(chapterCaption, 'Exod 1')
       click(nextChapterButton)
-      assertText(chapterCaption, 'John 2')
+      assertText(chapterCaption, 'Exod 2')
       click(previousChapterButton)
-      assertText(chapterCaption, 'John 1')
+      assertText(chapterCaption, 'Exod 1')
       click(previousChapterButton)
-      assertText(chapterCaption, 'Luke 24')
+      assertText(chapterCaption, 'Gen 2')
     })
 
     it('should go to next and previous chapter with keyboard', () => {
@@ -191,7 +193,7 @@ describe('Home Page', () => {
     })
 
     it('should go to next and previous found passage with keyboard', () => {
-      type(searchInput, 'john{enter}')
+      type(searchInput, 'abc{enter}')
       click(layoutToggle)
       assertHasClass(first(foundPassage), 'highlight')
       pressKey('{downArrow}')

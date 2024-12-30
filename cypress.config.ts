@@ -3,7 +3,8 @@
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
-  fixturesFolder: false, // 'test/cypress/fixtures',
+  downloadsFolder: 'test/cypress/downloads',
+  fixturesFolder: 'test/cypress/fixtures',
   screenshotsFolder: 'test/cypress/screenshots',
   videosFolder: 'test/cypress/videos',
   video: true,
@@ -14,7 +15,7 @@ export default defineConfig({
     //   return config;
     // },
     baseUrl: 'http://localhost:8080/',
-    
+
     supportFile: 'test/cypress/support/e2e.ts',
     specPattern: 'test/cypress/e2e/**/*.{cy,test}.{js,jsx,ts,tsx}',
     viewportWidth: 1080, // Set the desired width
