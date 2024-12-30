@@ -1,0 +1,33 @@
+name: Testing
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 # Adjust Node.js version as per your project
+          cache: 'npm'
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Step 4: Run Vitest tests
+      - name: Run Vitest Tests
+        run: npm run test:unit:ci
+
+      - name: Run Cypress Tests
+        run: npm run test:e2e:ci
