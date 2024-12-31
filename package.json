@@ -10,7 +10,7 @@
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"See package.json => scripts for available tests.\" && exit 0",
     "dev": "quasar dev",
-    "build": "PUBLIC_PATH=jota-app quasar build",
+    "build": "quasar build",
     "custom-icons": "fantasticon src/custom-icons/svg -o public/custom-icons --normalize -t woff woff2 -g css",
     "test:unit:ui": "vitest --ui",
     "test:unit": "vitest",

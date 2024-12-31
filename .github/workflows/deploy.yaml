@@ -13,21 +13,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-     - name: Download workspace
-        uses: actions/download-artifact@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          name: workspace
+          fetch-depth: 1  # Fetch only the latest commit
 
-      # - name: Restore cache - does not make sense since the production build is different
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: build
-      #     key: ${{ runner.os }}-build-${{ github.sha }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-build-
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Set up node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
 
       - name: Deploy to server
-        uses: SamKirkland/FTP-Deploy-Action@4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}

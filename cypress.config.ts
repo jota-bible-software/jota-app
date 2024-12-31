@@ -9,6 +9,7 @@ export default defineConfig({
   videosFolder: 'test/cypress/videos',
   video: true,
   watchForFileChanges: true,
+  defaultCommandTimeout: 10_000,
   e2e: {
     // setupNodeEvents(on, config) {
     //   registerCodeCoverageTasks(on, config);

@@ -8,20 +8,12 @@ on:
 
 jobs:
   run-tests:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 1  # Fetch only the latest commit
-
-      # - name: Set up cache - does not make sense since the production build is different
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: dist
-      #     key: ${{ runner.os }}-build-${{ github.sha }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-build-
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
@@ -37,20 +29,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Save workspace and dependencies
-        uses: actions/upload-artifact@v3
-        with:
-          name: workspace
-          path: .  # Save the entire workspace
-
-      - name: Cache Cypress
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-cypress-
 
       - name: Install cypress
         run: npx cypress install

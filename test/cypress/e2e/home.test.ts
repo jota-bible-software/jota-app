@@ -62,7 +62,6 @@ describe('Home Page', () => {
       click(first(chapterButtons)) // Click on "1"
       assertNotShowing(backButton)
 
-
       assertShowing(containsText('In the beginning'))
     })
 
