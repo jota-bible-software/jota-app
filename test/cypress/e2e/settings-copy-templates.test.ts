@@ -1,5 +1,5 @@
 describe('Settings Copy Templates', () => {
-  const goSettings = () => navigate('/#/settings')
+  const goSettings = () => navigate('/settings')
   const locale = tag(tags.settingsLocaleFilter)
   const copyTemplatesPanel = tag(tags.settingsPageCopyTemplates)
   const defaultTemplate = tag(tags.settingsCopyTemplatesDefault)

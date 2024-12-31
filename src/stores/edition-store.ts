@@ -145,7 +145,8 @@ export const useEditionStore = defineStore('edition', () => {
   }
 
   async function fetchEditionContent(edition: Edition): Promise<Edition['content']> {
-    const url = `src/assets/data/${edition.locale}/${edition.symbol}.json`
+    const publicPath = process.env.VUE_ROUTER_BASE || (process.env.NODE_ENV === 'test' ? ' / ' : '/jota-app/')
+    const url = `${publicPath}data/${edition.locale}/${edition.symbol.toLowerCase()}.json`
 
     const { data, error, statusCode } = await useFetch(url).get().json()
     // Mock long loading time

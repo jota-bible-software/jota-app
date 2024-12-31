@@ -2,7 +2,7 @@ import { assertNoErrorHint } from './CypressHelper'
 
 describe('Settings', () => {
   const goHome = () => navigate('/')
-  const goSettings = () => navigate('/#/settings')
+  const goSettings = () => navigate('/settings')
 
   beforeEach(() => {
     goSettings()

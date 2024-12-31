@@ -35,8 +35,11 @@ yarn-error.log*
 
 # Other local files
 .env.local*
-/private
-src/assets/data
 .aider*
+/private
+public/data
+test/cypress/downloads
+test/cypress/screenshots
+test/cypress/videos
 
 

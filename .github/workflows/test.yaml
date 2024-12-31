@@ -1,4 +1,4 @@
-name: Testing
+name: Test
 
 on:
   push:
@@ -10,16 +10,26 @@ jobs:
   run-tests:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1  # Fetch only the latest commit
 
-      - name: Install pnpm
+      # - name: Set up cache - does not make sense since the production build is different
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: dist
+      #     key: ${{ runner.os }}-build-${{ github.sha }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-build-
+
+      - name: Set up pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
           run_install: false
 
-      - name: Install node.js
+      - name: Set up node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -27,6 +37,23 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Save workspace and dependencies
+        uses: actions/upload-artifact@v3
+        with:
+          name: workspace
+          path: .  # Save the entire workspace
+
+      - name: Cache Cypress
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+
+      - name: Install cypress
+        run: npx cypress install
 
       - name: Run vitest
         run: pnpm run test:unit:ci

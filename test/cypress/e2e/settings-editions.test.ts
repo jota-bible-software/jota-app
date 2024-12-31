@@ -1,7 +1,7 @@
 
 describe('Settings Editions', () => {
   const goHome = () => navigate('/')
-  const goSettings = () => navigate('/#/settings')
+  const goSettings = () => navigate('/settings')
   const editionsPanel = tag(tags.settingsPageEditions)
   const generalPanel = tag(tags.settingsPageGeneral)
   const localeSelector = tag(tags.settingsLocaleSelector)

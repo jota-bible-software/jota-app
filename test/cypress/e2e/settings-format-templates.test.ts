@@ -1,5 +1,5 @@
 describe('Settings Format Templates', () => {
-  const goSettings = () => navigate('/#/settings')
+  const goSettings = () => navigate('/settings')
   // const appScreenTemplate = tag(tags.settingsFormatTemplateAppScreen)
   const formatTemplatesPanel = tag(tags.settingsPageFormatTemplates)
   const settingsPanelTitle = tag(tags.settingsPanelTitle)

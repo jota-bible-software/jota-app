@@ -11,7 +11,9 @@ const i18n = createI18n({
 })
 
 export function navigate(url: string) {
-  cy.visit(url)
+  const publicPath = '/jota-app' // Default to '/' if not defined
+  const fullUrl = `${publicPath}${url}`
+  cy.visit(fullUrl)
 }
 
 export function tag(name: string) {

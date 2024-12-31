@@ -1,8 +1,8 @@
 describe('Home Page', () => {
   const goHome = () => navigate('/')
-  const goSearchTerm = (term: string) => navigate(`/#/?q=${encodeURIComponent(term)}`)
-  const goSettings = () => navigate('/#/settings')
-  const goWrong = () => navigate('/#/wrong')
+  const goSearchTerm = (term: string) => navigate(`/?q=${encodeURIComponent(term)}`)
+  const goSettings = () => navigate('/settings')
+  const goWrong = () => navigate('/wrong')
 
   const chapterContent = tag(tags.chapterContent)
   const chapterVerse = tag(tags.chapterVerse)
