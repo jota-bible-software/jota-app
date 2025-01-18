@@ -13,10 +13,10 @@
 
 import { osis as osisBooks } from './books'
 // import { defaultState } from 'src/store/store-settings'
-import { Parser, en, pl } from 'jota-parser'
+import { Parser, enUS, plPL } from 'jota-parser'
 import { Passage, Progress, SearchOptions, EditionContent } from 'src/types'
 
-const parser = new Parser({ locales: [pl, en] })
+const parser = new Parser({ locales: [plPL, enUS] })
 
 export const defaultState = {
   version: '0.5.0',

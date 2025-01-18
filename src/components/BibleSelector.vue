@@ -5,7 +5,7 @@
     <template v-slot:selected>
       <div class="row items-center q-gutter-sm">
         <span>{{ selected.symbol }}</span>
-        <span>{{ selected.title }}</span>
+        <span class="gt-sm">{{ selected.title }}</span>
       </div>
     </template>
 

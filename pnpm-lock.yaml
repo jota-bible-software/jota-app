@@ -18,8 +18,8 @@ importers:
         specifier: ^7.2.2
         version: 7.2.2
       jota-parser:
-        specifier: ^1.0.7
-        version: 1.0.7
+        specifier: ^1.0.8
+        version: 1.0.8
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -2862,8 +2862,8 @@ packages:
   joi@17.13.3:
     resolution: {integrity: sha512-otDA4ldcIx+ZXsKHWmp0YizCweVRZG96J10b0FevjfuncLO1oX59THoAmHkNubYJ+9gWsYsp5k8v4ib6oDv1fA==}
 
-  jota-parser@1.0.7:
-    resolution: {integrity: sha512-v+p1XleMJD0YTzm0Ih2a5VlITTRnFWIUkF9oe/G1MT74jI0pUYggn1YYl6QGRL8Y0F62xXh0yIWQ3oi6o6fQgg==}
+  jota-parser@1.0.8:
+    resolution: {integrity: sha512-uy1u/VAQwdp1ZOO96HV+x1LyVeGZU24vOqdUY02Fe+GdIznB3nW3M1F6poPHGXAjHJGEg8peeNzE3NPL3PsJKg==}
 
   js-beautify@1.15.1:
     resolution: {integrity: sha512-ESjNzSlt/sWE8sciZH8kBF8BPlwXPwhR6pWKAw8bw4Bwj+iZcnKW6ONWUutJ7eObuBZQpiIb8S7OYspWrKt7rA==}
@@ -7530,7 +7530,7 @@ snapshots:
       '@sideway/formula': 3.0.1
       '@sideway/pinpoint': 2.0.0
 
-  jota-parser@1.0.7: {}
+  jota-parser@1.0.8: {}
 
   js-beautify@1.15.1:
     dependencies:

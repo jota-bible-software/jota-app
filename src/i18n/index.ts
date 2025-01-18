@@ -1,14 +1,14 @@
 import enUS from './en-US'
 import esES from './es-ES'
 import plPL from './pl-PL'
-import ptPT from './pt-PT'
+import ptBR from './pt-BR'
 import ukUA from './uk-UA'
 
 export default {
   'en-US': enUS,
   'es-ES': esES,
   'pl-PL': plPL,
-  'pt-PT': ptPT,
+  'pt-BR': ptBR,
   'uk-UA': ukUA,
 }
 
