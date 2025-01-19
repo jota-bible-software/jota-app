@@ -14,7 +14,7 @@ export default {
   },
   buttonBookSelector: {
     hideButtons: 'Schowaj przyciski wyboru księgi i rozdziału',
-    selectBookChapter: 'Wybierz księgę and rozdział',
+    selectBookChapter: 'Wybierz księgę i rozdział',
     showButtons: 'Pokaż przyciski wyboru księgi i rozdziału '
   },
   buttonHelp: {

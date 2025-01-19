@@ -7,7 +7,7 @@
     </template>
 
     <q-list separator>
-      <q-item clickable v-close-popup @click="onClick(item)" v-for="item in store.copyTemplates" :key="item.name"
+      <q-item clickable v-close-popup @click="onClick(item)" v-for="item in copyTemplates" :key="item.name"
         style="max-width: 500px" :data-tag="props.dataTagItem">
         <q-item-section>
           <q-item-label>
@@ -25,14 +25,18 @@
 import { CopyTemplateData } from 'src/types'
 import { useSearchStore } from 'src/stores/search-store'
 import { useSettingsStore } from 'src/stores/settings-store'
+import { useEditionStore } from 'src/stores/edition-store'
 import { useI18n } from 'vue-i18n'
 
 const store = useSearchStore()
+const editions = useEditionStore()
 const settings = useSettingsStore()
 const { t } = useI18n()
 
 const props = defineProps(['tooltip', 'textColor', 'dataTagItem'])
 const emit = defineEmits(['click'])
+
+const copyTemplates = computed(() => settings.persist.localized[editions.currentEdition.locale].copyTemplates)
 
 function onClick(template?: CopyTemplateData) {
   emit('click', template)

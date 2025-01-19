@@ -22,6 +22,12 @@ describe('Home Page', () => {
   const formattedVerse = tag(tags.formattedVerse)
   const nothingFound = tag(tags.nothingFound)
 
+  const bookButtons = tag(tags.referencePickerBookButton)
+  const chapterButtons = tag(tags.referencePickerChapterButtons)
+  const backButton = tag(tags.referencePickerBackButton)
+  const toggleButton = tag(tags.referencePickerToggle) + ':visible'
+  const settingsReferencePickerOnStart = tag(tags.settingsReferencePickerOnStart)
+
   beforeEach(() => {
     goHome()
   })
@@ -36,11 +42,6 @@ describe('Home Page', () => {
   })
 
   describe('Reference picker', () => {
-    const bookButtons = tag(tags.referencePickerBookButton)
-    const chapterButtons = tag(tags.referencePickerChapterButtons)
-    const backButton = tag(tags.referencePickerBackButton)
-    const toggleButton = tag(tags.referencePickerToggle) + ':visible'
-    const settingsReferencePickerOnStart = tag(tags.settingsReferencePickerOnStart)
 
     it('should show buttons for book selection by default', () => {
       assertShowing(bookButtons)
@@ -118,6 +119,13 @@ describe('Home Page', () => {
       assertText(searchInput, '')
     })
 
+
+    it('should show the book picker with enter on empty search', () => {
+      type(searchInput, '{enter}')
+      assertText(searchInput, '')
+      assertShowing(bookButtons)
+    })
+
     it('should show search results', () => {
       type(searchInput, 'abc{enter}')
       assertText(foundPassages, '2')
@@ -159,6 +167,16 @@ describe('Home Page', () => {
       mockClipboard()
       click(copyFoundButton, 'left')
       assertClipboard('1 abc\nExodus 1:1 KJV\n\n2 abc\nLeviticus 1:1 KJV')
+    })
+
+    it('should copy after changing edition', () => {
+      type(searchInput, 'gen 1 1{enter}')
+      mockClipboard()
+      click(copySelectedButton, 'left')
+      assertClipboard('In the beginning God created, the heaven and the earth.\nGenesis 1:1 KJV')
+      select(editionSelector, 'UBG')
+      click(copySelectedButton, 'left')
+      assertClipboard('Na początku Bóg stworzył niebo i ziemię.\nRodzaju 1,1 UBG')
     })
   })
 

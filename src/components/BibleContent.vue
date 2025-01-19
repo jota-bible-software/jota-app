@@ -24,10 +24,10 @@
 </template>
 
 <script setup lang="ts">
+import ChapterContent from './ChapterContent.vue'
+import { Direction } from 'src/util'
 import { useSearchStore } from 'src/stores/search-store'
 import { useEventListener, useFocusWithin } from '@vueuse/core'
-import { Direction } from 'src/util'
-import ChapterContent from './ChapterContent.vue'
 import { ref, onMounted, watch, nextTick } from 'vue'
 import * as tags from 'src/tags'
 
@@ -100,11 +100,9 @@ useEventListener(document, 'keydown', (event) => {
 
 <style lang="scss">
 #content {
-  // padding-bottom: 80px
   display: flex;
   flex-direction: column;
   overflow: auto;
-  // width: 100%;
 
   .row {
     overflow: auto;
@@ -139,23 +137,6 @@ useEventListener(document, 'keydown', (event) => {
     box-shadow: inset 1px 1px var(--q-primary), inset -1px -1px var(--q-primary);
   }
 }
-
-
-// #passages:focus-visible {
-//   outline: none;
-// }
-
-// #passages:focus-within::after {
-//   content: "";
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   border: 1px solid var(--q-background-05);
-//   border-radius: 4px;
-//   pointer-events: none;
-// }
 
 .formatted-verse {
   padding-top: 4px;

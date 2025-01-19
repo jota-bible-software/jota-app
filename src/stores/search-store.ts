@@ -206,7 +206,8 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function formatSelectedPassage(copyTemplate?: CopyTemplateData): string | Error {
-    const tpl = copyTemplate ?? settings.localized.copyTemplates.find(it => it.name === settings.localized.defaultCopyTemplate)
+    const localized = settings.persist.localized[editions.currentEdition.locale]
+    const tpl = copyTemplate ?? localized.copyTemplates.find(it => it.name === localized.defaultCopyTemplate)
     if (!tpl) return new Error(t('searchStore.noTemplateFound'))
     if (!chapterFragment.value) return new Error(t('searchStore.noPassageSelected'))
     if (!editionContent.value) return new Error(t('searchStore.editionContentNotLoaded'))

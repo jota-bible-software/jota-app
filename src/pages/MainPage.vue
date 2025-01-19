@@ -109,13 +109,13 @@ watch(() => router.query.q, setQuery)
 
 function find(input: string, opt?: SearchOptions) {
   const options = opt || {}
-  store.showPicker = false
+  store.showPicker = !input
   return store.findByInput(input, options)
 }
 
 function clear() {
   store.input = ''
-  find('') 
+  find('')
 }
 
 const events = ['orientationchange', 'resize']

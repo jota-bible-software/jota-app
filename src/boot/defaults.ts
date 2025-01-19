@@ -1,4 +1,4 @@
-import { QBtnDropdown, QCheckbox, QFile, QInput, QList, QSelect, QRadio, QToggle, QTooltip } from 'quasar'
+import { QBtn,QBtnDropdown, QCheckbox, QFile, QInput, QList, QSelect, QRadio, QToggle, QTooltip } from 'quasar'
 import { boot } from 'quasar/wrappers'
 
 const defaults = {
@@ -13,6 +13,7 @@ const defaults = {
 }
 
 export default boot(() => {
+  setDefaults(QBtn, { noWrap: true})
   setDefaults(QBtnDropdown, defaults.formField)
   setDefaults(QCheckbox, defaults.formField)
   setDefaults(QInput, defaults.formField)
