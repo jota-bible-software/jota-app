@@ -1,9 +1,11 @@
+
 describe('Home Page', () => {
   const goHome = () => navigate('/')
   const goSearchTerm = (term: string) => navigate(`/?q=${encodeURIComponent(term)}`)
   const goSettings = () => navigate('/settings')
   const goWrong = () => navigate('/wrong')
 
+  // const downloading = tag(tags.downloading)
   const chapterContent = tag(tags.chapterContent)
   const chapterVerse = tag(tags.chapterVerse)
   const editionSelector = tag(tags.editionSelector) + ':visible'
@@ -119,6 +121,13 @@ describe('Home Page', () => {
       assertText(searchInput, '')
     })
 
+    it('should highlight the search term', () => {
+      type(searchInput, 'earth{enter}')
+      assertText(foundPassages, '1')
+      assertHtmlContains(chapterVerse, '<span class="bold">earth</span>')
+      type(searchInput, 'Gen 1{enter}', true)
+      assertHtmlNotContains(chapterVerse, '<span class="bold">earth</span>')
+    })
 
     it('should show the book picker with enter on empty search', () => {
       type(searchInput, '{enter}')

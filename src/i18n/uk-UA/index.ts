@@ -67,7 +67,7 @@ export default {
     enableNavigation: 'Увімкнути навігацію',
     formatFailed: 'Форматування не вдалося',
     formattedLayout: 'Змінити макет на форматований для друку',
-    foundPassages: 'Знайдено уривки:',
+    foundPassages: 'Знайдено:',
     nextChapter: 'Наступний розділ',
     noSelectedVerses: 'Не вибрано віршів',
     notConfiguredFor: 'не налаштовано для',

@@ -1,7 +1,6 @@
 
-
+export const downloading = 'downloading'
 export const referencePickerToggle = 'reference-picker-toggle'
-
 export const referencePickerBookButton = 'reference-picker-book'
 export const referencePickerChapterButtons = 'reference-picker-chapter'
 export const referencePickerBackButton = 'reference-picker-back'

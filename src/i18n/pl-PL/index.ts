@@ -62,7 +62,7 @@ export default {
     enableNavigation: 'Włącz nawigację',
     formatFailed: 'Formatowanie nie powiodło się',
     formattedLayout: 'Zmień układ na sformatowany do wydruku',
-    foundPassages: 'Znaleziono fragmenty:',
+    foundPassages: 'Znaleziono:',
     nextChapter: 'Następny rozdział',
     noSelectedVerses: 'Nie wybrano wersetów',
     notConfiguredFor: 'nie jest skonfigurowany dla',

@@ -280,7 +280,7 @@ export const jota = {
   /**
    * Ensure the regex flag includes "g" so that all instances of the term in the verse are highlighted
    */
-  highlightRegex(regex: RegExp) {
+  highlightRegex(regex?: RegExp) {
     return regex ? (regex.flags.includes('g') ? regex : new RegExp(regex.source, regex.flags + 'g')) : ''
   },
 

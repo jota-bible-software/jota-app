@@ -67,7 +67,7 @@ export default {
     enableNavigation: 'Ativar navegação',
     formatFailed: 'Formatação falhou',
     formattedLayout: 'Mudar layout para formatado para impressão',
-    foundPassages: 'Passagens encontradas:',
+    foundPassages: 'Encontrado:',
     nextChapter: 'Próximo capítulo',
     noSelectedVerses: 'Nenhum versículo selecionado',
     notConfiguredFor: 'não está configurado para',

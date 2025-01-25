@@ -11,6 +11,8 @@ declare global {
   const assertEnabled: typeof u.assertEnabled
   const assertErrorHint: typeof u.assertErrorHint
   const assertHasClass: typeof u.assertHasClass
+  const assertHtmlContains: typeof u.assertHtmlContains
+  const assertHtmlNotContains: typeof u.assertHtmlNotContains
   const assertLookDisabled: typeof u.assertLookDisabled
   const assertLookEnabled: typeof u.assertLookEnabled
   const assertNotChecked: typeof u.assertNotChecked

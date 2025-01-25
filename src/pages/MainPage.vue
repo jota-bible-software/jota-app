@@ -1,5 +1,5 @@
 <template>
-  <q-page id="search" class="q-px-md q-pb-md">
+  <q-page id="search" class="q-px-md q-pb-md q-gutter-xs">
     <MainToolbar />
     <div class="row full-width">
       <MainBibleSelector class="q-mr-md lt-md" />
@@ -55,7 +55,7 @@
 
     <div v-show="store.loading">
       <q-circular-progress indeterminate size="30px" color="accent" class="q-my-md q-mr-md" />
-      <span>{{ $t('mainPage.downloading') }}</span>
+      <span :data-tag="tags.downloading">{{ $t('mainPage.downloading') }}</span>
     </div>
 
     <ReferencePicker v-if="store.showPicker" />
@@ -107,9 +107,10 @@ function setQuery() {
 
 watch(() => router.query.q, setQuery)
 
-function find(input: string, opt?: SearchOptions) {
+async function find(input: string, opt?: SearchOptions) {
   const options = opt || {}
   store.showPicker = !input
+  await editionStore.startPromise
   return store.findByInput(input, options)
 }
 

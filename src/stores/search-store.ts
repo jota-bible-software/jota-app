@@ -168,9 +168,7 @@ export const useSearchStore = defineStore('search', () => {
       layout.value = newLayout
       const searchReplacement = words.value && !text.startsWith('/') ? '$1<span class="bold">$2</span>$3' : '<span class="bold">$1</span>'
       searchTermHighlightReplacement.value = searchReplacement
-      if (progressRunner.regex) {
-        searchTermHighlightRegex.value = jota.highlightRegex(progressRunner.regex)
-      }
+      searchTermHighlightRegex.value = jota.highlightRegex(progressRunner.regex)
       setFragments(fragments)
       console.log(`Search took ${Date.now() - t0} ms`)
     } catch (ex: unknown) {
@@ -190,7 +188,8 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function formatFound(copyTemplate?: CopyTemplateData): string | Error {
-    const tpl = copyTemplate ?? settings.localized.copyTemplates.find(it => it.name === settings.localized.defaultCopyTemplate)
+    const localized = settings.persist.localized[editions.currentEdition.locale]
+    const tpl = copyTemplate ?? localized.copyTemplates.find(it => it.name === localized.defaultCopyTemplate)
 
     if (!tpl) return new Error(t('searchStore.noTemplateFound'))
     if (!editionContent.value) return new Error(t('searchStore.editionContentNotLoaded'))
@@ -198,8 +197,8 @@ export const useSearchStore = defineStore('search', () => {
 
     try {
       return fragments.value
-      .map((it) => formatPassage(it, tpl, editionContent.value as EditionContent))
-      .join('\n\n')
+        .map((it) => formatPassage(it, tpl, editionContent.value as EditionContent))
+        .join('\n\n')
     } catch (error) {
       return new Error(errorMessage(t('searchStore.formattingError'), error))
     }

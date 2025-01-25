@@ -229,8 +229,30 @@ export function assertShowing(target: Target, options = {}) {
 //   return find(target).should('have.text', text)
 // }
 
+// export function assertText(target: Target, text: string) {
+//   return find(target).then(($el) => {
+//     const isInput = $el.is('input, textarea') // Check if the element is an input or textarea
+
+//     if (isInput) {
+//       const value = $el.val() // Get the input value
+//       if (value) {
+//         // Assert the input value if it's not empty
+//         expect(value).to.equal(text)
+//       } else {
+//         // Assert the text of the parent element if the input value is empty
+//         const parentText = $el.parent().text().trim()
+//         expect(parentText).to.equal(text)
+//       }
+//     } else {
+//       // Assert the text if the element is not an input
+//       const elementText = $el.text().trim()
+//       expect(elementText).to.equal(text)
+//     }
+//   })
+// }
+
 export function assertText(target: Target, text: string) {
-  return find(target).then(($el) => {
+  return find(target).should(($el) => {
     const isInput = $el.is('input, textarea') // Check if the element is an input or textarea
 
     if (isInput) {
@@ -249,6 +271,20 @@ export function assertText(target: Target, text: string) {
       expect(elementText).to.equal(text)
     }
   })
+}
+
+export function assertHtmlContains(target: Target, htmlFragment: string) {
+  return find(target).should(($el) => {
+    const elementHtml = $el.html(); // Get the HTML content of the element
+    expect(elementHtml).to.include(htmlFragment); // Assert that the HTML contains the fragment
+  });
+}
+
+export function assertHtmlNotContains(target: Target, htmlFragment: string) {
+  return find(target).should(($el) => {
+    const elementHtml = $el.html(); // Get the HTML content of the element
+    expect(elementHtml).to.not.include(htmlFragment); // Assert that the HTML does not contain the fragment
+  });
 }
 
 export function assertTextContains(target: Target, text: string) {

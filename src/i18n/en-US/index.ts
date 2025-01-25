@@ -66,7 +66,7 @@ export default {
     enableNavigation: 'Enable navigation',
     formatFailed: 'Formatting failed',
     formattedLayout: 'Change layout to formatted for printing',
-    foundPassages: 'Found passages:',
+    foundPassages: 'Found:',
     nextChapter: 'Next chapter',
     noSelectedVerses: 'No verses selected',
     notConfiguredFor: 'is not configured for',

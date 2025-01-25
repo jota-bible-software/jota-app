@@ -1,71 +1,72 @@
 <template>
-  <div id="message" v-if="!showPicker" class="q-my-sm">
+  <div>
+    <div id="message" v-if="!showPicker" class="row items-center q-gutter-sm">
 
-    <q-circular-progress v-show="progress > 0" color="primary" track-color="grey-4" size="sm" indeterminate
-      class="q-mr-sm" />
-    <span v-if="progress > 0" class="q-mr-sm">{{ $t('messageLine.searching') }}</span>
+      <q-circular-progress v-show="isSearching" color="primary" track-color="grey-4" size="sm" indeterminate
+        class="q-mr-sm" />
+      <div v-if="isSearching" class="q-mr-sm">{{ $t('messageLine.searching') }}</div>
+      <span v-else-if="!isFound && searchTerm !== ''"
+        :data-tag="tags.nothingFound">{{ $t('messageLine.notFound') }}</span>
 
-    <span v-else-if="passages.length > 1">
-      {{ $t('messageLine.foundPassages') }}
-      <span style="font-weight: bold" :data-tag="tags.foundPassages">{{ passages.length }}</span>
+      <span v-if="error">{{ error }}</span>
 
-      <CopyButton class="q-mx-sm" tooltip="messageLine.copyFound" @click="copyFound" :data-tag="tags.copyFoundButton"
+
+      <span v-show="isFound">{{ $t('messageLine.foundPassages') }}</span>
+      <span v-show="isFound" style="font-weight: bold" :data-tag="tags.foundPassages">{{ passages.length }}</span>
+
+      <CopyButton v-show="isFound" tooltip="messageLine.copyFound" @click="copyFound" :data-tag="tags.copyFoundButton"
         :data-tag-item="tags.copyFoundOption" />
 
-      <q-btn outline dense icon="icon-mat-vertical_split" text-color="primary" @click="setSplitLayout"
-        v-show="layout === 'formatted'" :data-tag="tags.layoutToggle">
+      <q-btn v-show="isFound && layout === 'formatted'" outline dense icon="icon-mat-vertical_split"
+        text-color="primary" @click="setSplitLayout" :data-tag="tags.layoutToggle">
         <q-tooltip>{{ $t('messageLine.enableNavigation') }}</q-tooltip>
       </q-btn>
 
-      <q-btn outline dense class="q-mx-sm" icon="icon-mat-view_agenda" text-color="primary" @click="layout = 'formatted'"
-        v-show="layout === 'split'">
+      <q-btn v-show="isFound && layout === 'split'" outline dense icon="icon-mat-view_agenda" text-color="primary"
+        @click="layout = 'formatted'">
         <q-tooltip>{{ $t('messageLine.formattedLayout') }}</q-tooltip>
       </q-btn>
 
-      <q-btn outline dense class="q-mx-sm" icon="icon-la-sort-numeric-down" @click="sortAndDeduplicate"
+      <q-btn v-show="isFound" outline dense icon="icon-la-sort-numeric-down" @click="sortAndDeduplicate"
         :text-color="shouldSort ? 'primary' : 'disabled'">
         <q-tooltip>{{ $t('messageLine.sortAndDeduplicate') }}</q-tooltip>
       </q-btn>
-    </span>
 
-    <span v-else-if="error">{{ error }}</span>
+      <!-- Passage displayed -->
+      <span v-if="layout === 'split'">
+        <span v-if="chapterFragment">
+          <span id="chapter-label" class="q-mr-sm gt-xs">{{ $t('messageLine.chapterLabel') }}</span>
+          <span class="bold q-mr-xs text-accent" :data-tag="tags.chapterCaption">{{ chapterCaption }}</span>
+        </span>
 
-    <span v-else-if="passages.length === 0 && searchTerm !== ''"
-      :data-tag="tags.nothingFound">{{ $t('messageLine.notFound') }}</span>
+        <q-btn-group v-if="chapterFragment" outline class="q-ml-sm">
+          <!-- Previous chapter -->
+          <q-btn outline dense text-color="primary" icon="icon-mat-navigate_before" @click="goToAdjacentChapter(-1)"
+            :data-tag="tags.previousChapterButton">
+            <q-tooltip>{{ $t('messageLine.previousChapter') }}</q-tooltip>
+          </q-btn>
+          <!-- Next chapter -->
+          <q-btn outline dense text-color="primary" icon="icon-mat-navigate_next" @click="goToAdjacentChapter(1)"
+            :data-tag="tags.nextChapterButton">
+            <q-tooltip>{{ $t('messageLine.nextChapter') }}</q-tooltip>
+          </q-btn>
+        </q-btn-group>
 
-    <!-- Passage displayed -->
-    <span v-else-if="layout === 'split'">
-      <span v-if="chapterFragment">
-        <span id="chapter-label" class="q-mr-sm gt-xs">{{ $t('messageLine.chapterLabel') }}</span>
-        <span class="bold q-mr-xs text-accent" :data-tag="tags.chapterCaption">{{ chapterCaption }}</span>
+        <!-- Copy single selected passage -->
+        <CopyButton v-show="hasSelection" text-color="primary" tooltip="messageLine.copySelected" @click="copySelected"
+          :data-tag="tags.copySelectedButton" :data-tag-item="tags.copySelectedOption" />
+
+        <q-btn id="player" v-if="settings.persist.appearance.locale === 'pl-PL'" v-show="store.chapterFragment" outline
+          dense text-color="primary" class="q-ml-sm" icon="icon-mat-volume_up" @click="toggleAudio">
+
+          <q-tooltip>{{ $t('messageLine.playAudio') }}</q-tooltip>
+        </q-btn>
       </span>
+    </div>
 
-      <q-btn-group v-if="chapterFragment" outline class="q-ml-sm">
-        <!-- Previous chapter -->
-        <q-btn outline dense text-color="primary" icon="icon-mat-navigate_before" @click="goToAdjacentChapter(-1)"
-          :data-tag="tags.previousChapterButton">
-          <q-tooltip>{{ $t('messageLine.previousChapter') }}</q-tooltip>
-        </q-btn>
-        <!-- Next chapter -->
-        <q-btn outline dense text-color="primary" icon="icon-mat-navigate_next" @click="goToAdjacentChapter(1)"
-          :data-tag="tags.nextChapterButton">
-          <q-tooltip>{{ $t('messageLine.nextChapter') }}</q-tooltip>
-        </q-btn>
-      </q-btn-group>
-
-      <!-- Copy single selected passage -->
-      <CopyButton v-show="hasSelection" text-color="primary" tooltip="messageLine.copySelected" @click="copySelected"
-        :data-tag="tags.copySelectedButton" :data-tag-item="tags.copySelectedOption" />
-
-      <q-btn id="player" v-if="settings.persist.appearance.locale === 'pl-PL'" v-show="store.chapterFragment" outline
-        dense text-color="primary" class="q-ml-sm" icon="icon-mat-volume_up" @click="toggleAudio">
-
-        <q-tooltip>{{ $t('messageLine.playAudio') }}</q-tooltip>
-      </q-btn>
-    </span>
-  </div>
-  <div>
-    <AudioPlayer />
+    <div>
+      <AudioPlayer />
+    </div>
   </div>
 </template>
 
@@ -81,7 +82,6 @@ import { useI18n } from 'vue-i18n'
 import * as tags from 'src/tags'
 
 const { t } = useI18n()
-
 const store = useSearchStore()
 const { goToAdjacentChapter, chapterCaption, chapterFragment, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, showPicker, sortAndDeduplicate } = toRefs(store)
 
@@ -89,6 +89,9 @@ const settings = useSettingsStore()
 
 const q = useQuasar()
 const { copy } = useClipboard()
+
+const isSearching = computed(() => progress.value > 0)
+const isFound = computed(() => passages.value.length > 0)
 
 function setSplitLayout() {
   store.layout = 'split'
