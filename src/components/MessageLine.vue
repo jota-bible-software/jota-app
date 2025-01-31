@@ -10,24 +10,23 @@
 
       <span v-if="error">{{ error }}</span>
 
+      <span v-show="showFound">{{ $t('messageLine.foundPassages') }}</span>
+      <span v-show="showFound" style="font-weight: bold" :data-tag="tags.foundPassages">{{ passages.length }}</span>
 
-      <span v-show="isFound">{{ $t('messageLine.foundPassages') }}</span>
-      <span v-show="isFound" style="font-weight: bold" :data-tag="tags.foundPassages">{{ passages.length }}</span>
-
-      <CopyButton v-show="isFound" tooltip="messageLine.copyFound" @click="copyFound" :data-tag="tags.copyFoundButton"
+      <CopyButton v-show="showFound" tooltip="messageLine.copyFound" @click="copyFound" :data-tag="tags.copyFoundButton"
         :data-tag-item="tags.copyFoundOption" />
 
-      <q-btn v-show="isFound && layout === 'formatted'" outline dense icon="icon-mat-vertical_split"
+      <q-btn v-show="showFound && layout === 'formatted'" outline dense icon="icon-mat-vertical_split"
         text-color="primary" @click="setSplitLayout" :data-tag="tags.layoutToggle">
         <q-tooltip>{{ $t('messageLine.enableNavigation') }}</q-tooltip>
       </q-btn>
 
-      <q-btn v-show="isFound && layout === 'split'" outline dense icon="icon-mat-view_agenda" text-color="primary"
+      <q-btn v-show="showFound && layout === 'split'" outline dense icon="icon-mat-view_agenda" text-color="primary"
         @click="layout = 'formatted'">
         <q-tooltip>{{ $t('messageLine.formattedLayout') }}</q-tooltip>
       </q-btn>
 
-      <q-btn v-show="isFound" outline dense icon="icon-la-sort-numeric-down" @click="sortAndDeduplicate"
+      <q-btn v-show="showFound" outline dense icon="icon-la-sort-numeric-down" @click="sortAndDeduplicate"
         :text-color="shouldSort ? 'primary' : 'disabled'">
         <q-tooltip>{{ $t('messageLine.sortAndDeduplicate') }}</q-tooltip>
       </q-btn>
@@ -36,7 +35,8 @@
       <span v-if="layout === 'split'">
         <span v-if="chapterFragment">
           <span id="chapter-label" class="q-mr-sm gt-xs">{{ $t('messageLine.chapterLabel') }}</span>
-          <span class="bold q-mr-xs text-accent" :data-tag="tags.chapterCaption">{{ chapterCaption }}</span>
+          <span class="bold q-mr-xs text-accent" @click="handleChapterClick()"
+            :data-tag="tags.chapterCaption">{{ chapterCaption }}</span>
         </span>
 
         <q-btn-group v-if="chapterFragment" outline class="q-ml-sm">
@@ -56,8 +56,8 @@
         <CopyButton v-show="hasSelection" text-color="primary" tooltip="messageLine.copySelected" @click="copySelected"
           :data-tag="tags.copySelectedButton" :data-tag-item="tags.copySelectedOption" />
 
-        <q-btn id="player" v-if="settings.persist.appearance.locale === 'pl-PL'" v-show="store.chapterFragment" outline
-          dense text-color="primary" class="q-ml-sm" icon="icon-mat-volume_up" @click="toggleAudio">
+        <q-btn id="player" v-if="audioVisible" v-show="store.chapterFragment" outline dense text-color="primary"
+          class="q-ml-sm" icon="icon-mat-volume_up" @click="store.toggleAudio">
 
           <q-tooltip>{{ $t('messageLine.playAudio') }}</q-tooltip>
         </q-btn>
@@ -65,6 +65,7 @@
     </div>
 
     <div>
+      <!-- AudioPlayer -->
       <AudioPlayer />
     </div>
   </div>
@@ -80,18 +81,27 @@ import AudioPlayer from 'src/components/AudioPlayer.vue'
 import CopyButton from './CopyButton.vue'
 import { useI18n } from 'vue-i18n'
 import * as tags from 'src/tags'
+import { useEditionStore } from 'src/stores/edition-store'
 
 const { t } = useI18n()
 const store = useSearchStore()
 const { goToAdjacentChapter, chapterCaption, chapterFragment, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, showPicker, sortAndDeduplicate } = toRefs(store)
 
 const settings = useSettingsStore()
+const editions = useEditionStore()
 
 const q = useQuasar()
 const { copy } = useClipboard()
 
 const isSearching = computed(() => progress.value > 0)
 const isFound = computed(() => passages.value.length > 0)
+const showFound = computed(() => isFound.value && passages.value.length > 1)
+const audioVisible = computed(() => editions.currentEdition.locale === 'pl-PL')
+
+function handleChapterClick() {
+  store.referencePickerUseChapter = true
+  store.showPicker = true
+}
 
 function setSplitLayout() {
   store.layout = 'split'
@@ -140,10 +150,6 @@ function copyFound(template?: CopyTemplateData) {
       type: 'positive'
     })
   }
-}
-
-function toggleAudio() {
-  store.audioOn = !store.audioOn
 }
 
 </script>

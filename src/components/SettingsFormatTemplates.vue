@@ -82,52 +82,52 @@
 
         <LabelRow>
           <div class="col">{{ $t('settingsFormatTemplates.separatorChar') }}</div>
-          <q-input v-model="editedItem.separatorChar" class="short-input"
+          <CharacterInput v-model="editedItem.separatorChar"
             :data-tag="tags.settingsFormatTemplateSeparatorChar" />
         </LabelRow>
 
         <LabelRow>
           <div class="col">{{ $t('settingsFormatTemplates.rangeChar') }}</div>
-          <q-input v-model="editedItem.rangeChar" class="short-input"
+          <CharacterInput v-model="editedItem.rangeChar"
             :data-tag="tags.settingsFormatTemplateRangeChar" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundReference') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <q-input v-model="editedItem.referenceCharsBefore" class="short-input"
+          <CharacterInput v-model="editedItem.referenceCharsBefore"
             :data-tag="tags.settingsFormatTemplateReferenceCharsBefore" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <q-input v-model="editedItem.referenceCharsAfter" class="short-input"
+          <CharacterInput v-model="editedItem.referenceCharsAfter"
             :data-tag="tags.settingsFormatTemplateReferenceCharsAfter" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundQuote') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <q-input v-model="editedItem.quoteCharsBefore" class="short-input"
+          <CharacterInput v-model="editedItem.quoteCharsBefore"
             :data-tag="tags.settingsFormatTemplateQuoteCharsBefore" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <q-input v-model="editedItem.quoteCharsAfter" class="short-input"
+          <CharacterInput v-model="editedItem.quoteCharsAfter"
             :data-tag="tags.settingsFormatTemplateQuoteCharsAfter" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundVerseNumber') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <q-input v-model="editedItem.verseNumberCharsBefore" class="short-input"
+          <CharacterInput v-model="editedItem.verseNumberCharsBefore"
             :data-tag="tags.settingsFormatTemplateNumberCharsBefore" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <q-input v-model="editedItem.verseNumberCharsAfter" class="short-input"
+          <CharacterInput v-model="editedItem.verseNumberCharsAfter"
             :data-tag="tags.settingsFormatTemplateNumberCharsAfter" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundEditionAbbreviation') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <q-input v-model="editedItem.editionAbbreviationCharsBefore" class="short-input" />
+          <CharacterInput v-model="editedItem.editionAbbreviationCharsBefore" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <q-input v-model="editedItem.editionAbbreviationCharsAfter" class="short-input" />
+          <CharacterInput v-model="editedItem.editionAbbreviationCharsAfter" />
         </LabelRow>
 
         <div>{{ $t('settingsFormatTemplates.example') }}</div>
@@ -170,7 +170,6 @@
   </SettingsPanel>
 </template>
 
-
 <script setup lang="ts">
 // TODO make sure the name is unique
 import { Dialog, QForm } from 'quasar'
@@ -183,6 +182,7 @@ import { Ref, computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import LabelRow from './LabelRow.vue'
 import SettingsPanel from './SettingsPanel.vue'
+import CharacterInput from './CharacterInput.vue'
 const { t } = useI18n()
 
 const settings = useSettingsStore()
@@ -232,6 +232,13 @@ function save() {
 
   if (selected.value === settings.persist.appFormatTemplateName) {
     settings.persist.appFormatTemplateName = editedItem.value.name
+  }
+
+  // Change the name of format template in all copy templates
+  for (const t of settings.focusedLocalized.copyTemplates) {
+    if (t.formatTemplate === selected.value) {
+      t.formatTemplate = editedItem.value.name
+    }
   }
 
   editedItem.value = { ...emptyItem }
@@ -295,19 +302,9 @@ function validateName(v: string) {
       ? t('settingsFormatTemplates.nameAlreadyExists')
       : true
 }
-
 </script>
 
-
 <style lang="scss">
-.short-input {
-  max-width: 3em;
-
-  input {
-    text-align: center;
-  }
-}
-
 .chars-around-label {
   min-width: 14em;
   flex-grow: 1;

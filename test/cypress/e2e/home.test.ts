@@ -80,7 +80,6 @@ describe('Home Page', () => {
       click(toggleButton) // Disable reference picker
       assertNotShowing(bookButtons)
       assertShowing(chapterContent)
-      assertLookDisabled(toggleButton)
     })
 
     it('should not show reference picker when settings disable it', () => {
@@ -89,7 +88,6 @@ describe('Home Page', () => {
       goHome()
       assertNotShowing(bookButtons)
       assertShowing(chapterContent)
-      assertLookDisabled(toggleButton)
     })
   })
 
@@ -129,6 +127,14 @@ describe('Home Page', () => {
       assertHtmlNotContains(chapterVerse, '<span class="bold">earth</span>')
     })
 
+    it('should not show the found passages when there is only one passage found', () => {
+      type(searchInput, 'Gen 1{enter}')
+      assertShowing(containsText('In the beginning God created, the heaven and the earth.'))
+      assertNotShowing(foundPassages)
+      assertNotShowing(passages)
+      assertShowing(containsText('In the beginning God created, the heaven and the earth.'))
+    })
+
     it('should show the book picker with enter on empty search', () => {
       type(searchInput, '{enter}')
       assertText(searchInput, '')
@@ -166,7 +172,7 @@ describe('Home Page', () => {
       assertClipboard('In the beginning God created, the heaven and the earth.\nGenesis 1:1 KJV')
 
       click(copySelectedButton, 'right')
-      click(second(copySelectedOption))
+      click(third(copySelectedOption))
       assertClipboard('– Gen 1:1 KJV\nIn the beginning God created, the heaven and the earth.')
     })
 

@@ -10,7 +10,7 @@
       <q-item v-for="item in items" :key="item.name" class="q-px-none1" :clickable="selected !== item.name"
         @click="edit(item)">
         <q-item-section>
-          <div v-if="selected !== item.name">
+          <div v-if="!selected || selected !== item.name">
             <div class="row items-center">
               <div class="col" :data-tag="tags.settingsCopyTemplatesItemName">
                 {{ item.name }}
@@ -258,7 +258,8 @@ function save() {
   reset()
 }
 
-function reset() {
+function reset(event?: MouseEvent) {
+  event?.stopPropagation()
   selected.value = ''
   editedItem.value = { ...emptyItem }
 }

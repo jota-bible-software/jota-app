@@ -3,9 +3,23 @@ import { FormatTemplateData, Formatted, Passage, EditionContent } from 'src/type
 /**
  * Returns a structure that holds the reference separately from the verses content.
  */
+function replaceEnterChar(str: string): string {
+  return str.replace(/⏎/g, '\n')
+}
+
 export function formatComposable(template: FormatTemplateData, passage: Passage, editionContent: EditionContent, bookNames: string[], editionAbbreviation: string): Formatted | undefined {
   // All the variables used in the template must declared as loca variables here
-  const t = template
+  const t = {
+    ...template,
+    referenceCharsBefore: replaceEnterChar(template.referenceCharsBefore),
+    referenceCharsAfter: replaceEnterChar(template.referenceCharsAfter),
+    editionAbbreviationCharsBefore: replaceEnterChar(template.editionAbbreviationCharsBefore),
+    editionAbbreviationCharsAfter: replaceEnterChar(template.editionAbbreviationCharsAfter),
+    quoteCharsBefore: replaceEnterChar(template.quoteCharsBefore),
+    quoteCharsAfter: replaceEnterChar(template.quoteCharsAfter),
+    verseNumberCharsBefore: replaceEnterChar(template.verseNumberCharsBefore),
+    verseNumberCharsAfter: replaceEnterChar(template.verseNumberCharsAfter)
+  }
   const [bi, ci, si, ei] = passage
   const chapter = ci + 1
   const chapterContent = editionContent[bi][ci]

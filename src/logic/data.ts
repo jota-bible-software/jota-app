@@ -2,36 +2,36 @@ import { LocaleSymbol, EditionMeta, CopyTemplateData, FormatTemplateData, Langua
 
 
 export const localeData: Array<{ symbol: LocaleSymbol, langName: string, regionName: string }> = [
-  {
-    symbol: 'en-GB',
-    langName: 'English',
-    regionName: 'Great Britain'
-  },
+  // {
+  //   symbol: 'en-GB',
+  //   langName: 'English',
+  //   regionName: 'Great Britain'
+  // },
   {
     symbol: 'en-US',
     langName: 'English',
     regionName: 'United States'
   },
-  {
-    symbol: 'es-ES',
-    langName: 'Español',
-    regionName: 'España'
-  },
+  // {
+  //   symbol: 'es-ES',
+  //   langName: 'Español',
+  //   regionName: 'España'
+  // },
   {
     symbol: 'pl-PL',
     langName: 'Polski',
     regionName: 'Polska'
   },
-  {
-    symbol: 'pt-PT',
-    langName: 'Português',
-    regionName: 'Portugal'
-  },
-  {
-    symbol: 'uk-UA',
-    langName: 'Українська',
-    regionName: 'Україна'
-  }
+  // {
+  //   symbol: 'pt-PT',
+  //   langName: 'Português',
+  //   regionName: 'Portugal'
+  // },
+  // {
+  //   symbol: 'uk-UA',
+  //   langName: 'Українська',
+  //   regionName: 'Україна'
+  // }
 ]
 
 export const bookNamings = [
@@ -984,103 +984,152 @@ export const bookNamings = [
 export const copyTemplates: Record<LocaleSymbol, CopyTemplateData[]> = {
   'en-US': [
     {
-      name: 'Presentation',
-      formatTemplate: 'English presentation',
-      bookNaming: 'Standard'
-    }, {
-      name: 'Study',
-      formatTemplate: 'Studium',
-      bookNaming: 'SBL abbreviations'
+      'name': 'Presentation',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Separate lines',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Study',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
     }
   ],
   'pl-PL': [
     {
-      name: 'Prezentacja',
-      formatTemplate: 'Polska prezentacja',
-      bookNaming: 'EIB skrócone'
+      'name': 'Oficjalny',
+      'formatTemplate': 'PL – oficjalny w cudzysłowiu',
+      'bookNaming': 'EIB pełne'
     },
     {
-      name: 'Studium',
-      formatTemplate: 'Studium',
-      bookNaming: 'Moje pl'
+      'name': 'Prezentacja',
+      'formatTemplate': 'PL – prezentacja',
+      'bookNaming': 'EIB skrócone'
+    },
+    {
+      'name': 'Studium',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'Moje pl'
     }
   ],
 }
 
-export const formatTemplates: FormatTemplateData[] = [
-  {
-    name: 'App format',
-    referencePosition: 'before',
-    referenceLine: 'same line',
-    editionAbbreviation: 'none',
-    numbers: false,
-    verseNewLine: false,
-    separatorChar: ':',
-    rangeChar: '-',
-    referenceCharsBefore: '',
-    referenceCharsAfter: '',
-    quoteCharsBefore: '',
-    quoteCharsAfter: '',
-    verseNumberCharsBefore: '',
-    verseNumberCharsAfter: '',
-    editionAbbreviationCharsBefore: '',
-    editionAbbreviationCharsAfter: '',
-  },
-  {
-    name: 'English presentation',
-    referencePosition: 'after',
-    referenceLine: 'new line',
-    editionAbbreviation: 'uppercase',
-    numbers: false,
-    verseNewLine: false,
-    separatorChar: ':',
-    rangeChar: '-',
-    referenceCharsBefore: '',
-    referenceCharsAfter: '',
-    quoteCharsBefore: '',
-    quoteCharsAfter: '',
-    verseNumberCharsBefore: '',
-    verseNumberCharsAfter: '',
-    editionAbbreviationCharsBefore: '',
-    editionAbbreviationCharsAfter: '',
-  },
-  {
-    name: 'Polska prezentacja',
-    referencePosition: 'after',
-    referenceLine: 'new line',
-    editionAbbreviation: 'uppercase',
-    numbers: false,
-    verseNewLine: false,
-    separatorChar: ',',
-    rangeChar: '-',
-    referenceCharsBefore: '',
-    referenceCharsAfter: '',
-    quoteCharsBefore: '',
-    quoteCharsAfter: '',
-    verseNumberCharsBefore: '',
-    verseNumberCharsAfter: '',
-    editionAbbreviationCharsBefore: '',
-    editionAbbreviationCharsAfter: '',
-  },
-  {
-    name: 'Studium',
-    referencePosition: 'before',
-    referenceLine: 'new line',
-    editionAbbreviation: 'uppercase',
-    numbers: true,
-    verseNewLine: false,
-    separatorChar: ':',
-    rangeChar: '-',
-    referenceCharsBefore: '– ',
-    referenceCharsAfter: '',
-    quoteCharsBefore: '',
-    quoteCharsAfter: '',
-    verseNumberCharsBefore: '(',
-    verseNumberCharsAfter: ')',
-    editionAbbreviationCharsBefore: '',
-    editionAbbreviationCharsAfter: ''
-  },
-]
+export const formatTemplates: FormatTemplateData[] =
+  [
+    {
+      'name': 'App format',
+      'referencePosition': 'before',
+      'referenceLine': 'same line',
+      'editionAbbreviation': 'none',
+      'numbers': false,
+      'verseNewLine': false,
+      'separatorChar': ':',
+      'rangeChar': '-',
+      'referenceCharsBefore': '',
+      'referenceCharsAfter': '',
+      'quoteCharsBefore': '',
+      'quoteCharsAfter': '',
+      'verseNumberCharsBefore': '',
+      'verseNumberCharsAfter': '',
+      'editionAbbreviationCharsBefore': '',
+      'editionAbbreviationCharsAfter': ''
+    },
+    {
+      'name': 'English presentation',
+      'referencePosition': 'after',
+      'referenceLine': 'new line',
+      'editionAbbreviation': 'uppercase',
+      'numbers': false,
+      'verseNewLine': false,
+      'separatorChar': ':',
+      'rangeChar': '-',
+      'referenceCharsBefore': '',
+      'referenceCharsAfter': '',
+      'quoteCharsBefore': '',
+      'quoteCharsAfter': '',
+      'verseNumberCharsBefore': '',
+      'verseNumberCharsAfter': '',
+      'editionAbbreviationCharsBefore': '',
+      'editionAbbreviationCharsAfter': ''
+    },
+    {
+      'name': 'PL – oficjalny w cudzysłowiu',
+      'referencePosition': 'after',
+      'referenceLine': 'new line',
+      'editionAbbreviation': 'none',
+      'numbers': false,
+      'verseNewLine': false,
+      'separatorChar': ',',
+      'rangeChar': '-',
+      'referenceCharsBefore': '',
+      'referenceCharsAfter': '',
+      'quoteCharsBefore': '"',
+      'quoteCharsAfter': '"',
+      'verseNumberCharsBefore': '',
+      'verseNumberCharsAfter': '',
+      'editionAbbreviationCharsBefore': '',
+      'editionAbbreviationCharsAfter': ''
+    },
+    {
+      'name': 'PL – prezentacja',
+      'referencePosition': 'after',
+      'referenceLine': 'new line',
+      'editionAbbreviation': 'uppercase',
+      'numbers': false,
+      'verseNewLine': false,
+      'separatorChar': ',',
+      'rangeChar': '-',
+      'referenceCharsBefore': '',
+      'referenceCharsAfter': '',
+      'quoteCharsBefore': '',
+      'quoteCharsAfter': '',
+      'verseNumberCharsBefore': '',
+      'verseNumberCharsAfter': '',
+      'editionAbbreviationCharsBefore': '',
+      'editionAbbreviationCharsAfter': ''
+    },
+    {
+      'name': 'Separate lines',
+      'referencePosition': 'before',
+      'referenceLine': 'same line',
+      'editionAbbreviation': 'uppercase',
+      'numbers': true,
+      'verseNewLine': true,
+      'separatorChar': ':',
+      'rangeChar': '-',
+      'referenceCharsBefore': '',
+      'referenceCharsAfter': '',
+      'quoteCharsBefore': '',
+      'quoteCharsAfter': '',
+      'verseNumberCharsBefore': '(',
+      'verseNumberCharsAfter': ')',
+      'editionAbbreviationCharsBefore': '',
+      'editionAbbreviationCharsAfter': ''
+    },
+    {
+      'name': 'Studium',
+      'referencePosition': 'before',
+      'referenceLine': 'new line',
+      'editionAbbreviation': 'uppercase',
+      'numbers': true,
+      'verseNewLine': false,
+      'separatorChar': ':',
+      'rangeChar': '-',
+      'referenceCharsBefore': '– ',
+      'referenceCharsAfter': '',
+      'quoteCharsBefore': '',
+      'quoteCharsAfter': '',
+      'verseNumberCharsBefore': '(',
+      'verseNumberCharsAfter': ')',
+      'editionAbbreviationCharsBefore': '',
+      'editionAbbreviationCharsAfter': ''
+    }
+
+  ]
 
 export const bookOrder = {
   pl: {

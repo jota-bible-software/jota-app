@@ -31,6 +31,7 @@ export const useSearchStore = defineStore('search', () => {
   const separator = ref(':')
   const shouldSort = ref(false)
   const showPicker = ref(false)
+  const referencePickerUseChapter = ref(false)
   const words = ref(true)
 
   const books = computed(() => settings.appBookNames)
@@ -282,14 +283,16 @@ export const useSearchStore = defineStore('search', () => {
     searchTermHighlightReplacement.value = ''
   }
 
+  function toggleAudio() {
+    audioOn.value = !audioOn.value
+  }
+
   return {
     audioOn,
-    goToAdjacentChapter,
-    goToAdjacentVerse,
-    goToAdjacentPage,
     chapterCaption,
     chapterFragment,
     chapterVerses,
+    clearFragments,
     copyTemplates: settings.localized.copyTemplates,
     error,
     findByInput,
@@ -300,6 +303,9 @@ export const useSearchStore = defineStore('search', () => {
     found,
     fragments,
     fragmentIndex,
+    goToAdjacentChapter,
+    goToAdjacentPage,
+    goToAdjacentVerse,
     hasSelection,
     highlightSearchTerm,
     input,
@@ -309,24 +315,25 @@ export const useSearchStore = defineStore('search', () => {
     passages,
     progress,
     readInContext,
+    referencePickerUseChapter,
     scrollToIndex,
+    searchTerm,
+    searchTermHighlightRegex,
+    searchTermHighlightReplacement,
     selectInChapter,
+    selectionClasses,
     selectionEnd,
     selectionStart,
-    selectionClasses,
-    searchTermHighlightRegex,
-    searchTerm,
-    searchTermHighlightReplacement,
     separator,
+    setChapterFragment,
     setFragmentIndex,
+    setLayout,
     shouldSort,
     shouldSortTooltip,
-    words,
     showPicker,
     sortAndDeduplicate,
-    setLayout,
-    clearFragments,
+    toggleAudio,
     updateSelectionClasses,
-    setChapterFragment,
+    words
   }
 })

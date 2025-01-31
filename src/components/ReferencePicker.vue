@@ -3,10 +3,10 @@
     <div class="info row q-my-sm items-center">
       <span class="text-accent">{{ message }}</span>
 
-      <span v-if="isBookSelected" class="bold q-mr-lg">{{ passageName }}</span>
+      <span v-if="isBookSelected" class="bold q-mr-sm">{{ passageName }}</span> 
 
-      <q-btn :data-tag="tags.referencePickerBackButton" outline dense text-color="primary" class="q-ml-sm"
-        icon="icon-mat-undo" v-show="isBookSelected" @click="back">
+      <q-btn :data-tag="tags.referencePickerBackButton" outline dense text-color="primary"
+        icon="icon-mdi-arrow-up-left" v-show="isBookSelected" @click="back">
         <q-tooltip>{{ t('referencePicker.backTooltip') }} {{ backTooltip }}</q-tooltip>
       </q-btn>
     </div>

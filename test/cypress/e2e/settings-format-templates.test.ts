@@ -2,6 +2,7 @@ describe('Settings Format Templates', () => {
   const goSettings = () => navigate('/settings')
   // const appScreenTemplate = tag(tags.settingsFormatTemplateAppScreen)
   const formatTemplatesPanel = tag(tags.settingsPageFormatTemplates)
+  const copyTemplatesPanel = tag(tags.settingsPageCopyTemplates)
   const settingsPanelTitle = tag(tags.settingsPanelTitle)
   const itemName = tag(tags.settingsFormatTemplatesItemName)
   const addButton = tag(tags.settingsFormatTemplatesAdd)
@@ -15,10 +16,14 @@ describe('Settings Format Templates', () => {
   const cancelButton = tag(tags.settingsFormatTemplateCancel)
   const removeButton = tag(tags.settingsFormatTemplateRemove)
 
+  const copyTemplateItemName = tag(tags.settingsCopyTemplatesItemName)
+  const formatField = tag(tags.settingsCopyTemplatesFormat)
+
   // const searchInput = tag(tags.searchInput)
   // const formattedVerse = tag(tags.formattedVerse)
 
   const newFormatName = 'aaa'
+  const initialCount = 6
 
   beforeEach(() => {
     goSettings()
@@ -26,7 +31,7 @@ describe('Settings Format Templates', () => {
   })
 
   it('should display format templates panel correctly', () => {
-    assertCount(itemName, 4)
+    assertCount(itemName, initialCount)
     assertShowing(first(itemName))
   })
 
@@ -76,7 +81,7 @@ describe('Settings Format Templates', () => {
       click(saveButton)
 
       // Verify the new template is in the list
-      assertCount(itemName, 5)
+      assertCount(itemName, initialCount + 1)
       // Should be sorted and come first
       assertText(first(itemName), newFormatName)
     })
@@ -84,7 +89,7 @@ describe('Settings Format Templates', () => {
     it('should cancel the adding', () => {
       click(first(itemName))
       click(cancelButton)
-      assertCount(itemName, 4)
+      assertCount(itemName, initialCount)
       assertShowing(first(itemName))
     })
   })
@@ -124,6 +129,16 @@ describe('Settings Format Templates', () => {
       assertValue(separatorChar, ':')
     })
 
+    it('should update the name of format template in copy template', () => {
+      click(containsText('English presentation'))
+      type(nameField, newFormatName, true)
+      click(saveButton)
+
+      click(copyTemplatesPanel)
+      click(first(copyTemplateItemName))
+      assertText(formatField, newFormatName)
+    })
+
     // The app screen template was a premature feature, don't turn it on yet
     // it('should change the app screen template when renamed', () => {
     //   click(first(formatTemplatesItemName))
@@ -141,7 +156,7 @@ describe('Settings Format Templates', () => {
       click(addButton)
       type(nameField, newFormatName)
       click(saveButton)
-      assertCount(itemName, 5)
+      assertCount(itemName, initialCount + 1)
 
       // Open the new template
       click(first(itemName))
@@ -150,7 +165,7 @@ describe('Settings Format Templates', () => {
       clickDialogYes()
 
       // Verify template count decreased
-      assertCount(itemName, 4)
+      assertCount(itemName, initialCount)
 
       // Should clear the form and reset the name
       click(addButton)
@@ -161,13 +176,13 @@ describe('Settings Format Templates', () => {
       click(addButton)
       type(nameField, newFormatName)
       click(saveButton)
-      assertCount(itemName, 5)
+      assertCount(itemName, initialCount + 1)
 
       click(first(itemName))
       click(removeButton)
       clickDialogNo()
       click(cancelButton)
-      assertCount(itemName, 5)
+      assertCount(itemName, initialCount + 1)
     })
 
     it('should prevent removing the app screen template', () => {

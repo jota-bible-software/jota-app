@@ -17,12 +17,14 @@ describe('Settings Copy Templates', () => {
 
   const newTemplateName = 'aaa'
 
+  const initialCount = 3
+
   function addNewItem() {
     type(addNameField, newTemplateName)
     select(first(addFormatField), 'App format')
     select(addBookNamingField, 'Standard')
     click(addButton)
-    assertCount(itemName, 3)
+    assertCount(itemName, initialCount + 1)
   }
 
   beforeEach(() => {
@@ -31,7 +33,7 @@ describe('Settings Copy Templates', () => {
   })
 
   it('should display copy templates panel correctly', () => {
-    assertCount(itemName, 2) // Assuming there are 2 default copy templates
+    assertCount(itemName, initialCount) // Assuming there are 2 default copy templates
     assertShowing(first(itemName))
   })
 
@@ -57,7 +59,7 @@ describe('Settings Copy Templates', () => {
 
     it('should create a new copy template', () => {
       addNewItem()
-      assertCount(itemName, 3)
+      assertCount(itemName, initialCount + 1)
       // Should be sorted and come first
       assertText(first(itemName), newTemplateName)
 
@@ -114,6 +116,7 @@ describe('Settings Copy Templates', () => {
       click(first(itemName))
       type(nameField, 'Temporary Name', true)
       click(cancelButton)
+      assertNotShowing(nameField)
 
       // Reopen the template
       click(first(itemName))
@@ -139,7 +142,7 @@ describe('Settings Copy Templates', () => {
       clickDialogYes()
 
       // Verify template count decreased
-      assertCount(itemName, 2)
+      assertCount(itemName, initialCount)
     })
 
     it('should not remove template when dialog is canceled', () => {

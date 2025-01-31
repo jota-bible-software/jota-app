@@ -199,21 +199,24 @@ export function forEach<T>(target: Target, items: T[], assertFn: (element: HtmlE
 
 export function assertNotShowing(target: Target) {
   if (typeof target === 'string') {
-    // For string selectors, use cy.$$ to check if elements exist in the DOM
-    const elements = cy.$$(target)
-    if (elements.length > 0) {
-      // If elements exist, assert they are not visible
-      return cy.get(target).should('not.be.visible')
-    }
+    return cy.window().then((win) => {
+      const elements = win.document.querySelectorAll(target) // Check if the element exists
+      if (elements.length === 0) {
+        cy.log(`Element '${target}' does not exist`)
+        return cy.get(target).should('not.exist') // Assert non-existence
+      } else {
+        cy.log(`Element '${target}' exists but should not be visible`)
+        return cy.get(target).should('not.be.visible') // Assert it’s not visible
+      }
+    })
   } else if (Cypress.isCy(target)) {
-    // Narrow the type to Cypress.Chainable
     return target.then(($el) => {
       if ($el.length === 0) {
-        // Element does not exist
-        cy.wrap(null).should('not.exist')
+        cy.log(`Target does not exist`)
+        return cy.wrap($el).should('not.exist') // Assert non-existence
       } else {
-        // Element exists, check visibility
-        cy.wrap($el).should('not.be.visible')
+        cy.log(`Target exists but should not be visible`)
+        return cy.wrap($el).should('not.be.visible') // Assert it’s not visible
       }
     })
   } else {
