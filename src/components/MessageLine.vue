@@ -34,9 +34,8 @@
       <!-- Passage displayed -->
       <span v-if="layout === 'split'">
         <span v-if="chapterFragment">
-          <span id="chapter-label" class="q-mr-sm gt-xs">{{ $t('messageLine.chapterLabel') }}</span>
-          <span class="bold q-mr-xs text-accent" @click="handleChapterClick()"
-            :data-tag="tags.chapterCaption">{{ chapterCaption }}</span>
+          <q-btn dense no-caps class="q-pa-xs text-accent" @click="handleChapterClick()"
+            :data-tag="tags.chapterCaption">{{ chapterCaption }}</q-btn>
         </span>
 
         <q-btn-group v-if="chapterFragment" outline class="q-ml-sm">
@@ -58,7 +57,6 @@
 
         <q-btn id="player" v-if="audioVisible" v-show="store.chapterFragment" outline dense text-color="primary"
           class="q-ml-sm" icon="icon-mat-volume_up" @click="store.toggleAudio">
-
           <q-tooltip>{{ $t('messageLine.playAudio') }}</q-tooltip>
         </q-btn>
       </span>

@@ -127,6 +127,7 @@ useEventListener(document, 'keydown', (event) => {
     width: 100%;
     white-space: nowrap;
     min-height: 24px;
+    overflow: hidden;
   }
 
   .compact:hover {

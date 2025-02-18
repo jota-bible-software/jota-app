@@ -43,7 +43,7 @@ function onClick(template?: CopyTemplateData) {
 }
 
 function defaultSuffix(item: CopyTemplateData): string {
-  return item && item.name === settings.localized.defaultCopyTemplate ? t('messageLine.defaultTemplate') : ''
+  return item && item.name === settings.persist.localized[editions.currentEdition.locale].defaultCopyTemplate ? t('messageLine.defaultTemplate') : ''
 }
 
 function formattedSample(item: CopyTemplateData) {
