@@ -15,11 +15,21 @@ jobs:
         with:
           fetch-depth: 1  # Fetch only the latest commit
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Install dependencies
         run: pnpm install
 
       - name: Install cypress
-        run: npx cypress install
+        run: pnpm exec cypress install
 
       - name: Run vitest
         run: pnpm run test:unit:ci
@@ -32,11 +42,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshots
-          path: test/cypress/screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore
 
       - name: Upload cypress videos
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-videos
-          path: test/cypress/videos
+          path: cypress/videos
+          if-no-files-found: ignore
