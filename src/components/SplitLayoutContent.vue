@@ -30,9 +30,7 @@ const { focused: passagesFocused } = useFocusWithin(passagesRef)
 
 onMounted(() => {
   if (passages.value.length > 1 && passagesRef.value) {
-    useEventListener(passagesRef, 'keydown', (e) => {
-      handleArrowKeys
-    })
+    useEventListener(passagesRef, 'keydown', handleArrowKeys)
     passagesRef.value.focus()
   }
 })
