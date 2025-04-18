@@ -1,57 +1,59 @@
 <template>
   <q-page id="search" class="q-px-md q-pb-md q-gutter-xs">
-    <MainToolbar />
-    <div class="row full-width">
-      <MainBibleSelector class="q-mr-md lt-md" />
+    <div class="text-primary q-pt-sm">
+      <!-- Show only on the main page -->
+      <div class="row no-wrap items-center q-gutter-xs">
+        <q-input ref="input" v-model="store.input" :outlined="false"
+          :placeholder="$q.screen.gt.sm ? $t('mainPage.placeholderLong') : $t('mainPage.placeholderShort')" :disabled="store.loading" dense
+          style="margin-top: 0" autofocus @keyup.enter="find(store.input)" @keyup.esc="store.input = ''" full-width class="col"
+          :data-tag="tags.searchInput">
+          <template v-slot:append>
 
-      <q-input ref="input" v-model="store.input" :outlined="false"
-        :placeholder="$q.screen.gt.sm ? $t('mainPage.placeholderLong') : $t('mainPage.placeholderShort')"
-        :disabled="store.loading" dense style="margin-top: 0" autofocus @keyup.enter="find(store.input)"
-        @keyup.esc="store.input = ''" full-width class="col" :data-tag="tags.searchInput">
-        <template v-slot:append>
+            <!-- Clear search -->
+            <q-icon v-if="store.input !== ''" name="icon-mat-close" class="cursor-pointer" style="font-size: 0.8em" @click="clear"
+              :data-tag="tags.clearSearchButton">
+              <q-tooltip>{{ $t('mainPage.clearSearch') }}</q-tooltip>
+            </q-icon>
 
-          <!-- Clear search -->
-          <q-icon v-if="store.input !== ''" name="icon-mat-close" class="cursor-pointer" style="font-size: 0.8em"
-            @click="clear" :data-tag="tags.clearSearchButton">
-            <q-tooltip>{{ $t('mainPage.clearSearch') }}</q-tooltip>
-          </q-icon>
+            <q-icon name="icon-mat-search" @click="find(store.input)" class="cursor-pointer">
+              <q-tooltip>{{ $t('mainPage.search') }}</q-tooltip>
+            </q-icon>
+          </template>
 
-          <q-icon name="icon-mat-search" @click="find(store.input)" class="cursor-pointer">
-            <q-tooltip>{{ $t('mainPage.search') }}</q-tooltip>
-          </q-icon>
-        </template>
+        </q-input>
 
-        <template v-slot:after>
-          <ButtonWholeWords class="gt-xs" />
-        </template>
-      </q-input>
+        <q-space />
 
-      <ButtonBookSelector class="sm" />
-      <ButtonHelp class="sm" />
-      <ButtonSettings class="sm" />
+        <MainBibleSelector class="q-pr-sm" />
 
-      <q-btn dense flat icon="icon-mat-more_vert" class="lt-sm">
-        <q-menu>
-          <q-list style="min-width: 210px">
-            <q-item>
-              <ButtonWholeWords in-menu />
-            </q-item>
-            <q-item>
-              <ButtonBookSelector in-menu />
-            </q-item>
-            <!-- Make invisible help page is updated -->
-            <q-item v-if="false">
-              <ButtonHelp in-menu />
-            </q-item>
-            <q-item>
-              <ButtonSettings in-menu />
-            </q-item>
-          </q-list>
-        </q-menu>
-      </q-btn>
+        <ButtonWholeWords class="gt-xs" />
+        <ButtonBookSelector class="gt-xs"/>
+        <ButtonHelp class="gt-xs"/>
+        <ButtonSettings class="gt-xs"/>
+
+        <q-btn dense flat icon="icon-mat-more_vert" class="lt-sm">
+          <q-menu>
+            <q-list style="min-width: 210px">
+              <q-item>
+                <ButtonWholeWords in-menu />
+              </q-item>
+              <q-item>
+                <ButtonBookSelector in-menu />
+              </q-item>
+              <!-- Make invisible help page is updated -->
+              <q-item v-if="false">
+                <ButtonHelp in-menu />
+              </q-item>
+              <q-item>
+                <ButtonSettings in-menu />
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+      </div>
     </div>
 
-    <MessageLine />
+    <MessageLine class="q-mb-xs" />
 
     <div v-show="store.loading">
       <q-circular-progress indeterminate size="30px" color="accent" class="q-my-md q-mr-md" />
@@ -79,7 +81,6 @@ import ButtonHelp from 'src/components/ButtonHelp.vue'
 import ButtonSettings from 'src/components/ButtonSettings.vue'
 import ReferencePicker from 'src/components/ReferencePicker.vue'
 import MessageLine from 'src/components/MessageLine.vue'
-import MainToolbar from 'src/components/MainToolbar.vue'
 import { SearchOptions } from 'src/types'
 import { useEditionStore } from 'src/stores/edition-store'
 import * as tags from 'src/tags'

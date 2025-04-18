@@ -3,7 +3,7 @@ import { boot } from 'quasar/wrappers'
 
 const defaults = {
   formField: {
-    filled: true,
+    outlined: true,
     dense: true,
     'dropdown-icon': 'expand_more',
   },

@@ -1,7 +1,7 @@
 <template>
   <div ref="chapterRef" tabindex="0" class="chapter-container col bottom-clipped full-width">
     <q-list id="chapter" class="full-width" v-if="chapterVerses.length">
-      <q-item v-for="( s, i ) in chapterVerses" :key="i" :class="selectionClasses[i]" class="compact"
+      <q-item v-for="(s, i) in chapterVerses" :key="i" :class="selectionClasses[i]" class="compact"
         :ref="(el: ComponentPublicInstance) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse">
         <q-item-section class="reference text-secondary">{{ i + 1 }}</q-item-section>
         <q-item-section class="verse"><span v-html="highlightSearchTerm(s)" /></q-item-section>
@@ -113,11 +113,14 @@ function scrollPage(direction: Direction) {
   }
 
   .selection-single {
-    box-shadow: inset 1px 1px var(--q-primary), inset -1px -1px var(--q-primary);
+    box-shadow: inset 0 0 0 1px var(--q-primary);
+    border-radius: 5px;
   }
 
   .selection-start {
     box-shadow: inset 1px 1px var(--q-primary), inset -1px 1px var(--q-primary);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
   }
 
   .selection-middle {
@@ -126,6 +129,8 @@ function scrollPage(direction: Direction) {
 
   .selection-end {
     box-shadow: inset 1px -1px var(--q-primary), inset -1px -1px var(--q-primary);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
 
   .verse {
