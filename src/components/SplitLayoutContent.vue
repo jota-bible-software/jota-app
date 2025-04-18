@@ -66,6 +66,7 @@ function scrollToHighlightedItem() {
 
 useEventListener(document, 'keydown', handleArrowKeys)
 
+
 watch(fragmentIndex, () => {
   nextTick(() => {
     scrollToHighlightedItem()
