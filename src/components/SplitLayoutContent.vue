@@ -30,6 +30,9 @@ const { focused: passagesFocused } = useFocusWithin(passagesRef)
 
 onMounted(() => {
   if (passages.value.length > 1 && passagesRef.value) {
+    useEventListener(passagesRef, 'keydown', (e) => {
+      handleArrowKeys
+    })
     passagesRef.value.focus()
   }
 })
@@ -63,8 +66,6 @@ function scrollToHighlightedItem() {
     container.scrollTop += itemRect.top - containerRect.top
   }
 }
-
-useEventListener(document, 'keydown', handleArrowKeys)
 
 
 watch(fragmentIndex, () => {
@@ -113,5 +114,4 @@ useEventListener(document, 'keydown', (event) => {
     box-shadow: inset 1px 1px var(--q-primary), inset -1px -1px var(--q-primary);
   }
 }
-
 </style>

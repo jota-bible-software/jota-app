@@ -1,7 +1,7 @@
 <template>
-  <div id="formatted" class="row q-pb-md">
-    <div v-for="(item, i) in formattedSearchResults()" :key="i" class="formatted-verse" :data-tag="tags.formattedVerse">
-      <span class="bref" @click="readInContext(i)">{{ item.bibleReference }} {{ item.symbol }}</span>
+  <div id="formatted" ref="containerRef" class="row q-pb-md" tabindex="0">
+    <div v-for="(item, i) in items" :key="i" class="formatted-verse" :data-tag="tags.formattedVerse">
+      <span class="ref" @click="readInContext(i)">{{ item.bibleReference }} {{ item.symbol }}</span>
       <span v-html="item.text"></span>
     </div>
   </div>
@@ -12,7 +12,16 @@ import { useSearchStore } from 'src/stores/search-store'
 import * as tags from 'src/tags'
 
 const store = useSearchStore()
-const { formattedSearchResults, readInContext } = toRefs(store)
+const { readInContext } = toRefs(store)
+
+const containerRef = ref<HTMLElement | null>(null)
+const items = computed(() => store.formattedSearchResults())
+
+onMounted(() => {
+  if (items.value.length > 1 && containerRef.value) {
+    containerRef.value.focus()
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -26,7 +35,7 @@ const { formattedSearchResults, readInContext } = toRefs(store)
     cursor: pointer;
   }
 
-  .bref {
+  .ref {
     color: var(--q-secondary);
   }
 
