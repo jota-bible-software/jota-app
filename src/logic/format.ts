@@ -43,9 +43,9 @@ export function formatComposable(template: FormatTemplateData, passage: Passage,
 
   const numberedVerse = (i: number, s: string) => `${t.verseNumberCharsBefore}${start + i}${t.verseNumberCharsAfter} ${s}`
   if (includesNumbers && includesNewLines) {
-    text = oneVerse ? verses.join(' ') : '\n' + (verses.map((v, i) => numberedVerse(i, v)).join('\n'))
+    text = oneVerse ? verses.join(' ') : verses.map((v, i) => numberedVerse(i, v)).join('\n')
   } else if (includesNewLines) {
-    text = oneVerse ? verses.join(' ') : '\n' + verses.join('\n')
+    text = oneVerse ? verses.join(' ') : verses.join('\n')
   } else if (includesNumbers) {
     text = oneVerse ? verses.join(' ') : verses.map((v, i) => numberedVerse(i, v)).join(' ')
   } else {
