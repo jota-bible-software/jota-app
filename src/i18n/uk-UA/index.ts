@@ -220,7 +220,7 @@ export default {
     importButton: 'Імпорт',
     exportButton: 'Експорт',
     resetSettings: 'Скинути налаштування',
-    settingsSaved: 'Налаштування збережено до файлу {filename}',
+    settingsSaved: 'Налаштування збережено до файлу: {filename}',
     settingsNotSaved: 'Налаштування не можуть бути збережені',
     importSuccess: 'Налаштування імпортовано успішно',
     resetConfirmTitle: 'Скинути налаштування',

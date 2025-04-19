@@ -219,7 +219,7 @@ export default {
     importButton: 'Import',
     exportButton: 'Export',
     resetSettings: 'Reset settings',
-    settingsSaved: 'Settings saved to file {filename}',
+    settingsSaved: 'Settings saved to file: {filename}',
     settingsNotSaved: 'Settings could not be saved',
     importSuccess: 'Settings imported successfully',
     resetConfirmTitle: 'Reset settings',

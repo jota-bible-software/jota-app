@@ -8,8 +8,7 @@
 
     <div>
       <div class="row  q-gutter-sm">
-        <q-file ref="fileInput" class="col-auto" v-model="file" :label="$t('settingsImportExport.selectSettingsFile')"
-          filled autosize>
+        <q-file ref="fileInput" dense outlined autosize class="col-auto" v-model="file" :label="$t('settingsImportExport.selectSettingsFile')">
           <template v-slot:prepend>
             <q-icon name="icon-mat-file_open" />
           </template>

@@ -215,7 +215,7 @@ export default {
     importButton: 'Zaimportuj',
     exportButton: 'Eksportuj',
     resetSettings: 'Resetuj ustawienia',
-    settingsSaved: 'Zapisano ustawienia do pliku {filename}',
+    settingsSaved: 'Zapisano ustawienia do pliku: {filename}',
     settingsNotSaved: 'Nie udało się zapisać ustawień',
     importSuccess: 'Ustawienia zostały zaimportowane',
     resetConfirmTitle: 'Resetowanie ustawień',

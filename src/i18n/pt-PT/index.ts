@@ -220,7 +220,7 @@ export default {
     importButton: 'Importar',
     exportButton: 'Exportar',
     resetSettings: 'Redefinir configurações',
-    settingsSaved: 'Configurações salvas no arquivo {filename}',
+    settingsSaved: 'Configurações salvas no arquivo: {filename}',
     settingsNotSaved: 'Não foi possível salvar as configurações',
     importSuccess: 'Configurações importadas com sucesso',
     resetConfirmTitle: 'Redefinir configurações',
