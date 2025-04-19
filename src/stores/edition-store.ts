@@ -145,7 +145,7 @@ export const useEditionStore = defineStore('edition', () => {
   }
 
   async function fetchEditionContent(edition: Edition): Promise<Edition['content']> {
-    const publicPath = process.env.VUE_ROUTER_BASE || (process.env.NODE_ENV === 'test' ? ' / ' : '/jota-app/')
+    const publicPath = process.env.VUE_ROUTER_BASE || (process.env.NODE_ENV === 'test' ? ' / ' : '/jota/')
     const url = `${publicPath}data/${edition.locale}/${edition.symbol.toLowerCase()}.json`
 
     const { data, error, statusCode } = await useFetch(url).get().json()

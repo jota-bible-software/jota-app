@@ -18,20 +18,35 @@ jobs:
         with:
           fetch-depth: 1  # Fetch only the latest commit
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          run_install: false
-
-      - name: Set up node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false  # Don't run install here
+
+      - name: Check pnpm workspace configuration
+        run: |
+          if [ -f "pnpm-workspace.yaml" ]; then
+            echo "Contents of pnpm-workspace.yaml:"
+            cat pnpm-workspace.yaml
+          else
+            echo "pnpm-workspace.yaml not found"
+          fi
 
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          # If using workspaces but configuration is broken, use a simple configuration
+          if [ -f "pnpm-workspace.yaml" ] && ! grep -q "packages:" pnpm-workspace.yaml; then
+            echo "Creating basic pnpm-workspace.yaml"
+            echo "packages:" > pnpm-workspace.yaml
+            echo "  - '*'" >> pnpm-workspace.yaml
+          fi
+          pnpm install
 
       - name: Build
         run: pnpm run build
@@ -43,5 +58,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/spa/
-          server-dir: public_html/jota-app/
+          server-dir: public_html/jota/
           protocol: 'ftps'

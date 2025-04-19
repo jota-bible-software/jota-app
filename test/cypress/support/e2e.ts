@@ -57,7 +57,7 @@ g.visible = u.visible
 g.tags = tags
 
 beforeEach(() => {
-  cy.intercept('GET', 'jota-app/data/*/*.json', (req) => {
+  cy.intercept('GET', 'jota/data/*/*.json', (req) => {
     const names = req.url.split('/') // e.g., 'kjv.json' or 'niv.json'
     const fileName = names[names.length - 1].toLowerCase()
     const locale = names[names.length - 2]
