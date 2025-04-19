@@ -8,7 +8,7 @@
     <LabelRow>
       <q-toggle v-model="store.persist.referencePickerOnStart" :label="t('settingsGeneral.referencePickerOnStart')"
         :data-tag="tags.settingsReferencePickerOnStart" />
-      <q-icon name="icon-mat-checklist" size="sm" class="border q-pa-sm"/>
+      <q-icon name="icon-mat-checklist" size="sm" class="border q-pa-sm" />
     </LabelRow>
 
     <LabelRow :label="t('settingsGeneral.defaultSearchResultLayout')">
@@ -30,6 +30,21 @@
         </template>
       </q-btn-toggle>
     </LabelRow>
+
+
+    <div>
+      <div class="row items-center q-gutter-sm q-mt-lg">
+        <span>{{ t('settingsGeneral.contactEmail') }}: </span>
+        <span>office@netanel.pl</span>
+
+        <LabelRow>
+          <q-btn type="a" href="https://github.com/jota-bible-software/jota-app" target="_blank" :label="t('settingsGeneral.githubRepo')" flat dense
+            no-caps color="primary" class="q-ml-xl">
+          </q-btn>
+        </LabelRow>
+      </div>
+    </div>
+
   </SettingsPanel>
 </template>
 

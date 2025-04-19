@@ -209,7 +209,9 @@ export default {
     formatted: 'Форматований',
     referencePickerOnStart: 'Показувати кнопки вибору книги/роділу при відкритті сторінки',
     split: 'Розділений',
-    title: 'Загальні налаштування'
+    title: 'Загальні налаштування',
+    githubRepo: 'Репозиторій GitHub',
+    contactEmail: 'Електронна пошта для зворотного зв\'язку',
   },
   settingsImportExport: {
     title: 'Імпорт / Експорт',

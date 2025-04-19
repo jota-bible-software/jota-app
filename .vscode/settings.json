@@ -3,21 +3,13 @@
   "editor.guides.bracketPairs": true,
   "-- editor.formatOnSave": true,
   "-- editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": [
-    "source.fixAll.eslint"
-  ],
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "vue"
-  ],
+  "editor.codeActionsOnSave": ["source.fixAll.eslint"],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[vue]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "Vue.volar"
-    // "editor.defaultFormatter": "Vue.volar"
     //  "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "javascript.format.semicolons": "remove",
@@ -33,13 +25,10 @@
       "cursorDown"
     ]
   },
-  "cSpell.words": [
-    "composables",
-    "vueuse"
-  ],
+  "cSpell.words": ["composables", "vueuse"],
 
   "i18n-ally.enabledParsers": ["js", "ts", "json"],
-  "i18n-ally.localesPaths": [ "src/i18n" ],
+  "i18n-ally.localesPaths": ["src/i18n"],
   "i18n-ally.sourceLanguage": "en-US",
   "i18n-ally.displayLanguage": "en-US",
   "i18n-ally.enabledFrameworks": ["vue"],
@@ -49,9 +38,7 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "workbench.colorCustomizations": {
-    "selection.background": "#535353",
+    "selection.background": "#535353"
   },
   "i18n-ally.keystyle": "nested"
-
-
 }

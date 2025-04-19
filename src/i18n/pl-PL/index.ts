@@ -204,7 +204,9 @@ export default {
     formatted: 'Sformatowany',
     referencePickerOnStart: 'Pokaż przyciski wyboru księgi/rozdziału po otwarciu strony',
     split: 'Podzielony',
-    title: 'Ustawienia ogólne'
+    title: 'Ustawienia ogólne',
+    githubRepo: 'Repozytorium GitHub',
+    contactEmail: 'E-mail kontaktowy',
   },
   settingsImportExport: {
     title: 'Import / Export',

@@ -208,7 +208,9 @@ export default {
     formatted: 'Formatted',
     referencePickerOnStart: 'Show book/chapter buttons after opening the page',
     split: 'Split',
-    title: 'General settings'
+    title: 'General settings',
+    githubRepo: 'GitHub Repository',
+    contactEmail: 'Contact email',
   },
   settingsImportExport: {
     title: 'Import / Export',
