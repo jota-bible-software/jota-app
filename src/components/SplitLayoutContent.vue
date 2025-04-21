@@ -109,7 +109,9 @@ useEventListener(document, 'keydown', (event) => {
   }
 
   .highlight {
-    box-shadow: inset 1px 1px var(--q-primary), inset -1px -1px var(--q-primary);
+    // box-shadow: inset 1px 1px var(--q-primary), inset -1px -1px var(--q-primary);
+    box-shadow: inset 0 0 0 1px var(--q-primary);
+    border-radius: 5px;
   }
 }
 </style>
