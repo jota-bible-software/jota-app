@@ -23,7 +23,7 @@ const initialPersistValue: SettingsPersistType = {
       bookNamings: getBookNamings('en'),
       copyTemplates: copyTemplates['en-US']!,
       defaultCopyTemplate: 'Presentation',
-      selectedEditions: ['KJV'],
+      selectedEditions: ['KJV', 'NLT'],
       defaultEdition: 'KJV',
     },
     'pl-PL': {
@@ -31,7 +31,7 @@ const initialPersistValue: SettingsPersistType = {
       bookNamings: getBookNamings('pl'),
       copyTemplates: copyTemplates['pl-PL']!,
       defaultCopyTemplate: 'Prezentacja',
-      selectedEditions: ['EIB', 'BW', 'UBG'],
+      selectedEditions: ['EIB', 'BT5', 'UBG'],
       defaultEdition: 'UBG',
     }
   },
