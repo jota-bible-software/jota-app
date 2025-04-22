@@ -57,7 +57,7 @@ describe('Settings Editions', () => {
     })
 
     it('should show selected editions count for each group', () => {
-      assertText(first(groupSelectedCount), '1 / 3')
+      assertText(first(groupSelectedCount), '2 / 3')
       assertText(last(groupSelectedCount), '3 / 4')
     })
 
@@ -93,14 +93,14 @@ describe('Settings Editions', () => {
     it('should allow selecting individual editions', () => {
       click(second(editionItemToggle))
       assertChecked(second(editionItemToggle))
-      assertText(first(groupSelectedCount), '2 / 3')
+      assertText(first(groupSelectedCount), '3 / 3')
 
       // The main bible selector should be affected by the selection
       goHome()
       // Wait for the edition to load
       assertShowing(visible(editionSelector), { timeout: 20_000 })
       click(visible(editionSelector))
-      assertCount(editionSelectorItem, 5)
+      assertCount(editionSelectorItem, 6)
     })
   })
 
@@ -141,11 +141,11 @@ describe('Settings Editions', () => {
   describe('Total Selection Count', () => {
     it('should show correct total selected editions count', () => {
       // Verify format of total selected count
-      assertText(allSelectedCount, '4 / 7')
+      assertText(allSelectedCount, '5 / 7')
 
       // Toggle one and verify total updates
       click(second(editionItemToggle))
-      assertText(allSelectedCount, '5 / 7')
+      assertText(allSelectedCount, '6 / 7')
     })
   })
 
