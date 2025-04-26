@@ -88,7 +88,8 @@ export default {
     books: 'books'
   },
   routes: {
-    settings: 'Settings'
+    settings: 'Settings',
+    manual: 'Manual'
   },
   screenModeToggle: {
     autoMode: 'Auto mode',
@@ -245,5 +246,14 @@ export default {
     selectAll: 'Select all for language',
     selected: 'Selected',
     title: 'Editions'
+  },
+  manualPage: {
+    title: 'Jota Bible App User Manual',
+    introduction: 'Introduction',
+    gettingStarted: 'Getting Started',
+    basicFunctions: 'Basic Functions',
+    bibleEditions: 'Bible Editions',
+    settings: 'Settings',
+    advancedFeatures: 'Advanced Features'
   }
 }

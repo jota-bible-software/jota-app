@@ -40,8 +40,7 @@
               <q-item>
                 <ButtonBookSelector in-menu />
               </q-item>
-              <!-- Make invisible help page is updated -->
-              <q-item v-if="false">
+              <q-item>
                 <ButtonHelp in-menu />
               </q-item>
               <q-item>
