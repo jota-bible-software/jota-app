@@ -1,0 +1,75 @@
+# .htaccess located in /path/to/public_html/jota/
+
+# Enable rewriting
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # --- Set Base Path Environment Variable ---
+    # Default to root path for subdomains like biblia.netanel.pl
+    RewriteRule ^ - [E=BASE_PATH:/]
+    # If on the main domain (netanel.pl or www.netanel.pl), set base path to /jota/
+    RewriteCond %{HTTP_HOST} ^(www\.)?netanel\.pl$ [NC]
+    RewriteRule ^ - [E=BASE_PATH:/jota/]
+
+    # --- Handle Asset Paths for Subdomains ---
+    # If accessed via a subdomain (NOT netanel.pl or www.netanel.pl)
+    # AND the request starts with /jota/ (because it's hardcoded in index.html),
+    # internally remove the /jota/ prefix so the server finds the file
+    # relative to the subdomain's document root (which is public_html/jota/).
+    # Example: /jota/assets/file.js becomes /assets/file.js internally.
+    RewriteCond %{HTTP_HOST} !^(www\.)?netanel\.pl$ [NC]
+    RewriteRule ^jota/(.*)$ $1 [L]
+
+    # --- SPA Fallback ---
+    # Set the base for relative rewrites using the variable determined above.
+    # For netanel.pl, this will be /jota/. For biblia.netanel.pl, it will be /.
+    RewriteBase %{ENV:BASE_PATH}
+
+    # Don't rewrite requests for index.html itself
+    RewriteRule ^index\.html$ - [L]
+
+    # If the request is not for an existing file or directory,
+    # serve the main index.html file appropriate for the context.
+    # For netanel.pl, rewrites to /jota/index.html (relative to server root).
+    # For biblia.netanel.pl, rewrites to /index.html (relative to server root).
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . %{ENV:BASE_PATH}index.html [L]
+</IfModule>
+
+# Set correct MIME types
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType text/css .css
+    AddType image/svg+xml .svg
+    AddType application/font-woff .woff
+    AddType application/font-woff2 .woff2
+</IfModule>
+
+# Caching headers for better performance
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus a month"
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType application/x-font-woff "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# GZIP compression for better performance
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE application/font-woff
+    AddOutputFilterByType DEFLATE application/font-woff2
+</IfModule>

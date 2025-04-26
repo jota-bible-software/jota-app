@@ -27,17 +27,6 @@ const helpLink = computed(() => {
 <style lang="scss">
 .help-button {
   position: relative;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--q-accent);
-    transform: translate(25%, -25%);
-  }
+  display: none; /* Hide until the page is ready */
 }
 </style>
