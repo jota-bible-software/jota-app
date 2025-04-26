@@ -7,3 +7,12 @@ declare namespace NodeJS {
     VUE_ROUTER_BASE: string | undefined
   }
 }
+
+// Global domain detection variable set by domain-handler.js
+interface Window {
+  JOTA_APP_CONFIG?: {
+    isSubdomain: boolean;
+    hostname: string;
+    basePath: string;
+  }
+}
