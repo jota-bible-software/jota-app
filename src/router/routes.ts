@@ -16,12 +16,12 @@ const routes: RouteRecordRaw[] = [
     children: [{ path: '', component: () => import('pages/SettingsPage.vue') }],
   },
   {
-    path: '/manual',
+    path: '/help',
     meta: {
-      title: 'routes.manual'
+      title: 'routes.help'
     },
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/ManualPage.vue') }],
+    children: [{ path: '', component: () => import('pages/HelpPage.vue') }],
   },
 
   // Always leave this as last one,
