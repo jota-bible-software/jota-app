@@ -36,7 +36,7 @@
     </div>
   </SettingsPanel>
 
-  <SettingsPanel v-else :title="$t('settingsFormatTemplates.editTitle')" @back="reset" style="max-width: 560px">
+  <SettingsPanel v-else :title="$t('settingsFormatTemplates.editTitle')" @back="reset" style="max-width: 700px">
     <div class="q-px-none">
       <q-form ref="myForm" class="col q-gutter-md" @submit="save" @reset="reset">
 
@@ -47,20 +47,29 @@
         </LabelRow>
 
         <div>{{ $t('settingsFormatTemplates.referencePosition') }}</div>
+        <LabelRow class="q-pb-sm">
+          <q-toggle v-model="editedItem.referenceWithoutContent" :label="$t('settingsFormatTemplates.referenceWithoutContent')" />
+        </LabelRow>
+
         <LabelRow>
           <q-radio v-model="editedItem.referencePosition" val="before"
             :label="$t('settingsFormatTemplates.beforeContent')"
-            :data-tag="tags.settingsFormatTemplateRefPositionBefore" />
+            :data-tag="tags.settingsFormatTemplateRefPositionBefore"
+            :disable="editedItem.referenceWithoutContent" />
           <q-radio v-model="editedItem.referencePosition" val="after"
             :label="$t('settingsFormatTemplates.afterContent')"
-            :data-tag="tags.settingsFormatTemplateRefPositionAfter" />
+            :data-tag="tags.settingsFormatTemplateRefPositionAfter"
+            :disable="editedItem.referenceWithoutContent" />
         </LabelRow>
         <LabelRow>
           <q-radio v-model="editedItem.referenceLine" val="same line" :label="$t('settingsFormatTemplates.sameLine')"
-            :data-tag="tags.settingsFormatTemplateRefPositionSameLine" />
+            :data-tag="tags.settingsFormatTemplateRefPositionSameLine"
+            :disable="editedItem.referenceWithoutContent" />
           <q-radio v-model="editedItem.referenceLine" val="new line" :label="$t('settingsFormatTemplates.newLine')"
-            :data-tag="tags.settingsFormatTemplateRefPositionNewLine" />
+            :data-tag="tags.settingsFormatTemplateRefPositionNewLine"
+            :disable="editedItem.referenceWithoutContent" />
         </LabelRow>
+
 
         <LabelRow :label="$t('settingsFormatTemplates.editionAbbreviation')" class="q-py-sm">
           <q-radio v-model="editedItem.editionAbbreviation" val="none" :label="$t('settingsFormatTemplates.none')"
@@ -106,28 +115,34 @@
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundQuote') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
           <CharacterInput v-model="editedItem.quoteCharsBefore"
-            :data-tag="tags.settingsFormatTemplateQuoteCharsBefore" />
+            :data-tag="tags.settingsFormatTemplateQuoteCharsBefore"
+            :disable="editedItem.referenceWithoutContent" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
           <CharacterInput v-model="editedItem.quoteCharsAfter"
-            :data-tag="tags.settingsFormatTemplateQuoteCharsAfter" />
+            :data-tag="tags.settingsFormatTemplateQuoteCharsAfter"
+            :disable="editedItem.referenceWithoutContent" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundVerseNumber') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
           <CharacterInput v-model="editedItem.verseNumberCharsBefore"
-            :data-tag="tags.settingsFormatTemplateNumberCharsBefore" />
+            :data-tag="tags.settingsFormatTemplateNumberCharsBefore"
+            :disable="editedItem.referenceWithoutContent" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
           <CharacterInput v-model="editedItem.verseNumberCharsAfter"
-            :data-tag="tags.settingsFormatTemplateNumberCharsAfter" />
+            :data-tag="tags.settingsFormatTemplateNumberCharsAfter"
+            :disable="editedItem.referenceWithoutContent" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundEditionAbbreviation') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <CharacterInput v-model="editedItem.editionAbbreviationCharsBefore" />
+          <CharacterInput v-model="editedItem.editionAbbreviationCharsBefore"
+            :disable="editedItem.referenceWithoutContent" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <CharacterInput v-model="editedItem.editionAbbreviationCharsAfter" />
+          <CharacterInput v-model="editedItem.editionAbbreviationCharsAfter"
+            :disable="editedItem.referenceWithoutContent" />
         </LabelRow>
 
         <div>{{ $t('settingsFormatTemplates.example') }}</div>
@@ -190,6 +205,7 @@ const items = settings.persist.formatTemplates
 
 const emptyItem: FormatTemplateData = {
   name: '',
+  referenceWithoutContent: false,
   referencePosition: 'after',
   referenceLine: 'new line',
   editionAbbreviation: 'uppercase',
@@ -219,10 +235,24 @@ function edit(item: FormatTemplateData, index: number) {
   selected.value = item.name
   selectedItem.value = item
   selectedIndex.value = index
-  editedItem.value = { ...item }
+  editedItem.value = {
+    ...item,
+    // Ensure referenceWithoutContent property is initialized for existing templates
+    referenceWithoutContent: item.referenceWithoutContent === undefined ? false : item.referenceWithoutContent
+  }
 }
 
 function save() {
+  // Ensure the referenceWithoutContent property is explicitly set
+  if (editedItem.value.referenceWithoutContent === undefined) {
+    editedItem.value.referenceWithoutContent = false
+  }
+
+  // Make sure the original item has the property too if we're editing an existing item
+  if (!isNewItem.value && selectedItem.value.referenceWithoutContent === undefined) {
+    selectedItem.value.referenceWithoutContent = false
+  }
+
   if (isNewItem.value) {
     items.push(editedItem.value)
   } else {

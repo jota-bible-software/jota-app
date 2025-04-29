@@ -62,6 +62,12 @@ export function format(template: FormatTemplateData, passage: Passage, editionCo
   const format2Result = formatComposable(template, passage, editionContent, bookNames, editionAbbreviation)
   if (!format2Result) return ''
   const { reference, separator, content, referenceFirst } = format2Result
+  
+  // If referenceWithoutContent is true, return only the reference
+  if (template.referenceWithoutContent) {
+    return reference
+  }
+  
   return referenceFirst ? reference + separator + content : content + separator + reference
 }
 
@@ -72,6 +78,12 @@ export function formatSample(template: FormatTemplateData, bookNames: string[] =
   if (!format2Result) return
   const { reference, separator, content, referenceFirst } = format2Result
   const colorizedReference = colorize(reference)
+  
+  // If referenceWithoutContent is true, return only the reference
+  if (template.referenceWithoutContent) {
+    return colorizedReference.replace(/\n/g, '<br/>')
+  }
+  
   return (referenceFirst ? colorizedReference + separator + content : content + separator + colorizedReference).replace(/\n/g, '<br/>')
 
   function colorize(s: string) {

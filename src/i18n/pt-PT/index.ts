@@ -187,6 +187,7 @@ export default {
     none: 'Nenhum',
     rangeChar: 'Caractere de intervalo',
     referencePosition: 'Posição da referência',
+    referenceWithoutContent: 'Referência sem conteúdo',
     removeButton: 'Remover',
     removeDialogMessage: 'Tem certeza de que deseja remover o modelo',
     removeDialogTitle: 'Remover modelo',

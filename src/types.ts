@@ -24,6 +24,7 @@ export type Formatted = { reference: string, separator: string, content: string,
 
 export type FormatTemplateData = {
   name: string,
+  referenceWithoutContent: boolean,
   referencePosition: 'before' | 'after',
   referenceLine: 'same line' | 'new line',
   editionAbbreviation: 'none' | 'lowercase' | 'uppercase'
