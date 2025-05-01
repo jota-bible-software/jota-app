@@ -70,6 +70,7 @@ export default {
     playAudio: 'Odtwórz rozdział w wersji audio',
     previousChapter: 'Poprzedni rozdział',
     searching: 'Wyszukiwanie...',
+    selectBookChapter: 'Wybierz księgę i rozdział',
     sortAndDeduplicate: 'Sortuj i usuń duplikaty'
   },
   pageHeader: {

@@ -5,6 +5,7 @@
       <q-circular-progress v-show="isSearching" color="primary" track-color="grey-4" size="sm" indeterminate
         class="q-mr-sm" />
       <div v-if="isSearching" class="q-mr-sm">{{ $t('messageLine.searching') }}</div>
+
       <span v-else-if="!isFound && searchTerm !== ''"
         :data-tag="tags.nothingFound">{{ $t('messageLine.notFound') }}</span>
 
@@ -33,9 +34,12 @@
 
       <!-- Passage displayed -->
       <span v-if="layout === 'split'">
+
         <span v-if="chapterFragment">
-          <q-btn dense no-caps class="q-pa-xs text-accent" @click="handleChapterClick()"
-            :data-tag="tags.chapterCaption">{{ chapterCaption }}</q-btn>
+          <q-btn dense outline no-caps class="q-px-sm text-accent" @click="handleChapterClick()"
+            :data-tag="tags.chapterCaption">{{ chapterCaption }}
+            <q-tooltip>{{ $t('messageLine.selectBookChapter') }}</q-tooltip>
+          </q-btn>
         </span>
 
         <q-btn-group v-if="chapterFragment" outline class="q-ml-sm">

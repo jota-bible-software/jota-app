@@ -75,6 +75,7 @@ export default {
     playAudio: 'Відтворити розділ в аудіоверсії',
     previousChapter: 'Попередній розділ',
     searching: 'Пошук...',
+    selectBookChapter: 'Вибрати книгу та розділ',
     sortAndDeduplicate: 'Сортувати та видалити дублікати'
   },
   pageHeader: {

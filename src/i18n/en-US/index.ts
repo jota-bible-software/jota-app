@@ -74,6 +74,7 @@ export default {
     playAudio: 'Play chapter in audio version',
     previousChapter: 'Previous chapter',
     searching: 'Searching...',
+    selectBookChapter: 'Select book and chapter',
     sortAndDeduplicate: 'Sort and remove duplicates'
   },
   pageHeader: {
