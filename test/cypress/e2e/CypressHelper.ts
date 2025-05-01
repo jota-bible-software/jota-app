@@ -11,7 +11,8 @@ const i18n = createI18n({
 })
 
 export function navigate(url: string) {
-  const publicPath = '/jota' // Default to '/' if not defined
+  // Use an empty path for Cypress tests as they run in development mode
+  const publicPath = ''
   const fullUrl = `${publicPath}${url}`
   cy.visit(fullUrl)
 }

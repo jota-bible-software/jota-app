@@ -50,7 +50,7 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
-      publicPath: 'jota',
+      publicPath: process.env.NODE_ENV === 'production' ? 'jota' : '',
       vueRouterMode: 'history', // available values: 'hash', 'history'
 
       target: {

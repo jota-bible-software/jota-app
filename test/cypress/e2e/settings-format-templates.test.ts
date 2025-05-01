@@ -23,7 +23,7 @@ describe('Settings Format Templates', () => {
   // const formattedVerse = tag(tags.formattedVerse)
 
   const newFormatName = 'aaa'
-  const initialCount = 6
+  const initialCount = 7
 
   beforeEach(() => {
     goSettings()

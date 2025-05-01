@@ -1,9 +1,9 @@
 <template>
   <div id="reference-picker" class="q-mb-md">
-    <div class="info row q-my-sm items-center">
+    <div class="info row q-mb-md items-center">
       <span class="text-accent">{{ message }}</span>
 
-      <span v-if="isBookSelected" class="bold q-mr-sm">{{ passageName }}</span> 
+      <span v-if="isBookSelected" class="bold q-mr-sm">{{ passageName }}</span>
 
       <q-btn :data-tag="tags.referencePickerBackButton" outline dense text-color="primary"
         icon="icon-mdi-arrow-up-left" v-show="isBookSelected" @click="back">
