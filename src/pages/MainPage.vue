@@ -27,9 +27,9 @@
         <MainBibleSelector class="q-pr-sm" />
 
         <ButtonWholeWords class="gt-xs" />
-        <ButtonBookSelector class="gt-xs"/>
-        <ButtonHelp class="gt-xs"/>
-        <ButtonSettings class="gt-xs"/>
+        <ButtonBookSelector class="gt-xs" />
+        <ButtonHelp class="gt-xs" />
+        <ButtonSettings class="gt-xs" />
 
         <q-btn dense flat icon="icon-mat-more_vert" class="lt-sm">
           <q-menu>
@@ -128,6 +128,11 @@ function updateSize() {
       // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
       // Then we set the value in the --vh custom property to the root of the document
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`)
+      const searchElement = document.getElementById('search')
+      if (searchElement) {
+        searchElement.style.minHeight = window.innerHeight + 'px'
+        searchElement.style.maxHeight = window.innerHeight + 'px'
+      }
     }, 1000)
   })
 }
