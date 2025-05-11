@@ -18,7 +18,7 @@ export type EditionContent = string[][][]
 
 export type EditionKey = { locale: LocaleSymbol, symbol: string }
 
-export type EditionMeta = EditionKey & { title: string, size: number, year?: string, bookNames?: string, bookOrder?: string }
+export type EditionMeta = EditionKey & { title: string, size: number, year?: string, comments: boolean, strong: boolean, bookNames?: string, bookOrder?: string }
 
 export type Formatted = { reference: string, separator: string, content: string, referenceFirst: boolean }
 
@@ -47,7 +47,8 @@ export type JotaTestSupport = {
 }
 
 export type LanguageSymbol = string
-export type LocaleSymbol = 'en-US' | 'pl-PL'
+export type LocaleSymbol = 'ar-SA' | 'cs-CZ' | 'da-DK' | 'de-DE' | 'el-GR' | 'en-US' | 'eo' | 'es-ES' | 'fi-FI' | 'fr-FR' | 'he-IL' | 'hr-HR' | 'hu-HU' | 'it-IT' | 'la' | 'lt-LT' | 'nl-NL' | 'pl-PL' | 'pt-BR' | 'ru-RU' | 'sk-SK' | 'sv-SE' | 'uk-UA'
+// export type LocaleSymbol = 'en-US' | 'pl-PL'
 // export type LocaleSymbol = 'en-GB' | 'en-US' | 'pl-PL' | 'es-ES' | 'pt-PT' | 'uk-UA'
 
 export type Localized = {

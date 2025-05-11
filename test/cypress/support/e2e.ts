@@ -57,15 +57,23 @@ g.visible = u.visible
 g.tags = tags
 
 beforeEach(() => {
-  cy.intercept('GET', 'data/*/*.json', (req) => {
+  cy.intercept('GET', 'data/*.json', (req) => {
+    const existing = [
+      'en-US-kjv.json',
+      'en-US-niv.json',
+      'en-US-nlt.json',
+      'pl-PL-bw.json',
+      'pl-PL-bt5.json',
+      'pl-PL-snp.json',
+      'pl-PL-ubg.json',
+    ]
     const names = req.url.split('/') // e.g., 'kjv.json' or 'niv.json'
-    const fileName = names[names.length - 1].toLowerCase()
-    const locale = names[names.length - 2]
-    const fixture = `${locale}/${fileName}`
+    const filename = names[names.length - 1]
+    const fixture = existing.includes(filename) ? filename : existing[0]
 
     req.reply({
       statusCode: 200, // default
-      fixture
+      fixture,
     })
   })
 })

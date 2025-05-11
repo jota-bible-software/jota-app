@@ -34,9 +34,9 @@
   "i18n-ally.enabledFrameworks": ["vue"],
 
   "vue.format.wrapAttributes": "preserve",
-  "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
+  // "[typescript]": {
+  //   "editor.defaultFormatter": "vscode.typescript-language-features"
+  // },
   "workbench.colorCustomizations": {
     "selection.background": "#535353"
   },

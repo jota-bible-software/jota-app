@@ -1,7 +1,7 @@
-
 describe('Home Page', () => {
   const goHome = () => navigate('/')
-  const goSearchTerm = (term: string) => navigate(`/?q=${encodeURIComponent(term)}`)
+  const goSearchTerm = (term: string) =>
+    navigate(`/?q=${encodeURIComponent(term)}`)
   const goSettings = () => navigate('/settings')
   const goWrong = () => navigate('/wrong')
 
@@ -28,7 +28,9 @@ describe('Home Page', () => {
   const chapterButtons = tag(tags.referencePickerChapterButtons)
   const backButton = tag(tags.referencePickerBackButton)
   // const toggleButton = tag(tags.referencePickerToggle) + ':visible'
-  const settingsReferencePickerOnStart = tag(tags.settingsReferencePickerOnStart)
+  const settingsReferencePickerOnStart = tag(
+    tags.settingsReferencePickerOnStart
+  )
 
   beforeEach(() => {
     goHome()
@@ -44,7 +46,6 @@ describe('Home Page', () => {
   })
 
   describe('Reference picker', () => {
-
     // it('should show buttons for book selection by default', () => {
     //   assertShowing(bookButtons)
     //   assertCount(bookButtons, 66)
@@ -94,14 +95,15 @@ describe('Home Page', () => {
   describe('Edition selector', () => {
     it('should change the edition', () => {
       type(searchInput, 'gen 1{enter}')
-      assertShowing(containsText('In the beginning God created, the heaven and the earth.'))
+      assertShowing(
+        containsText('In the beginning God created, the heaven and the earth.')
+      )
       select(editionSelector, 'UBG')
       assertShowing(containsText('Na początku Bóg stworzył niebo i ziemię.'))
     })
   })
 
   describe('Search', () => {
-
     it('should show nothing was found', () => {
       type(searchInput, 'abcd{enter}')
       assertShowing(nothingFound)
@@ -129,10 +131,14 @@ describe('Home Page', () => {
 
     it('should not show the found passages when there is only one passage found', () => {
       type(searchInput, 'Gen 1{enter}')
-      assertShowing(containsText('In the beginning God created, the heaven and the earth.'))
+      assertShowing(
+        containsText('In the beginning God created, the heaven and the earth.')
+      )
       assertNotShowing(foundPassages)
       assertNotShowing(passages)
-      assertShowing(containsText('In the beginning God created, the heaven and the earth.'))
+      assertShowing(
+        containsText('In the beginning God created, the heaven and the earth.')
+      )
     })
 
     it('should show the book picker with enter on empty search', () => {
@@ -169,11 +175,15 @@ describe('Home Page', () => {
       assertText(chapterCaption, 'Gen 1')
       mockClipboard()
       click(copySelectedButton, 'left')
-      assertClipboard('In the beginning God created, the heaven and the earth.\nGenesis 1:1 KJV')
+      assertClipboard(
+        'In the beginning God created, the heaven and the earth.\nGenesis 1:1 KJV'
+      )
 
       click(copySelectedButton, 'right')
       click(third(copySelectedOption))
-      assertClipboard('– Gen 1:1 KJV\nIn the beginning God created, the heaven and the earth.')
+      assertClipboard(
+        '– Gen 1:1 KJV\nIn the beginning God created, the heaven and the earth.'
+      )
     })
 
     it('should copy the found verses', () => {
@@ -188,10 +198,14 @@ describe('Home Page', () => {
       type(searchInput, 'gen 1 1{enter}')
       mockClipboard()
       click(copySelectedButton, 'left')
-      assertClipboard('In the beginning God created, the heaven and the earth.\nGenesis 1:1 KJV')
+      assertClipboard(
+        'In the beginning God created, the heaven and the earth.\nGenesis 1:1 KJV'
+      )
       select(editionSelector, 'UBG')
       click(copySelectedButton, 'left')
-      assertClipboard('Na początku Bóg stworzył niebo i ziemię.\nRodzaju 1,1 UBG')
+      assertClipboard(
+        'Na początku Bóg stworzył niebo i ziemię.\nRodzaju 1,1 UBG'
+      )
     })
   })
 
@@ -243,6 +257,3 @@ describe('Home Page', () => {
     })
   })
 })
-
-
-

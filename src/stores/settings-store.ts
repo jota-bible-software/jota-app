@@ -27,6 +27,46 @@ const initialPersistValue: SettingsPersistType = {
     primaryColor: '', // Default depends on screen mode
   },
   localized: {
+    'ar-SA': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'), // Fallback to English book names
+      copyTemplates: copyTemplates['en-US']!, // Fallback to English templates
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['AVD'],
+      defaultEdition: 'AVD',
+    },
+    'cs-CZ': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['B21', 'BKR'],
+      defaultEdition: 'B21',
+    },
+    'da-DK': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['D92', 'D31'],
+      defaultEdition: 'D92',
+    },
+    'de-DE': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['ELB', 'SCH', 'L45'],
+      defaultEdition: 'ELB',
+    },
+    'el-GR': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['LXT', 'GNT-BIZ'],
+      defaultEdition: 'LXT',
+    },
     'en-US': {
       appBookNaming: 'SBL abbreviations',
       bookNamings: getBookNamings('en'),
@@ -35,6 +75,94 @@ const initialPersistValue: SettingsPersistType = {
       selectedEditions: ['KJV', 'NLT'],
       defaultEdition: 'KJV',
     },
+    'eo': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['ESP'],
+      defaultEdition: 'ESP',
+    },
+    'es-ES': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['R60', 'LBA', 'RVG'],
+      defaultEdition: 'R60',
+    },
+    'fi-FI': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['FIN'],
+      defaultEdition: 'FIN',
+    },
+    'fr-FR': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['LSG', 'FBJ', 'BFC'],
+      defaultEdition: 'LSG',
+    },
+    'he-IL': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['BHS', 'WLC'],
+      defaultEdition: 'WLC',
+    },
+    'hr-HR': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['CRO'],
+      defaultEdition: 'CRO',
+    },
+    'hu-HU': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['HUN'],
+      defaultEdition: 'HUN',
+    },
+    'it-IT': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['NRV', 'LND', 'IEP'],
+      defaultEdition: 'NRV',
+    },
+    'la': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['VUC', 'NOV'],
+      defaultEdition: 'NOV',
+    },
+    'lt-LT': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['LTB'],
+      defaultEdition: 'LTB',
+    },
+    'nl-NL': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['NBG', 'SVV'],
+      defaultEdition: 'NBG',
+    },
     'pl-PL': {
       appBookNaming: 'Moje pl',
       bookNamings: getBookNamings('pl'),
@@ -42,6 +170,46 @@ const initialPersistValue: SettingsPersistType = {
       defaultCopyTemplate: 'Prezentacja',
       selectedEditions: ['EIB', 'BT5', 'UBG'],
       defaultEdition: 'UBG',
+    },
+    'pt-BR': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['ARA', 'ACF', 'SBP'],
+      defaultEdition: 'ARA',
+    },
+    'ru-RU': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['RST', 'CRV'],
+      defaultEdition: 'RST',
+    },
+    'sk-SK': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['SSV'],
+      defaultEdition: 'SSV',
+    },
+    'sv-SE': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['S00', 'SFB', 'S17'],
+      defaultEdition: 'S00',
+    },
+    'uk-UA': {
+      appBookNaming: 'Standard',
+      bookNamings: getBookNamings('en'),
+      copyTemplates: copyTemplates['en-US']!,
+      defaultCopyTemplate: 'Presentation',
+      selectedEditions: ['UKR'],
+      defaultEdition: 'UKR',
     }
   },
   formatTemplates,
@@ -61,6 +229,35 @@ function getBookNamings(localeOrLang: string): BookNaming[] {
 
 export const useSettingsStore = defineStore('settings', () => {
   const persist = useStorage(LOCAL_STORAGE_KEY + '.settings', initialPersistValue, localStorage, { deep: true })
+  
+  // Ensure all locales exist in the persisted data
+  function ensureLocalesExist() {
+    // These are all the locales defined in LocaleSymbol type
+    const allExpectedLocales = [
+      'ar-SA', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-US', 'eo', 'es-ES', 
+      'fi-FI', 'fr-FR', 'he-IL', 'hr-HR', 'hu-HU', 'it-IT', 'la', 'lt-LT', 
+      'nl-NL', 'pl-PL', 'pt-BR', 'ru-RU', 'sk-SK', 'sv-SE', 'uk-UA'
+    ] as LocaleSymbol[]
+    
+    // Check if all locales exist in the persisted data
+    allExpectedLocales.forEach(locale => {
+      if (!persist.value.localized[locale]) {
+        console.log(`Adding missing locale: ${locale}`)
+        // Add the locale with default settings
+        persist.value.localized[locale] = {
+          appBookNaming: 'Standard',
+          bookNamings: getBookNamings('en'), // Fallback to English
+          copyTemplates: copyTemplates['en-US'] || [], // Fallback to English or empty array
+          defaultCopyTemplate: 'Presentation',
+          selectedEditions: [],
+          defaultEdition: '' // Empty string indicates no default edition selected yet
+        }
+      }
+    })
+  }
+  
+  // Call this function to ensure all locales exist
+  ensureLocalesExist()
 
   // Migration function to handle version upgrades
   function migrateSettings() {
@@ -108,6 +305,9 @@ export const useSettingsStore = defineStore('settings', () => {
   // Run migrations if needed
   migrateSettings()
   
+  // Run ensureLocalesExist again after migrations
+  ensureLocalesExist()
+  
   // Ensure 'Reference only' template has the correct name for the current locale
   updateReferenceOnlyTemplateName()
 
@@ -124,6 +324,8 @@ export const useSettingsStore = defineStore('settings', () => {
 
   // Update the name of the "Reference only" template with the correct translation
   function updateReferenceOnlyTemplateName() {
+    // Make sure all expected locales exist before proceeding
+    ensureLocalesExist()
     // Get the translated name for the Reference only template
     const translatedName = i18n.global.t('settingsFormatTemplates.referenceOnly')
     

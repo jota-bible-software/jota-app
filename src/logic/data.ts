@@ -982,6 +982,91 @@ export const bookNamings = [
 ] as BookNaming[]
 
 export const copyTemplates: Record<LocaleSymbol, CopyTemplateData[]> = {
+  'ar-SA': [
+    {
+      'name': 'عرض',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'خطوط منفصلة',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'دراسة',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'cs-CZ': [
+    {
+      'name': 'Prezentace',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Samostatné řádky',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Studium',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'da-DK': [
+    {
+      'name': 'Præsentation',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Separate linjer',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Studie',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'de-DE': [
+    {
+      'name': 'Präsentation',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Getrennte Zeilen',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Studium',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'el-GR': [
+    {
+      'name': 'Παρουσίαση',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Ξεχωριστές γραμμές',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Μελέτη',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
   'en-US': [
     {
       'name': 'Presentation',
@@ -995,6 +1080,193 @@ export const copyTemplates: Record<LocaleSymbol, CopyTemplateData[]> = {
     },
     {
       'name': 'Study',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'eo': [
+    {
+      'name': 'Prezentado',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Apartaj linioj',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Studo',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'es-ES': [
+    {
+      'name': 'Presentación',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Líneas separadas',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Estudio',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'fi-FI': [
+    {
+      'name': 'Esitys',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Erotetut rivit',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Tutkimus',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'fr-FR': [
+    {
+      'name': 'Présentation',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Lignes séparées',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Étude',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'he-IL': [
+    {
+      'name': 'מצגת',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'שורות נפרדות',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'לימוד',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'hr-HR': [
+    {
+      'name': 'Prezentacija',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Odvojene linije',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Studija',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'hu-HU': [
+    {
+      'name': 'Bemutatás',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Külön sorok',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Tanulmány',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'it-IT': [
+    {
+      'name': 'Presentazione',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Righe separate',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Studio',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'la': [
+    {
+      'name': 'Praesentatio',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Lineae separatae',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Studium',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'lt-LT': [
+    {
+      'name': 'Pristatymas',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Atskirtos eilutės',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Studija',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'nl-NL': [
+    {
+      'name': 'Presentatie',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Gescheiden regels',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Studie',
       'formatTemplate': 'Studium',
       'bookNaming': 'SBL abbreviations'
     }
@@ -1016,6 +1288,91 @@ export const copyTemplates: Record<LocaleSymbol, CopyTemplateData[]> = {
       'bookNaming': 'Moje pl'
     }
   ],
+  'pt-BR': [
+    {
+      'name': 'Apresentação',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Linhas separadas',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Estudo',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'ru-RU': [
+    {
+      'name': 'Презентация',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Отдельные строки',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Исследование',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'sk-SK': [
+    {
+      'name': 'Prezentácia',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Samostatné riadky',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Štúdium',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'sv-SE': [
+    {
+      'name': 'Presentation',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Separata rader',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Studium',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ],
+  'uk-UA': [
+    {
+      'name': 'Презентація',
+      'formatTemplate': 'English presentation',
+      'bookNaming': 'Standard'
+    },
+    {
+      'name': 'Окремі рядки',
+      'formatTemplate': 'Separate lines',
+      'bookNaming': 'OSIS abbreviations'
+    },
+    {
+      'name': 'Дослідження',
+      'formatTemplate': 'Studium',
+      'bookNaming': 'SBL abbreviations'
+    }
+  ]
 }
 
 export const formatTemplates: FormatTemplateData[] =
@@ -1175,57 +1532,1185 @@ The format of editions:
 If 'bookNames' is not specified, then it will be taken from bookNames[lang].default
 */
 
+// export const editionsData: EditionMeta[] = [
+//   {
+//     locale: 'en-US',
+//     title: 'King James Version',
+//     symbol: 'KJV',
+//     size: 4_472_372,
+//   },
+//   {
+//     locale: 'en-US',
+//     title: 'New International Version',
+//     symbol: 'NIV',
+//     size: 3_902_640,
+//   },
+//   {
+//     title: 'New Living Translation',
+//     locale: 'en-US',
+//     symbol: 'NLT',
+//     size: 4_097_509,
+//   },
+//   {
+//     title: 'Biblia Ewangeliczna',
+//     symbol: 'EIB',
+//     locale: 'pl-PL',
+//     size: 4_104_753,
+//     year: '2016',
+//     bookNames: 'protestancki',
+//   },
+//   {
+//     title: 'Biblia Tysiąclecia V',
+//     symbol: 'BT5',
+//     locale: 'pl-PL',
+//     size: 4_552_494,
+//     year: '2000',
+//     bookOrder: 'bt5',
+//   },
+//   {
+//     title: 'Biblia Warszawska (brytyjka)',
+//     symbol: 'BW',
+//     locale: 'pl-PL',
+//     size: 4_024_215,
+//     year: '1975',
+//     bookNames: 'bw pełne',
+//   },
+//   {
+//     title: 'Uwspółcześniona Biblia Gdańska',
+//     symbol: 'UBG',
+//     locale: 'pl-PL',
+//     size: 3_962_719,
+//     year: '2017',
+//     bookNames: 'protestancki',
+//   },
+// ]
+
 export const editionsData: EditionMeta[] = [
+  {
+    locale: 'ar-SA',
+    title: 'Arabic Bible (Smith and Van Dyke)',
+    symbol: 'AVD',
+    comments: false,
+    strong: false,
+    year: '1865',
+    size: 10955855
+  },
+  {
+    locale: 'cs-CZ',
+    title: 'Překlad 21. století',
+    symbol: 'B21',
+    comments: false,
+    strong: false,
+    year: '2009',
+    size: 3911963
+  },
+  {
+    locale: 'cs-CZ',
+    title: 'Bible kralická',
+    symbol: 'BKR',
+    comments: false,
+    strong: false,
+    year: '1613',
+    size: 4185808
+  },
+  {
+    locale: 'da-DK',
+    title: 'Dansk',
+    symbol: 'D31',
+    comments: false,
+    strong: false,
+    year: '1931',
+    size: 3958626
+  },
+  {
+    locale: 'da-DK',
+    title: 'Danish Bibelen',
+    symbol: 'D92',
+    comments: false,
+    strong: false,
+    year: '1992',
+    size: 4572839
+  },
+  {
+    locale: 'de-DE',
+    title: 'Buber-Rosenzweig [OT]',
+    symbol: 'BRU',
+    comments: false,
+    strong: false,
+    year: '1929',
+    size: 3328441
+  },
+  {
+    locale: 'de-DE',
+    title: 'Einheitsübersetzung',
+    symbol: 'EIN',
+    comments: false,
+    strong: false,
+    year: '1980',
+    size: 5128453
+  },
+  {
+    locale: 'de-DE',
+    title: 'Revidierte Elberfelder',
+    symbol: 'ELB',
+    comments: false,
+    strong: false,
+    year: '1993',
+    size: 4652290
+  },
+  {
+    locale: 'de-DE',
+    title: 'Unrevidierte Elberfelder',
+    symbol: 'ELO',
+    comments: false,
+    strong: false,
+    year: '1905',
+    size: 4627731
+  },
+  {
+    locale: 'de-DE',
+    title: 'Herder',
+    symbol: 'HRD',
+    comments: false,
+    strong: false,
+    year: '2005',
+    size: 5144484
+  },
+  {
+    locale: 'de-DE',
+    title: 'Luther',
+    symbol: 'L45',
+    comments: false,
+    strong: false,
+    year: '1545',
+    size: 4390521
+  },
+  {
+    locale: 'de-DE',
+    title: 'Schlachter',
+    symbol: 'SCH',
+    comments: false,
+    strong: false,
+    year: '1951',
+    size: 4541157
+  },
+  {
+    locale: 'de-DE',
+    title: 'Zürcher Bibel',
+    symbol: 'ZUR',
+    comments: false,
+    strong: false,
+    year: '2007/2008',
+    size: 4593825
+  },
+  {
+    locale: 'el-GR',
+    title: 'Byzantine/Majority Text',
+    symbol: 'GNT-BIZ',
+    comments: false,
+    strong: true,
+    year: '2000',
+    size: 3401225
+  },
+  {
+    locale: 'el-GR',
+    title: 'Tischendorf 8th Ed.',
+    symbol: 'GNT-TIS',
+    comments: false,
+    strong: false,
+    year: '1869-1872',
+    size: 1771919
+  },
+  {
+    locale: 'el-GR',
+    title: 'Textus Receptus',
+    symbol: 'GNT-TR',
+    comments: false,
+    strong: true,
+    year: '1550/1894',
+    size: 3319431
+  },
+  {
+    locale: 'el-GR',
+    title: 'LXX Septuaginta (Alfred Rahlfs)',
+    symbol: 'LXT',
+    comments: false,
+    strong: false,
+    year: '1935',
+    size: 7825872
+  },
+  {
+    locale: 'en-US',
+    title: 'Apostolic Bible Polyglot',
+    symbol: 'ABP',
+    comments: false,
+    strong: true,
+    year: '1996,2013',
+    size: 12587919
+  },
+  {
+    locale: 'en-US',
+    title: 'American Standard Version',
+    symbol: 'ASV',
+    comments: false,
+    strong: false,
+    year: '1901',
+    size: 4446300
+  },
+  {
+    locale: 'en-US',
+    title: 'The Bible in Basic Lang',
+    symbol: 'BBE',
+    comments: false,
+    strong: false,
+    year: '1949/64',
+    size: 4471145
+  },
+  {
+    locale: 'en-US',
+    title: 'The Complete Jewish Bible',
+    symbol: 'CJB',
+    comments: false,
+    strong: false,
+    year: '1998',
+    size: 4294653
+  },
+  {
+    locale: 'en-US',
+    title: 'Holman Christian Standard Bible',
+    symbol: 'CSB',
+    comments: false,
+    strong: true,
+    year: '2004',
+    size: 9345767
+  },
+  {
+    locale: 'en-US',
+    title: 'The Darby Bible',
+    symbol: 'DBY',
+    comments: false,
+    strong: false,
+    year: '1884/90',
+    size: 4404349
+  },
+  {
+    locale: 'en-US',
+    title: 'Emphatic Diaglott [NT]',
+    symbol: 'DIAGLOTT',
+    comments: false,
+    strong: false,
+    year: '1864',
+    size: 1061042
+  },
+  {
+    locale: 'en-US',
+    title: 'The Douay-Rheims American Edition',
+    symbol: 'DRA',
+    comments: false,
+    strong: false,
+    year: '1899',
+    size: 4984794
+  },
+  {
+    locale: 'en-US',
+    title: 'English Revised Version',
+    symbol: 'ERV',
+    comments: false,
+    strong: false,
+    year: '1885',
+    size: 4455043
+  },
+  {
+    locale: 'en-US',
+    title: 'English Standard Version',
+    symbol: 'ESV',
+    comments: false,
+    strong: false,
+    year: '2016',
+    size: 4246152
+  },
+  {
+    locale: 'en-US',
+    title: 'Geneva Bible',
+    symbol: 'GNV',
+    comments: false,
+    strong: false,
+    year: '1599',
+    size: 4479950
+  },
+  {
+    locale: 'en-US',
+    title: 'God\'s Word Translation',
+    symbol: 'GWN',
+    comments: false,
+    strong: false,
+    year: '1995',
+    size: 4225336
+  },
+  {
+    locale: 'en-US',
+    title: 'Jewish Publication Society [OT]',
+    symbol: 'JPS',
+    comments: false,
+    strong: false,
+    year: '1917',
+    size: 3446369
+  },
   {
     locale: 'en-US',
     title: 'King James Version',
     symbol: 'KJV',
-    size: 4_472_372,
+    comments: false,
+    strong: true,
+    year: '1611/1769',
+    size: 9574539
+  },
+  {
+    locale: 'en-US',
+    title: 'Lexham English Bible',
+    symbol: 'LEB',
+    comments: false,
+    strong: false,
+    year: '2012',
+    size: 4431646
+  },
+  {
+    locale: 'en-US',
+    title: 'Brenton LXX with Apocrypha',
+    symbol: 'LXA',
+    comments: false,
+    strong: false,
+    year: '1851',
+    size: 4203540
+  },
+  {
+    locale: 'en-US',
+    title: 'The New American Bible',
+    symbol: 'NAB',
+    comments: false,
+    strong: false,
+    year: '2011',
+    size: 4715629
+  },
+  {
+    locale: 'en-US',
+    title: 'New American Standard Bible',
+    symbol: 'NAU',
+    comments: false,
+    strong: true,
+    year: '1995',
+    size: 8978964
+  },
+  {
+    locale: 'en-US',
+    title: 'New English Translation',
+    symbol: 'NET',
+    comments: false,
+    strong: false,
+    year: '2005',
+    size: 4322996
+  },
+  {
+    locale: 'en-US',
+    title: 'New International Reader\'s Version',
+    symbol: 'NIRV',
+    comments: false,
+    strong: false,
+    year: '1996',
+    size: 4726176
+  },
+  {
+    locale: 'en-US',
+    title: 'New International Version (US)',
+    symbol: 'NIV',
+    comments: false,
+    strong: false,
+    year: '2011',
+    size: 4156515
   },
   {
     locale: 'en-US',
     title: 'New International Version',
-    symbol: 'NIV',
-    size: 3_902_640,
+    symbol: 'NIVO',
+    comments: false,
+    strong: false,
+    year: '1984',
+    size: 4134022
   },
   {
-    title: 'New Living Translation',
     locale: 'en-US',
+    title: 'New Jerusalem Bible',
+    symbol: 'NJB',
+    comments: false,
+    strong: false,
+    year: '1985',
+    size: 4805988
+  },
+  {
+    locale: 'en-US',
+    title: 'New King James Version',
+    symbol: 'NKJ',
+    comments: false,
+    strong: true,
+    year: '1982',
+    size: 8842479
+  },
+  {
+    locale: 'en-US',
+    title: 'New Living Translation',
     symbol: 'NLT',
-    size: 4_097_509,
+    comments: false,
+    strong: false,
+    year: '1996',
+    size: 4327639
   },
   {
-    title: 'Biblia Ewangeliczna',
-    symbol: 'EIB',
+    locale: 'en-US',
+    title: 'New Revised Standard Version',
+    symbol: 'NRS',
+    comments: false,
+    strong: false,
+    year: '1989',
+    size: 5160803
+  },
+  {
+    locale: 'en-US',
+    title: 'New World Translation',
+    symbol: 'NWT',
+    comments: false,
+    strong: false,
+    year: '1961',
+    size: 4935336
+  },
+  {
+    locale: 'en-US',
+    title: 'Revised Standard Version',
+    symbol: 'RSV',
+    comments: false,
+    strong: false,
+    year: '1952',
+    size: 5119230
+  },
+  {
+    locale: 'en-US',
+    title: 'Today\'s New International Version',
+    symbol: 'TNIV',
+    comments: false,
+    strong: false,
+    year: '2005',
+    size: 4156745
+  },
+  {
+    locale: 'en-US',
+    title: 'Young\'s Literal Translation',
+    symbol: 'YLT',
+    comments: false,
+    strong: false,
+    year: '1862/98',
+    size: 4454632
+  },
+  {
+    locale: 'eo',
+    title: 'Esperanto Bible',
+    symbol: 'ESP',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 4157137
+  },
+  {
+    locale: 'es-ES',
+    title: 'La Biblia de Nuestro Pueblo (Alonso translation)',
+    symbol: 'BNP',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 4459963
+  },
+  {
+    locale: 'es-ES',
+    title: 'Castilian Bible Version',
+    symbol: 'CAB',
+    comments: false,
+    strong: false,
+    year: '2003',
+    size: 4841464
+  },
+  {
+    locale: 'es-ES',
+    title: 'La Biblia de Las Americas',
+    symbol: 'LBA',
+    comments: false,
+    strong: false,
+    year: '1986',
+    size: 4352836
+  },
+  {
+    locale: 'es-ES',
+    title: 'Nueva Biblia de Los Hispanos',
+    symbol: 'NBH',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 4371463
+  },
+  {
+    locale: 'es-ES',
+    title: 'La Nueva Versión Internacional',
+    symbol: 'NVI',
+    comments: false,
+    strong: false,
+    year: '1979',
+    size: 4327098
+  },
+  {
+    locale: 'es-ES',
+    title: 'Reina-Valera Revised',
+    symbol: 'R60',
+    comments: false,
+    strong: false,
+    year: '1960',
+    size: 4225423
+  },
+  {
+    locale: 'es-ES',
+    title: 'Reina-Valera Update',
+    symbol: 'R95',
+    comments: false,
+    strong: false,
+    year: '1995',
+    size: 4250479
+  },
+  {
+    locale: 'es-ES',
+    title: 'Reina-Valera Actualizada',
+    symbol: 'RVA',
+    comments: false,
+    strong: false,
+    year: '1989',
+    size: 4344622
+  },
+  {
+    locale: 'es-ES',
+    title: 'Reina Valera Gomez Spanish Translation',
+    symbol: 'RVG',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 4253210
+  },
+  {
+    locale: 'es-ES',
+    title: 'Reina-Valera',
+    symbol: 'SRV',
+    comments: false,
+    strong: false,
+    year: '1909',
+    size: 4235449
+  },
+  {
+    locale: 'fi-FI',
+    title: 'Raamattu käännös',
+    symbol: 'FIN',
+    comments: false,
+    strong: false,
+    year: '1933/1938',
+    size: 4536407
+  },
+  {
+    locale: 'fr-FR',
+    title: 'French Bible en français courant',
+    symbol: 'BFC',
+    comments: false,
+    strong: false,
+    year: '1997',
+    size: 5542552
+  },
+  {
+    locale: 'fr-FR',
+    title: 'French Version Darby',
+    symbol: 'DRB',
+    comments: false,
+    strong: false,
+    year: '1885',
+    size: 4620552
+  },
+  {
+    locale: 'fr-FR',
+    title: 'French Bible Jerusalem',
+    symbol: 'FBJ',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 5017114
+  },
+  {
+    locale: 'fr-FR',
+    title: 'French Louis Segond',
+    symbol: 'LSG',
+    comments: false,
+    strong: false,
+    year: '1910',
+    size: 4525370
+  },
+  {
+    locale: 'fr-FR',
+    title: 'Nouvelle Edition Geneve with Codes',
+    symbol: 'NEG',
+    comments: false,
+    strong: false,
+    year: '1979',
+    size: 4528310
+  },
+  {
+    locale: 'fr-FR',
+    title: 'French Traduction Oecuménique de la Bible',
+    symbol: 'TOB',
+    comments: false,
+    strong: false,
+    year: '1988',
+    size: 5173036
+  },
+  {
+    locale: 'he-IL',
+    title: 'Biblia Hebraica Stuttgartensia',
+    symbol: 'BHS',
+    comments: false,
+    strong: true,
+    year: '',
+    size: 6911307
+  },
+  {
+    locale: 'he-IL',
+    title: 'Westminster Leningrad Codex',
+    symbol: 'WLC',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 5070665
+  },
+  {
+    locale: 'hr-HR',
+    title: 'Croatian Bible',
+    symbol: 'CRO',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 4269234
+  },
+  {
+    locale: 'hu-HU',
+    title: 'Károli',
+    symbol: 'HUN',
+    comments: false,
+    strong: false,
+    year: '1993',
+    size: 4489950
+  },
+  {
+    locale: 'it-IT',
+    title: 'San Paolo Edizione NVB',
+    symbol: 'IEP',
+    comments: false,
+    strong: false,
+    year: '1995',
+    size: 4801943
+  },
+  {
+    locale: 'it-IT',
+    title: 'Nuova Diodati',
+    symbol: 'LND',
+    comments: false,
+    strong: false,
+    year: '1991',
+    size: 4403282
+  },
+  {
+    locale: 'it-IT',
+    title: 'Nuova Riveduta',
+    symbol: 'NRV',
+    comments: false,
+    strong: false,
+    year: '1994',
+    size: 4364811
+  },
+  {
+    locale: 'la',
+    title: 'Nova Vulgata',
+    symbol: 'NOV',
+    comments: false,
+    strong: false,
+    year: '1986',
+    size: 4399116
+  },
+  {
+    locale: 'la',
+    title: 'Vulgata Clementina',
+    symbol: 'VUC',
+    comments: false,
+    strong: false,
+    year: '1598',
+    size: 4384354
+  },
+  {
+    locale: 'lt-LT',
+    title: 'Lithuanian Version',
+    symbol: 'LTB',
+    comments: false,
+    strong: false,
+    year: '1994',
+    size: 3755166
+  },
+  {
+    locale: 'nl-NL',
+    title: 'Leidse Vertaling',
+    symbol: 'LEI',
+    comments: false,
+    strong: false,
+    year: '1912/94',
+    size: 4297778
+  },
+  {
+    locale: 'nl-NL',
+    title: 'Lutherse Vertaling',
+    symbol: 'LUV',
+    comments: false,
+    strong: false,
+    year: '1750/1933/1994',
+    size: 4379106
+  },
+  {
+    locale: 'nl-NL',
+    title: 'The Netherlands Bible Society',
+    symbol: 'NBG',
+    comments: false,
+    strong: false,
+    year: '1951',
+    size: 4438895
+  },
+  {
+    locale: 'nl-NL',
+    title: 'Statenvertaling with Codes [Strong]',
+    symbol: 'SVV',
+    comments: false,
+    strong: true,
+    year: '1637',
+    size: 9622215
+  },
+  {
     locale: 'pl-PL',
-    size: 4_104_753,
-    year: '2016',
-    bookNames: 'protestancki',
+    title: 'Biblia Brzeska',
+    symbol: 'BB',
+    comments: false,
+    strong: false,
+    year: '1563',
+    size: 1014150
   },
   {
+    locale: 'pl-PL',
+    title: 'Biblia Gdańska',
+    symbol: 'BG',
+    comments: false,
+    strong: false,
+    year: '1632',
+    size: 4300222
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Nowa Biblia Gdańska',
+    symbol: 'BGN',
+    comments: false,
+    strong: false,
+    year: '1632/2012',
+    size: 4321950
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Biblia Poznańska',
+    symbol: 'BP',
+    comments: false,
+    strong: false,
+    year: '1975',
+    size: 4887545
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Biblia Warszawsko-Praska',
+    symbol: 'BR',
+    comments: false,
+    strong: false,
+    year: '1975/1997',
+    size: 5343211
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Biblia Tysiąclecia II',
+    symbol: 'BT2',
+    comments: false,
+    strong: false,
+    year: '1971',
+    size: 4201648
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Biblia Tysiąclecia IV',
+    symbol: 'BT4',
+    comments: false,
+    strong: false,
+    year: '1983',
+    size: 4812323
+  },
+  {
+    locale: 'pl-PL',
     title: 'Biblia Tysiąclecia V',
     symbol: 'BT5',
-    locale: 'pl-PL',
-    size: 4_552_494,
-    year: '2000',
-    bookOrder: 'bt5',
+    comments: true,
+    strong: false,
+    year: '1999',
+    size: 5019010
   },
   {
-    title: 'Biblia Warszawska (brytyjka)',
+    locale: 'pl-PL',
+    title: 'Biblia Warszawska',
     symbol: 'BW',
-    locale: 'pl-PL',
-    size: 4_024_215,
+    comments: false,
+    strong: false,
     year: '1975',
-    bookNames: 'bw pełne',
+    size: 4252099
   },
   {
-    title: 'Uwspółcześniona Biblia Gdańska',
-    symbol: 'UBG',
     locale: 'pl-PL',
-    size: 3_962_719,
-    year: '2017',
-    bookNames: 'protestancki',
+    title: 'Biblia Bydgoska - Przekład Filologiczny',
+    symbol: 'BYD',
+    comments: false,
+    strong: false,
+    year: '2024',
+    size: 3155127
   },
+  {
+    locale: 'pl-PL',
+    title: 'Przekłady Izaaka Cylkowa',
+    symbol: 'CYL',
+    comments: false,
+    strong: false,
+    year: '1883-1914',
+    size: 1043788
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Dąbrowski [NT]',
+    symbol: 'DAB',
+    comments: false,
+    strong: false,
+    year: '1949',
+    size: 986988
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Biblia Ekumeniczna',
+    symbol: 'EKU',
+    comments: false,
+    strong: false,
+    year: '2018',
+    size: 4628063
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Ekumeniczny Przekład Przyjaciół',
+    symbol: 'EPP',
+    comments: false,
+    strong: false,
+    year: '2016',
+    size: 979814
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Kowalski [NT]',
+    symbol: 'KOW',
+    comments: false,
+    strong: false,
+    year: '1956',
+    size: 1061997
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Biblia Lubelska',
+    symbol: 'LUB',
+    comments: false,
+    strong: false,
+    year: '1998-2010',
+    size: 3802169
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Pięcioksiąg Mojżesza - J. Mieses',
+    symbol: 'MIESES',
+    comments: false,
+    strong: false,
+    year: '1931',
+    size: 912369
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Nowy Przekład Dynamiczny NT',
+    symbol: 'NPD',
+    comments: true,
+    strong: false,
+    year: '2021-2023',
+    size: 1488742
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Przekład Nowego Świata',
+    symbol: 'NWT-PL',
+    comments: false,
+    strong: false,
+    year: '1994',
+    size: 4637304
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Biblia Paulistów',
+    symbol: 'PAU',
+    comments: false,
+    strong: false,
+    year: '2016',
+    size: 4806627
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Hebrajska Tora (rabin Seacha Pecaric)',
+    symbol: 'PEC',
+    comments: false,
+    strong: false,
+    year: '2001/2006',
+    size: 907950
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Popowski [NT]',
+    symbol: 'POP',
+    comments: false,
+    strong: false,
+    year: '2000',
+    size: 906983
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Słowo Życia',
+    symbol: 'PSZ',
+    comments: false,
+    strong: false,
+    year: '1989',
+    size: 1016400
+  },
+  {
+    locale: 'pl-PL',
+    title: 'NT Rakowski',
+    symbol: 'RAK',
+    comments: false,
+    strong: false,
+    year: '1606',
+    size: 993856
+  },
+  {
+    locale: 'pl-PL',
+    title: 'EIB Przekład Literacki',
+    symbol: 'SNP',
+    comments: true,
+    strong: false,
+    year: '2018',
+    size: 4436300
+  },
+  {
+    locale: 'pl-PL',
+    title: 'EIB Przekład Dosłowny',
+    symbol: 'SNPD',
+    comments: false,
+    strong: false,
+    year: '2021',
+    size: 4302990
+  },
+  {
+    locale: 'pl-PL',
+    title: 'EIB Przekład Dosłowny',
+    symbol: 'SNPD4',
+    comments: true,
+    strong: false,
+    year: '2024',
+    size: 4825111
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Przekład Żydowski (David H. Stern) [NT]',
+    symbol: 'STERN',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 1071401
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Przekład Toruński',
+    symbol: 'TNP',
+    comments: true,
+    strong: false,
+    year: '2023',
+    size: 2199112
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Textus Receptus Oblubienicy',
+    symbol: 'TRO',
+    comments: false,
+    strong: true,
+    year: '',
+    size: 5931594
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Uspółcześniona Biblia Gdańska',
+    symbol: 'UBG',
+    comments: false,
+    strong: false,
+    year: '2017',
+    size: 4265578
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Współczesny Przekład',
+    symbol: 'WSP',
+    comments: false,
+    strong: false,
+    year: '1991',
+    size: 1025161
+  },
+  {
+    locale: 'pl-PL',
+    title: 'Biblia Wujka',
+    symbol: 'WUJ',
+    comments: false,
+    strong: false,
+    year: '1599',
+    size: 4054920
+  },
+  {
+    locale: 'pt-BR',
+    title: 'Portuguese Corrigida Fiel',
+    symbol: 'ACF',
+    comments: false,
+    strong: false,
+    year: '1753/1995',
+    size: 4220406
+  },
+  {
+    locale: 'pt-BR',
+    title: 'Portuguese Almeida Revista e Atualizada',
+    symbol: 'ARA',
+    comments: false,
+    strong: false,
+    year: '1993',
+    size: 4189745
+  },
+  {
+    locale: 'pt-BR',
+    title: 'Portuguese Almeida Biblia',
+    symbol: 'BRP',
+    comments: false,
+    strong: false,
+    year: '1994',
+    size: 4225051
+  },
+  {
+    locale: 'pt-BR',
+    title: 'Portuguese Modern Lang Translation',
+    symbol: 'SBP',
+    comments: false,
+    strong: false,
+    year: '2005',
+    size: 4333578
+  },
+  {
+    locale: 'ru-RU',
+    title: 'Contemporary Russian Version',
+    symbol: 'CRV',
+    comments: false,
+    strong: false,
+    year: '2011',
+    size: 4051973
+  },
+  {
+    locale: 'ru-RU',
+    title: 'New World Translation (Russian)',
+    symbol: 'NWT-RU',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 1598644
+  },
+  {
+    locale: 'ru-RU',
+    title: 'Russion Synodal Orthodox Version',
+    symbol: 'RST',
+    comments: false,
+    strong: true,
+    year: '',
+    size: 10885026
+  },
+  {
+    locale: 'sk-SK',
+    title: 'Sväté Písmo (Slovak)',
+    symbol: 'SSV',
+    comments: false,
+    strong: false,
+    year: '1995',
+    size: 4473348
+  },
+  {
+    locale: 'sv-SE',
+    title: 'Swedish Bibel',
+    symbol: 'S00',
+    comments: false,
+    strong: false,
+    year: '2000',
+    size: 4653708
+  },
+  {
+    locale: 'sv-SE',
+    title: 'Swedish',
+    symbol: 'S17',
+    comments: false,
+    strong: false,
+    year: '1917',
+    size: 4560078
+  },
+  {
+    locale: 'sv-SE',
+    title: 'Swedish Bibel 82',
+    symbol: 'S82',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 4411435
+  },
+  {
+    locale: 'sv-SE',
+    title: 'Svenska Folkbibeln 98',
+    symbol: 'SFB',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 4237245
+  },
+  {
+    locale: 'uk-UA',
+    title: 'Ukrainian',
+    symbol: 'UKR',
+    comments: false,
+    strong: false,
+    year: '',
+    size: 6419529
+  }
 ]
 
 export const supportedLanguageSymbols: LanguageSymbol[] = ['en', 'pl']

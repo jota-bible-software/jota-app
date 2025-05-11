@@ -141,5 +141,6 @@ export function getLang(localeOrLang: string): string {
 }
 
 export function locale2region(locale: LocaleSymbol): string {
-  return locale ? locale.split('-')[1].toLowerCase() : ''
+  // Esperanto and Latin don't have region
+  return locale?.split('-')[1]?.toLowerCase() || ''
 }

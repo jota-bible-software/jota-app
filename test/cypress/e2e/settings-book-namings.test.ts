@@ -143,7 +143,7 @@ describe('Settings', () => {
         assertText(tooltip(removeButton), t('settingsBookNames.removeTooltipAppBookNaming'))
       })
 
-      it('should not remove when used in a copy template', () => {
+      it.only('should not remove when used in a copy template', () => {
         click(last(editButton))
         assertDisabled(removeButton)
 

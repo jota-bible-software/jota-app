@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch, shallowRef, Ref } from 'vue'
 import { editionsData } from 'src/logic/data'
 import { useSettingsStore } from './settings-store'
 import { Edition, LocaleSymbol, EditionKey, Localized } from 'src/types'
@@ -8,21 +8,30 @@ import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 
 export const useEditionStore = defineStore('edition', () => {
-
   const settings = useSettingsStore()
   const q = useQuasar()
   const { t } = useI18n()
 
   function isSelected(locale: LocaleSymbol, edition: string) {
-    return localized[locale].selectedEditions.includes(edition)
+    return localized[locale]?.selectedEditions?.includes(edition) || false
   }
 
-  function setEditionSelection(locale: LocaleSymbol, edition: string, value: boolean) {
+  function setEditionSelection(
+    locale: LocaleSymbol,
+    edition: string,
+    value: boolean
+  ) {
+    // Check if locale exists in localized
+    if (!localized[locale]) {
+      console.error(`Locale ${locale} not found in localized settings`)
+      return
+    }
     const ls = localized[locale]
     // Unselect edition
     const selected = ls.selectedEditions.includes(edition)
     if (selected && !value) {
-      const areOtherSelected = ls.selectedEditions.length < allSelectedCount.value
+      const areOtherSelected =
+        ls.selectedEditions.length < allSelectedCount.value
 
       if (areOtherSelected || ls.selectedEditions.length > 1) {
         // Remove this edition from selected editions
@@ -40,7 +49,7 @@ export const useEditionStore = defineStore('edition', () => {
       } else {
         q.notify({
           message: t('editionStore.cannotUnselectAllEditions'),
-          type: 'negative'
+          type: 'negative',
         })
       }
     }
@@ -58,6 +67,11 @@ export const useEditionStore = defineStore('edition', () => {
   }
 
   function setDefaultEdition(locale: LocaleSymbol, edition: string) {
+    // Check if locale exists in localized
+    if (!localized[locale]) {
+      console.error(`Locale ${locale} not found in localized settings`)
+      return
+    }
     const ls = localized[locale]
 
     // If edition is empty, clear the default
@@ -76,77 +90,135 @@ export const useEditionStore = defineStore('edition', () => {
     }
   }
 
-  watch(() => settings.persist.appearance.locale, locale => currentKey.value = { locale, symbol: localized[locale].defaultEdition })
+  watch(
+    () => settings.persist.appearance.locale,
+    (locale) => {
+      if (localized[locale]) {
+        currentKey.value = { locale, symbol: localized[locale].defaultEdition }
+      } else {
+        console.error(`Locale ${locale} not found in localized settings`)
+      }
+    }
+  )
 
   const localized: Record<LocaleSymbol, Localized> = settings.persist.localized
 
-  const editions = editionsData.map(ed => ({
-    ...ed,
-    content: shallowRef(undefined),
-    selected: computed({
-      get() {
-        return isSelected(ed.locale, ed.symbol)
-      },
-      set(selected: boolean) {
-        setEditionSelection(ed.locale, ed.symbol, selected)
-        if (selected) {
-          fetchEditionContent({ ...ed, selected: ref(true), content: shallowRef(undefined) })
-        }
+  const editions = editionsData.map(
+    (ed) =>
+      ({
+        ...ed,
+        content: shallowRef(undefined),
+        selected: computed({
+          get() {
+            return isSelected(ed.locale, ed.symbol)
+          },
+          set(selected: boolean) {
+            setEditionSelection(ed.locale, ed.symbol, selected)
+            if (selected) {
+              fetchEditionContent({
+                ...ed,
+                selected: ref(true),
+                content: shallowRef(undefined),
+              })
+            }
+          },
+        }),
+      } as Edition)
+  )
+
+  const groups = computed(() =>
+    settings.locales.map((locale) => {
+      const groupEditions: Edition[] = editions.filter(
+        (it) => it.locale === locale
+      )
+      const defaultEdition = computed({
+        get(): EditionKey {
+          // If defaultEdition is empty, return ''
+          return {
+            locale,
+            symbol:
+              localized[locale]?.defaultEdition === ''
+                ? ''
+                : localized[locale]?.defaultEdition || '',
+          }
+        },
+        set(editionKey: EditionKey) {
+          setDefaultEdition(locale, editionKey.symbol)
+        },
+      })
+      const editionCount = groupEditions.length
+      const selectedCount = localized[locale]?.selectedEditions?.length || 0
+      const selectedStatus =
+        editionCount === selectedCount
+          ? true
+          : selectedCount === 0
+          ? false
+          : null
+      function toggleSelected() {
+        const newSelected = selectedStatus === true ? false : true
+        groupEditions.forEach(
+          (edition) => (edition.selected.value = newSelected)
+        )
+      }
+
+      return {
+        defaultEdition,
+        editions: groupEditions,
+        editionCount,
+        locale,
+        selectedStatus,
+        selectedCount,
+        toggleSelected,
       }
     })
-  } as Edition))
+  )
 
-  const groups = computed(() => settings.locales.map((locale) => {
-    const groupEditions: Edition[] = editions.filter(it => it.locale === locale)
-    const defaultEdition = computed({
-      get(): EditionKey {
-        // If defaultEdition is empty, return ''
-        return {
-          locale,
-          symbol: localized[locale].defaultEdition === '' ? '' : localized[locale].defaultEdition
-        }
-      },
-      set(editionKey: EditionKey) {
-        setDefaultEdition(locale, editionKey.symbol)
-      }
-    })
-    const editionCount = groupEditions.length
-    const selectedCount = localized[locale].selectedEditions.length
-    const selectedStatus = editionCount === selectedCount ? true : selectedCount === 0 ? false : null
-    function toggleSelected() {
-      const newSelected = selectedStatus === true ? false : true
-      groupEditions.forEach(edition => edition.selected.value = newSelected)
-    }
-
-    return { defaultEdition, editions: groupEditions, editionCount, locale, selectedStatus, selectedCount, toggleSelected }
-  }))
-
-  const allSelectedCount = computed(() => groups.value.reduce((sum, group) => sum + group.selectedCount, 0))
-
+  const allSelectedCount = computed(() =>
+    groups.value.reduce((sum, group) => sum + group.selectedCount, 0)
+  )
 
   // Region: Support for current edition
 
-  const currentKey: Ref<EditionKey> = ref({ locale: settings.persist.appearance.locale, symbol: settings.localized.defaultEdition })
+  // Initialize currentKey safely
+  const currentLocale = settings.persist.appearance.locale
+  const currentSymbol = settings.localized?.defaultEdition || ''
+  const currentKey: Ref<EditionKey> = ref({
+    locale: currentLocale,
+    symbol: currentSymbol,
+  })
   const currentEdition = computed(() => getEdition(currentKey.value))
   const currentContent = computed(() => currentEdition.value?.content?.value)
-  const selectedEditions = computed(() => editions.filter(it => it.selected.value))
+  const selectedEditions = computed(() =>
+    editions.filter((it) => it.selected.value)
+  )
   const editionsGrouped = computed(() => {
     let previous = ''
-    return selectedEditions.value.map(it => {
+    return selectedEditions.value.map((it) => {
       const isFirstInGroup = previous !== it.locale
       previous = it.locale
       return { ...it, isFirstInGroup }
     })
   })
 
-
   function getEdition(key: EditionKey): Edition {
-    return editions.find(it => it.locale === key.locale && it.symbol === key.symbol) || selectedEditions.value[0] || editions[0]
+    return (
+      editions.find(
+        (it) => it.locale === key.locale && it.symbol === key.symbol
+      ) ||
+      selectedEditions.value[0] ||
+      editions[0]
+    )
   }
 
-  async function fetchEditionContent(edition: Edition): Promise<Edition['content']> {
-    const publicPath = process.env.VUE_ROUTER_BASE || (process.env.NODE_ENV === 'test' ? ' / ' : '/jota/')
-    const url = `${publicPath}data/${edition.locale}/${edition.symbol.toLowerCase()}.json`
+  async function fetchEditionContent(
+    edition: Edition
+  ): Promise<Edition['content']> {
+    const publicPath =
+      process.env.VUE_ROUTER_BASE ||
+      (process.env.NODE_ENV === 'test' ? ' / ' : '/jota/')
+    const url = `${publicPath}data/${
+      edition.locale
+    }-${edition.symbol.toLowerCase()}.json`
 
     const { data, error, statusCode } = await useFetch(url).get().json()
     // Mock long loading time
@@ -154,9 +226,23 @@ export const useEditionStore = defineStore('edition', () => {
 
     if (error.value) {
       if (statusCode.value === 404) {
-        throw new Error(t('editionStore.editionNotFound', { symbol: edition.symbol, locale: edition.locale }))
+        console.error(
+          new Error(
+            t('editionStore.editionNotFound', {
+              symbol: edition.symbol,
+              locale: edition.locale,
+            })
+          )
+        )
       } else {
-        throw new Error(t('editionStore.editionFetchError', { symbol: edition.symbol, locale: edition.locale }))
+        console.error(
+          new Error(
+            t('editionStore.editionFetchError', {
+              symbol: edition.symbol,
+              locale: edition.locale,
+            })
+          )
+        )
       }
     }
 
@@ -164,24 +250,33 @@ export const useEditionStore = defineStore('edition', () => {
       edition.content.value = data.value
       return edition.content
     } else {
-      throw new Error(t('editionStore.noDataReceived'))
+      console.error(new Error(t('editionStore.noDataReceived')))
+      return shallowRef([[['Could not load content']]])
     }
   }
 
   /** Fetch content for selected editions, starting from the default edition */
-  const startPromise = currentEdition.value ? fetchEditionContent(currentEdition.value) : Promise.resolve()
-  startPromise.then(() => {
-    editions.forEach(edition => {
-      if (edition.selected && !edition.content.value) {
-        fetchEditionContent(edition)
-      }
+  const startPromise = currentEdition.value
+    ? fetchEditionContent(currentEdition.value)
+    : Promise.resolve()
+  startPromise
+    .then(() => {
+      editions.forEach((edition) => {
+        if (
+          edition.selected &&
+          !edition.content.value &&
+          edition.locale === currentLocale
+        ) {
+          fetchEditionContent(edition)
+        }
+      })
     })
-  }).catch(error => {
-    q.notify({
-      message: error.message,
-      type: 'negative'
+    .catch((error) => {
+      q.notify({
+        message: error.message,
+        type: 'negative',
+      })
     })
-  })
 
   return {
     allSelectedCount,
@@ -192,6 +287,6 @@ export const useEditionStore = defineStore('edition', () => {
     editionsGrouped,
     groups,
     localized,
-    startPromise
+    startPromise,
   }
 })
