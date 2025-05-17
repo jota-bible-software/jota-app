@@ -107,6 +107,7 @@ export default {
     noPassageSelected: 'Не вибрано уривок',
     sortTooltip: 'Увімкнути/вимкнути сортування та видалення дублікатів серед знайдених фрагментів',
     warningCouldNotFormat: 'Не вдалося відформатувати',
+    noLocaleData: 'Дані локалізації відсутні',
   },
   settingsAppearance: {
     bibleTextExample: 'Приклад тексту Біблії',

@@ -41,18 +41,24 @@ const selected = computed({
   }
 })
 
-const localeOptions = computed(() =>
-  localeData.filter(locale => store.locales.includes(locale.symbol)).map(locale => ({
+const localeOptions = computed(() => {
+  // Ensure store.locales exists and is an array
+  const availableLocales = store.locales || ['en-US'];
+  return localeData.filter(locale => availableLocales.includes(locale.symbol)).map(locale => ({
     value: locale.symbol,
     label: `${locale.langName} (${locale.regionName})`
-  }))
-)
+  }));
+})
 
 function getDisplayName(locale: string): string {
+  if (!locale) return ''
   const localeInfo = localeData.find(l => l.symbol === locale)
   if (!localeInfo) return locale
 
-  const [lang, region] = locale.split('-')
+  const parts = locale.split('-')
+  if (parts.length < 2) return localeInfo.langName
+  
+  const [lang, region] = parts
   if (lang.toLowerCase() === region.toLowerCase()) {
     return localeInfo.langName
   } else {

@@ -114,6 +114,7 @@ export default {
     noPassageSelected: 'Nenhuma passagem selecionada',
     sortTooltip: 'Alternar classificação e remoção de duplicatas entre os fragmentos encontrados',
     warningCouldNotFormat: 'Não foi possível formatar',
+    noLocaleData: 'Dados de localização não disponíveis',
   },
   settingsBookNames: {
     addButton: 'Adicionar',

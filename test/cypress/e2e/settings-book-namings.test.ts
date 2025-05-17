@@ -150,19 +150,20 @@ describe('Settings', () => {
         assertText(tooltip(removeButton), t('settingsBookNames.removeTooltipCopyTemplate', { templateName: 'Presentation', locale: 'en-US' }))
       })
 
-      it('should preserve the selected app screen naming when reopened', () => {
-        select(appNaming, 'Standard')
-        goHome()
-        assertShowing(containsText('Genesis'))
+      // The app screen template was a premature feature, don't turn it on yet
+      // it('should preserve the selected app screen naming when reopened', () => {
+      //   select(appNaming, 'Standard')
+      //   goHome()
+      //   assertShowing(containsText('Genesis'))
 
-        goSettings()
-        click(bookNames)
-        assertText(appNaming, 'Standard')
+      //   goSettings()
+      //   click(bookNames)
+      //   assertText(appNaming, 'Standard')
 
-        click(nth(editButton, 2))
-        click(useButton)
-        assertText(appNaming, 'SBL abbreviations')
-      })
+      //   click(nth(editButton, 2))
+      //   click(useButton)
+      //   assertText(appNaming, 'SBL abbreviations')
+      // })
 
       it('should show items for the selected locale', () => {
         select(localeFilter, 'Polski')

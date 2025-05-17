@@ -258,7 +258,7 @@ function save() {
   } else {
     Object.assign(selectedItem.value, editedItem.value)
   }
-  items.sort(nameSorter(settings.persist.appearance.locale))
+  items.sort(nameSorter(settings.persist.app.defaultLocale))
 
   if (selected.value === settings.persist.appFormatTemplateName) {
     settings.persist.appFormatTemplateName = editedItem.value.name

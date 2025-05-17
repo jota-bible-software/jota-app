@@ -7,8 +7,8 @@
     </div>
 
     <q-list bordered separator>
-      <q-item v-for="item in items" :key="item.name" class="q-px-none1" :clickable="selected !== item.name"
-        @click="edit(item)" :data-tag="tags.settingsBookNamingItem">
+      <q-item v-for="item in items" :key="item.name" class="q-px-none1" :clickable="selected !== item.name" @click="edit(item)"
+        :data-tag="tags.settingsBookNamingItem">
         <q-item-section>
           <div v-if="selected !== item.name">
             <div class="row items-center">
@@ -16,23 +16,21 @@
                 {{ item.name }}
               </div>
               <div class="col-auto">
-                <q-btn outline color="primary" icon="edit" @click="edit(item)"
-                  :data-tag="tags.settingsBookNamingItemEditButton" />
+                <q-btn outline color="primary" icon="edit" @click="edit(item)" :data-tag="tags.settingsBookNamingItemEditButton" />
               </div>
             </div>
 
             <div class="row q-my-sm">
-              <q-item-label caption
-                :data-tag="tags.settingsBookNamingItemBooks">{{ item.books.join(', ') }}</q-item-label>
+              <q-item-label caption :data-tag="tags.settingsBookNamingItemBooks">{{ item.books.join(', ') }}</q-item-label>
             </div>
           </div>
 
           <div>
             <q-form ref="editItemFrom" @submit="save(item)" class="col q-gutter-sm" v-if="selected === item.name">
-              <q-input v-model="editedItem.name" :label="$t('settingsBookNames.standardName')"
-                :rules="nameValidationRules" :data-tag="tags.settingsBookNamingItemEditName" />
-              <q-input v-model="editedBooksText" :label="$t('settingsBookNames.bookNames')" autogrow
-                :rules="booksValidationRules" :data-tag="tags.settingsBookNamingItemEditBooks" />
+              <q-input v-model="editedItem.name" :label="$t('settingsBookNames.standardName')" :rules="nameValidationRules"
+                :data-tag="tags.settingsBookNamingItemEditName" />
+              <q-input v-model="editedBooksText" :label="$t('settingsBookNames.bookNames')" autogrow :rules="booksValidationRules"
+                :data-tag="tags.settingsBookNamingItemEditBooks" />
               <div class="q-my-md">
                 <div class="row q-gutter-sm">
 
@@ -41,21 +39,18 @@
                     <div>{{ $t('settingsBookNames.saveButton') }}</div>
                   </q-btn>
 
-                  <q-btn outline color="primary" @click="selected = ''"
-                    :data-tag="tags.settingsBookNamingItemCancelButton">
+                  <q-btn outline color="primary" @click="selected = ''" :data-tag="tags.settingsBookNamingItemCancelButton">
                     <q-icon left name="undo" />
                     <div>{{ $t('settingsBookNames.cancelButton') }}</div>
                   </q-btn>
 
-                  <q-btn outline color="primary" @click="appBookNaming = selected"
-                    :data-tag="tags.settingsBookNamingItemUseButton">
+                  <q-btn outline color="primary" @click="appBookNaming = selected" :data-tag="tags.settingsBookNamingItemUseButton">
                     <q-icon left name="desktop_windows" />
                     <div>{{ $t('settingsBookNames.useOnAppScreen') }}</div>
                   </q-btn>
                   <q-space />
 
-                  <q-btn outline color="red-4" @click="remove" :disabled="!!removeTooltip"
-                    :data-tag="tags.settingsBookNamingItemRemoveButton">
+                  <q-btn outline color="red-4" @click="remove" :disabled="!!removeTooltip" :data-tag="tags.settingsBookNamingItemRemoveButton">
                     <q-icon left name="delete" />
                     <div>{{ $t('settingsBookNames.removeButton') }}</div>
                     <q-tooltip>{{ removeTooltip }}</q-tooltip>
@@ -75,8 +70,8 @@
         <span>{{ $t('settingsBookNames.addNewNaming') }}</span>
         <q-input v-model="newItem.name" :label="$t('settingsBookNames.standardName')" :rules="nameValidationRules"
           :data-tag="tags.settingsBookNamingAddName" />
-        <q-input v-model="newBooksText" :label="$t('settingsBookNames.bookNames')" autogrow
-          :rules="booksValidationRules" :data-tag="tags.settingsBookNamingAddBookNames" />
+        <q-input v-model="newBooksText" :label="$t('settingsBookNames.bookNames')" autogrow :rules="booksValidationRules"
+          :data-tag="tags.settingsBookNamingAddBookNames" />
 
         <!-- Button bar -->
         <div class="q-mt-md">
@@ -110,15 +105,15 @@ const addItemForm = ref()
 
 const appBookNaming = computed({
   get(): string {
-    return settings.focusedLocalized?.appBookNaming || ''
+    return settings.focusedLocalized?.naming.default || ''
   },
   set(value: string) {
     const v = settings.persist.localized[settings.focusedLocale]
-    if (v) v.appBookNaming = value
+    if (v) v.naming.default = value
   }
 })
 
-const items = computed(() => settings.focusedLocalized.bookNamings)
+const items = computed(() => settings.focusedLocalized?.naming.available || [])
 const names = computed(() => items.value.map(it => it.name))
 const selected = ref('')
 
@@ -134,7 +129,9 @@ function edit(item: BookNaming) {
 function save(item: BookNaming) {
   editedItem.value.books = editedBooksText.value.split(',').map(it => it.trim())
   Object.assign(item, editedItem.value)
-  settings.focusedLocalized.bookNamings.sort(nameSorter(settings.persist.appearance.locale))
+  if (settings.focusedLocalized?.naming.available) {
+    settings.focusedLocalized.naming.available.sort(nameSorter(settings.persist.focusedLocale))
+  }
   reset()
 }
 
@@ -146,7 +143,9 @@ const removeTooltip = computed(() => {
 
   let foundTemplateName = ''
   let foundLocale = ''
-  for (const t of settings.focusedLocalized.copyTemplates) {
+  const copyTemplates = settings.focusedLocalized?.copyTemplates || []
+
+  for (const t of copyTemplates) {
     for (const locale of settings.locales) {
       if (t.bookNaming === selected.value) {
         foundTemplateName = t.name
@@ -160,9 +159,11 @@ const removeTooltip = computed(() => {
 })
 
 function remove() {
-  const a = settings.focusedLocalized.bookNamings
-  const i = a.findIndex(it => it.name === selected.value)
-  if (i !== -1) a.splice(i, 1)
+  if (settings.focusedLocalized?.naming.available) {
+    const a = settings.focusedLocalized.naming.available
+    const i = a.findIndex(it => it.name === selected.value)
+    if (i !== -1) a.splice(i, 1)
+  }
   reset()
 }
 
@@ -176,8 +177,10 @@ const newBooksText = ref('')
 
 function add() {
   newItem.value.books = newBooksText.value.split(',').map(it => it.trim())
-  settings.focusedLocalized.bookNamings.push(newItem.value)
-  settings.focusedLocalized.bookNamings.sort((a, b) => a.name.localeCompare(b.name, newItem.value.locale, { sensitivity: 'base', ignorePunctuation: true }))
+  if (settings.focusedLocalized?.naming.available) {
+    settings.focusedLocalized.naming.available.push(newItem.value)
+    settings.focusedLocalized.naming.available.sort((a, b) => a.name.localeCompare(b.name, newItem.value.locale, { sensitivity: 'base', ignorePunctuation: true }))
+  }
   newItem.value = { ...emptyItem }
   newBooksText.value = ''
   nextTick(() => {

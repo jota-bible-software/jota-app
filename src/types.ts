@@ -1,6 +1,6 @@
 import { ShallowRef } from 'vue'
 
-export type BookNaming = { locale: LocaleSymbol, name: string, books: string[] }
+export type BookNaming = { locale: LocaleSymbol, name: string, books: string[], booksText?: string }
 
 export type CopyTemplateData = {
   name: string,
@@ -80,18 +80,38 @@ export type ScreenMode = 'dark' | 'light' | 'auto'
 
 export type SearchOptions = { apocrypha?: boolean, shouldSort?: boolean, words?: boolean }
 
-export type SettingsPersistType = {
-  [key: string]: unknown
-  version: string
-  appearance: {
-    locale: LocaleSymbol
-    fontSize: number
-    screenMode: ScreenMode
-    primaryColor: string
-  }
-  localized: Record<LocaleSymbol, Localized>
-  formatTemplates: FormatTemplateData[]
+export type AppSettings = {
+  defaultLocale: LocaleSymbol
+  fontSize: number
+  screenMode: ScreenMode
   appFormatTemplateName: string
   defaultSearchResultLayout: PassageListLayout
   referencePickerOnStart: boolean
+}
+
+export type LocaleNaming = {
+  available: BookNaming[]
+  default: string
+}
+
+export type LocaleEditions = {
+  available: string[]
+  selected: string[]
+  default: string
+}
+
+export type LocaleData = {
+  naming: LocaleNaming
+  editions: LocaleEditions
+  copyTemplates: CopyTemplateData[]
+  defaultCopyTemplate: string
+}
+
+export type SettingsPersistType = {
+  [key: string]: unknown
+  version: string
+  app: AppSettings
+  locales: LocaleSymbol[]
+  localeData: Record<LocaleSymbol, LocaleData>
+  formatTemplates: FormatTemplateData[]
 }

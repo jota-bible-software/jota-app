@@ -54,7 +54,7 @@
                     </template>
                   </q-select>
 
-                  <q-select v-model="editedItem.bookNaming" :options="settings.getBookNamings(settings.focusedLocale)"
+                  <q-select v-model="editedItem.bookNaming" :options="settings.focusedLocalized?.naming?.available || []"
                     option-label="name" option-value="name" map-options emit-value use-input class="col"
                     :label="$t('settingsCopyTemplates.bookNaming')" :rules="bookNamingValidationRules"
                     :data-tag="tags.settingsCopyTemplatesBookNaming">
@@ -131,7 +131,7 @@
               </template>
             </q-select>
 
-            <q-select v-model="newItem.bookNaming" :options="settings.getBookNamings(settings.focusedLocale)"
+            <q-select v-model="newItem.bookNaming" :options="settings.focusedLocalized?.naming?.available || []"
               option-label="name" option-value="name" map-options emit-value use-input class="col"
               :label="$t('settingsCopyTemplates.bookNaming')" :rules="bookNamingValidationRules"
               :data-tag="tags.settingsCopyTemplatesAddBookNaming">
@@ -181,7 +181,7 @@ const { t } = useI18n()
 const settings = useSettingsStore()
 const formatTemplates = settings.persist.formatTemplates
 
-const items = computed(() => settings.focusedLocalized.copyTemplates)
+const items = computed(() => settings.focusedLocalized?.copyTemplates || [])
 const names = computed(() => items.value.map(it => it.name))
 const selected = ref('')
 
@@ -196,12 +196,14 @@ const editForm = ref()
 
 const newItem = ref<CopyTemplateData>({
   name: '',
-  formatTemplate: settings.persist.formatTemplates[0]?.name ?? '',
-  bookNaming: settings.focusedLocalized.bookNamings[0]?.name ?? '' as string,
+  formatTemplate: settings.persist.formatTemplates?.[0]?.name ?? '',
+  bookNaming: settings.focusedLocalized?.naming?.available?.[0]?.name ?? '' as string,
 })
 
 watch(() => settings.focusedLocalized, (v) => {
-  newItem.value.bookNaming = v.bookNamings[0]?.name ?? ''
+  if (v?.naming?.available?.length) {
+    newItem.value.bookNaming = v.naming.available[0]?.name ?? ''
+  }
 })
 
 const editedItem = ref<CopyTemplateData>({ ...emptyItem })
@@ -212,7 +214,9 @@ function edit(item: CopyTemplateData) {
 }
 
 function setAsDefault() {
-  settings.focusedLocalized.defaultCopyTemplate = editedItem.value.name
+  if (settings.focusedLocalized) {
+    settings.focusedLocalized.defaultCopyTemplate = editedItem.value.name
+  }
 }
 
 const formatted = computed(() => {
@@ -220,9 +224,9 @@ const formatted = computed(() => {
 })
 
 function formatItem(item: CopyTemplateData) {
-  const formatTemplate = settings.persist.formatTemplates.find(it => it.name === item.formatTemplate)
+  const formatTemplate = settings.persist.formatTemplates?.find(it => it.name === item.formatTemplate)
   if (!formatTemplate) return ''
-  const bookNames = settings.focusedLocalized.bookNamings.find(it => it.name === item.bookNaming)?.books || []
+  const bookNames = settings.getBookNamingForLocale(settings.focusedLocale, item.bookNaming)?.books || []
   return formatSample(formatTemplate, bookNames)
 }
 
@@ -236,7 +240,7 @@ function add() {
     })
   } else {
     items.value.push(newItem.value)
-    items.value.sort(nameSorter(settings.persist.appearance.locale))
+    items.value.sort(nameSorter(settings.persist.app.defaultLocale))
 
     reset()
     nextTick(() => {
@@ -251,7 +255,7 @@ function save() {
     items.value[index] = { ...editedItem.value }
   }
 
-  if (selected.value === settings.focusedLocalized.defaultCopyTemplate) {
+  if (settings.focusedLocalized && selected.value === settings.focusedLocalized.defaultCopyTemplate) {
     settings.focusedLocalized.defaultCopyTemplate = editedItem.value.name
   }
 
@@ -265,7 +269,7 @@ function reset(event?: MouseEvent) {
 }
 
 const removeTooltip = computed(() => {
-  return selected.value === settings.focusedLocalized.defaultCopyTemplate
+  return selected.value === settings.focusedLocalized?.defaultCopyTemplate
     ? t('settingsCopyTemplates.defaultTemplateTooltip')
     : ''
 })

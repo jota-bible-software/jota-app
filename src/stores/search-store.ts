@@ -189,8 +189,11 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function formatFound(copyTemplate?: CopyTemplateData): string | Error {
-    const localized = settings.persist.localized[editions.currentEdition.locale]
-    const tpl = copyTemplate ?? localized.copyTemplates.find(it => it.name === localized.defaultCopyTemplate)
+    const currentLocale = settings.currentLocale
+    const localeData = settings.persist.localeData?.[currentLocale]
+    if (!localeData) return new Error(t('searchStore.noLocaleData'))
+
+    const tpl = copyTemplate ?? localeData.copyTemplates?.find(it => it.name === localeData.defaultCopyTemplate)
 
     if (!tpl) return new Error(t('searchStore.noTemplateFound'))
     if (!editionContent.value) return new Error(t('searchStore.editionContentNotLoaded'))
@@ -206,8 +209,11 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function formatSelectedPassage(copyTemplate?: CopyTemplateData): string | Error {
-    const localized = settings.persist.localized[editions.currentEdition.locale]
-    const tpl = copyTemplate ?? localized.copyTemplates.find(it => it.name === localized.defaultCopyTemplate)
+    const currentLocale = editions.currentEdition.locale
+    const localeData = settings.persist.localeData?.[currentLocale]
+    if (!localeData) return new Error(t('searchStore.noLocaleData'))
+
+    const tpl = copyTemplate ?? localeData.copyTemplates?.find(it => it.name === localeData.defaultCopyTemplate)
     if (!tpl) return new Error(t('searchStore.noTemplateFound'))
     if (!chapterFragment.value) return new Error(t('searchStore.noPassageSelected'))
     if (!editionContent.value) return new Error(t('searchStore.editionContentNotLoaded'))
@@ -215,19 +221,21 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function formatPassage(passage: Passage, tpl: CopyTemplateData, content: EditionContent) {
+    if (!editions.currentEdition?.locale) return ''
     const locale = editions.currentEdition.locale
-    const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.formatTemplate)
-    const bookNaming = settings.persist.localized[locale].bookNamings.find(it => it.name === tpl.bookNaming)?.books
-    const abbreviation = editions.currentEdition.symbol
+    const formatTemplate = settings.getFormatTemplate(tpl.formatTemplate)
+    const bookNaming = settings.getBookNamingForLocale(locale, tpl.bookNaming)?.books
+    const abbreviation = editions.currentEdition?.symbol || ''
     if (!formatTemplate || !bookNaming) return ''
     return format(formatTemplate, passage, content, bookNaming, abbreviation)
   }
 
   function formattedSample(tpl: CopyTemplateData) {
+    if (!editions.currentEdition?.locale) return ''
     const lang = editions.currentEdition.locale
-    const formatTemplate = settings.persist.formatTemplates.find(it => it.name === tpl.formatTemplate)
-    const bookNaming = settings.persist.localized[lang].bookNamings.find(it => it.name === tpl.bookNaming)?.books
-    const abbreviation = editions.currentEdition.symbol
+    const formatTemplate = settings.getFormatTemplate(tpl.formatTemplate)
+    const bookNaming = settings.getBookNamingForLocale(lang, tpl.bookNaming)?.books
+    const abbreviation = editions.currentEdition?.symbol || ''
     if (!formatTemplate || !bookNaming) return ''
     return formatSample(formatTemplate, bookNaming, abbreviation)
   }
@@ -235,14 +243,14 @@ export const useSearchStore = defineStore('search', () => {
   function formattedSearchResults() {
     const formatted: Array<{ bibleReference: string, symbol: string, text: string }> = []
     fragments.value.forEach(fragment => {
-      if (!editionContent.value) return ''
+      if (!editionContent.value) return
       const verses = jota.verses(editionContent.value, fragment)
       if (!verses.length) {
         console.warn(t('searchStore.warningCouldNotFormat'), JSON.stringify(fragment))
         return
       }
       const bibleReference = jota.formatReference(fragment, books.value, separator.value)
-      const symbol = editions.currentEdition.symbol.toUpperCase() || ''
+      const symbol = editions.currentEdition?.symbol?.toUpperCase() || ''
       const text = '"' + highlightSearchTerm(verses.join('\n')) + '"'
       formatted.push({ bibleReference, symbol, text })
     })
@@ -293,7 +301,7 @@ export const useSearchStore = defineStore('search', () => {
     chapterFragment,
     chapterVerses,
     clearFragments,
-    copyTemplates: settings.localized.copyTemplates,
+    copyTemplates: settings.currentLocaleData?.copyTemplates || [],
     error,
     findByInput,
     formatFound,

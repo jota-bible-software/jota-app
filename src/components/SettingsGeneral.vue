@@ -2,17 +2,17 @@
   <SettingsPanel :title="t('settingsGeneral.title')">
 
     <LabelRow :label="t('settingsGeneral.locale')">
-      <LocaleSelector v-model="store.persist.appearance.locale" :data-tag="tags.settingsLocaleSelector" />
+      <LocaleSelector v-model="store.persist.app.defaultLocale" :data-tag="tags.settingsLocaleSelector" />
     </LabelRow>
 
     <LabelRow>
-      <q-toggle v-model="store.persist.referencePickerOnStart" :label="t('settingsGeneral.referencePickerOnStart')"
+      <q-toggle v-model="store.persist.app.referencePickerOnStart" :label="t('settingsGeneral.referencePickerOnStart')"
         :data-tag="tags.settingsReferencePickerOnStart" />
       <q-icon name="icon-mat-checklist" size="sm" class="border q-pa-sm" />
     </LabelRow>
 
     <LabelRow :label="t('settingsGeneral.defaultSearchResultLayout')">
-      <q-btn-toggle v-model="store.persist.defaultSearchResultLayout" spread no-caps :options="[
+      <q-btn-toggle v-model="store.persist.app.defaultSearchResultLayout" spread no-caps :options="[
         { value: 'split', slot: 'split' },
         { value: 'formatted', slot: 'formatted' }
       ]" class="nowrap" :data-tag="tags.settingsLayoutToggle">

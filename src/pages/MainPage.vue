@@ -66,7 +66,6 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { useEventListener } from '@vueuse/core'
 import { useRoute } from 'vue-router'
@@ -91,10 +90,12 @@ const editionStore = useEditionStore()
 const router = useRoute()
 
 onMounted(() => {
-  if (router.query.q) {
-    setQuery()
-  } else if (settingsStore.persist.referencePickerOnStart) {
+  // Force initialization of store.showPicker based on settings
+  if (!router.query.q && settingsStore.persist.app.referencePickerOnStart) {
+    // Directly set the showPicker flag to true
     store.showPicker = true
+  } else if (router.query.q) {
+    setQuery()
   } else {
     store.setChapterFragment([0, 0, 0, 0])
   }

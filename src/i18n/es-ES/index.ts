@@ -107,6 +107,7 @@ export default {
     noPassageSelected: 'No se ha seleccionado ningún pasaje',
     sortTooltip: 'Alternar ordenación y eliminación de duplicados entre los fragmentos encontrados',
     warningCouldNotFormat: 'No se pudo formatear',
+    noLocaleData: 'No hay datos de localización disponibles',
   },
   settingsAppearance: {
     bibleTextExample: 'Ejemplo de texto bíblico',

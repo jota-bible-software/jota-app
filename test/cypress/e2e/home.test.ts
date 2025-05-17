@@ -44,6 +44,11 @@ describe('Home Page', () => {
   })
 
   describe('Reference picker', () => {
+    beforeEach(() => {
+      // Clear localStorage to ensure fresh state
+      cy.clearLocalStorage()
+      goHome() // Navigate to home after clearing localStorage
+    })
 
     // it('should show buttons for book selection by default', () => {
     //   assertShowing(bookButtons)

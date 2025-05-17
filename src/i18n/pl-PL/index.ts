@@ -102,6 +102,7 @@ export default {
     noPassageSelected: 'Nie zaznaczono fragmentu',
     sortTooltip: 'Włącz/wyłącz sortowanie i usuwanie duplikatów wśród wyszukanych fragmentów',
     warningCouldNotFormat: 'Nie można sformatować',
+    noLocaleData: 'Brak danych lokalizacyjnych',
   },
   settingsAppearance: {
     bibleTextExample: 'Przykład tekstu Biblii',

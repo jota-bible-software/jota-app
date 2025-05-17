@@ -141,5 +141,7 @@ export function getLang(localeOrLang: string): string {
 }
 
 export function locale2region(locale: LocaleSymbol): string {
-  return locale ? locale.split('-')[1].toLowerCase() : ''
+  if (!locale) return ''
+  const parts = locale.split('-')
+  return parts.length > 1 ? parts[1].toLowerCase() : ''
 }

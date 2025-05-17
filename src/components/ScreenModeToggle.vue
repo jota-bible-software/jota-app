@@ -1,7 +1,7 @@
 <template>
   <div class="row items-center">
     <div class="q-mr-sm">{{ $t('screenModeToggle.screenMode') }}</div>
-    <q-btn-toggle :data-tag="tags.settingsScreenMode" v-model="store.persist.appearance.screenMode" :label="$t('screenModeToggle.screenMode')"
+    <q-btn-toggle :data-tag="tags.settingsScreenMode" v-model="store.persist.app.screenMode" :label="$t('screenModeToggle.screenMode')"
       toggle-color="primary" :options="[
         { value: 'dark', slot: 'one' },
         { value: 'light', slot: 'two' },

@@ -6,7 +6,7 @@
     <div class="col">
       <div class="row items-center q-gutter-sm">
         <div>{{ $t('settingsAppearance.fontSize') }}</div>
-        <q-input v-model="store.persist.appearance.fontSize" class="row small" type="number"
+        <q-input v-model="store.persist.app.fontSize" class="row small" type="number"
           :data-tag="tags.settingsFontSize" />
         <q-btn icon="icon-mat-text_increase" @click="adjustFont(1)" :data-tag="tags.settingsFontSizeIncrease">
           <q-tooltip>{{ $t('settingsAppearance.textIncrease') }}</q-tooltip>
@@ -41,7 +41,7 @@ if (!searchStore.chapterFragment) {
 }
 
 function adjustFont(amount: number) {
-  store.persist.appearance.fontSize = (store.persist.appearance.fontSize ?? 16) + amount
+  store.persist.app.fontSize = (store.persist.app.fontSize ?? 16) + amount
 }
 </script>
 

@@ -185,11 +185,12 @@ describe('Settings Format Templates', () => {
       assertCount(itemName, initialCount + 1)
     })
 
-    it('should prevent removing the app screen template', () => {
-      click(first(itemName))
-      assertDisabled(removeButton)
-      assertText(tooltip(removeButton), t('settingsFormatTemplates.removeTooltipAppScreen'))
-    })
+     // The app screen template was a premature feature, don't turn it on yet
+    // it('should prevent removing the app screen template', () => {
+    //   click(first(itemName))
+    //   assertDisabled(removeButton)
+    //   assertText(tooltip(removeButton), t('settingsFormatTemplates.removeTooltipAppScreen'))
+    // })
 
     it('should prevent removing a template used in a copy template', () => {
       click(containsText('English presentation'))

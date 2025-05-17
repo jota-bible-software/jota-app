@@ -6,7 +6,7 @@
     </LabelRow>
     <q-list id="editions" class="rounded-borders">
       <q-expansion-item v-for="(group, i) in store.groups" :key="group.locale"
-        :default-opened="group.locale === settings.persist.appearance.locale" group="a"
+        :default-opened="group.locale === settings.persist.app.defaultLocale" group="a"
         :class="{ highlight: store.currentKey.locale === group.locale }" @show="store.currentKey.locale = group.locale"
         bordered :data-tag="tags.settingsEditionGroup">
 

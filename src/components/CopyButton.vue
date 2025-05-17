@@ -36,14 +36,14 @@ const { t } = useI18n()
 const props = defineProps(['tooltip', 'textColor', 'dataTagItem'])
 const emit = defineEmits(['click'])
 
-const copyTemplates = computed(() => settings.persist.localized[editions.currentEdition.locale].copyTemplates)
+const copyTemplates = computed(() => settings.persist.localeData[editions.currentEdition.locale].copyTemplates)
 
 function onClick(template?: CopyTemplateData) {
   emit('click', template)
 }
 
 function defaultSuffix(item: CopyTemplateData): string {
-  return item && item.name === settings.persist.localized[editions.currentEdition.locale].defaultCopyTemplate ? t('messageLine.defaultTemplate') : ''
+  return item && item.name === settings.persist.localeData[editions.currentEdition.locale].defaultCopyTemplate ? t('messageLine.defaultTemplate') : ''
 }
 
 function formattedSample(item: CopyTemplateData) {
