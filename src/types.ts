@@ -1,5 +1,14 @@
 import { ShallowRef } from 'vue'
 
+export type AppSettings = {
+  defaultLocale: LocaleSymbol
+  fontSize: number
+  screenMode: ScreenMode
+  appFormatTemplateName: string
+  defaultSearchResultLayout: PassageListLayout
+  referencePickerOnStart: boolean
+}
+
 export type BookNaming = { locale: LocaleSymbol, name: string, books: string[], booksText?: string }
 
 export type CopyTemplateData = {
@@ -9,9 +18,8 @@ export type CopyTemplateData = {
 }
 
 export type Edition = EditionMeta & {
-  selected: Ref<boolean>,
-  // stored: boolean,
   content: ShallowRef<EditionContent | undefined>
+  selected: Ref<boolean>
 }
 
 export type EditionContent = string[][][]
@@ -19,8 +27,6 @@ export type EditionContent = string[][][]
 export type EditionKey = { locale: LocaleSymbol, symbol: string }
 
 export type EditionMeta = EditionKey & { title: string, size: number, year?: string, bookNames?: string, bookOrder?: string }
-
-export type Formatted = { reference: string, separator: string, content: string, referenceFirst: boolean }
 
 export type FormatTemplateData = {
   name: string,
@@ -42,13 +48,31 @@ export type FormatTemplateData = {
   editionAbbreviationCharsAfter: string,
 }
 
+export type Formatted = { reference: string, separator: string, content: string, referenceFirst: boolean }
+
 export type JotaTestSupport = {
   getSelectionRange: () => Range | undefined
 }
 
 export type LanguageSymbol = string
-export type LocaleSymbol = 'en-US' | 'pl-PL'
-// export type LocaleSymbol = 'en-GB' | 'en-US' | 'pl-PL' | 'es-ES' | 'pt-PT' | 'uk-UA'
+
+export type LocaleData = {
+  naming: LocaleNaming
+  editions: LocaleEditions
+  copyTemplates: CopyTemplateData[]
+  defaultCopyTemplate: string
+}
+
+export type LocaleEditions = {
+  available: string[]
+  selected: string[]
+  default: string
+}
+
+export type LocaleNaming = {
+  available: BookNaming[]
+  default: string
+}
 
 export type Localized = {
   appBookNaming: string
@@ -58,6 +82,8 @@ export type Localized = {
   selectedEditions: string[]
   defaultEdition: string
 }
+
+export type LocaleSymbol = 'en-US' | 'pl-PL'
 
 export type Passage = [number, number, number?, number?]
 
@@ -80,38 +106,25 @@ export type ScreenMode = 'dark' | 'light' | 'auto'
 
 export type SearchOptions = { apocrypha?: boolean, shouldSort?: boolean, words?: boolean }
 
-export type AppSettings = {
-  defaultLocale: LocaleSymbol
-  fontSize: number
-  screenMode: ScreenMode
-  appFormatTemplateName: string
-  defaultSearchResultLayout: PassageListLayout
-  referencePickerOnStart: boolean
-}
-
-export type LocaleNaming = {
-  available: BookNaming[]
-  default: string
-}
-
-export type LocaleEditions = {
-  available: string[]
-  selected: string[]
-  default: string
-}
-
-export type LocaleData = {
-  naming: LocaleNaming
-  editions: LocaleEditions
-  copyTemplates: CopyTemplateData[]
-  defaultCopyTemplate: string
-}
-
-export type SettingsPersistType = {
+export type SettingsPersistV3 = {
   [key: string]: unknown
   version: string
   app: AppSettings
   locales: LocaleSymbol[]
   localeData: Record<LocaleSymbol, LocaleData>
   formatTemplates: FormatTemplateData[]
+}
+
+export type SettingsPersistV2 = Partial<SettingsPersistV3> & {
+  appearance?: {
+    locale?: string
+    fontSize?: number
+    screenMode?: ScreenMode
+    primaryColor?: string
+  }
+  localized: Record<LocaleSymbol, Partial<Localized>>
+  formatTemplates: Array<Partial<FormatTemplateData>>
+  appFormatTemplateName?: string
+  defaultSearchResultLayout?: string
+  referencePickerOnStart?: boolean
 }
