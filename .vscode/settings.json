@@ -1,19 +1,37 @@
 {
+  // Editor Settings
   "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": true,
-  "-- editor.formatOnSave": true,
-  "-- editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": ["source.fixAll.eslint"],
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
-  "typescript.tsdk": "node_modules/typescript/lib",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.guides.bracketPairs": true,
+
+  // Language Specific Settings
+  "[typescript]": {
+      "editor.codeActionsOnSave": [
+        "source.organizeImports"
+      ],
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
   "[vue]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "Vue.volar"
-    //  "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "Vue.volar",
+    "editor.formatOnSave": true
   },
   "javascript.format.semicolons": "remove",
   "typescript.format.semicolons": "remove",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "vue.format.wrapAttributes": "preserve",
+
+  // Extension Settings
+  "cSpell.words": ["composables", "vueuse"],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
+  "i18n-ally.displayLanguage": "en-US",
+  "i18n-ally.enabledFrameworks": ["vue"],
+  "i18n-ally.enabledParsers": ["js", "ts", "json"],
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.localesPaths": ["src/i18n"],
+  "i18n-ally.sourceLanguage": "en-US",
+
+  // Macros
   "macros": {
     "refactorCommit": [
       "deleteWordRight",
@@ -25,20 +43,9 @@
       "cursorDown"
     ]
   },
-  "cSpell.words": ["composables", "vueuse"],
 
-  "i18n-ally.enabledParsers": ["js", "ts", "json"],
-  "i18n-ally.localesPaths": ["src/i18n"],
-  "i18n-ally.sourceLanguage": "en-US",
-  "i18n-ally.displayLanguage": "en-US",
-  "i18n-ally.enabledFrameworks": ["vue"],
-
-  "vue.format.wrapAttributes": "preserve",
-  "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
+  // Workbench Settings
   "workbench.colorCustomizations": {
     "selection.background": "#535353"
-  },
-  "i18n-ally.keystyle": "nested"
+  }
 }
