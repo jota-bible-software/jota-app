@@ -1,14 +1,15 @@
 import { useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { bookNamings, copyTemplates, formatTemplates } from 'src/logic/data'
+import { localeData } from 'src/data'
+import { formatTemplates } from 'src/logic/data'
 import { migrateSettings } from 'src/stores/settings-migration'
-import { BookNaming, FormatTemplateData, LocaleSymbol, PassageListLayout, ScreenMode, SettingsPersistV3 } from 'src/types'
-import { getDefaultLocale, getLang, LOCAL_STORAGE_KEY } from 'src/util'
+import { BookNamingV2, FormatTemplateData, LocaleSymbol, PassageListLayout, ScreenMode, SettingsPersist } from 'src/types'
+import { getDefaultLocale, LOCAL_STORAGE_KEY } from 'src/util'
 
 const locale = getDefaultLocale()
 
 /** this value is persisted in the LocalStorage */
-const initialPersistValue: SettingsPersistV3 = {
+const initialPersistValue: SettingsPersist = {
   version: '3',
   app: {
     defaultLocale: locale,
@@ -19,44 +20,11 @@ const initialPersistValue: SettingsPersistV3 = {
     referencePickerOnStart: true,
   },
   locales: ['en-US', 'pl-PL'],
-  localeData: {
-    'en-US': {
-      naming: {
-        available: getBookNamings('en'),
-        default: 'SBL abbreviations'
-      },
-      editions: {
-        available: ['KJV', 'NLT'],
-        selected: ['KJV', 'NLT'],
-        default: 'KJV'
-      },
-      copyTemplates: copyTemplates['en-US']!,
-      defaultCopyTemplate: 'Presentation',
-    },
-    'pl-PL': {
-      naming: {
-        available: getBookNamings('pl'),
-        default: 'Moje pl'
-      },
-      editions: {
-        available: ['EIB', 'BT5', 'UBG'],
-        selected: ['EIB', 'BT5', 'UBG'],
-        default: 'UBG'
-      },
-      copyTemplates: copyTemplates['pl-PL']!,
-      defaultCopyTemplate: 'Prezentacja',
-    }
-  },
+  localeData: localeData,
   formatTemplates,
 }
 
-function getBookNamings(localeOrLang: string): BookNaming[] {
-  const localLang = getLang(localeOrLang)
-  return bookNamings
-    .filter(_ => getLang(_.locale) === localLang)
-    .map(_ => ({ ..._, booksText: _.books.join(', ') }))
-    .sort((a, b) => a.name.localeCompare(b.name, localLang, { sensitivity: 'base', ignorePunctuation: true }))
-}
+// getBookNamings function has been moved to individual locale files
 
 export const useSettingsStore = defineStore('settings', () => {
   // Ensure initialPersistValue has valid default structure
@@ -122,7 +90,7 @@ export const useSettingsStore = defineStore('settings', () => {
   }
 
   // Helper functions
-  function getBookNamingForLocale(locale: LocaleSymbol, namingId?: string): BookNaming | undefined {
+  function getBookNamingForLocale(locale: LocaleSymbol, namingId?: string): BookNamingV2 | undefined {
     const localeData = persist.value.localeData?.[locale] || initialPersistValue.localeData[locale]
     if (!localeData?.naming?.available) return undefined
 
@@ -142,7 +110,6 @@ export const useSettingsStore = defineStore('settings', () => {
     currentLocaleData,
     currentBookNaming,
     currentTab,
-    getBookNamings,
     getBookNamingForLocale,
     getFormatTemplate,
     focusedLocale,

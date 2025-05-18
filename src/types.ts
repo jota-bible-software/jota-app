@@ -9,7 +9,8 @@ export type AppSettings = {
   referencePickerOnStart: boolean
 }
 
-export type BookNaming = { locale: LocaleSymbol, name: string, books: string[], booksText?: string }
+export type BookNamingV2 = { locale: LocaleSymbol, name: string, books: string[], booksText?: string }
+export type BookNaming = { name: string, books: string[], booksText?: string }
 
 export type CopyTemplateData = {
   name: string,
@@ -56,9 +57,23 @@ export type JotaTestSupport = {
 
 export type LanguageSymbol = string
 
-export type LocaleData = {
+export type LocaleDataV2 = {
   naming: LocaleNaming
   editions: LocaleEditions
+  copyTemplates: CopyTemplateData[]
+  defaultCopyTemplate: string
+}
+
+export interface LocaleData {
+  naming: {
+    available: BookNaming[]
+    default: string
+  }
+  editions: {
+    available: string[]
+    selected: string[]
+    default: string
+  }
   copyTemplates: CopyTemplateData[]
   defaultCopyTemplate: string
 }
@@ -70,13 +85,13 @@ export type LocaleEditions = {
 }
 
 export type LocaleNaming = {
-  available: BookNaming[]
+  available: BookNamingV2[]
   default: string
 }
 
 export type Localized = {
   appBookNaming: string
-  bookNamings: BookNaming[]
+  bookNamings: BookNamingV2[]
   copyTemplates: CopyTemplateData[]
   defaultCopyTemplate: string
   selectedEditions: string[]
@@ -106,16 +121,16 @@ export type ScreenMode = 'dark' | 'light' | 'auto'
 
 export type SearchOptions = { apocrypha?: boolean, shouldSort?: boolean, words?: boolean }
 
-export type SettingsPersistV3 = {
+export type SettingsPersist = {
   [key: string]: unknown
   version: string
   app: AppSettings
   locales: LocaleSymbol[]
-  localeData: Record<LocaleSymbol, LocaleData>
+  localeData: Record<LocaleSymbol, LocaleDataV2>
   formatTemplates: FormatTemplateData[]
 }
 
-export type SettingsPersistV2 = Partial<SettingsPersistV3> & {
+export type SettingsPersistV2 = Partial<SettingsPersist> & {
   appearance?: {
     locale?: string
     fontSize?: number

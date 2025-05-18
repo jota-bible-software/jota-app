@@ -177,7 +177,7 @@ describe('Home Page', () => {
       assertClipboard('In the beginning God created, the heaven and the earth.\nGenesis 1:1 KJV')
 
       click(copySelectedButton, 'right')
-      click(third(copySelectedOption))
+      click(last(copySelectedOption))
       assertClipboard('– Gen 1:1 KJV\nIn the beginning God created, the heaven and the earth.')
     })
 

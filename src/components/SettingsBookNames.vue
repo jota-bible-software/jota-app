@@ -93,7 +93,7 @@
 import { computed, ref } from 'vue'
 import { useSettingsStore } from 'src/stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'
-import { BookNaming } from 'src/types'
+import { BookNamingV2 } from 'src/types'
 import { useI18n } from 'vue-i18n'
 import * as tags from 'src/tags'
 import { nameSorter } from 'src/util'
@@ -108,7 +108,7 @@ const appBookNaming = computed({
     return settings.focusedLocalized?.naming.default || ''
   },
   set(value: string) {
-    const v = settings.persist.localized[settings.focusedLocale]
+    const v = settings.persist.localeData[settings.focusedLocale]
     if (v) v.naming.default = value
   }
 })
@@ -117,20 +117,20 @@ const items = computed(() => settings.focusedLocalized?.naming.available || [])
 const names = computed(() => items.value.map(it => it.name))
 const selected = ref('')
 
-const emptyItem: BookNaming = { locale: settings.focusedLocale, name: '', books: [] as string[] }
+const emptyItem: BookNamingV2 = { locale: settings.focusedLocale, name: '', books: [] as string[] }
 const editedBooksText = ref('')
-const editedItem = ref<BookNaming>({ ...emptyItem })
-function edit(item: BookNaming) {
+const editedItem = ref<BookNamingV2>({ ...emptyItem })
+function edit(item: BookNamingV2) {
   selected.value = item.name
   editedItem.value = { ...item }
   editedBooksText.value = item.books.join(', ')
 }
 
-function save(item: BookNaming) {
+function save(item: BookNamingV2) {
   editedItem.value.books = editedBooksText.value.split(',').map(it => it.trim())
   Object.assign(item, editedItem.value)
   if (settings.focusedLocalized?.naming.available) {
-    settings.focusedLocalized.naming.available.sort(nameSorter(settings.persist.focusedLocale))
+    settings.focusedLocalized.naming.available.sort(nameSorter(settings.focusedLocale))
   }
   reset()
 }
@@ -172,7 +172,7 @@ function reset() {
   selected.value = ''
 }
 
-const newItem = ref<BookNaming>({ ...emptyItem })
+const newItem = ref<BookNamingV2>({ ...emptyItem })
 const newBooksText = ref('')
 
 function add() {

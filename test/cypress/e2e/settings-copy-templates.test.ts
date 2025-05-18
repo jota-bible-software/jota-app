@@ -17,7 +17,7 @@ describe('Settings Copy Templates', () => {
 
   const newTemplateName = 'aaa'
 
-  const initialCount = 3
+  const initialCount = 4
 
   function addNewItem() {
     type(addNameField, newTemplateName)
@@ -39,7 +39,7 @@ describe('Settings Copy Templates', () => {
 
   it('should change the new template default book naming when locale is changed', () => {
     select(locale, 'Polski')
-    assertText(addBookNamingField, 'BT5 pełne')
+    assertText(addBookNamingField, 'BT skróty')
   })
 
   describe('Adding a New Copy Template', () => {

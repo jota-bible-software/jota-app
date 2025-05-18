@@ -1,5 +1,5 @@
 import messages from 'src/i18n'
-import { BookNaming, LocaleData, LocaleSymbol, PassageListLayout, SettingsPersistV2, SettingsPersistV3 } from 'src/types'
+import { BookNamingV2, LocaleDataV2, LocaleSymbol, PassageListLayout, SettingsPersist, SettingsPersistV2 } from 'src/types'
 import { createI18n } from 'vue-i18n'
 
 // Create a local i18n instance for migration
@@ -64,8 +64,8 @@ export function migrateV1ToV2(persist: SettingsPersistV2) {
   }
 }
 
-export function migrateV2ToV3(oldSettings: SettingsPersistV2): SettingsPersistV3 {
-  const newSettings: SettingsPersistV3 = {
+export function migrateV2ToV3(oldSettings: SettingsPersistV2): SettingsPersist {
+  const newSettings: SettingsPersist = {
     version: '3',
     app: {
       defaultLocale: oldSettings.appearance?.locale as LocaleSymbol || 'en-US',
@@ -76,7 +76,7 @@ export function migrateV2ToV3(oldSettings: SettingsPersistV2): SettingsPersistV3
       referencePickerOnStart: oldSettings.referencePickerOnStart !== undefined ? oldSettings.referencePickerOnStart : true,
     },
     locales: [],
-    localeData: {} as Record<LocaleSymbol, LocaleData>,
+    localeData: {} as Record<LocaleSymbol, LocaleDataV2>,
     formatTemplates: oldSettings.formatTemplates || []
   }
 
@@ -100,7 +100,7 @@ export function migrateV2ToV3(oldSettings: SettingsPersistV2): SettingsPersistV3
     }
 
     if (newSettings.localeData[localeKey].naming.available) {
-      newSettings.localeData[localeKey].naming.available.forEach((naming: BookNaming) => {
+      newSettings.localeData[localeKey].naming.available.forEach((naming: BookNamingV2) => {
         if (!naming.booksText && naming.books) {
           naming.booksText = naming.books.join(', ')
         }

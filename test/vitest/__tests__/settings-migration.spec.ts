@@ -1,5 +1,5 @@
 import { migrateV2ToV3 } from 'src/stores/settings-migration'
-import { SettingsPersistV2, SettingsPersistV3 } from 'src/types'
+import { SettingsPersist, SettingsPersistV2 } from 'src/types'
 import { describe, expect, it } from 'vitest'
 
 describe('settings-migration', () => {
@@ -164,7 +164,7 @@ describe('settings-migration', () => {
   describe('migrateV2ToV3', () => {
     it('should correctly migrate settings from v2 to v3', () => {
       // Sample version 3 settings
-      const v2Settings: SettingsPersistV3 = {
+      const v2Settings: SettingsPersist = {
         "version": "3",
         "app": {
           "defaultLocale": "pl-PL",
