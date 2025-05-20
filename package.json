@@ -1,6 +1,6 @@
 {
-  "name": "jota-app",
-  "version": "0.0.1",
+  "name": "jota-bible-app",
+  "version": "2.3.0",
   "description": "Ergonomic app to search and read the Bible",
   "productName": "Jota Bible App",
   "author": "Jacek Kolodziejczyk <jacek.p.kolodziejczyk@gmail.com>",

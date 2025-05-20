@@ -14,6 +14,13 @@
 
     <h2 id="intro" class="text-h5 text-primary">Introduction</h2>
     <p>Welcome to the Jota Bible App, an ergonomic application designed to help you search, read, and study the Bible with ease.</p>
+    <p>It is main differentiators are:
+    <ul>
+      <li>Speed / comfort / ergonomy</li>
+      <li>Advanced formatting options for copying and sharing Bible passages</li>
+      <li>Eastetics / modern design / distraction free </li>
+    </ul>
+    </p>
 
     <h3 class="text-h6 q-mt-md">Key Features</h3>
     <ul>

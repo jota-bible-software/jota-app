@@ -68,8 +68,9 @@ useEventListener(document, 'selectionchange', () => {
 
 watch(() => store.scrollToIndex, async (index: number) => {
   await nextTick()
-  if (!chapterRef.value) return
-  chapterItemRefs.value[index].$el.scrollIntoView({ block: 'center' })
+  if (!chapterRef.value || !chapterItemRefs.value[index]) return
+  // Ensure the verse is scrolled to the center of the viewport
+  chapterItemRefs.value[index].$el.scrollIntoView({ block: 'center', behavior: 'auto' })
 })
 
 function scrollPage(direction: Direction) {

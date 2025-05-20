@@ -71,7 +71,13 @@ export const useSearchStore = defineStore('search', () => {
       const [, , start, end] = newFragment
       const s = start ?? 0
       const e = end ?? start ?? 0
-      scrollToIndex.value = s + Math.floor((e - s) / 2)
+      // Trigger scrolling to the selected verse
+      // Re-assign even if the value doesn't change to ensure the watcher triggers
+      scrollToIndex.value = -1 // Reset first to ensure the watcher will trigger even if the same value
+      // Use setTimeout to ensure this happens after the current execution cycle
+      setTimeout(() => {
+        scrollToIndex.value = s + Math.floor((e - s) / 2)
+      }, 0)
     }
   }
 
