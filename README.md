@@ -44,4 +44,4 @@ quasar build
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
 
 
-See [MULTI_DOMAIN_SETUP.md](./MULTI_DOMAIN_SETUP.md) for detailed information about the multi-domain configuration.
+See [MULTI_DOMAIN_SETUP.md](./docs/multi-domain-setup.md) for detailed information about the multi-domain configuration.

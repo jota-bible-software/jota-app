@@ -27,7 +27,12 @@
       function gtag() { dataLayer.push(arguments) }
       gtag('js', new Date())
 
-      gtag('config', 'G-6K2MRNB2N5')
+      // Configure GA4 to use first-party cookies and add cookie flags
+      gtag('config', 'G-6K2MRNB2N5', {
+        'cookie_domain': window.location.hostname,
+        'cookie_flags': 'SameSite=None;Secure',
+        'client_storage': 'none'  // Using cookieless mode
+      })
     }
   </script>
 </head>
