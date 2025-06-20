@@ -11,13 +11,11 @@
 
       <div class="row q-mt-md">
         <q-list bordered separator class="col" style="max-width: 650px">
-          <q-item v-for="(item, index) in items" :key="item.name" class="q-px-none1" clickable
-            @click="edit(item, index)">
+          <q-item v-for="(item, index) in items" :key="item.name" class="q-px-none1" clickable @click="edit(item, index)">
             <q-item-section>
               <q-item-label :data-tag="tags.settingsFormatTemplatesItemName">{{ item.name }}</q-item-label>
               <q-item-label>
-                <pre v-html="formatSample(item)" class="text-caption default-font-family"
-                  style=" white-space:pre-wrap"></pre>
+                <pre v-html="formatSample(item)" class="text-caption default-font-family" style=" white-space:pre-wrap"></pre>
               </q-item-label>
             </q-item-section>
             <q-item-section avatar>
@@ -42,8 +40,7 @@
 
         <!-- <q-separator class="q-my-md" /> -->
         <LabelRow :label="$t('settingsFormatTemplates.templateName')" lifted>
-          <q-input v-model="editedItem.name" class="col" :rules="[validateName]"
-            :data-tag="tags.settingsFormatTemplateName" />
+          <q-input v-model="editedItem.name" class="col" :rules="[validateName]" :data-tag="tags.settingsFormatTemplateName" />
         </LabelRow>
 
         <div>{{ $t('settingsFormatTemplates.referencePosition') }}</div>
@@ -52,34 +49,26 @@
         </LabelRow>
 
         <LabelRow>
-          <q-radio v-model="editedItem.referencePosition" val="before"
-            :label="$t('settingsFormatTemplates.beforeContent')"
-            :data-tag="tags.settingsFormatTemplateRefPositionBefore"
-            :disable="editedItem.referenceWithoutContent" />
-          <q-radio v-model="editedItem.referencePosition" val="after"
-            :label="$t('settingsFormatTemplates.afterContent')"
-            :data-tag="tags.settingsFormatTemplateRefPositionAfter"
-            :disable="editedItem.referenceWithoutContent" />
+          <q-radio v-model="editedItem.referencePosition" val="before" :label="$t('settingsFormatTemplates.beforeContent')"
+            :data-tag="tags.settingsFormatTemplateRefPositionBefore" :disable="editedItem.referenceWithoutContent" />
+          <q-radio v-model="editedItem.referencePosition" val="after" :label="$t('settingsFormatTemplates.afterContent')"
+            :data-tag="tags.settingsFormatTemplateRefPositionAfter" :disable="editedItem.referenceWithoutContent" />
         </LabelRow>
         <LabelRow>
           <q-radio v-model="editedItem.referenceLine" val="same line" :label="$t('settingsFormatTemplates.sameLine')"
-            :data-tag="tags.settingsFormatTemplateRefPositionSameLine"
-            :disable="editedItem.referenceWithoutContent" />
+            :data-tag="tags.settingsFormatTemplateRefPositionSameLine" :disable="editedItem.referenceWithoutContent" />
           <q-radio v-model="editedItem.referenceLine" val="new line" :label="$t('settingsFormatTemplates.newLine')"
-            :data-tag="tags.settingsFormatTemplateRefPositionNewLine"
-            :disable="editedItem.referenceWithoutContent" />
+            :data-tag="tags.settingsFormatTemplateRefPositionNewLine" :disable="editedItem.referenceWithoutContent" />
         </LabelRow>
 
 
-        <LabelRow :label="$t('settingsFormatTemplates.editionAbbreviation')" class="q-py-sm">
-          <q-radio v-model="editedItem.editionAbbreviation" val="none" :label="$t('settingsFormatTemplates.none')"
-            :data-tag="tags.settingsFormatTemplateEditionAbbreviationNone" />
-          <q-radio v-model="editedItem.editionAbbreviation" val="lowercase"
-            :label="$t('settingsFormatTemplates.lowercase')"
-            :data-tag="tags.settingsFormatTemplateEditionAbbreviationLowercase" />
-          <q-radio v-model="editedItem.editionAbbreviation" val="uppercase"
-            :label="$t('settingsFormatTemplates.uppercase')"
-            :data-tag="tags.settingsFormatTemplateEditionAbbreviationUppercase" />
+        <LabelRow :label="$t('settingsFormatTemplates.translationAbbreviation')" class="q-py-sm">
+          <q-radio v-model="editedItem.translationAbbreviation" val="none" :label="$t('settingsFormatTemplates.none')"
+            :data-tag="tags.settingsFormatTemplateTranslationAbbreviationNone" />
+          <q-radio v-model="editedItem.translationAbbreviation" val="lowercase" :label="$t('settingsFormatTemplates.lowercase')"
+            :data-tag="tags.settingsFormatTemplateTranslationAbbreviationLowercase" />
+          <q-radio v-model="editedItem.translationAbbreviation" val="uppercase" :label="$t('settingsFormatTemplates.uppercase')"
+            :data-tag="tags.settingsFormatTemplateTranslationAbbreviationUppercase" />
         </LabelRow>
 
         <LabelRow class="q-pb-sm">
@@ -91,58 +80,48 @@
 
         <LabelRow>
           <div class="col">{{ $t('settingsFormatTemplates.separatorChar') }}</div>
-          <CharacterInput v-model="editedItem.separatorChar"
-            :data-tag="tags.settingsFormatTemplateSeparatorChar" />
+          <CharacterInput v-model="editedItem.separatorChar" :data-tag="tags.settingsFormatTemplateSeparatorChar" />
         </LabelRow>
 
         <LabelRow>
           <div class="col">{{ $t('settingsFormatTemplates.rangeChar') }}</div>
-          <CharacterInput v-model="editedItem.rangeChar"
-            :data-tag="tags.settingsFormatTemplateRangeChar" />
+          <CharacterInput v-model="editedItem.rangeChar" :data-tag="tags.settingsFormatTemplateRangeChar" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundReference') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <CharacterInput v-model="editedItem.referenceCharsBefore"
-            :data-tag="tags.settingsFormatTemplateReferenceCharsBefore" />
+          <CharacterInput v-model="editedItem.referenceCharsBefore" :data-tag="tags.settingsFormatTemplateReferenceCharsBefore" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <CharacterInput v-model="editedItem.referenceCharsAfter"
-            :data-tag="tags.settingsFormatTemplateReferenceCharsAfter" />
+          <CharacterInput v-model="editedItem.referenceCharsAfter" :data-tag="tags.settingsFormatTemplateReferenceCharsAfter" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundQuote') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <CharacterInput v-model="editedItem.quoteCharsBefore"
-            :data-tag="tags.settingsFormatTemplateQuoteCharsBefore"
+          <CharacterInput v-model="editedItem.quoteCharsBefore" :data-tag="tags.settingsFormatTemplateQuoteCharsBefore"
             :disable="editedItem.referenceWithoutContent" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <CharacterInput v-model="editedItem.quoteCharsAfter"
-            :data-tag="tags.settingsFormatTemplateQuoteCharsAfter"
+          <CharacterInput v-model="editedItem.quoteCharsAfter" :data-tag="tags.settingsFormatTemplateQuoteCharsAfter"
             :disable="editedItem.referenceWithoutContent" />
         </LabelRow>
 
         <LabelRow>
           <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundVerseNumber') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <CharacterInput v-model="editedItem.verseNumberCharsBefore"
-            :data-tag="tags.settingsFormatTemplateNumberCharsBefore"
+          <CharacterInput v-model="editedItem.verseNumberCharsBefore" :data-tag="tags.settingsFormatTemplateNumberCharsBefore"
             :disable="editedItem.referenceWithoutContent" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <CharacterInput v-model="editedItem.verseNumberCharsAfter"
-            :data-tag="tags.settingsFormatTemplateNumberCharsAfter"
+          <CharacterInput v-model="editedItem.verseNumberCharsAfter" :data-tag="tags.settingsFormatTemplateNumberCharsAfter"
             :disable="editedItem.referenceWithoutContent" />
         </LabelRow>
 
         <LabelRow>
-          <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundEditionAbbreviation') }}</div>
+          <div class="chars-around-label">{{ $t('settingsFormatTemplates.charsAroundTranslationAbbreviation') }}</div>
           <div class="chars before">{{ $t('settingsFormatTemplates.charsBefore') }}</div>
-          <CharacterInput v-model="editedItem.editionAbbreviationCharsBefore"
-            :disable="editedItem.referenceWithoutContent" />
+          <CharacterInput v-model="editedItem.translationAbbreviationCharsBefore" :disable="editedItem.referenceWithoutContent" />
           <div class="chars after">{{ $t('settingsFormatTemplates.charsAfter') }}</div>
-          <CharacterInput v-model="editedItem.editionAbbreviationCharsAfter"
-            :disable="editedItem.referenceWithoutContent" />
+          <CharacterInput v-model="editedItem.translationAbbreviationCharsAfter" :disable="editedItem.referenceWithoutContent" />
         </LabelRow>
 
         <div>{{ $t('settingsFormatTemplates.example') }}</div>
@@ -170,8 +149,7 @@
           </q-btn> -->
             <q-space />
 
-            <q-btn outline color="red-4" :disabled="!!removeTooltip" @click="remove"
-              :data-tag="tags.settingsFormatTemplateRemove">
+            <q-btn outline color="red-4" :disabled="!!removeTooltip" @click="remove" :data-tag="tags.settingsFormatTemplateRemove">
               <q-icon left name="delete" />
               <div>{{ $t('settingsFormatTemplates.removeButton') }}</div>
               <q-tooltip v-if="!!removeTooltip">{{ removeTooltip }}</q-tooltip>
@@ -208,7 +186,7 @@ const emptyItem: FormatTemplateData = {
   referenceWithoutContent: false,
   referencePosition: 'after',
   referenceLine: 'new line',
-  editionAbbreviation: 'uppercase',
+  translationAbbreviation: 'uppercase',
   numbers: false,
   verseNewLine: false,
   separatorChar: ':',
@@ -219,8 +197,8 @@ const emptyItem: FormatTemplateData = {
   quoteCharsAfter: '',
   verseNumberCharsBefore: '',
   verseNumberCharsAfter: '',
-  editionAbbreviationCharsBefore: '',
-  editionAbbreviationCharsAfter: '',
+  translationAbbreviationCharsBefore: '',
+  translationAbbreviationCharsAfter: '',
 }
 
 const selected = ref('')

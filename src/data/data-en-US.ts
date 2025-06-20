@@ -248,7 +248,7 @@ export const enUSLocaleData: LocaleData = {
     available: englishBookNamings,
     default: 'SBL abbreviations'
   },
-  editions: {
+  translations: {
     available: ['KJV', 'NLT'],
     selected: ['KJV', 'NLT'],
     default: 'KJV'

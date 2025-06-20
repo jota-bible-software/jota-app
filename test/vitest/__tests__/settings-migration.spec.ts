@@ -38,18 +38,18 @@ describe('settings-migration', () => {
               // more templates here
             ],
             "defaultCopyTemplate": "Presentation",
-            "selectedEditions": [
+            "selectedTranslations": [
               "AVD"
             ],
-            "defaultEdition": "AVD"
+            "defaultTranslation": "AVD"
           },
           "pl-PL": {
             "appBookNaming": "Standard",
             "bookNamings": [],
             "copyTemplates": [],
             "defaultCopyTemplate": "",
-            "selectedEditions": [],
-            "defaultEdition": ""
+            "selectedTranslations": [],
+            "defaultTranslation": ""
           }
           // more localized data here
         },
@@ -58,7 +58,7 @@ describe('settings-migration', () => {
             "name": "App format",
             "referencePosition": "before",
             "referenceLine": "same line",
-            "editionAbbreviation": "none",
+            "translationAbbreviation": "none",
             "numbers": false,
             "verseNewLine": false,
             "referenceWithoutContent": false,
@@ -70,8 +70,8 @@ describe('settings-migration', () => {
             "quoteCharsAfter": "",
             "verseNumberCharsBefore": "",
             "verseNumberCharsAfter": "",
-            "editionAbbreviationCharsBefore": "",
-            "editionAbbreviationCharsAfter": ""
+            "translationAbbreviationCharsBefore": "",
+            "translationAbbreviationCharsAfter": ""
           }
           // more templates here
         ],
@@ -111,10 +111,10 @@ describe('settings-migration', () => {
       expect(enData.naming.available[0].books).toEqual(["Gen", "Exod"])
       expect(enData.naming.available[0].booksText).toBe("Gen, Exod")
 
-      // Verify editions data
-      expect(enData.editions.available).toEqual(["AVD"])
-      expect(enData.editions.selected).toEqual(["AVD"])
-      expect(enData.editions.default).toBe("AVD")
+      // Verify translations data
+      expect(enData.translations.available).toEqual(["AVD"])
+      expect(enData.translations.selected).toEqual(["AVD"])
+      expect(enData.translations.default).toBe("AVD")
 
       // Verify copy templates
       expect(enData.copyTemplates).toHaveLength(1)
@@ -195,7 +195,7 @@ describe('settings-migration', () => {
               ],
               "default": "OSIS abbreviations"
             },
-            "editions": {
+            "translations": {
               "available": [
                 "KJV",
                 "NLT"
@@ -231,7 +231,7 @@ describe('settings-migration', () => {
               ],
               "default": "BT skróty"
             },
-            "editions": {
+            "translations": {
               "available": [
                 "BT5",
                 "UBG"
@@ -257,7 +257,7 @@ describe('settings-migration', () => {
             "name": "App format",
             "referencePosition": "before",
             "referenceLine": "same line",
-            "editionAbbreviation": "none",
+            "translationAbbreviation": "none",
             "numbers": false,
             "verseNewLine": false,
             "referenceWithoutContent": false,
@@ -269,14 +269,14 @@ describe('settings-migration', () => {
             "quoteCharsAfter": "",
             "verseNumberCharsBefore": "",
             "verseNumberCharsAfter": "",
-            "editionAbbreviationCharsBefore": "",
-            "editionAbbreviationCharsAfter": ""
+            "translationAbbreviationCharsBefore": "",
+            "translationAbbreviationCharsAfter": ""
           },
           {
             "name": "Studium",
             "referencePosition": "before",
             "referenceLine": "new line",
-            "editionAbbreviation": "uppercase",
+            "translationAbbreviation": "uppercase",
             "numbers": true,
             "verseNewLine": false,
             "referenceWithoutContent": false,
@@ -288,8 +288,8 @@ describe('settings-migration', () => {
             "quoteCharsAfter": "",
             "verseNumberCharsBefore": "(",
             "verseNumberCharsAfter": ")",
-            "editionAbbreviationCharsBefore": "",
-            "editionAbbreviationCharsAfter": ""
+            "translationAbbreviationCharsBefore": "",
+            "translationAbbreviationCharsAfter": ""
           }
         ]
       }

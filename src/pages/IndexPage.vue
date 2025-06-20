@@ -5,7 +5,7 @@
 
         <BibleSelector />
       </div>
-      <!-- <EditionConfig /> -->
+      <!-- <TranslationConfig /> -->
     </q-page>
   </div>
 </template>

@@ -5,8 +5,8 @@
 
       <span v-if="isBookSelected" class="bold q-mr-sm">{{ passageName }}</span>
 
-      <q-btn :data-tag="tags.referencePickerBackButton" outline dense text-color="primary"
-        icon="icon-mdi-arrow-up-left" v-show="isBookSelected" @click="back">
+      <q-btn :data-tag="tags.referencePickerBackButton" outline dense text-color="primary" icon="icon-mdi-arrow-up-left" v-show="isBookSelected"
+        @click="back">
         <q-tooltip>{{ t('referencePicker.backTooltip') }} {{ backTooltip }}</q-tooltip>
       </q-btn>
     </div>
@@ -14,27 +14,27 @@
     <div v-if="bookIndex === -1" id="reference-picker-books" class="col q-mt-sm">
       <!-- <div class="row q-mb-sm text-h6">Old testament</div> -->
       <div class="row selectors">
-        <ReferencePickerButton data-tag="reference-picker-book" v-for="(book, i) in bookList.slice(0, 17)" :key="i"
-          :value="book" :alternate="alternate[i]" @select="selectBook(i)" />
+        <ReferencePickerButton data-tag="reference-picker-book" v-for="(book, i) in bookList.slice(0, 17)" :key="i" :value="book"
+          :alternate="alternate[i]" @select="selectBook(i)" />
       </div>
 
       <div class="row selectors q-mt-sm">
-        <ReferencePickerButton :data-tag="tags.referencePickerBookButton" v-for="(book, i) in bookList.slice(17, 39)" :key="i"
-          :value="book" :alternate="alternate[i + 17]" @select="selectBook(i + 17)" />
+        <ReferencePickerButton :data-tag="tags.referencePickerBookButton" v-for="(book, i) in bookList.slice(17, 39)" :key="i" :value="book"
+          :alternate="alternate[i + 17]" @select="selectBook(i + 17)" />
       </div>
 
       <!-- <div class="row q-mt-sm text-h6">New testament</div> -->
       <div class="row selectors q-mt-md">
-        <ReferencePickerButton :data-tag="tags.referencePickerBookButton" v-for="(book, i) in bookList.slice(39, 66)" :key="i"
-          :value="book" :alternate="alternate[i + 39]" @select="selectBook(i + 39)" />
+        <ReferencePickerButton :data-tag="tags.referencePickerBookButton" v-for="(book, i) in bookList.slice(39, 66)" :key="i" :value="book"
+          :alternate="alternate[i + 39]" @select="selectBook(i + 39)" />
       </div>
     </div>
 
     <!-- Chapters -->
     <div v-if="!isChapterSelected && isBookSelected" id="reference-picker-chapters" class="col">
       <div class="row selectors">
-        <ReferencePickerButton :data-tag="tags.referencePickerChapterButtons" v-for="chapter in chapters" :key="chapter"
-          :value="chapter + 1" alternate="0" @select="selectChapter(chapter)" />
+        <ReferencePickerButton :data-tag="tags.referencePickerChapterButtons" v-for="chapter in chapters" :key="chapter" :value="chapter + 1"
+          alternate="0" @select="selectChapter(chapter)" />
       </div>
     </div>
 
@@ -50,7 +50,7 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ReferencePickerButton from 'src/components/ReferencePickerButton.vue'
-import { useEditionStore } from 'src/stores/edition-store'
+import { useTranslationStore } from 'src/stores/translation-store'
 import { useSettingsStore } from 'src/stores/settings-store'
 import { useSearchStore } from 'src/stores/search-store'
 import { nextTick } from 'vue'
@@ -58,7 +58,7 @@ import * as tags from 'src/tags'
 
 const { t } = useI18n()
 const settings = useSettingsStore()
-const store = useEditionStore()
+const store = useTranslationStore()
 const searchStore = useSearchStore()
 
 const alternate = [

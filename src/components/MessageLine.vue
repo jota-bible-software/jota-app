@@ -2,12 +2,10 @@
   <div>
     <div id="message" v-if="!showPicker" class="row items-center q-gutter-sm">
 
-      <q-circular-progress v-show="isSearching" color="primary" track-color="grey-4" size="sm" indeterminate
-        class="q-mr-sm" />
+      <q-circular-progress v-show="isSearching" color="primary" track-color="grey-4" size="sm" indeterminate class="q-mr-sm" />
       <div v-if="isSearching" class="q-mr-sm">{{ $t('messageLine.searching') }}</div>
 
-      <span v-else-if="!isFound && searchTerm !== ''"
-        :data-tag="tags.nothingFound">{{ $t('messageLine.notFound') }}</span>
+      <span v-else-if="!isFound && searchTerm !== ''" :data-tag="tags.nothingFound">{{ $t('messageLine.notFound') }}</span>
 
       <span v-if="error">{{ error }}</span>
 
@@ -17,13 +15,12 @@
       <CopyButton v-show="showFound" tooltip="messageLine.copyFound" @click="copyFound" :data-tag="tags.copyFoundButton"
         :data-tag-item="tags.copyFoundOption" />
 
-      <q-btn v-show="showFound && layout === 'formatted'" outline dense icon="icon-mat-vertical_split"
-        text-color="primary" @click="setSplitLayout" :data-tag="tags.layoutToggle">
+      <q-btn v-show="showFound && layout === 'formatted'" outline dense icon="icon-mat-vertical_split" text-color="primary" @click="setSplitLayout"
+        :data-tag="tags.layoutToggle">
         <q-tooltip>{{ $t('messageLine.enableNavigation') }}</q-tooltip>
       </q-btn>
 
-      <q-btn v-show="showFound && layout === 'split'" outline dense icon="icon-mat-view_agenda" text-color="primary"
-        @click="layout = 'formatted'">
+      <q-btn v-show="showFound && layout === 'split'" outline dense icon="icon-mat-view_agenda" text-color="primary" @click="layout = 'formatted'">
         <q-tooltip>{{ $t('messageLine.formattedLayout') }}</q-tooltip>
       </q-btn>
 
@@ -36,8 +33,7 @@
       <span v-if="layout === 'split'">
 
         <span v-if="chapterFragment">
-          <q-btn dense outline no-caps class="q-px-sm text-accent" @click="handleChapterClick()"
-            :data-tag="tags.chapterCaption">{{ chapterCaption }}
+          <q-btn dense outline no-caps class="q-px-sm text-accent" @click="handleChapterClick()" :data-tag="tags.chapterCaption">{{ chapterCaption }}
             <q-tooltip>{{ $t('messageLine.selectBookChapter') }}</q-tooltip>
           </q-btn>
         </span>
@@ -49,8 +45,7 @@
             <q-tooltip>{{ $t('messageLine.previousChapter') }}</q-tooltip>
           </q-btn>
           <!-- Next chapter -->
-          <q-btn outline dense text-color="primary" icon="icon-mat-navigate_next" @click="goToAdjacentChapter(1)"
-            :data-tag="tags.nextChapterButton">
+          <q-btn outline dense text-color="primary" icon="icon-mat-navigate_next" @click="goToAdjacentChapter(1)" :data-tag="tags.nextChapterButton">
             <q-tooltip>{{ $t('messageLine.nextChapter') }}</q-tooltip>
           </q-btn>
         </q-btn-group>
@@ -59,8 +54,8 @@
         <CopyButton v-show="hasSelection" text-color="primary" tooltip="messageLine.copySelected" @click="copySelected"
           :data-tag="tags.copySelectedButton" :data-tag-item="tags.copySelectedOption" />
 
-        <q-btn id="player" v-if="audioVisible" v-show="store.chapterFragment" outline dense text-color="primary"
-          class="q-ml-sm" icon="icon-mat-volume_up" @click="store.toggleAudio">
+        <q-btn id="player" v-if="audioVisible" v-show="store.chapterFragment" outline dense text-color="primary" class="q-ml-sm"
+          icon="icon-mat-volume_up" @click="store.toggleAudio">
           <q-tooltip>{{ $t('messageLine.playAudio') }}</q-tooltip>
         </q-btn>
       </span>
@@ -83,14 +78,14 @@ import AudioPlayer from 'src/components/AudioPlayer.vue'
 import CopyButton from './CopyButton.vue'
 import { useI18n } from 'vue-i18n'
 import * as tags from 'src/tags'
-import { useEditionStore } from 'src/stores/edition-store'
+import { useTranslationStore } from 'src/stores/translation-store'
 
 const { t } = useI18n()
 const store = useSearchStore()
 const { goToAdjacentChapter, chapterCaption, chapterFragment, error, hasSelection, layout, passages, progress, searchTerm, shouldSort, showPicker, sortAndDeduplicate } = toRefs(store)
 
 const settings = useSettingsStore()
-const editions = useEditionStore()
+const translations = useTranslationStore()
 
 const q = useQuasar()
 const { copy } = useClipboard()
@@ -98,7 +93,7 @@ const { copy } = useClipboard()
 const isSearching = computed(() => progress.value > 0)
 const isFound = computed(() => passages.value.length > 0)
 const showFound = computed(() => isFound.value && passages.value.length > 1)
-const audioVisible = computed(() => editions.currentEdition.locale === 'pl-PL')
+const audioVisible = computed(() => translations.currentTranslation.locale === 'pl-PL')
 
 function handleChapterClick() {
   store.referencePickerUseChapter = true

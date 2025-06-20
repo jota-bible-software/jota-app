@@ -18,23 +18,23 @@ export type CopyTemplateData = {
   bookNaming: string
 }
 
-export type Edition = EditionMeta & {
-  content: ShallowRef<EditionContent | undefined>
+export type Translation = TranslationMeta & {
+  content: ShallowRef<TranslationContent | undefined>
   selected: Ref<boolean>
 }
 
-export type EditionContent = string[][][]
+export type TranslationContent = string[][][]
 
-export type EditionKey = { locale: LocaleSymbol, symbol: string }
+export type TranslationKey = { locale: LocaleSymbol, symbol: string }
 
-export type EditionMeta = EditionKey & { title: string, size: number, year?: string, bookNames?: string, bookOrder?: string }
+export type TranslationMeta = TranslationKey & { title: string, size: number, year?: string, bookNames?: string, bookOrder?: string }
 
 export type FormatTemplateData = {
   name: string,
   referenceWithoutContent: boolean,
   referencePosition: 'before' | 'after',
   referenceLine: 'same line' | 'new line',
-  editionAbbreviation: 'none' | 'lowercase' | 'uppercase'
+  translationAbbreviation: 'none' | 'lowercase' | 'uppercase'
   numbers: boolean,
   verseNewLine: boolean,
   separatorChar: string,
@@ -45,8 +45,8 @@ export type FormatTemplateData = {
   quoteCharsAfter: string,
   verseNumberCharsBefore: string,
   verseNumberCharsAfter: string,
-  editionAbbreviationCharsBefore: string,
-  editionAbbreviationCharsAfter: string,
+  translationAbbreviationCharsBefore: string,
+  translationAbbreviationCharsAfter: string,
 }
 
 export type Formatted = { reference: string, separator: string, content: string, referenceFirst: boolean }
@@ -59,7 +59,7 @@ export type LanguageSymbol = string
 
 export type LocaleDataV2 = {
   naming: LocaleNaming
-  editions: LocaleEditions
+  translations: LocaleTranslations
   copyTemplates: CopyTemplateData[]
   defaultCopyTemplate: string
 }
@@ -69,7 +69,7 @@ export interface LocaleData {
     available: BookNaming[]
     default: string
   }
-  editions: {
+  translations: {
     available: string[]
     selected: string[]
     default: string
@@ -78,7 +78,7 @@ export interface LocaleData {
   defaultCopyTemplate: string
 }
 
-export type LocaleEditions = {
+export type LocaleTranslations = {
   available: string[]
   selected: string[]
   default: string
@@ -94,8 +94,8 @@ export type Localized = {
   bookNamings: BookNamingV2[]
   copyTemplates: CopyTemplateData[]
   defaultCopyTemplate: string
-  selectedEditions: string[]
-  defaultEdition: string
+  selectedTranslations: string[]
+  defaultTranslation: string
 }
 
 export type LocaleSymbol = 'en-US' | 'pl-PL'
@@ -110,7 +110,7 @@ export type PassageFormat = {
   quotes: boolean,
   numbers: boolean,
   verseNewLine: boolean,
-  edition: 'none' | 'lowercase' | 'uppercase'
+  translation: 'none' | 'lowercase' | 'uppercase'
 }
 
 export type PassageListLayout = 'split' | 'formatted'

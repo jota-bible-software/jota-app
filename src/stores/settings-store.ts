@@ -73,7 +73,7 @@ export const useSettingsStore = defineStore('settings', () => {
     return templateName ? persist.value.formatTemplates?.find((it: FormatTemplateData) => it.name === templateName) : undefined
   })
 
-  /** Language currently focused in the settings to store the accordion state for edition or filter items in namings*/
+  /** Language currently focused in the settings to store the accordion state for translation or filter items in namings*/
   const focusedLocale = ref<LocaleSymbol>(persist.value.app?.defaultLocale || locale)
   const focusedLocalized = computed(() => {
     return persist.value.localeData?.[focusedLocale.value] || initialPersistValue.localeData[focusedLocale.value]

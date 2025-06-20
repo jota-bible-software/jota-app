@@ -4,7 +4,7 @@
     <div class="row no-wrap items-center">
       <div class="gt-sm page-title"> Jota </div>
       <q-space />
-      <span id="edition-label" class="text-secondary q-mr-sm">{{ $t('mainToolbar.editionLabel') }}</span>
+      <span id="translation-label" class="text-secondary q-mr-sm">{{ $t('mainToolbar.translationLabel') }}</span>
       <MainBibleSelector class="q-pr-sm gt-sm" />
 
       <ButtonBookSelector />

@@ -41,21 +41,21 @@ export default {
     message: 'Сторінку, яку ви шукаєте, не знайдено.',
     title: '404'
   },
-  editionStore: {
-    cannotUnselectAllEditions: 'Неможливо відзначити всі видання',
-    editionNotFound: 'Вміст видання не знайдено для {symbol} ({locale})',
-    editionFetchError: 'Помилка отримання вмісту видання для {symbol} ({locale})',
+  translationStore: {
+    cannotUnselectAllTranslations: 'Неможливо відзначити всі переклади',
+    translationNotFound: 'Вміст перекладу не знайдено для {symbol} ({locale})',
+    translationFetchError: 'Помилка отримання вмісту перекладу для {symbol} ({locale})',
     noDataReceived: 'Не отримано даних із запиту на отримання'
   },
   mainPage: {
     clearSearch: 'Очистити критерії та результати пошуку',
-    downloading: 'Завантаження вмісту видання ...',
-    placeholderLong: 'Введіть текст, що містить біблійні посилання або фразу для пошуку в тексті видання',
+    downloading: 'Завантаження вмісту перекладу ...',
+    placeholderLong: 'Введіть текст, що містить біблійні посилання або фразу для пошуку в тексті перекладу',
     placeholderShort: 'Посилання або фраза',
     search: 'Пошук'
   },
   mainToolbar: {
-    editionLabel: 'Видання'
+    translationLabel: 'Переклад'
   },
   messageLine: {
     chapterLabel: 'Розділ',
@@ -101,7 +101,7 @@ export default {
   searchStore: {
     errorPrefix: 'Помилка:',
     noTemplateFound: 'Не знайдено шаблону для копіювання',
-    editionContentNotLoaded: 'Зміст видання не завантажено',
+    translationContentNotLoaded: 'Зміст перекладу не завантажено',
     noFragmentsFound: 'Не знайдено фрагментів',
     formattingError: 'Помилка під час форматування:',
     noPassageSelected: 'Не вибрано уривок',
@@ -175,7 +175,7 @@ export default {
     charsBefore: 'перед',
     charsAroundQuote: 'Символи навколо цитати',
     charsAroundReference: 'Символи навколо посилання',
-    charsAroundEditionAbbreviation: 'Символи навколо скорочення видання',
+    charsAroundTranslationAbbreviation: 'Символи навколо скорочення перекладу',
     charsAroundVerseNumber: 'Символи навколо номера вірша',
     editTitle: 'Редагувати шаблон форматування',
     example: 'Приклад форматованого уривку',
@@ -201,7 +201,7 @@ export default {
     separatorChar: 'Символ-роздільник',
     templateName: 'Назва шаблону',
     title: 'Шаблони форматування',
-    editionAbbreviation: 'Скорочення видання',
+    translationAbbreviation: 'Скорочення перекладу',
     uppercase: 'Великі літери',
     versesWithNumbers: 'Вірші з номерами',
     yes: 'Так'
@@ -209,7 +209,7 @@ export default {
   settingsGeneral: {
     locale: 'Мова та регіон за замовчуванням',
     defaultSearchResultLayout: 'Макет результатів пошуку за замовчуванням',
-    defaultEdition: 'Видання за замовчуванням',
+    defaultTranslation: 'Переклад за замовчуванням',
     formatted: 'Форматований',
     referencePickerOnStart: 'Показувати кнопки вибору книги/роділу при відкритті сторінки',
     split: 'Розділений',
@@ -241,14 +241,14 @@ export default {
     formatTemplates: 'Шаблони форматування',
     general: 'Загальні',
     importExport: 'Імпорт / Експорт',
-    editions: 'Переклади'
+    translations: 'Переклади'
   },
-  settingsEditions: {
+  settingsTranslations: {
     allSelected: 'Всі вибрані',
-    defaultEdition: 'Видання за замовчуванням',
+    defaultTranslation: 'Переклад за замовчуванням',
     downloading: 'Завантаження ...',
     selectAll: 'Вибрати всі для мови',
     selected: 'Вибрано',
-    title: 'Видання'
+    title: 'Переклади'
   }
 }

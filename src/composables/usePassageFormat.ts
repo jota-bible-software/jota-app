@@ -1,4 +1,4 @@
-import { Passage, PassageFormat, EditionContent } from 'src/types'
+import { Passage, PassageFormat, TranslationContent } from 'src/types'
 
 type Settings = {
   defaultPassageFormatName: unknown
@@ -18,7 +18,7 @@ export const defaultSettings: Settings = {
         quotes: false,
         numbers: false,
         verseNewLine: false,
-        edition: 'uppercase'
+        translation: 'uppercase'
       }
     },
     {
@@ -31,7 +31,7 @@ export const defaultSettings: Settings = {
         quotes: false,
         numbers: false,
         verseNewLine: false,
-        edition: 'uppercase'
+        translation: 'uppercase'
       }
     },
   ],
@@ -44,10 +44,10 @@ class Formatter {
     this.rules = rules
   }
 
-  formatContent(passage: Passage, editionContent: EditionContent) {
+  formatContent(passage: Passage, translationContent: TranslationContent) {
     const { quotes, verseNewLine, numbers } = this.rules
     const [bi, ci, si, ei] = passage
-    const chapterContent = editionContent[bi][ci]
+    const chapterContent = translationContent[bi][ci]
     const start = si === undefined ? 1 : si + 1
     const end = ei === undefined ? si === undefined ? chapterContent.length : si + 1 : ei + 1
     const verses = chapterContent.slice(start - 1, end)
@@ -67,10 +67,10 @@ class Formatter {
     return s
   }
 
-  formatReference(passage: Passage, editionContent: EditionContent) {
+  formatReference(passage: Passage, translationContent: TranslationContent) {
     const { bookNames, separatorChar } = this.rules
     const [bi, ci, si, ei] = passage
-    const chapterContent = editionContent[bi][ci]
+    const chapterContent = translationContent[bi][ci]
     const book = bookNames[bi]
     const chapter = ci + 1
     const start = si === undefined ? 1 : si + 1
@@ -81,11 +81,11 @@ class Formatter {
   }
 
   /** Formats a reference to a one chapter passage */
-  format(passage: Passage, editionContent: EditionContent) {
+  format(passage: Passage, translationContent: TranslationContent) {
     // ${book} ${chapter}${separator}${start}-${end} "${textWithNumbers}"
     const { bookNames, referencePosition, referenceNewLine, separatorChar, quotes, verseNewLine, numbers } = this.rules
     const [bi, ci, si, ei] = passage
-    const chapterContent = editionContent[bi][ci]
+    const chapterContent = translationContent[bi][ci]
     const book = bookNames[bi]
     const chapter = ci + 1
     const start = si === undefined ? 1 : si + 1

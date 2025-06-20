@@ -1,4 +1,4 @@
-import { EditionMeta, FormatTemplateData, LanguageSymbol, LocaleSymbol } from 'src/types'
+import { FormatTemplateData, LanguageSymbol, LocaleSymbol, TranslationMeta } from 'src/types'
 
 
 export const localeData: Array<{ symbol: LocaleSymbol, langName: string, regionName: string }> = [
@@ -41,7 +41,7 @@ export const formatTemplates: FormatTemplateData[] =
       'name': 'App format',
       'referencePosition': 'before',
       'referenceLine': 'same line',
-      'editionAbbreviation': 'none',
+      'translationAbbreviation': 'none',
       'numbers': false,
       'verseNewLine': false,
       'referenceWithoutContent': false,
@@ -53,14 +53,14 @@ export const formatTemplates: FormatTemplateData[] =
       'quoteCharsAfter': '',
       'verseNumberCharsBefore': '',
       'verseNumberCharsAfter': '',
-      'editionAbbreviationCharsBefore': '',
-      'editionAbbreviationCharsAfter': ''
+      'translationAbbreviationCharsBefore': '',
+      'translationAbbreviationCharsAfter': ''
     },
     {
       'name': 'English presentation',
       'referencePosition': 'after',
       'referenceLine': 'new line',
-      'editionAbbreviation': 'uppercase',
+      'translationAbbreviation': 'uppercase',
       'numbers': false,
       'verseNewLine': false,
       'referenceWithoutContent': false,
@@ -72,14 +72,14 @@ export const formatTemplates: FormatTemplateData[] =
       'quoteCharsAfter': '',
       'verseNumberCharsBefore': '',
       'verseNumberCharsAfter': '',
-      'editionAbbreviationCharsBefore': '',
-      'editionAbbreviationCharsAfter': ''
+      'translationAbbreviationCharsBefore': '',
+      'translationAbbreviationCharsAfter': ''
     },
     {
       'name': 'PL – oficjalny w cudzysłowiu',
       'referencePosition': 'after',
       'referenceLine': 'new line',
-      'editionAbbreviation': 'none',
+      'translationAbbreviation': 'none',
       'numbers': false,
       'verseNewLine': false,
       'referenceWithoutContent': false,
@@ -91,14 +91,14 @@ export const formatTemplates: FormatTemplateData[] =
       'quoteCharsAfter': '"',
       'verseNumberCharsBefore': '',
       'verseNumberCharsAfter': '',
-      'editionAbbreviationCharsBefore': '',
-      'editionAbbreviationCharsAfter': ''
+      'translationAbbreviationCharsBefore': '',
+      'translationAbbreviationCharsAfter': ''
     },
     {
       'name': 'PL – prezentacja',
       'referencePosition': 'after',
       'referenceLine': 'new line',
-      'editionAbbreviation': 'uppercase',
+      'translationAbbreviation': 'uppercase',
       'numbers': false,
       'verseNewLine': false,
       'referenceWithoutContent': false,
@@ -110,14 +110,14 @@ export const formatTemplates: FormatTemplateData[] =
       'quoteCharsAfter': '',
       'verseNumberCharsBefore': '',
       'verseNumberCharsAfter': '',
-      'editionAbbreviationCharsBefore': '',
-      'editionAbbreviationCharsAfter': ''
+      'translationAbbreviationCharsBefore': '',
+      'translationAbbreviationCharsAfter': ''
     },
     {
       'name': 'Separate lines',
       'referencePosition': 'before',
       'referenceLine': 'same line',
-      'editionAbbreviation': 'uppercase',
+      'translationAbbreviation': 'uppercase',
       'numbers': true,
       'verseNewLine': true,
       'referenceWithoutContent': false,
@@ -129,14 +129,14 @@ export const formatTemplates: FormatTemplateData[] =
       'quoteCharsAfter': '',
       'verseNumberCharsBefore': '(',
       'verseNumberCharsAfter': ')',
-      'editionAbbreviationCharsBefore': '',
-      'editionAbbreviationCharsAfter': ''
+      'translationAbbreviationCharsBefore': '',
+      'translationAbbreviationCharsAfter': ''
     },
     {
       'name': 'Studium',
       'referencePosition': 'before',
       'referenceLine': 'new line',
-      'editionAbbreviation': 'uppercase',
+      'translationAbbreviation': 'uppercase',
       'numbers': true,
       'verseNewLine': false,
       'referenceWithoutContent': false,
@@ -148,8 +148,8 @@ export const formatTemplates: FormatTemplateData[] =
       'quoteCharsAfter': '',
       'verseNumberCharsBefore': '(',
       'verseNumberCharsAfter': ')',
-      'editionAbbreviationCharsBefore': '',
-      'editionAbbreviationCharsAfter': ''
+      'translationAbbreviationCharsBefore': '',
+      'translationAbbreviationCharsAfter': ''
     },
     // The name for this template will be replaced by the translated value from i18n
     // in settings-store.ts when locale changes
@@ -157,7 +157,7 @@ export const formatTemplates: FormatTemplateData[] =
       'name': 'Reference only',
       'referencePosition': 'before',
       'referenceLine': 'same line',
-      'editionAbbreviation': 'uppercase',
+      'translationAbbreviation': 'uppercase',
       'numbers': false,
       'verseNewLine': false,
       'referenceWithoutContent': true,
@@ -169,8 +169,8 @@ export const formatTemplates: FormatTemplateData[] =
       'quoteCharsAfter': '',
       'verseNumberCharsBefore': '',
       'verseNumberCharsAfter': '',
-      'editionAbbreviationCharsBefore': '',
-      'editionAbbreviationCharsAfter': ''
+      'translationAbbreviationCharsBefore': '',
+      'translationAbbreviationCharsAfter': ''
     }
 
   ]
@@ -183,7 +183,7 @@ export const bookOrder = {
 
 
 /*
-The format of editions:
+The format of translations:
 {
   title: '',
   symbol: '',
@@ -192,7 +192,7 @@ The format of editions:
 If 'bookNames' is not specified, then it will be taken from bookNames[lang].default
 */
 
-export const editionsData: EditionMeta[] = [
+export const translationsData: TranslationMeta[] = [
   {
     locale: 'en-US',
     title: 'King James Version',

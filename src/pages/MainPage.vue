@@ -80,13 +80,13 @@ import ButtonSettings from 'src/components/ButtonSettings.vue'
 import ReferencePicker from 'src/components/ReferencePicker.vue'
 import MessageLine from 'src/components/MessageLine.vue'
 import { SearchOptions } from 'src/types'
-import { useEditionStore } from 'src/stores/edition-store'
+import { useTranslationStore } from 'src/stores/translation-store'
 import * as tags from 'src/tags'
 
 const $q = useQuasar()
 const store = useSearchStore()
 const settingsStore = useSettingsStore()
-const editionStore = useEditionStore()
+const translationStore = useTranslationStore()
 const router = useRoute()
 
 onMounted(() => {
@@ -103,7 +103,7 @@ onMounted(() => {
 
 function setQuery() {
   store.input = router.query.q as string
-  editionStore.startPromise.then(() => find(store.input))
+  translationStore.startPromise.then(() => find(store.input))
 }
 
 watch(() => router.query.q, setQuery)
@@ -111,7 +111,7 @@ watch(() => router.query.q, setQuery)
 async function find(input: string, opt?: SearchOptions) {
   const options = opt || {}
   store.showPicker = !input
-  await editionStore.startPromise
+  await translationStore.startPromise
   return store.findByInput(input, options)
 }
 

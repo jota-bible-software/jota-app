@@ -4,8 +4,8 @@
       <div class="row ">
         <div class="row q-gutter-md items-center">
           <!-- Back button -->
-          <q-btn v-if="isBackDefined" flat icon="icon-mat-arrow_back_ios" class="q-p-none" @click="emit('back')"
-            size="md" dense :data-tag="tags.settingsPanelBack" />
+          <q-btn v-if="isBackDefined" flat icon="icon-mat-arrow_back_ios" class="q-p-none" @click="emit('back')" size="md" dense
+            :data-tag="tags.settingsPanelBack" />
 
           <q-btn dense flat icon="icon-mat-menu" class="lt-md">
             <q-menu>
@@ -16,8 +16,8 @@
                 <q-item clickable v-close-popup @click="switchTab('appearance')">
                   <q-item-section>{{ $t('settingsPage.appearance') }}</q-item-section>
                 </q-item>
-                <q-item clickable v-close-popup @click="switchTab('editions')">
-                  <q-item-section>{{ $t('settingsPage.editions') }}</q-item-section>
+                <q-item clickable v-close-popup @click="switchTab('translations')">
+                  <q-item-section>{{ $t('settingsPage.translations') }}</q-item-section>
                 </q-item>
                 <q-item clickable v-close-popup @click="switchTab('bookNames')">
                   <q-item-section>{{ $t('settingsPage.bookNames') }}</q-item-section>
@@ -39,8 +39,7 @@
           <div class="text-h6" :data-tag="tags.settingsPanelTitle">{{ props.title }}</div>
           <!-- For language selector -->
           <LabelRow label="dla języka" v-if="props.locale" class="q-ml-md">
-            <LocaleSelector data-test-id="locale-selector" v-model="store.focusedLocale"
-              :data-tag="tags.settingsLocaleFilter" />
+            <LocaleSelector data-test-id="locale-selector" v-model="store.focusedLocale" :data-tag="tags.settingsLocaleFilter" />
           </LabelRow>
         </div>
       </div>

@@ -90,10 +90,10 @@ export function migrateV2ToV3(oldSettings: SettingsPersistV2): SettingsPersist {
         available: oldLocale.bookNamings || [],
         default: oldLocale.appBookNaming || (oldLocale.bookNamings?.[0]?.name || '')
       },
-      editions: {
-        available: oldLocale.selectedEditions || [],
-        selected: oldLocale.selectedEditions || [],
-        default: oldLocale.defaultEdition || (oldLocale.selectedEditions?.[0] || '')
+      translations: {
+        available: oldLocale.selectedTranslations || [],
+        selected: oldLocale.selectedTranslations || [],
+        default: oldLocale.defaultTranslation || (oldLocale.selectedTranslations?.[0] || '')
       },
       copyTemplates: oldLocale.copyTemplates || [],
       defaultCopyTemplate: oldLocale.defaultCopyTemplate || 'Presentation'
@@ -120,7 +120,7 @@ export function createReferenceOnlyTemplates(persist: SettingsPersistV2) {
     name: REFERENCE_ONLY,
     referencePosition: 'before',
     referenceLine: 'same line',
-    editionAbbreviation: 'uppercase',
+    translationAbbreviation: 'uppercase',
     numbers: false,
     verseNewLine: false,
     referenceWithoutContent: true,
@@ -132,7 +132,7 @@ export function createReferenceOnlyTemplates(persist: SettingsPersistV2) {
     quoteCharsAfter: '',
     verseNumberCharsBefore: '',
     verseNumberCharsAfter: '',
-    editionAbbreviationCharsBefore: '',
-    editionAbbreviationCharsAfter: ''
+    translationAbbreviationCharsBefore: '',
+    translationAbbreviationCharsAfter: ''
   })
 }

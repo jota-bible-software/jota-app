@@ -10,7 +10,7 @@ export default {
     // No visible text in BibleContent.vue
   },
   bibleSelector: {
-    selectBible: 'Seleccionar edición',
+    selectBible: 'Seleccionar traducción',
     selectFromList: 'Seleccionar de la lista'
   },
   buttonBookSelector: {
@@ -41,10 +41,10 @@ export default {
     message: 'La página que estás buscando no se encontró.',
     title: '404'
   },
-  editionStore: {
-    cannotUnselectAllEditions: 'No se puede deseleccionar todas las ediciones',
-    editionNotFound: 'Contenido de la edición no encontrado para {symbol} ({locale})',
-    editionFetchError: 'Error al obtener el contenido de la edición para {symbol} ({locale})',
+  translationStore: {
+    cannotUnselectAllTranslations: 'No se puede deseleccionar todas las traducciones',
+    translationNotFound: 'Contenido de la traducción no encontrado para {symbol} ({locale})',
+    translationFetchError: 'Error al obtener el contenido de la traducción para {symbol} ({locale})',
     noDataReceived: 'No se recibieron datos de la solicitud de búsqueda'
   },
   mainPage: {
@@ -55,7 +55,7 @@ export default {
     search: 'Buscar'
   },
   mainToolbar: {
-    editionLabel: 'Traducción'
+    translationLabel: 'Traducción'
   },
   messageLine: {
     chapterLabel: 'Capítulo',
@@ -101,7 +101,7 @@ export default {
   searchStore: {
     errorPrefix: 'Error:',
     noTemplateFound: 'No se encontró ninguna plantilla de copia',
-    editionContentNotLoaded: 'El contenido de la edición no se ha cargado',
+    translationContentNotLoaded: 'El contenido de la traducción no se ha cargado',
     noFragmentsFound: 'No se encontraron fragmentos',
     formattingError: 'Error durante el formateo:',
     noPassageSelected: 'No se ha seleccionado ningún pasaje',
@@ -175,7 +175,7 @@ export default {
     charsBefore: 'antes',
     charsAroundQuote: 'Caracteres alrededor de la cita',
     charsAroundReference: 'Caracteres alrededor de la referencia',
-    charsAroundEditionAbbreviation: 'Caracteres alrededor de la abreviatura de la traducción',
+    charsAroundTranslationAbbreviation: 'Caracteres alrededor de la abreviatura de la traducción',
     charsAroundVerseNumber: 'Caracteres alrededor del número de versículo',
     editTitle: 'Editar plantilla de formato',
     example: 'Ejemplo de pasaje formateado',
@@ -201,7 +201,7 @@ export default {
     separatorChar: 'Carácter separador',
     templateName: 'Nombre de la plantilla',
     title: 'Plantillas de formato',
-    editionAbbreviation: 'Abreviatura de la traducción',
+    translationAbbreviation: 'Abreviatura de la traducción',
     uppercase: 'Mayúsculas',
     versesWithNumbers: 'Versículos con números',
     yes: 'Sí'
@@ -209,7 +209,7 @@ export default {
   settingsGeneral: {
     locale: 'Idioma y región predeterminados',
     defaultSearchResultLayout: 'Diseño predeterminado de los resultados de búsqueda',
-    defaultEdition: 'Traducción predeterminada',
+    defaultTranslation: 'Traducción predeterminada',
     formatted: 'Formateado',
     referencePickerOnStart: 'Mostrar selector de libro/capítulo al abrir la página',
     split: 'Dividido',
@@ -241,11 +241,11 @@ export default {
     formatTemplates: 'Plantillas de formato',
     general: 'General',
     importExport: 'Importar / Exportar',
-    editions: 'Traducciones'
+    translations: 'Traducciones'
   },
-  settingsEditions: {
+  settingsTranslations: {
     allSelected: 'Todas seleccionadas',
-    defaultEdition: 'Traducción predeterminada',
+    defaultTranslation: 'Traducción predeterminada',
     downloading: 'Descargando ...',
     selectAll: 'Seleccionar todas para el idioma',
     selected: 'Seleccionadas',

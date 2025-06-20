@@ -8,7 +8,7 @@ describe('Home Page', () => {
   // const downloading = tag(tags.downloading)
   const chapterContent = tag(tags.chapterContent)
   const chapterVerse = tag(tags.chapterVerse)
-  const editionSelector = tag(tags.editionSelector) + ':visible'
+  const translationSelector = tag(tags.translationSelector) + ':visible'
   const searchInput = tag(tags.searchInput)
   const clearSearchButton = tag(tags.clearSearchButton)
   const foundPassages = tag(tags.foundPassages)
@@ -63,7 +63,7 @@ describe('Home Page', () => {
       click(first(bookButtons)) // Click on "Gen"
       assertShowing(backButton)
 
-      // Wait for the edition to load
+      // Wait for the translation to load
       assertShowing(chapterButtons, { timeout: 20000 })
       assertText(first(chapterButtons), '1')
 
@@ -96,11 +96,11 @@ describe('Home Page', () => {
     })
   })
 
-  describe('Edition selector', () => {
-    it('should change the edition', () => {
+  describe('Translation selector', () => {
+    it('should change the translation', () => {
       type(searchInput, 'gen 1{enter}')
       assertShowing(containsText('In the beginning God created, the heaven and the earth.'))
-      select(editionSelector, 'UBG')
+      select(translationSelector, 'UBG')
       assertShowing(containsText('Na początku Bóg stworzył niebo i ziemię.'))
     })
   })
@@ -189,12 +189,12 @@ describe('Home Page', () => {
       assertClipboard('1 abc\nExodus 1:1 KJV\n\n2 abc\nLeviticus 1:1 KJV')
     })
 
-    it('should copy after changing edition', () => {
+    it('should copy after changing translation', () => {
       type(searchInput, 'gen 1 1{enter}')
       mockClipboard()
       click(copySelectedButton, 'left')
       assertClipboard('In the beginning God created, the heaven and the earth.\nGenesis 1:1 KJV')
-      select(editionSelector, 'UBG')
+      select(translationSelector, 'UBG')
       click(copySelectedButton, 'left')
       assertClipboard('Na początku Bóg stworzył niebo i ziemię.\nRodzaju 1,1 UBG')
     })

@@ -1,14 +1,14 @@
 <template>
-  <BibleSelector :model-value="store.currentEdition"
-    @update:model-value="(value: EditionKey) => store.currentKey = value" :editions="store.editionsGrouped" flag="true" />
+  <BibleSelector :model-value="store.currentTranslation" @update:model-value="(value: TranslationKey) => store.currentKey = value"
+    :translations="store.translationsGrouped" flag="true" />
 </template>
 
 <script setup lang="ts">
-import { EditionKey } from 'src/types'
+import { TranslationKey } from 'src/types'
 import BibleSelector from './BibleSelector.vue'
-import { useEditionStore } from 'src/stores/edition-store'
+import { useTranslationStore } from 'src/stores/translation-store'
 
-const store = useEditionStore()
+const store = useTranslationStore()
 </script>
 
 <style scoped></style>

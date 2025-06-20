@@ -1,6 +1,6 @@
 <template>
-  <q-select v-model="selected" :options="props.editions" option-label="symbol" emit-value popup-content-style="white-space: nowrap" dense
-    :data-tag="tags.editionSelector">
+  <q-select v-model="selected" :options="props.translations" option-label="symbol" emit-value popup-content-style="white-space: nowrap" dense
+    :data-tag="tags.translationSelector">
 
     <template v-slot:selected>
       <div class="row items-center q-gutter-sm">
@@ -12,7 +12,7 @@
     <template v-slot:option="scope">
       <q-separator v-if="scope.opt.isFirstInGroup" />
 
-      <q-item v-bind="scope.itemProps" :data-tag="tags.editionSelectorItem">
+      <q-item v-bind="scope.itemProps" :data-tag="tags.translationSelectorItem">
         <q-item-section>
           <q-item-label>
             <div class="row items-center q-gutter-md">
@@ -30,19 +30,19 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Edition } from 'src/types'
+import { Translation } from 'src/types'
 import FlagIcon from './FlagIcon.vue'
 import { locale2region } from 'src/util'
 import * as tags from 'src/tags'
 
-const props = defineProps(['modelValue', 'flag', 'editions'])
+const props = defineProps(['modelValue', 'flag', 'translations'])
 const emit = defineEmits(['update:modelValue'])
 
 const selected = computed({
-  get(): Edition {
+  get(): Translation {
     return props.modelValue
   },
-  set(value: Edition) {
+  set(value: Translation) {
     emit('update:modelValue', value)
   }
 })

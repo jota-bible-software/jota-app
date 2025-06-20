@@ -88,7 +88,7 @@ describe('Jota', () => {
   it('search', async () => {
     // expect(jota.search([0, 0], bookNames, ':')).toBe('Gen 1')
     const progress = { step: () => { /* */ } }
-    const options = { apocrypha: false, edition: '' }
+    const options = { apocrypha: false, translation: '' }
     expect(await jota.search([[['abc de']]], 'b', options, progress)).toStrictEqual([[0, 0, 0, 0]])
   })
 })

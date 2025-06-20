@@ -6,21 +6,18 @@
         <q-tabs v-model="store.currentTab" vertical dense active-color="primary" no-caps outside-arrows mobile-arrows>
           <q-tab name="general" :label="$t('settingsPage.general')" :data-tag="tags.settingsPageGeneral" />
           <q-tab name="appearance" :label="$t('settingsPage.appearance')" :data-tag="tags.settingsPageAppearance" />
-          <q-tab name="editions" :label="$t('settingsPage.editions')" :data-tag="tags.settingsPageEditions" />
+          <q-tab name="translations" :label="$t('settingsPage.translations')" :data-tag="tags.settingsPageTranslations" />
           <q-tab name="bookNames" :label="$t('settingsPage.bookNames')" :data-tag="tags.settingsPageBookNames" />
-          <q-tab name="formatTemplates" :label="$t('settingsPage.formatTemplates')"
-            :data-tag="tags.settingsPageFormatTemplates" />
-          <q-tab name="copyTemplates" :label="$t('settingsPage.copyTemplates')"
-            :data-tag="tags.settingsPageCopyTemplates" />
-          <q-tab name="importExport" :label="$t('settingsPage.importExport')"
-            :data-tag="tags.settingsPageImportExport" />
+          <q-tab name="formatTemplates" :label="$t('settingsPage.formatTemplates')" :data-tag="tags.settingsPageFormatTemplates" />
+          <q-tab name="copyTemplates" :label="$t('settingsPage.copyTemplates')" :data-tag="tags.settingsPageCopyTemplates" />
+          <q-tab name="importExport" :label="$t('settingsPage.importExport')" :data-tag="tags.settingsPageImportExport" />
         </q-tabs>
       </div>
       <div class="col q-px-xs">
         <q-tab-panels v-model="store.currentTab">
           <SettingsGeneral name="general" />
           <SettingsAppearance name="appearance" />
-          <SettingsEditions name="editions" />
+          <SettingsTranslations name="translations" />
           <SettingsBookNames name="bookNames" />
           <SettingsFormatTemplates name="formatTemplates" />
           <SettingsCopyTemplates name="copyTemplates" />
@@ -35,7 +32,7 @@
 <script setup lang="ts">
 import SettingsGeneral from 'src/components/SettingsGeneral.vue'
 import SettingsAppearance from 'src/components/SettingsAppearance.vue'
-import SettingsEditions from 'src/components/SettingsEditions.vue'
+import SettingsTranslations from 'src/components/SettingsTranslations.vue'
 import SettingsBookNames from 'src/components/SettingsBookNames.vue'
 import SettingsFormatTemplates from 'src/components/SettingsFormatTemplates.vue'
 import SettingsCopyTemplates from 'src/components/SettingsCopyTemplates.vue'

@@ -28,7 +28,7 @@ import { useSettingsStore } from 'src/stores/settings-store'
 
 const store = useSettingsStore()
 
-const props = defineProps(['modelValue', 'flag', 'editions'])
+const props = defineProps(['modelValue', 'flag', 'translations'])
 const emit = defineEmits(['update:modelValue'])
 
 
@@ -43,11 +43,11 @@ const selected = computed({
 
 const localeOptions = computed(() => {
   // Ensure store.locales exists and is an array
-  const availableLocales = store.locales || ['en-US'];
+  const availableLocales = store.locales || ['en-US']
   return localeData.filter(locale => availableLocales.includes(locale.symbol)).map(locale => ({
     value: locale.symbol,
     label: `${locale.langName} (${locale.regionName})`
-  }));
+  }))
 })
 
 function getDisplayName(locale: string): string {
@@ -57,7 +57,7 @@ function getDisplayName(locale: string): string {
 
   const parts = locale.split('-')
   if (parts.length < 2) return localeInfo.langName
-  
+
   const [lang, region] = parts
   if (lang.toLowerCase() === region.toLowerCase()) {
     return localeInfo.langName

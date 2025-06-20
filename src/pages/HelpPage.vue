@@ -25,7 +25,7 @@
     <h3 class="text-h6 q-mt-md">Key Features</h3>
     <ul>
       <li>Powerful Bible search engine that supports references, keywords, and phrases</li>
-      <li>Multi-language support with various Bible editions</li>
+      <li>Multi-language support with various Bible translations</li>
       <li>Customizable interface with light and dark modes</li>
       <li>Advanced formatting options for copying and sharing Bible passages</li>
       <li>Audio playback for listening to Bible chapters</li>
@@ -67,7 +67,7 @@
     <ul>
       <li>A modern web browser (Chrome, Firefox, Safari, Edge)</li>
       <li>JavaScript enabled</li>
-      <li>Internet connection for initial loading and Bible edition downloads</li>
+      <li>Internet connection for initial loading and Bible translation downloads</li>
     </ul>
     <p>No installation is needed; simply open the application URL in your browser.</p>
 
@@ -75,10 +75,10 @@
     <p>When you launch Jota Bible App for the first time:</p>
     <ol>
       <li>The app will detect your browser's language and use it as the default interface language if supported</li>
-      <li>A default Bible edition will be loaded based on your language</li>
+      <li>A default Bible translation will be loaded based on your language</li>
       <li>Depending on your settings, you'll see either the reference picker or the default Bible chapter</li>
     </ol>
-    <p>Note that the first time you use the app, it will download Bible edition data which might take a moment depending on your connection speed.
+    <p>Note that the first time you use the app, it will download Bible translation data which might take a moment depending on your connection speed.
     </p>
 
     <h3 class="text-h6 q-mt-md">Interface Overview</h3>
@@ -95,7 +95,7 @@
     <p>The main interface consists of the following components:</p>
     <ul>
       <li><strong>Search Bar</strong>: Located at the top of the screen, allows you to search for Bible references or text</li>
-      <li><strong>Bible Selector</strong>: Dropdown menu to choose from available Bible editions</li>
+      <li><strong>Bible Selector</strong>: Dropdown menu to choose from available Bible translations</li>
       <li><strong>Tool Buttons</strong>: Various controls including:
         <ul>
           <li>Whole Words toggle: Enable/disable whole word search</li>
@@ -115,13 +115,13 @@
       <li><strong>Mobile</strong>: Some tool buttons are moved to a dropdown menu accessible via the three dots (⋮) icon</li>
     </ul>
 
-    <h3 class="text-h6 q-mt-md">Selecting a Bible Edition</h3>
-    <p>To change the Bible edition you're viewing:</p>
+    <h3 class="text-h6 q-mt-md">Selecting a Bible Translation</h3>
+    <p>To change the Bible translation you're viewing:</p>
     <ol>
       <li>Click on the Bible selector dropdown in the upper right corner</li>
-      <li>Choose your preferred edition from the list</li>
+      <li>Choose your preferred translation from the list</li>
     </ol>
-    <p>The available editions depend on which ones you've enabled in Settings > Editions.</p>
+    <p>The available translations depend on which ones you've enabled in Settings > Translations.</p>
 
     <h3 class="text-h6 q-mt-md">Basic Navigation</h3>
     <p>There are several ways to navigate the Bible:</p>
@@ -217,7 +217,7 @@
       <li>View the results in the content area</li>
     </ol>
 
-    <p>The search function will look for your query within the currently selected Bible edition. Search terms are highlighted in the results for
+    <p>The search function will look for your query within the currently selected Bible translation. Search terms are highlighted in the results for
       easy identification.</p>
 
     <h4 class="text-subtitle1 q-mt-sm">Advanced Search Techniques</h4>
@@ -313,87 +313,88 @@
     <p>The formatting of the copied text depends on your copy template settings, which can be customized in Settings > Copy Templates.</p>
 
 
-    <!-- Bible Editions -->
+    <!-- Bible Translations -->
 
-    <h2 id="editions" class="text-h5 text-primary">Bible Editions</h2>
+    <h2 id="translations" class="text-h5 text-primary">Bible Translations</h2>
 
-    <h3 class="text-h6 q-mt-md">Understanding Bible Editions</h3>
-    <p>Jota Bible App supports multiple Bible editions (translations) in various languages. Each edition has its own characteristics:</p>
+    <h3 class="text-h6 q-mt-md">Understanding Bible Translations</h3>
+    <p>Jota Bible App supports multiple Bible translations (translations) in various languages. Each translation has its own characteristics:</p>
     <ul>
-      <li><strong>Translation Philosophy</strong>: Some editions are more literal (word-for-word), while others are more dynamic
+      <li><strong>Translation Philosophy</strong>: Some translations are more literal (word-for-word), while others are more dynamic
         (thought-for-thought)</li>
-      <li><strong>Language Style</strong>: Editions vary in their use of modern or traditional language</li>
-      <li><strong>Content</strong>: Some editions include footnotes, cross-references, or deuterocanonical books</li>
+      <li><strong>Language Style</strong>: Translations vary in their use of modern or traditional language</li>
+      <li><strong>Content</strong>: Some translations include footnotes, cross-references, or deuterocanonical books</li>
     </ul>
-    <p>Having access to multiple editions allows you to compare translations and gain deeper insights into the biblical text.</p>
+    <p>Having access to multiple translations allows you to compare translations and gain deeper insights into the biblical text.</p>
 
-    <h3 class="text-h6 q-mt-md">Available Bible Editions</h3>
+    <h3 class="text-h6 q-mt-md">Available Bible Translations</h3>
 
-    <h4 class="text-subtitle1 q-mt-sm">English Editions</h4>
+    <h4 class="text-subtitle1 q-mt-sm">English Translations</h4>
     <ul>
       <li><strong>KJV</strong> (King James Version): A classic, widely-used translation in traditional English</li>
       <li><strong>NLT</strong> (New Living Translation): A modern, readable thought-for-thought translation</li>
     </ul>
 
-    <h4 class="text-subtitle1 q-mt-sm">Polish Editions</h4>
+    <h4 class="text-subtitle1 q-mt-sm">Polish Translations</h4>
     <ul>
       <li><strong>EIB</strong>: Pismo Święte Ewangeliczny Instytut Biblijny</li>
-      <li><strong>BT5</strong>: Biblia Tysiąclecia, 5th edition</li>
+      <li><strong>BT5</strong>: Biblia Tysiąclecia, 5th translation</li>
       <li><strong>UBG</strong>: Uwspółcześniona Biblia Gdańska</li>
     </ul>
 
-    <p>The specific editions available in your installation may vary. Check the Settings > Editions page to see all available editions.</p>
+    <p>The specific translations available in your installation may vary. Check the Settings > Translations page to see all available translations.
+    </p>
 
-    <h3 class="text-h6 q-mt-md">Managing Editions</h3>
+    <h3 class="text-h6 q-mt-md">Managing Translations</h3>
 
-    <h4 class="text-subtitle1 q-mt-sm">Accessing Edition Settings</h4>
-    <p>To manage Bible editions:</p>
+    <h4 class="text-subtitle1 q-mt-sm">Accessing Translation Settings</h4>
+    <p>To manage Bible translations:</p>
     <ol>
       <li>Click the settings icon <q-icon name="settings" size="xs" class="q-mx-xs" /> in the toolbar</li>
-      <li>Navigate to the "Editions" tab</li>
+      <li>Navigate to the "Translations" tab</li>
     </ol>
 
     <div class="q-pa-md">
-      <q-img src="/api/placeholder/800/400" class="rounded-borders screenshot" alt="Edition Settings">
+      <q-img src="/api/placeholder/800/400" class="rounded-borders screenshot" alt="Translation Settings">
         <div class="absolute-bottom text-subtitle1 text-center">
-          Edition management in Settings
+          Translation management in Settings
         </div>
       </q-img>
     </div>
 
-    <h4 class="text-subtitle1 q-mt-sm">Selecting Bible Editions</h4>
-    <p>In the Editions tab, you can choose which Bible editions to enable:</p>
+    <h4 class="text-subtitle1 q-mt-sm">Selecting Bible Translations</h4>
+    <p>In the Translations tab, you can choose which Bible translations to enable:</p>
     <ol>
-      <li>Editions are organized by language</li>
-      <li>Check the box next to each edition you want to enable</li>
-      <li>Click "Select all for language" to enable all editions for a specific language</li>
+      <li>Translations are organized by language</li>
+      <li>Check the box next to each translation you want to enable</li>
+      <li>Click "Select all for language" to enable all translations for a specific language</li>
     </ol>
-    <p>Enabled editions will be available for selection in the main Bible selector dropdown.</p>
+    <p>Enabled translations will be available for selection in the main Bible selector dropdown.</p>
 
-    <h4 class="text-subtitle1 q-mt-sm">Setting Default Editions</h4>
-    <p>For each language, you can set a default edition that will be used automatically:</p>
+    <h4 class="text-subtitle1 q-mt-sm">Setting Default Translations</h4>
+    <p>For each language, you can set a default translation that will be used automatically:</p>
     <ol>
-      <li>In the Editions tab, locate the language section</li>
-      <li>Use the "Default edition" dropdown to select your preferred edition</li>
+      <li>In the Translations tab, locate the language section</li>
+      <li>Use the "Default translation" dropdown to select your preferred translation</li>
     </ol>
-    <p>The default edition for a language will be loaded automatically when you switch to that language in the interface.</p>
+    <p>The default translation for a language will be loaded automatically when you switch to that language in the interface.</p>
 
-    <h3 class="text-h6 q-mt-md">Using Multiple Editions</h3>
+    <h3 class="text-h6 q-mt-md">Using Multiple Translations</h3>
 
-    <h4 class="text-subtitle1 q-mt-sm">Switching Between Editions</h4>
-    <p>To switch between enabled Bible editions while using the app:</p>
+    <h4 class="text-subtitle1 q-mt-sm">Switching Between Translations</h4>
+    <p>To switch between enabled Bible translations while using the app:</p>
     <ol>
       <li>Click on the Bible selector dropdown in the top toolbar</li>
-      <li>Select the desired edition from the list</li>
+      <li>Select the desired translation from the list</li>
     </ol>
-    <p>The content area will update to display the selected edition, maintaining your current location or search results.</p>
+    <p>The content area will update to display the selected translation, maintaining your current location or search results.</p>
 
     <h4 class="text-subtitle1 q-mt-sm">Comparing Translations</h4>
     <p>You can easily compare how different translations render the same passage:</p>
     <ol>
-      <li>Navigate to a verse or passage in one edition</li>
-      <li>Switch to another edition using the Bible selector</li>
-      <li>The same passage will be displayed in the new edition</li>
+      <li>Navigate to a verse or passage in one translation</li>
+      <li>Switch to another translation using the Bible selector</li>
+      <li>The same passage will be displayed in the new translation</li>
     </ol>
     <p>This feature is particularly useful for Bible study and gaining deeper understanding of the text.</p>
 
@@ -413,13 +414,13 @@
         </div>
       </q-img>
     </div>
-    <p>When you change the interface language, the app will automatically switch to using the default Bible edition for that language.</p>
+    <p>When you change the interface language, the app will automatically switch to using the default Bible translation for that language.</p>
 
     <h4 class="text-subtitle1 q-mt-sm">Multi-Language Support</h4>
-    <p>Jota Bible App allows you to work with Bible editions in multiple languages simultaneously:</p>
+    <p>Jota Bible App allows you to work with Bible translations in multiple languages simultaneously:</p>
     <ul>
-      <li>You can enable editions from different languages</li>
-      <li>Quickly switch between languages by changing editions</li>
+      <li>You can enable translations from different languages</li>
+      <li>Quickly switch between languages by changing translations</li>
       <li>Configure settings independently for each supported language</li>
     </ul>
     <p>This is particularly useful for bilingual users or those studying the Bible in languages other than their native tongue.</p>
@@ -678,7 +679,7 @@
 
     <h4 class="text-subtitle1 q-mt-sm">Audio Playback Notes</h4>
     <ul>
-      <li>Audio availability depends on the selected Bible edition</li>
+      <li>Audio availability depends on the selected Bible translation</li>
       <li>You can continue navigating the application while audio plays</li>
       <li>Audio playback will stop if you navigate to a different chapter</li>
     </ul>
@@ -904,7 +905,7 @@ const sections = [
   // <q-tab name="intro" :label="$t('manualPage.introduction')" />
   //       <q-tab name="getting-started" :label="$t('manualPage.gettingStarted')" />
   //       <q-tab name="basic" :label="$t('manualPage.basicFunctions')" />
-  //       <q-tab name="editions" :label="$t('manualPage.bibleEditions')" />
+  //       <q-tab name="translations" :label="$t('manualPage.bibleTranslations')" />
   //       <q-tab name="settings" :label="$t('manualPage.settings')" />
   //       <q-tab name="advanced" :label="$t('manualPage.advancedFeatures')" />
 ]

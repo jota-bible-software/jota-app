@@ -1,44 +1,44 @@
 
-describe('Settings Editions', () => {
+describe('Settings Translations', () => {
   const goHome = () => navigate('/')
   const goSettings = () => navigate('/settings')
-  const editionsPanel = tag(tags.settingsPageEditions)
+  const translationsPanel = tag(tags.settingsPageTranslations)
   const generalPanel = tag(tags.settingsPageGeneral)
   const localeSelector = tag(tags.settingsLocaleSelector)
-  const editionGroups = tag(tags.settingsEditionGroup)
-  const editionGroupHeader = tag(tags.settingsEditionGroupHeader)
-  const editionItems = tag(tags.settingsEditionItem)
-  const editionItemToggle = tag(tags.settingsEditionItemToggle)
-  const editionToggle = tag(tags.settingsEditionGroupToggle)
-  const editionDefaultSelector = tag(tags.settingsEditionDefault)
-  const editionLocale = tag(tags.settingsEditionsLocale)
-  const allSelectedCount = tag(tags.settingsEditionsAllSelected)
-  const groupSelectedCount = tag(tags.settingsEditionGroupSelected)
-  const flagIcon = tag(tags.settingsEditionGroupFlag)
-  const editionSelector = tag(tags.editionSelector)
-  const editionSelectorItem = tag(tags.editionSelectorItem)
+  const translationGroups = tag(tags.settingsTranslationGroup)
+  const translationGroupHeader = tag(tags.settingsTranslationGroupHeader)
+  const translationItems = tag(tags.settingsTranslationItem)
+  const translationItemToggle = tag(tags.settingsTranslationItemToggle)
+  const translationToggle = tag(tags.settingsTranslationGroupToggle)
+  const translationDefaultSelector = tag(tags.settingsTranslationDefault)
+  const translationLocale = tag(tags.settingsTranslationsLocale)
+  const allSelectedCount = tag(tags.settingsTranslationsAllSelected)
+  const groupSelectedCount = tag(tags.settingsTranslationGroupSelected)
+  const flagIcon = tag(tags.settingsTranslationGroupFlag)
+  const translationSelector = tag(tags.translationSelector)
+  const translationSelectorItem = tag(tags.translationSelectorItem)
   const pageBackButton = tag(tags.pageBackButton)
 
   beforeEach(() => {
     goSettings()
-    click(editionsPanel)
+    click(translationsPanel)
   })
 
-  it('should display editions panel correctly', () => {
-    assertShowing(editionsPanel)
+  it('should display translations panel correctly', () => {
+    assertShowing(translationsPanel)
     // Check for panel title
-    assertText(containsText('Editions'), t('settingsEditions.title'))
+    assertText(containsText('Translations'), t('settingsTranslations.title'))
   })
 
-  describe('Edition Groups', () => {
+  describe('Translation Groups', () => {
     it('should display language groups correctly', () => {
       // Verify multiple language groups exist
-      assertCount(editionGroups, 2) // Assuming we have at least English and Polish
+      assertCount(translationGroups, 2) // Assuming we have at least English and Polish
 
       // Check first group (English)
-      const enGroup = first(editionGroups)
+      const enGroup = first(translationGroups)
       assertShowing(enGroup)
-      assertText(first(editionLocale), 'en-US')
+      assertText(first(translationLocale), 'en-US')
 
       // Verify flag icon is present
       assertShowing(first(flagIcon))
@@ -47,134 +47,134 @@ describe('Settings Editions', () => {
     })
 
     it('should expand groups', () => {
-      assertShowing(first(editionItems))
-      assertNotShowing(last(editionItems))
+      assertShowing(first(translationItems))
+      assertNotShowing(last(translationItems))
 
-      click(last(editionGroupHeader))
+      click(last(translationGroupHeader))
 
-      assertShowing(first(editionItems))
-      assertNotShowing(last(editionItems))
+      assertShowing(first(translationItems))
+      assertNotShowing(last(translationItems))
     })
 
-    it('should show selected editions count for each group', () => {
+    it('should show selected translations count for each group', () => {
       assertText(first(groupSelectedCount), '2 / 3')
       assertText(last(groupSelectedCount), '3 / 4')
     })
 
-    it('should toggle all editions in a group', () => {
-      assertText(tooltip(first(editionToggle)), t('settingsEditions.selectAll') + ' en-US')
-      click(first(editionToggle))
+    it('should toggle all translations in a group', () => {
+      assertText(tooltip(first(translationToggle)), t('settingsTranslations.selectAll') + ' en-US')
+      click(first(translationToggle))
 
       assertText(first(groupSelectedCount), '3 / 3')
-      click(first(editionToggle))
+      click(first(translationToggle))
       assertText(first(groupSelectedCount), '0 / 3')
-      assertText(first(editionDefaultSelector), '')
+      assertText(first(translationDefaultSelector), '')
 
       // The second group should leave one selected because at least one should be selected globally
       assertText(second(groupSelectedCount), '3 / 4')
-      click(second(editionToggle))
+      click(second(translationToggle))
       assertText(second(groupSelectedCount), '4 / 4')
-      click(second(editionToggle))
+      click(second(translationToggle))
       assertText(second(groupSelectedCount), '1 / 4')
     })
   })
 
-  describe('Individual Editions', () => {
-    it('should list editions within each group', () => {
-      assertCount(nested(first(editionGroups), editionItems), 3)
-      assertCount(nested(last(editionGroups), editionItems), 4)
+  describe('Individual Translations', () => {
+    it('should list translations within each group', () => {
+      assertCount(nested(first(translationGroups), translationItems), 3)
+      assertCount(nested(last(translationGroups), translationItems), 4)
     })
 
-    it('should display edition details correctly', () => {
-      assertShowing(first(editionItems))
-      assertText(first(editionItems), 'King James VersionKJV')
+    it('should display translation details correctly', () => {
+      assertShowing(first(translationItems))
+      assertText(first(translationItems), 'King James VersionKJV')
     })
 
-    it('should allow selecting individual editions', () => {
-      click(second(editionItemToggle))
-      assertChecked(second(editionItemToggle))
+    it('should allow selecting individual translations', () => {
+      click(second(translationItemToggle))
+      assertChecked(second(translationItemToggle))
       assertText(first(groupSelectedCount), '3 / 3')
 
       // The main bible selector should be affected by the selection
       goHome()
-      // Wait for the edition to load
-      assertShowing(visible(editionSelector), { timeout: 20_000 })
-      click(visible(editionSelector))
-      assertCount(editionSelectorItem, 6)
+      // Wait for the translation to load
+      assertShowing(visible(translationSelector), { timeout: 20_000 })
+      click(visible(translationSelector))
+      assertCount(translationSelectorItem, 6)
     })
   })
 
-  describe('Default Edition Selection', () => {
-    it('should include empty option in default edition selector', () => {
-      assertShowing(first(editionDefaultSelector))
-      click(first(editionDefaultSelector))
-      assertText(first(editionSelectorItem), '')
+  describe('Default Translation Selection', () => {
+    it('should include empty option in default translation selector', () => {
+      assertShowing(first(translationDefaultSelector))
+      click(first(translationDefaultSelector))
+      assertText(first(translationSelectorItem), '')
     })
 
-    it('should allow setting no default edition', () => {
-      select(first(editionDefaultSelector), '')
-      assertText(first(editionDefaultSelector), '')
+    it('should allow setting no default translation', () => {
+      select(first(translationDefaultSelector), '')
+      assertText(first(translationDefaultSelector), '')
     })
 
-    it('should change the default edition when locale is changed', () => {
+    it('should change the default translation when locale is changed', () => {
       click(generalPanel)
       select(localeSelector, 'Polski')
       click(pageBackButton)
-      assertTextContains(editionSelector, 'UBG')
+      assertTextContains(translationSelector, 'UBG')
     })
 
-    it('changing the default edition should affect the bible selector', () => {
-      select(first(editionDefaultSelector), 'NIV')
+    it('changing the default translation should affect the bible selector', () => {
+      select(first(translationDefaultSelector), 'NIV')
       click(pageBackButton)
-      assertTextContains(editionSelector, 'NIV')
+      assertTextContains(translationSelector, 'NIV')
       goHome()
-      // Wait for the edition to load
-      assertShowing(editionSelector, { timeout: 20_000 })
-      assertTextContains(editionSelector, 'NIV')
+      // Wait for the translation to load
+      assertShowing(translationSelector, { timeout: 20_000 })
+      assertTextContains(translationSelector, 'NIV')
       goSettings()
-      click(editionsPanel)
-      select(first(editionDefaultSelector), 'KJV')
+      click(translationsPanel)
+      select(first(translationDefaultSelector), 'KJV')
     })
 
   })
 
   describe('Total Selection Count', () => {
-    it('should show correct total selected editions count', () => {
+    it('should show correct total selected translations count', () => {
       // Verify format of total selected count
       assertText(allSelectedCount, '5 / 7')
 
       // Toggle one and verify total updates
-      click(second(editionItemToggle))
+      click(second(translationItemToggle))
       assertText(allSelectedCount, '6 / 7')
     })
   })
 
   describe('Persistence', () => {
     it('should persist selections after page reload', () => {
-      assertChecked(first(editionItemToggle))
-      click(first(editionItemToggle))
+      assertChecked(first(translationItemToggle))
+      click(first(translationItemToggle))
       // Reload page
       goSettings()
-      click(editionsPanel)
-      assertNotChecked(first(editionItemToggle))
+      click(translationsPanel)
+      assertNotChecked(first(translationItemToggle))
     })
 
-    it('should persist default edition selection', () => {
-      select(first(editionDefaultSelector), 'NIV')
+    it('should persist default translation selection', () => {
+      select(first(translationDefaultSelector), 'NIV')
       // Reload page
       goSettings()
-      click(editionsPanel)
-      assertText(first(editionDefaultSelector), 'NIV')
+      click(translationsPanel)
+      assertText(first(translationDefaultSelector), 'NIV')
     })
 
     it('should persist empty selection after page reload', () => {
-      select(first(editionDefaultSelector), '')
+      select(first(translationDefaultSelector), '')
 
       // Reload page
       goSettings()
-      click(editionsPanel)
+      click(translationsPanel)
 
-      assertText(first(editionDefaultSelector), '')
+      assertText(first(translationDefaultSelector), '')
     })
   })
 })

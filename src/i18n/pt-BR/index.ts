@@ -10,7 +10,7 @@ export default {
     // No visible text in BibleContent.vue
   },
   bibleSelector: {
-    selectBible: 'Selecionar edição',
+    selectBible: 'Selecionar tradução',
     selectFromList: 'Selecionar da lista'
   },
   buttonBookSelector: {
@@ -41,10 +41,10 @@ export default {
     message: 'A página que você está procurando não foi encontrada.',
     title: '404'
   },
-  editionStore: {
-    cannotUnselectAllEditions: 'Não é possível desmarcar todas as edições',
-    editionNotFound: 'Conteúdo da edição não encontrado para {symbol} ({locale})',
-    editionFetchError: 'Erro ao buscar conteúdo da edição para {symbol} ({locale})',
+  translationStore: {
+    cannotUnselectAllTranslations: 'Não é possível desmarcar todas as traduções',
+    translationNotFound: 'Conteúdo da tradução não encontrado para {symbol} ({locale})',
+    translationFetchError: 'Erro ao buscar conteúdo da tradução para {symbol} ({locale})',
     noDataReceived: 'Nenhum dado recebido da solicitação de busca',
   },
   mainPage: {
@@ -55,7 +55,7 @@ export default {
     search: 'Pesquisar'
   },
   mainToolbar: {
-    editionLabel: 'Tradução'
+    translationLabel: 'Tradução'
   },
   messageLine: {
     chapterLabel: 'Capítulo',
@@ -108,7 +108,7 @@ export default {
   searchStore: {
     errorPrefix: 'Erro:',
     noTemplateFound: 'Nenhum modelo de cópia encontrado',
-    editionContentNotLoaded: 'Conteúdo da edição não carregado',
+    translationContentNotLoaded: 'Conteúdo da tradução não carregado',
     noFragmentsFound: 'Nenhum fragmento encontrado',
     formattingError: 'Erro durante a formatação:',
     noPassageSelected: 'Nenhuma passagem selecionada',
@@ -175,7 +175,7 @@ export default {
     charsBefore: 'antes',
     charsAroundQuote: 'Caracteres ao redor da citação',
     charsAroundReference: 'Caracteres ao redor da referência',
-    charsAroundEditionAbbreviation: 'Caracteres ao redor da abreviação da tradução',
+    charsAroundTranslationAbbreviation: 'Caracteres ao redor da abreviação da tradução',
     charsAroundVerseNumber: 'Caracteres ao redor do número do versículo',
     editTitle: 'Editar modelo de formatação',
     example: 'Exemplo de passagem formatada',
@@ -201,7 +201,7 @@ export default {
     separatorChar: 'Caractere separador',
     templateName: 'Nome do modelo',
     title: 'Modelos de formatação',
-    editionAbbreviation: 'Abreviação da tradução',
+    translationAbbreviation: 'Abreviação da tradução',
     uppercase: 'Maiúsculas',
     versesWithNumbers: 'Versículos com números',
     yes: 'Sim'
@@ -209,7 +209,7 @@ export default {
   settingsGeneral: {
     locale: 'Idioma e região padrão',
     defaultSearchResultLayout: 'Layout padrão dos resultados de pesquisa',
-    defaultEdition: 'Tradução padrão',
+    defaultTranslation: 'Tradução padrão',
     formatted: 'Formatado',
     referencePickerOnStart: 'Exibir botões de seleção de livro/capítulo ao abrir a página',
     split: 'Dividido',
@@ -241,11 +241,11 @@ export default {
     formatTemplates: 'Modelos de formatação',
     general: 'Geral',
     importExport: 'Importar / Exportar',
-    editions: 'Traduções'
+    translations: 'Traduções'
   },
-  settingsEditions: {
+  settingsTranslations: {
     allSelected: 'Todas selecionadas',
-    defaultEdition: 'Tradução padrão',
+    defaultTranslation: 'Tradução padrão',
     downloading: 'Baixando ...',
     selectAll: 'Selecionar todas para o idioma',
     selected: 'Selecionadas',

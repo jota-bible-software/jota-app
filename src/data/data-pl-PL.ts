@@ -701,7 +701,7 @@ export const plPLLocaleData: LocaleData = {
     available: polishBookNamings,
     default: 'Moje pl'
   },
-  editions: {
+  translations: {
     available: ['EIB', 'BT5', 'UBG'],
     selected: ['EIB', 'BT5', 'UBG'],
     default: 'UBG'

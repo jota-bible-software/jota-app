@@ -36,10 +36,10 @@ export default {
     message: 'Strona, której szukasz, nie została znaleziona.',
     title: '404'
   },
-  editionStore: {
-    cannotUnselectAllEditions: 'Nie można odznaczyć wszystkich przekładów',
-    editionNotFound: 'Nie znaleziono treści dla przekładu {symbol} ({locale})',
-    editionFetchError: 'Błąd podczas pobierania treści przekładu dla {symbol} ({locale})',
+  translationStore: {
+    cannotUnselectAllTranslations: 'Nie można odznaczyć wszystkich przekładów',
+    translationNotFound: 'Nie znaleziono treści dla przekładu {symbol} ({locale})',
+    translationFetchError: 'Błąd podczas pobierania treści przekładu dla {symbol} ({locale})',
     noDataReceived: 'Nie otrzymano danych z żądania pobrania'
   },
   mainPage: {
@@ -50,7 +50,7 @@ export default {
     search: 'Szukaj'
   },
   mainToolbar: {
-    editionLabel: 'Przekład'
+    translationLabel: 'Przekład'
   },
   messageLine: {
     chapterLabel: 'Rozdział',
@@ -96,7 +96,7 @@ export default {
   searchStore: {
     errorPrefix: 'Błąd:',
     noTemplateFound: 'Nie znaleziono żadnego szablonu kopiowania',
-    editionContentNotLoaded: 'Treść tłumaczenia nie została załadowana',
+    translationContentNotLoaded: 'Treść tłumaczenia nie została załadowana',
     noFragmentsFound: 'Nie znaleziono żadnych fragmentów',
     formattingError: 'Błąd podczas formatowania:',
     noPassageSelected: 'Nie zaznaczono fragmentu',
@@ -170,7 +170,7 @@ export default {
     charsBefore: 'przed',
     charsAroundQuote: 'Znaki wokół cytatu',
     charsAroundReference: 'Znaki wokół odnośnika',
-    charsAroundEditionAbbreviation: 'Znaki wokół skrótu przekładu',
+    charsAroundTranslationAbbreviation: 'Znaki wokół skrótu przekładu',
     charsAroundVerseNumber: 'Znaki wokół numeru wersetu',
     editTitle: 'Edytuj szablon formatowania',
     example: 'Przykład sformatowanego fragmentu',
@@ -196,7 +196,7 @@ export default {
     separatorChar: 'Znak separatora',
     templateName: 'Nazwa szablonu',
     title: 'Szablony formatowania',
-    editionAbbreviation: 'Skrót przekładu',
+    translationAbbreviation: 'Skrót przekładu',
     uppercase: 'Wielkie litery',
     versesWithNumbers: 'Wersety z numerami',
     yes: 'Tak'
@@ -204,7 +204,7 @@ export default {
   settingsGeneral: {
     locale: 'Domyślny język i region',
     defaultSearchResultLayout: 'Domyślny układ wyników wyszukiwania',
-    defaultEdition: 'Domyślny przekład',
+    defaultTranslation: 'Domyślny przekład',
     formatted: 'Sformatowany',
     referencePickerOnStart: 'Pokaż przyciski wyboru księgi/rozdziału po otwarciu strony',
     split: 'Podzielony',
@@ -236,11 +236,11 @@ export default {
     formatTemplates: 'Szablony formatowania',
     general: 'Ogólne',
     importExport: 'Import / Export',
-    editions: 'Przekłady'
+    translations: 'Przekłady'
   },
-  settingsEditions: {
+  settingsTranslations: {
     allSelected: 'Wszystkich wybranych',
-    defaultEdition: 'Domyślny przekład',
+    defaultTranslation: 'Domyślny przekład',
     downloading: 'Pobieranie ...',
     selectAll: 'Wybierz wszystkie dla języka',
     selected: 'Wybrano',

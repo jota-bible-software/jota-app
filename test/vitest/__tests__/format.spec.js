@@ -37,10 +37,10 @@ describe('Jota', () => {
     expect(format(bible, [0, 0, 0, 1], template, bookNames, separator)).toBe('Gen 1:1 "a b"')
   })
 
-  it('formats with edition', () => {
-    const template = '"${text}" (${book} ${chapter}@${verse} ${edition})'
+  it('formats with translation', () => {
+    const template = '"${text}" (${book} ${chapter}@${verse} ${translation})'
     expect(format(bible, [0, 0, 1, 1], template, bookNames, separator, 'bw')).toBe('"b" (Gen 1@2 bw)')
-    const template2 = '"${text}" (${book} ${chapter}@${verse} ${editionUpperCase})'
+    const template2 = '"${text}" (${book} ${chapter}@${verse} ${translationUpperCase})'
     expect(format(bible, [0, 0, 1, 1], template2, bookNames, separator, 'bw')).toBe('"b" (Gen 1@2 BW)')
   })
 })
