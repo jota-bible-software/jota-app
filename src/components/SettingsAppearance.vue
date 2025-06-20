@@ -42,6 +42,14 @@
       />
     </div>
 
+    <!-- Continuous verses -->
+    <div class="col">
+      <q-toggle 
+        v-model="store.persist.app.continuousVerses" 
+        :label="$t('settingsAppearance.continuousVerses')" 
+      />
+    </div>
+
     <div>{{ $t('settingsAppearance.bibleTextExample') }}</div>
     <div class="sample border">
       <ChapterContent />
@@ -67,6 +75,13 @@ if (!searchStore.chapterFragment) {
 function adjustFont(amount: number) {
   store.persist.app.fontSize = (store.persist.app.fontSize ?? 16) + amount
 }
+
+// Watch for continuous verses change to force underline highlighting
+watch(() => store.persist.app.continuousVerses, (newVal) => {
+  if (newVal) {
+    store.persist.app.underlineVerseHighlight = true
+  }
+})
 </script>
 
 <style lang="scss" scoped>

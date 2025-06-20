@@ -1,6 +1,16 @@
 <template>
-  <div ref="chapterRef" tabindex="0" class="chapter-container col bottom-clipped full-width">
-    <q-list id="chapter" class="full-width" v-if="chapterVerses.length">
+  <div ref="chapterRef" v-if="chapterVerses.length" tabindex="0" class="chapter-container col bottom-clipped full-width">
+    <!-- Continuous verses mode -->
+    <div v-if="continuousVerses && chapterVerses.length" id="chapter" class="continuous-verses full-width">
+      <span v-for="(s, i) in chapterVerses" :key="i" :class="[selectionClasses[i], { 'underline-highlight': underlineHighlight }]" class="verse-span"
+        :ref="(el: HTMLElement) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse">
+        <span :class="['reference', 'text-secondary', { 'superscript': superscript }]">{{ i + 1 }}</span>
+        <span class="verse-text" v-html="highlightSearchTerm(s)" />
+      </span>
+    </div>
+
+    <!-- Traditional verses mode -->
+    <q-list v-else id="chapter" class="full-width">
       <q-item v-for="(s, i) in chapterVerses" :key="i" :class="[selectionClasses[i], { 'underline-highlight': underlineHighlight }]" class="compact"
         :ref="(el: ComponentPublicInstance) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse">
         <q-item-section v-if="!inlined" :class="['reference', 'text-secondary', { 'superscript': superscript }]">{{ i + 1 }}</q-item-section>
@@ -25,10 +35,11 @@ const store = useSearchStore()
 const settingsStore = useSettingsStore()
 const { chapterVerses, highlightSearchTerm, selectionClasses } = toRefs(store)
 const chapterRef = ref<HTMLElement | null>(null)
-const chapterItemRefs = ref<ComponentPublicInstance[]>([])
+const chapterItemRefs = ref<(ComponentPublicInstance | HTMLElement)[]>([])
 const inlined = computed(() => settingsStore.persist.app.inlineVerseNumbers)
 const superscript = computed(() => settingsStore.persist.app.superscriptVerseNumbers)
 const underlineHighlight = computed(() => settingsStore.persist.app.underlineVerseHighlight)
+const continuousVerses = computed(() => settingsStore.persist.app.continuousVerses)
 
 const { focused: chapterFocused } = useFocusWithin(chapterRef)
 
@@ -63,8 +74,9 @@ useEventListener(document, 'selectionchange', () => {
   if (!store.chapterFragment) return
   const range = window._jota_test_support.getSelectionRange()
   if (!range) return [null, null]
-  const node1 = range.startContainer.parentElement?.closest('#chapter .q-item') ?? null
-  const node2 = range.endContainer.parentElement?.closest('#chapter .q-item') ?? null
+  const selector = continuousVerses.value ? '#chapter .verse-span' : '#chapter .q-item'
+  const node1 = range.startContainer.parentElement?.closest(selector) ?? null
+  const node2 = range.endContainer.parentElement?.closest(selector) ?? null
   if (node1 && node2) {
     const siblings = Array.from(node1.parentElement?.children || [])
     const index1 = siblings.indexOf(node1)
@@ -79,7 +91,10 @@ watch(() => store.scrollToIndex, async (index: number) => {
   await nextTick()
   if (!chapterRef.value || !chapterItemRefs.value[index]) return
   // Ensure the verse is scrolled to the center of the viewport
-  chapterItemRefs.value[index].$el.scrollIntoView({ block: 'center', behavior: 'auto' })
+  const element = continuousVerses.value
+    ? chapterItemRefs.value[index] as HTMLElement
+    : (chapterItemRefs.value[index] as ComponentPublicInstance).$el
+  element.scrollIntoView({ block: 'center', behavior: 'auto' })
 })
 
 function scrollPage(direction: Direction) {
@@ -106,6 +121,47 @@ function scrollPage(direction: Direction) {
   position: relative;
   height: 100%;
   overflow: auto;
+}
+
+.continuous-verses {
+  line-height: 1.6;
+  padding: 0 12px;
+
+  .verse-span {
+    display: inline;
+    margin-right: 4px;
+    position: relative;
+
+    .reference {
+      margin-right: 2px;
+    }
+
+    .verse-text {
+      margin-right: 4px;
+    }
+
+    .superscript {
+      vertical-align: super;
+      font-size: smaller;
+    }
+
+    // Selection styles for continuous mode
+    &.selection-single,
+    &.selection-start,
+    &.selection-middle,
+    &.selection-end {
+      box-shadow: none;
+      border-radius: 0;
+
+      &.underline-highlight .verse-text {
+        text-decoration: underline;
+        text-decoration-color: var(--q-foreground-dimmed);
+        text-decoration-thickness: 1px;
+        text-decoration-style: dashed;
+        text-underline-offset: 7px;
+      }
+    }
+  }
 }
 
 #chapter {

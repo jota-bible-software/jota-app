@@ -114,7 +114,8 @@ export default {
     fontSize: 'Розмір шрифту',
     inlineVerseNumbers: 'Номери віршів у рядку',
     superscriptVerseNumbers: 'Номери віршів як верхній індекс',
-    underlineVerseHighlight: 'Підкресленення для виокремлення віршів',
+    underlineVerseHighlight: 'Підкреслення для виокремлення віршів',
+    continuousVerses: 'Відображати вірші безперервно',
     textDecrease: 'Зменшити текст',
     textIncrease: 'Збільшити текст',
     title: 'Зовнішній вигляд'

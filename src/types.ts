@@ -10,6 +10,7 @@ export type AppSettings = {
   inlineVerseNumbers: boolean
   superscriptVerseNumbers: boolean
   underlineVerseHighlight: boolean
+  continuousVerses: boolean
 }
 
 export type BookNamingV2 = { locale: LocaleSymbol, name: string, books: string[], booksText?: string }

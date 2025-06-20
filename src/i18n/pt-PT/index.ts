@@ -104,6 +104,7 @@ export default {
     inlineVerseNumbers: 'Números de versículos em linha',
     superscriptVerseNumbers: 'Números de versículos sobrescritos',
     underlineVerseHighlight: 'Sublinhado para destaque de versículos',
+    continuousVerses: 'Exibir versículos continuamente',
     textDecrease: 'Diminuir texto',
     textIncrease: 'Aumentar texto',
     title: 'Aparência'

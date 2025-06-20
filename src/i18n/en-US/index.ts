@@ -115,6 +115,7 @@ export default {
     inlineVerseNumbers: 'Inline verse numbers',
     superscriptVerseNumbers: 'Superscript verse numbers',
     underlineVerseHighlight: 'Underline verse highlighting',
+    continuousVerses: 'Display verses continuously',
     textDecrease: 'Decrease text',
     textIncrease: 'Increase text',
     title: 'Appearance'

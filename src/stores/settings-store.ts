@@ -21,6 +21,7 @@ const initialPersistValue: SettingsPersist = {
     inlineVerseNumbers: false,
     superscriptVerseNumbers: false,
     underlineVerseHighlight: false,
+    continuousVerses: false,
   },
   locales: ['en-US', 'pl-PL'],
   localeData: localeData,

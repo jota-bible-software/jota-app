@@ -110,6 +110,7 @@ export default {
     inlineVerseNumbers: 'Numery wersetów w linii',
     superscriptVerseNumbers: 'Numery wersetów jako indeks górny',
     underlineVerseHighlight: 'Podkreślenie wyróżnienia wersetów',
+    continuousVerses: 'Wyświetlaj wersety ciągle',
     textDecrease: 'Zmniejsz tekst',
     textIncrease: 'Zwiększ tekst',
     title: 'Wygląd'
