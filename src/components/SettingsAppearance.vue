@@ -26,6 +26,14 @@
       />
     </div>
 
+    <!-- Superscript verse numbers -->
+    <div class="col">
+      <q-toggle 
+        v-model="store.persist.app.superscriptVerseNumbers" 
+        :label="$t('settingsAppearance.superscriptVerseNumbers')" 
+      />
+    </div>
+
     <div>{{ $t('settingsAppearance.bibleTextExample') }}</div>
     <div class="sample border">
       <ChapterContent />

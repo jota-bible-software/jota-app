@@ -108,6 +108,7 @@ export default {
     bibleTextExample: 'Przykład tekstu Biblii',
     fontSize: 'Rozmiar tekstu',
     inlineVerseNumbers: 'Numery wersetów w linii',
+    superscriptVerseNumbers: 'Numery wersetów jako indeks górny',
     textDecrease: 'Zmniejsz tekst',
     textIncrease: 'Zwiększ tekst',
     title: 'Wygląd'

@@ -8,6 +8,7 @@ export type AppSettings = {
   defaultSearchResultLayout: PassageListLayout
   referencePickerOnStart: boolean
   inlineVerseNumbers: boolean
+  superscriptVerseNumbers: boolean
 }
 
 export type BookNamingV2 = { locale: LocaleSymbol, name: string, books: string[], booksText?: string }

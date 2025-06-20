@@ -113,6 +113,7 @@ export default {
     bibleTextExample: 'Bible text example',
     fontSize: 'Font size',
     inlineVerseNumbers: 'Inline verse numbers',
+    superscriptVerseNumbers: 'Superscript verse numbers',
     textDecrease: 'Decrease text',
     textIncrease: 'Increase text',
     title: 'Appearance'

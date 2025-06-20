@@ -102,6 +102,7 @@ export default {
     bibleTextExample: 'Exemplo de texto da Bíblia',
     fontSize: 'Tamanho da fonte',
     inlineVerseNumbers: 'Números de versículos em linha',
+    superscriptVerseNumbers: 'Números de versículos sobrescritos',
     textDecrease: 'Diminuir texto',
     textIncrease: 'Aumentar texto',
     title: 'Aparência'

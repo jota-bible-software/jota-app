@@ -113,6 +113,7 @@ export default {
     bibleTextExample: 'Приклад тексту Біблії',
     fontSize: 'Розмір шрифту',
     inlineVerseNumbers: 'Номери віршів у рядку',
+    superscriptVerseNumbers: 'Номери віршів як верхній індекс',
     textDecrease: 'Зменшити текст',
     textIncrease: 'Збільшити текст',
     title: 'Зовнішній вигляд'
