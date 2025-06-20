@@ -9,6 +9,7 @@ export type AppSettings = {
   referencePickerOnStart: boolean
   inlineVerseNumbers: boolean
   superscriptVerseNumbers: boolean
+  underlineVerseHighlight: boolean
 }
 
 export type BookNamingV2 = { locale: LocaleSymbol, name: string, books: string[], booksText?: string }

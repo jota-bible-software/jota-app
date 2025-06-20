@@ -109,6 +109,7 @@ export default {
     fontSize: 'Rozmiar tekstu',
     inlineVerseNumbers: 'Numery wersetów w linii',
     superscriptVerseNumbers: 'Numery wersetów jako indeks górny',
+    underlineVerseHighlight: 'Podkreślenie wyróżnienia wersetów',
     textDecrease: 'Zmniejsz tekst',
     textIncrease: 'Zwiększ tekst',
     title: 'Wygląd'

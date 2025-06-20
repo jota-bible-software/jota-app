@@ -114,6 +114,7 @@ export default {
     fontSize: 'Tamaño de fuente',
     inlineVerseNumbers: 'Números de versículos en línea',
     superscriptVerseNumbers: 'Números de versículos en superíndice',
+    underlineVerseHighlight: 'Subrayado de resaltado de versículos',
     textDecrease: 'Disminuir texto',
     textIncrease: 'Aumentar texto',
     title: 'Apariencia'

@@ -114,6 +114,7 @@ export default {
     fontSize: 'Font size',
     inlineVerseNumbers: 'Inline verse numbers',
     superscriptVerseNumbers: 'Superscript verse numbers',
+    underlineVerseHighlight: 'Underline verse highlighting',
     textDecrease: 'Decrease text',
     textIncrease: 'Increase text',
     title: 'Appearance'

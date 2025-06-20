@@ -20,6 +20,7 @@ const initialPersistValue: SettingsPersist = {
     referencePickerOnStart: true,
     inlineVerseNumbers: false,
     superscriptVerseNumbers: false,
+    underlineVerseHighlight: false,
   },
   locales: ['en-US', 'pl-PL'],
   localeData: localeData,

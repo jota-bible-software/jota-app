@@ -1,7 +1,7 @@
 <template>
   <div ref="chapterRef" tabindex="0" class="chapter-container col bottom-clipped full-width">
     <q-list id="chapter" class="full-width" v-if="chapterVerses.length">
-      <q-item v-for="(s, i) in chapterVerses" :key="i" :class="selectionClasses[i]" class="compact"
+      <q-item v-for="(s, i) in chapterVerses" :key="i" :class="[selectionClasses[i], { 'underline-highlight': underlineHighlight }]" class="compact"
         :ref="(el: ComponentPublicInstance) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse">
         <q-item-section v-if="!inlined" :class="['reference', 'text-secondary', { 'superscript': superscript }]">{{ i + 1 }}</q-item-section>
         <q-item-section v-if="!inlined" class="verse"><span v-html="highlightSearchTerm(s)" /></q-item-section>
@@ -28,6 +28,7 @@ const chapterRef = ref<HTMLElement | null>(null)
 const chapterItemRefs = ref<ComponentPublicInstance[]>([])
 const inlined = computed(() => settingsStore.persist.app.inlineVerseNumbers)
 const superscript = computed(() => settingsStore.persist.app.superscriptVerseNumbers)
+const underlineHighlight = computed(() => settingsStore.persist.app.underlineVerseHighlight)
 
 const { focused: chapterFocused } = useFocusWithin(chapterRef)
 
@@ -156,6 +157,27 @@ function scrollPage(direction: Direction) {
   .superscript {
     vertical-align: super;
     font-size: smaller;
+  }
+
+  // Underline highlighting overrides for selection classes
+  .underline-highlight {
+
+    &.selection-single,
+    &.selection-start,
+    &.selection-middle,
+    &.selection-end {
+      box-shadow: none;
+      border-radius: 0;
+
+      .verse,
+      .verse-inline .verse {
+        text-decoration: underline;
+        text-decoration-color: var(--q-foreground-dimmed);
+        text-decoration-thickness: 1px;
+        text-decoration-style: dashed;
+        text-underline-offset: 7px;
+      }
+    }
   }
 
 }

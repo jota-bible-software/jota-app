@@ -34,6 +34,14 @@
       />
     </div>
 
+    <!-- Underline verse highlight -->
+    <div class="col">
+      <q-toggle 
+        v-model="store.persist.app.underlineVerseHighlight" 
+        :label="$t('settingsAppearance.underlineVerseHighlight')" 
+      />
+    </div>
+
     <div>{{ $t('settingsAppearance.bibleTextExample') }}</div>
     <div class="sample border">
       <ChapterContent />
