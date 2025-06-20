@@ -10,7 +10,7 @@
       </LabelRow> -->
 
       <div class="row q-mt-md">
-        <q-list bordered separator class="col-auto" style="max-width: 650px">
+        <q-list bordered separator class="col" style="max-width: 650px">
           <q-item v-for="(item, index) in items" :key="item.name" class="q-px-none1" clickable
             @click="edit(item, index)">
             <q-item-section>

@@ -40,9 +40,9 @@
               <q-item>
                 <ButtonBookSelector in-menu />
               </q-item>
-              <q-item>
+              <!-- <q-item>
                 <ButtonHelp in-menu />
-              </q-item>
+              </q-item> -->
               <q-item>
                 <ButtonSettings in-menu />
               </q-item>
