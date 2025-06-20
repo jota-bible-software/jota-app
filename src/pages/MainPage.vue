@@ -97,7 +97,7 @@ onMounted(() => {
   } else if (router.query.q) {
     setQuery()
   } else {
-    store.setChapterFragment([0, 0, 0, 0])
+    store.setChapterFragment([0, 0])
   }
 })
 

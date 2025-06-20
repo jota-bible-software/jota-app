@@ -132,7 +132,7 @@ async function finish() {
 
   searchStore.layout = 'split' // Set layout to 'split'
   if (!isChapterSelected.value) chapterIndex.value = 0
-  searchStore.setChapterFragment([bookIndex.value, chapterIndex.value, 0, 0])
+  searchStore.setChapterFragment([bookIndex.value, chapterIndex.value])
   searchStore.showPicker = false
 
   // Reset reference picker
