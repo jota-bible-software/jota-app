@@ -18,6 +18,14 @@
       </div>
     </div>
 
+    <!-- Inline verse numbers -->
+    <div class="col">
+      <q-toggle 
+        v-model="store.persist.app.inlineVerseNumbers" 
+        :label="$t('settingsAppearance.inlineVerseNumbers')" 
+      />
+    </div>
+
     <div>{{ $t('settingsAppearance.bibleTextExample') }}</div>
     <div class="sample border">
       <ChapterContent />

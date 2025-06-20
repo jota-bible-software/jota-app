@@ -112,6 +112,7 @@ export default {
   settingsAppearance: {
     bibleTextExample: 'Bible text example',
     fontSize: 'Font size',
+    inlineVerseNumbers: 'Inline verse numbers',
     textDecrease: 'Decrease text',
     textIncrease: 'Increase text',
     title: 'Appearance'

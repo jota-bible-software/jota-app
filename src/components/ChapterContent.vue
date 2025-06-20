@@ -3,8 +3,12 @@
     <q-list id="chapter" class="full-width" v-if="chapterVerses.length">
       <q-item v-for="(s, i) in chapterVerses" :key="i" :class="selectionClasses[i]" class="compact"
         :ref="(el: ComponentPublicInstance) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse">
-        <q-item-section class="reference text-secondary">{{ i + 1 }}</q-item-section>
-        <q-item-section class="verse"><span v-html="highlightSearchTerm(s)" /></q-item-section>
+        <q-item-section v-if="!inlined" class="reference text-secondary">{{ i + 1 }}</q-item-section>
+        <q-item-section v-if="!inlined" class="verse"><span v-html="highlightSearchTerm(s)" /></q-item-section>
+        <q-item-section v-if="inlined" class="verse-inline">
+          <span class="reference text-secondary">{{ i + 1 }}</span>
+          <span class="verse" v-html="highlightSearchTerm(s)" />
+        </q-item-section>
       </q-item>
     </q-list>
   </div>
@@ -12,14 +16,17 @@
 
 <script setup lang="ts">
 import { useSearchStore } from 'src/stores/search-store'
+import { useSettingsStore } from 'src/stores/settings-store'
 import { bindKeyEvent, Direction } from 'src/util'
 import { useEventListener, useFocusWithin } from '@vueuse/core'
 import * as tags from 'src/tags'
 
 const store = useSearchStore()
+const settingsStore = useSettingsStore()
 const { chapterVerses, highlightSearchTerm, selectionClasses } = toRefs(store)
 const chapterRef = ref<HTMLElement | null>(null)
 const chapterItemRefs = ref<ComponentPublicInstance[]>([])
+const inlined = computed(() => settingsStore.persist.app.inlineVerseNumbers)
 
 const { focused: chapterFocused } = useFocusWithin(chapterRef)
 
@@ -110,6 +117,7 @@ function scrollPage(direction: Direction) {
     max-width: 2em;
     justify-content: start;
     padding-top: 1px;
+    padding-right: 2px;
     text-align: center;
   }
 
@@ -137,6 +145,13 @@ function scrollPage(direction: Direction) {
   .verse {
     margin-left: 4px;
   }
+
+  .verse-inline {
+    display: block;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
 }
 
 // .chapter-container:focus-visible {

@@ -101,6 +101,7 @@ export default {
   settingsAppearance: {
     bibleTextExample: 'Exemplo de texto da Bíblia',
     fontSize: 'Tamanho da fonte',
+    inlineVerseNumbers: 'Números de versículos em linha',
     textDecrease: 'Diminuir texto',
     textIncrease: 'Aumentar texto',
     title: 'Aparência'

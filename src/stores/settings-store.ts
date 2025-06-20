@@ -18,6 +18,7 @@ const initialPersistValue: SettingsPersist = {
     appFormatTemplateName: 'App format',
     defaultSearchResultLayout: 'split' as PassageListLayout,
     referencePickerOnStart: true,
+    inlineVerseNumbers: false,
   },
   locales: ['en-US', 'pl-PL'],
   localeData: localeData,

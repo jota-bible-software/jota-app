@@ -112,6 +112,7 @@ export default {
   settingsAppearance: {
     bibleTextExample: 'Приклад тексту Біблії',
     fontSize: 'Розмір шрифту',
+    inlineVerseNumbers: 'Номери віршів у рядку',
     textDecrease: 'Зменшити текст',
     textIncrease: 'Збільшити текст',
     title: 'Зовнішній вигляд'
