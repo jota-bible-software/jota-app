@@ -25,7 +25,7 @@ export const useTranslationStore = defineStore('translation', () => {
   const { t } = useI18n()
 
   function isSelected(locale: LocaleSymbol, translation: string) {
-    return settings.persist.localeData[locale as keyof typeof settings.persist.localeData]?.translations.selected.includes(translation)
+    return settings.persist.localeData[locale as keyof typeof settings.persist.localeData]?.translations?.selected?.includes(translation) || false
   }
 
   function setTranslationSelection(locale: LocaleSymbol, translation: string, value: boolean) {

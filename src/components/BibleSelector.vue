@@ -1,5 +1,5 @@
 <template>
-  <q-select v-model="selected" :options="props.translations" option-label="symbol" emit-value popup-content-style="white-space: nowrap" dense
+  <q-select v-model="selected" :options="safeTranslations" option-label="symbol" emit-value popup-content-style="white-space: nowrap" dense
     :data-tag="tags.translationSelector">
 
     <template v-slot:selected>
@@ -10,15 +10,15 @@
     </template>
 
     <template v-slot:option="scope">
-      <q-separator v-if="scope.opt.isFirstInGroup" />
+      <q-separator v-if="scope.opt?.isFirstInGroup" />
 
       <q-item v-bind="scope.itemProps" :data-tag="tags.translationSelectorItem">
         <q-item-section>
           <q-item-label>
             <div class="row items-center q-gutter-md">
-              <FlagIcon :region="locale2region(scope.opt.locale)" v-if="props.flag" />
-              <span class="symbol">{{ scope.opt.symbol }}</span>
-              <span class="col">{{ scope.opt.title }}</span>
+              <FlagIcon :region="locale2region(scope.opt?.locale)" v-if="props.flag && scope.opt?.locale" />
+              <span class="symbol">{{ scope.opt?.symbol || '' }}</span>
+              <span class="col">{{ scope.opt?.title || '' }}</span>
             </div>
           </q-item-label>
         </q-item-section>
@@ -38,9 +38,13 @@ import * as tags from 'src/tags'
 const props = defineProps(['modelValue', 'flag', 'translations'])
 const emit = defineEmits(['update:modelValue'])
 
+const safeTranslations = computed(() => {
+  return Array.isArray(props.translations) ? props.translations.filter(Boolean) : []
+})
+
 const selected = computed({
-  get(): Translation {
-    return props.modelValue
+  get(): Translation | null {
+    return props.modelValue || null
   },
   set(value: Translation) {
     emit('update:modelValue', value)
