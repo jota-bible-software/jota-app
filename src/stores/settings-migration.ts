@@ -124,7 +124,7 @@ export function createReferenceOnlyTemplates(persist: SettingsPersistV2) {
     name: REFERENCE_ONLY,
     referencePosition: 'before',
     referenceLine: 'same line',
-    translationAbbreviation: 'uppercase',
+    translationAbbreviation: 'none',
     numbers: false,
     verseNewLine: false,
     referenceWithoutContent: true,

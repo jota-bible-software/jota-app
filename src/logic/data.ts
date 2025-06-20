@@ -157,7 +157,7 @@ export const formatTemplates: FormatTemplateData[] =
       'name': 'Reference only',
       'referencePosition': 'before',
       'referenceLine': 'same line',
-      'translationAbbreviation': 'uppercase',
+      'translationAbbreviation': 'none',
       'numbers': false,
       'verseNewLine': false,
       'referenceWithoutContent': true,

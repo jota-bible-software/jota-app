@@ -724,7 +724,7 @@ export const plPLLocaleData: LocaleData = {
     },
     {
       'name': 'Tylko referencje',
-      'formatTemplate': 'Only references',
+      'formatTemplate': 'Reference only',
       'bookNaming': 'Moje pl'
     }
   ].sort((a, b) => a.name.localeCompare(b.name, 'pl-PL')) as CopyTemplateData[],
