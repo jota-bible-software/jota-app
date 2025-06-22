@@ -1,4 +1,4 @@
-import { migrateV2ToV3, migrateV3ToV4 } from 'src/stores/settings-migration'
+import { migrateV2ToV3, migrateV3ToV4, migrateSettings, validatePostMigration } from 'src/stores/settings-migration'
 import { FormatTemplateData, SettingsPersist, SettingsPersistV2 } from 'src/types'
 import { describe, expect, it } from 'vitest'
 

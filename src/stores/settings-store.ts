@@ -48,12 +48,11 @@ export const useSettingsStore = defineStore('settings', () => {
     persist.value.localeData = initialPersistValue.localeData
   }
 
-
-  // Run migrations if needed
-  migrateSettings(persist.value)
-
   /** Current locale symbol */
   const currentLocale = computed(() => persist.value.app?.defaultLocale as LocaleSymbol || locale)
+
+  // Run migrations if needed
+  migrateSettings(persist.value, currentLocale)
 
   /** Current locale data */
   const currentLocaleData = computed(() => {

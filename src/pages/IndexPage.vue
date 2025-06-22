@@ -3,7 +3,7 @@
     <q-page class="col q-px-lg q-pb-md" style="max-width: 400px">
       <div class="row">
 
-        <BibleSelector />
+        <MainBibleSelector />
       </div>
       <!-- <TranslationConfig /> -->
     </q-page>
@@ -11,6 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import BibleSelector from 'src/components/BibleSelector.vue'
+import MainBibleSelector from 'src/components/MainBibleSelector.vue'
 
 </script>

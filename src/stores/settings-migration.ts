@@ -11,7 +11,7 @@ const i18n = createI18n({
 
 const REFERENCE_ONLY = 'Reference only'
 
-export function migrateSettings(persist: Record<string, unknown> & { version: string }) {
+export function migrateSettings(persist: Record<string, unknown> & { version: string }, currentLocale: Ref<LocaleSymbol>) {
 
   if (persist.version === '1') {
     console.log('Migrating settings from v1 to v2')
@@ -34,6 +34,10 @@ export function migrateSettings(persist: Record<string, unknown> & { version: st
     migrateV3ToV4(persist as SettingsPersist)
     persist.version = '4'
   }
+
+  // Post-migration validation to ensure data integrity
+  console.log('Validating post-migration settings')
+  validatePostMigration(persist as SettingsPersist, currentLocale)
 }
 
 export function migrateV1ToV2(persist: SettingsPersistV2) {
@@ -130,17 +134,46 @@ export function migrateV3ToV4(persist: SettingsPersist) {
         editionAbbreviationCharsBefore?: string
         editionAbbreviationCharsAfter?: string
       }
-      
+
       // Migrate editionAbbreviationCharsBefore to translationAbbreviationCharsBefore
       if ('editionAbbreviationCharsBefore' in templateWithOldProps && templateWithOldProps.editionAbbreviationCharsBefore !== undefined) {
         template.translationAbbreviationCharsBefore = templateWithOldProps.editionAbbreviationCharsBefore
         delete templateWithOldProps.editionAbbreviationCharsBefore
       }
-      
+
       // Migrate editionAbbreviationCharsAfter to translationAbbreviationCharsAfter
       if ('editionAbbreviationCharsAfter' in templateWithOldProps && templateWithOldProps.editionAbbreviationCharsAfter !== undefined) {
         template.translationAbbreviationCharsAfter = templateWithOldProps.editionAbbreviationCharsAfter
         delete templateWithOldProps.editionAbbreviationCharsAfter
+      }
+    }
+  }
+
+}
+
+export function validatePostMigration(persist: SettingsPersist, currentLocale: Ref<LocaleSymbol>) {
+  // Ensure at least one translation is selected for each locale
+  if (persist.localeData) {
+    for (const localeKey of Object.keys(persist.localeData) as LocaleSymbol[]) {
+      const localeData = persist.localeData[localeKey]
+      if (localeData?.translations) {
+        const { available, selected, default: defaultTranslation } = localeData.translations
+
+        if (localeKey === 'en-US') {
+          localeData.translations.available = ['KJV', 'NIV', 'NLT']
+        } else if (localeKey === 'pl-PL') {
+          localeData.translations.available = ['BT5', 'BW', 'EIB', 'UBG']
+        }
+
+        // If default translation is not valid, set it to empty
+        if (!defaultTranslation || !available.includes(defaultTranslation)) {
+          if (selected.length > 0 && available.includes(selected[0])) {
+            if (localeKey === currentLocale.value) {
+              localeData.translations.default = selected[0]
+            }
+            localeData.translations.default = ''
+          }
+        }
       }
     }
   }
