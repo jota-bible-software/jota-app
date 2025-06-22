@@ -1,5 +1,5 @@
 import messages from 'src/i18n'
-import { BookNamingV2, FormatTemplateData, LocaleDataV2, LocaleSymbol, PassageListLayout, SettingsPersist, SettingsPersistV2 } from 'src/types'
+import { BookNamingV2, FormatTemplateData, LocaleDataV2, LocaleSymbol, LocaleTranslations, PassageListLayout, SettingsPersist, SettingsPersistV2 } from 'src/types'
 import { createI18n } from 'vue-i18n'
 
 // Create a local i18n instance for migration
@@ -33,6 +33,12 @@ export function migrateSettings(persist: Record<string, unknown> & { version: st
     console.log('Migrating settings from v3 to v4')
     migrateV3ToV4(persist as SettingsPersist)
     persist.version = '4'
+  }
+
+  if (persist.version === '4') {
+    console.log('Migrating settings from v4 to v5')
+    migrateV4ToV5(persist as SettingsPersist)
+    persist.version = '5'
   }
 
   // Post-migration validation to ensure data integrity
@@ -145,6 +151,24 @@ export function migrateV3ToV4(persist: SettingsPersist) {
       if ('editionAbbreviationCharsAfter' in templateWithOldProps && templateWithOldProps.editionAbbreviationCharsAfter !== undefined) {
         template.translationAbbreviationCharsAfter = templateWithOldProps.editionAbbreviationCharsAfter
         delete templateWithOldProps.editionAbbreviationCharsAfter
+      }
+    }
+  }
+
+}
+
+export function migrateV4ToV5(persist: SettingsPersist) {
+  // Migrate from persist.localeData.<locale>.editions to translations
+  if (persist.localeData) {
+    for (const localeKey of Object.keys(persist.localeData) as LocaleSymbol[]) {
+      const localeData = persist.localeData[localeKey] as LocaleDataV2 & {
+        editions?: LocaleTranslations
+      }
+
+      // If editions exists and translations doesn't, migrate editions to translations
+      if ('editions' in localeData && localeData.editions && !localeData.translations) {
+        localeData.translations = localeData.editions
+        delete localeData.editions
       }
     }
   }
