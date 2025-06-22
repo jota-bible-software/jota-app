@@ -2,7 +2,7 @@ import { useFetch } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { useQuasar } from 'quasar'
 import { translationsData } from 'src/logic/data'
-import { LocaleSymbol, Translation, TranslationKey } from 'src/types'
+import { LocaleSymbol, Translation, TranslationKey, TranslationFile, TranslationContent } from 'src/types'
 import { getDefaultLocale } from 'src/util'
 import { computed, ComputedRef, ref, Ref, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -195,7 +195,21 @@ export const useTranslationStore = defineStore('translation', () => {
     }
 
     if (data.value) {
-      translation.content.value = data.value
+      const parsedData = data.value
+      
+      // Detect format: if it has 'meta' and 'data' properties, it's new format
+      if (parsedData.meta && parsedData.data) {
+        // New format with metadata
+        const translationFile = parsedData as TranslationFile
+        translation.content.value = translationFile.data
+        translation.fileMeta = translationFile.meta
+      } else if (Array.isArray(parsedData)) {
+        // Legacy 3D array format
+        translation.content.value = parsedData as TranslationContent
+      } else {
+        throw new Error(t('translationStore.invalidFileFormat', { symbol: translation.symbol, locale: translation.locale }))
+      }
+      
       return translation.content
     } else {
       throw new Error(t('translationStore.noDataReceived'))

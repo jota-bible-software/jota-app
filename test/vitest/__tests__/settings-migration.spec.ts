@@ -1,5 +1,5 @@
-import { migrateV2ToV3 } from 'src/stores/settings-migration'
-import { SettingsPersist, SettingsPersistV2 } from 'src/types'
+import { migrateV2ToV3, migrateV3ToV4 } from 'src/stores/settings-migration'
+import { FormatTemplateData, SettingsPersist, SettingsPersistV2 } from 'src/types'
 import { describe, expect, it } from 'vitest'
 
 describe('settings-migration', () => {
@@ -293,6 +293,173 @@ describe('settings-migration', () => {
           }
         ]
       }
+    })
+  })
+
+  describe('migrateV3ToV4', () => {
+    it('should migrate editionAbbreviation properties to translationAbbreviation', () => {
+      // Sample v3 settings with old editionAbbreviation properties
+      const v3Settings: SettingsPersist = {
+        version: '3',
+        app: {
+          defaultLocale: 'en-US',
+          fontSize: 16,
+          screenMode: 'dark',
+          appFormatTemplateName: 'Test format',
+          defaultSearchResultLayout: 'split',
+          referencePickerOnStart: true,
+          inlineVerseNumbers: false,
+          superscriptVerseNumbers: false,
+          underlineVerseHighlight: false,
+          continuousVerses: false,
+        },
+        locales: ['en-US'],
+        localeData: {
+          'en-US': {
+            naming: { available: [], default: '' },
+            translations: { available: [], selected: [], default: '' },
+            copyTemplates: [],
+            defaultCopyTemplate: ''
+          }
+        },
+        formatTemplates: [
+          {
+            name: 'Test format',
+            referencePosition: 'before',
+            referenceLine: 'same line',
+            translationAbbreviation: 'uppercase',
+            numbers: true,
+            verseNewLine: false,
+            referenceWithoutContent: false,
+            separatorChar: ':',
+            rangeChar: '-',
+            referenceCharsBefore: '',
+            referenceCharsAfter: '',
+            quoteCharsBefore: '',
+            quoteCharsAfter: '',
+            verseNumberCharsBefore: '(',
+            verseNumberCharsAfter: ')',
+            translationAbbreviationCharsBefore: '[',
+            translationAbbreviationCharsAfter: ']',
+            // Add old properties that should be migrated
+            editionAbbreviationCharsBefore: '<<',
+            editionAbbreviationCharsAfter: '>>'
+          } as FormatTemplateData & {
+            editionAbbreviationCharsBefore: string
+            editionAbbreviationCharsAfter: string
+          }
+        ]
+      }
+
+      // Migrate
+      migrateV3ToV4(v3Settings)
+
+      // Verify migration
+      const template = v3Settings.formatTemplates[0]
+      const templateWithOldProps = template as FormatTemplateData & {
+        editionAbbreviationCharsBefore?: string
+        editionAbbreviationCharsAfter?: string
+      }
+      
+      // Check that new properties have the migrated values
+      expect(template.translationAbbreviationCharsBefore).toBe('<<')
+      expect(template.translationAbbreviationCharsAfter).toBe('>>')
+      
+      // Check that old properties are removed
+      expect('editionAbbreviationCharsBefore' in templateWithOldProps).toBe(false)
+      expect('editionAbbreviationCharsAfter' in templateWithOldProps).toBe(false)
+    })
+
+    it('should handle templates without old editionAbbreviation properties', () => {
+      // Sample v3 settings without old properties
+      const v3Settings: SettingsPersist = {
+        version: '3',
+        app: {
+          defaultLocale: 'en-US',
+          fontSize: 16,
+          screenMode: 'dark',
+          appFormatTemplateName: 'Test format',
+          defaultSearchResultLayout: 'split',
+          referencePickerOnStart: true,
+          inlineVerseNumbers: false,
+          superscriptVerseNumbers: false,
+          underlineVerseHighlight: false,
+          continuousVerses: false,
+        },
+        locales: ['en-US'],
+        localeData: {
+          'en-US': {
+            naming: { available: [], default: '' },
+            translations: { available: [], selected: [], default: '' },
+            copyTemplates: [],
+            defaultCopyTemplate: ''
+          }
+        },
+        formatTemplates: [
+          {
+            name: 'Test format',
+            referencePosition: 'before',
+            referenceLine: 'same line',
+            translationAbbreviation: 'uppercase',
+            numbers: true,
+            verseNewLine: false,
+            referenceWithoutContent: false,
+            separatorChar: ':',
+            rangeChar: '-',
+            referenceCharsBefore: '',
+            referenceCharsAfter: '',
+            quoteCharsBefore: '',
+            quoteCharsAfter: '',
+            verseNumberCharsBefore: '(',
+            verseNumberCharsAfter: ')',
+            translationAbbreviationCharsBefore: '[',
+            translationAbbreviationCharsAfter: ']'
+          }
+        ]
+      }
+
+      // Store original values
+      const originalCharsBefore = v3Settings.formatTemplates[0].translationAbbreviationCharsBefore
+      const originalCharsAfter = v3Settings.formatTemplates[0].translationAbbreviationCharsAfter
+
+      // Migrate
+      migrateV3ToV4(v3Settings)
+
+      // Verify that existing values are preserved
+      expect(v3Settings.formatTemplates[0].translationAbbreviationCharsBefore).toBe(originalCharsBefore)
+      expect(v3Settings.formatTemplates[0].translationAbbreviationCharsAfter).toBe(originalCharsAfter)
+    })
+
+    it('should handle settings without formatTemplates', () => {
+      // Sample v3 settings without formatTemplates
+      const v3Settings: SettingsPersist = {
+        version: '3',
+        app: {
+          defaultLocale: 'en-US',
+          fontSize: 16,
+          screenMode: 'dark',
+          appFormatTemplateName: 'Test format',
+          defaultSearchResultLayout: 'split',
+          referencePickerOnStart: true,
+          inlineVerseNumbers: false,
+          superscriptVerseNumbers: false,
+          underlineVerseHighlight: false,
+          continuousVerses: false,
+        },
+        locales: ['en-US'],
+        localeData: {
+          'en-US': {
+            naming: { available: [], default: '' },
+            translations: { available: [], selected: [], default: '' },
+            copyTemplates: [],
+            defaultCopyTemplate: ''
+          }
+        },
+        formatTemplates: []
+      }
+
+      // Should not throw an error
+      expect(() => migrateV3ToV4(v3Settings)).not.toThrow()
     })
   })
 })

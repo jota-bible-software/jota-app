@@ -45,7 +45,9 @@ export default {
     cannotUnselectAllTranslations: 'Неможливо відзначити всі переклади',
     translationNotFound: 'Вміст перекладу не знайдено для {symbol} ({locale})',
     translationFetchError: 'Помилка отримання вмісту перекладу для {symbol} ({locale})',
-    noDataReceived: 'Не отримано даних із запиту на отримання'
+    noDataReceived: 'Не отримано даних із запиту на отримання',
+    invalidFileFormat: 'Неправильний формат файлу перекладу для {symbol} ({locale})',
+    unsupportedDataFormat: 'Непідтримуваний формат даних: {format}'
   },
   mainPage: {
     clearSearch: 'Очистити критерії та результати пошуку',

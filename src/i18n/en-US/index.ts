@@ -44,7 +44,9 @@ export default {
     cannotUnselectAllTranslations: 'Cannot unselect all translations',
     translationNotFound: 'Translation content not found for {symbol} ({locale})',
     translationFetchError: 'Error fetching translation content for {symbol} ({locale})',
-    noDataReceived: 'No data received from fetch request'
+    noDataReceived: 'No data received from fetch request',
+    invalidFileFormat: 'Invalid translation file format for {symbol} ({locale})',
+    unsupportedDataFormat: 'Unsupported data format: {format}'
   },
   mainPage: {
     clearSearch: 'Clear search criteria and results',

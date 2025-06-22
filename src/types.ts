@@ -25,9 +25,40 @@ export type CopyTemplateData = {
 export type Translation = TranslationMeta & {
   content: ShallowRef<TranslationContent | undefined>
   selected: Ref<boolean>
+  fileMeta?: TranslationFileMeta
 }
 
-export type TranslationContent = string[][][]
+// Bible translation data formats
+export type TranslationDataFormat = '3d-array' | 'map'
+
+export type TranslationContentArray = string[][][]
+
+export type TranslationContentMap = {
+  [bookNumber: number]: {
+    [chapterNumber: number]: {
+      [verseNumber: number]: string
+    }
+  }
+}
+
+export type TranslationFileMeta = {
+  name: string
+  abbreviation: string
+  locale: LocaleSymbol
+  year?: string
+  bookNames?: string[]
+  bookOrder?: string
+  dataFormat: TranslationDataFormat
+  created?: string
+  modified?: string
+}
+
+export type TranslationFile = {
+  meta: TranslationFileMeta
+  data: TranslationContentArray | TranslationContentMap
+}
+
+export type TranslationContent = TranslationContentArray | TranslationContentMap
 
 export type TranslationKey = { locale: LocaleSymbol, symbol: string }
 

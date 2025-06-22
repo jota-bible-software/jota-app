@@ -46,6 +46,8 @@ export default {
     translationNotFound: 'Conteúdo da tradução não encontrado para {symbol} ({locale})',
     translationFetchError: 'Erro ao buscar conteúdo da tradução para {symbol} ({locale})',
     noDataReceived: 'Nenhum dado recebido da solicitação de busca',
+    invalidFileFormat: 'Formato de arquivo de tradução inválido para {symbol} ({locale})',
+    unsupportedDataFormat: 'Formato de dados não suportado: {format}'
   },
   mainPage: {
     clearSearch: 'Limpar critérios e resultados de pesquisa',

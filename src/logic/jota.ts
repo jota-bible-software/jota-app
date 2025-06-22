@@ -2,8 +2,11 @@
 /**
  * The main application logic to process the bible translations.
  *
- * The format of the bible translation content is a three dimensional array,
- * consisting of books, chapters and verses. The apocrypha books are at the end.
+ * The format of the bible translation content can be either:
+ * 1. A three dimensional array (legacy format) consisting of books, chapters and verses
+ * 2. A map-based format with numbered books, chapters, and verses
+ *
+ * The apocrypha books are at the end.
  *
  * A passages descriptor is called a fragment and it is a four element int array containing
  * bookIndex, chapterIndex, startVerse and endVerse.
@@ -12,6 +15,7 @@
 // /* global bcv_parser */
 
 import { osis as osisBooks } from './books'
+import { getVerse, getChapter, getBookCount, getChapterCount, getVerseCount } from './translation-utils'
 // import { defaultState } from 'src/store/store-settings'
 import { Parser, enUS, plPL } from 'jota-parser'
 import { Passage, Progress, SearchOptions, TranslationContent } from 'src/types'
@@ -56,9 +60,12 @@ export const jota = {
    */
   adjacentChapter(bible: TranslationContent, fragment: Passage, direction: 1 | -1) {
     const [bi, ci] = fragment
+    const bookCount = getBookCount(bible)
+    const currentBookChapterCount = getChapterCount(bible, bi)
+    
     return direction === -1 ?
-      ci === 0 ? bi === 0 ? null : [bi - 1, bible[bi - 1].length - 1] : [bi, ci - 1] :
-      ci === bible[bi].length - 1 ? bi === bible.length - 1 ? null : [bi + 1, 0] : [bi, ci + 1]
+      ci === 0 ? bi === 0 ? null : [bi - 1, getChapterCount(bible, bi - 1) - 1] : [bi, ci - 1] :
+      ci === currentBookChapterCount - 1 ? bi === bookCount - 1 ? null : [bi + 1, 0] : [bi, ci + 1]
   },
 
 
@@ -78,26 +85,23 @@ export const jota = {
 
   /**
    * Returns array of verses for the whole chapter containing the given fragment.
-   * @param {[]} bible Three dimensional array with the content of the bible translation
+   * @param {[]} bible Translation content in either format
    * @param {int[]} passage [bookIndex, chapterIndex, startVerse, endVerse]
    * @returns Array of verses (strings)
    */
   chapterVerses(bible: TranslationContent, passage: Passage) {
     if (!passage) return []
     const [book, chapter] = passage
-    let content: string[] = []
-    try {
-      content = bible[book][chapter]
-    } catch { /* May fail because the bible is no loaded yet */ }
+    const content = getChapter(bible, book, chapter)
     if (!content) return []
-    return Object.values(content)
+    return content
   },
 
   /**
    * Formats a given fragment according to the given template, both reference and the content.
    * Used in formatted search results layout and for copying to the clipboard.
    *
-   * @param {[]} translationContent Three dimensional array with the content of the bible translation
+   * @param {[]} translationContent Translation content in either format
    * @param {int[]} fragment [bookIndex, chapterIndex, startVerse, endVerse]
    * @param {string} template String template replacing the variables reference with the values from this function scope
    * @param {string[]} bookNames Collection of book names to be used
@@ -106,13 +110,13 @@ export const jota = {
    * @returns {string} Formatted fragment
    */
   format(translationContent: TranslationContent, fragment: Passage, template: string, bookNames: string[], separator: string, translation: string) {
-    // All the variables used in the template must declared as loca variables here
+    // All the variables used in the template must declared as local variables here
     const [bi, ci, si, ei] = fragment
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const book = bookNames[bi]
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const chapter = ci + 1
-    const content = translationContent[bi][ci]
+    const content = getChapter(translationContent, bi, ci)
     if (!content) return ''
 
     const start = si == null ? 1 : si + 1
@@ -202,7 +206,7 @@ export const jota = {
   /**
    * Get the list of fragments from the osis string.
    *
-   * @param {[]} translationContent Three dimensional array with the content of the bible translation
+   * @param {[]} translationContent Translation content in either format
    * @param {string} osis comma separated list of fragment codes like: Deut.25.13-14
    * @param {boolean} shouldSort specifies whether the list should be sorted by indexes of the fragments
    * @returns {[]} Array of fragments (arrays including [bookIndex, chapterIndex, startVerse, endVerse])
@@ -221,7 +225,7 @@ export const jota = {
         to = to || true
       }
       if (to) {
-        const b = to === true ? [a[0], translationContent[a[0]].length - 1] : this.osis2passage(to)
+        const b = to === true ? [a[0], getChapterCount(translationContent, a[0]) - 1] : this.osis2passage(to)
         // Only scopes within the same chapter are allowed
         if (a[0] !== b[0] || a[1] !== b[1]) {
           a[2] = a[2] || 0
@@ -229,11 +233,11 @@ export const jota = {
             a.splice(2, 1)
             fragments.push(a as Passage)
           } else {
-            push(a, translationContent[a[0]][a[1]].length - 1)
+            push(a, getVerseCount(translationContent, a[0], a[1]) - 1)
           }
           if (a[0] < b[0]) {
             // Add the rest of chapters from the starting book
-            addChapters(a[0], a[1] + 1, translationContent[a[0]].length)
+            addChapters(a[0], a[1] + 1, getChapterCount(translationContent, a[0]))
           } else {
             // Add all the chapters in between if start end end are in the same book
             addChapters(a[0], a[1] + 1, b[1])
@@ -241,15 +245,15 @@ export const jota = {
           if (a[0] + 1 < b[0]) {
             // Add books in between, this should be forbidden probably
             for (let bi = a[0] + 1; bi < b[0]; bi++) {
-              addChapters(bi, 0, translationContent[bi].length)
+              addChapters(bi, 0, getChapterCount(translationContent, bi))
             }
           }
           if (a[0] < b[0]) {
             // Add the starting chapters from the ending book
-            addChapters(b[0], 0, isNaN(b[1]) ? translationContent[b[0]].length : b[1])
+            addChapters(b[0], 0, isNaN(b[1]) ? getChapterCount(translationContent, b[0]) : b[1])
           }
           if (!isNaN(b[1])) {
-            if (isNaN(b[2]) || b[2] === translationContent[b[0]][b[1]].length - 1) {
+            if (isNaN(b[2]) || b[2] === getVerseCount(translationContent, b[0], b[1]) - 1) {
               fragments.push([b[0], b[1]])
             } else {
               fragments.push([b[0], b[1], 0, b[2]])
@@ -289,7 +293,7 @@ export const jota = {
    * If text does not start with "/" then try to find passage references.
    * Otherwise or if passage references not found search for the text in the current bible contents.
    *
-   * @param {[]} bible Three dimensional array with the content of the bible translation
+   * @param {[]} bible Translation content in either format
    * @param {string} text Search input
    * @param {object} options Search options such as
    *   words - Should search for whole words or just characters chains
@@ -318,7 +322,7 @@ export const jota = {
       return jota.searchContent(regex, bible, progress)
     }
 
-    options.apocrypha = options.apocrypha === undefined ? bible.length > 66 : options.apocrypha
+    options.apocrypha = options.apocrypha === undefined ? getBookCount(bible) > 66 : options.apocrypha
 
     // Otherwise try to find passage references
     // require(`../statics/bcv-parsers/${lang || 'pl'}_bcv_parser`)
@@ -366,28 +370,33 @@ export const jota = {
   /**
    *
    * @param {RegExp} regex Regular expression to search for
-   * @param {*} bible
+   * @param {*} bible Translation content in either format
    * @param {*} progress
    * @returns
    */
   async searchContent(regex: RegExp, bible: TranslationContent, progress: Progress) {
     const found: number[][] = []
-    // const re = new RegExp(term, 'ig')
+    const bookCount = getBookCount(bible)
+    
     // set timeout to give time for progress animation to paint itself
-    await Promise.all(bible.map((book, bi) => new Promise(resolve => setTimeout(() => {
-      book.forEach((chapter, ci) =>
-        chapter.forEach((verse, vi) => {
-          if (regex.test(verse)) {
+    await Promise.all(Array.from({ length: bookCount }, (_, bi) => new Promise(resolve => setTimeout(() => {
+      const chapterCount = getChapterCount(bible, bi)
+      for (let ci = 0; ci < chapterCount; ci++) {
+        const verseCount = getVerseCount(bible, bi, ci)
+        for (let vi = 0; vi < verseCount; vi++) {
+          const verse = getVerse(bible, bi, ci, vi)
+          if (verse && regex.test(verse)) {
             const fragment = [bi, ci, vi, vi]
             Object.preventExtensions(fragment)
             Object.freeze(fragment)
             found.push(fragment)
           }
-        })
-      )
+        }
+      }
       progress.step(bi + 1)
       resolve(null)
     }, 100))))
+    
     // Store it so the UI would know which parts to highlight
     progress.regex = regex
     Object.preventExtensions(found)
@@ -429,7 +438,7 @@ export const jota = {
 
   verses(bible: TranslationContent, fragment: Passage) {
     const [bi, ci, si, ei] = fragment
-    const content = bible[bi][ci]
+    const content = getChapter(bible, bi, ci)
     if (!content) return []
 
     const start = si == null ? 1 : si + 1

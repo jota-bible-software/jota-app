@@ -1,5 +1,5 @@
 import messages from 'src/i18n'
-import { BookNamingV2, LocaleDataV2, LocaleSymbol, PassageListLayout, SettingsPersist, SettingsPersistV2 } from 'src/types'
+import { BookNamingV2, FormatTemplateData, LocaleDataV2, LocaleSymbol, PassageListLayout, SettingsPersist, SettingsPersistV2 } from 'src/types'
 import { createI18n } from 'vue-i18n'
 
 // Create a local i18n instance for migration
@@ -27,6 +27,12 @@ export function migrateSettings(persist: Record<string, unknown> & { version: st
       persist[key] = newSettings[key]
     })
     persist.version = '3'
+  }
+
+  if (persist.version === '3') {
+    console.log('Migrating settings from v3 to v4')
+    migrateV3ToV4(persist as SettingsPersist)
+    persist.version = '4'
   }
 }
 
@@ -113,6 +119,31 @@ export function migrateV2ToV3(oldSettings: SettingsPersistV2): SettingsPersist {
   })
 
   return newSettings
+}
+
+export function migrateV3ToV4(persist: SettingsPersist) {
+  // Migrate from editionAbbreviation to translationAbbreviation in format templates
+  if (persist.formatTemplates) {
+    for (const template of persist.formatTemplates) {
+      // Type assertion to access the old properties
+      const templateWithOldProps = template as FormatTemplateData & {
+        editionAbbreviationCharsBefore?: string
+        editionAbbreviationCharsAfter?: string
+      }
+      
+      // Migrate editionAbbreviationCharsBefore to translationAbbreviationCharsBefore
+      if ('editionAbbreviationCharsBefore' in templateWithOldProps && templateWithOldProps.editionAbbreviationCharsBefore !== undefined) {
+        template.translationAbbreviationCharsBefore = templateWithOldProps.editionAbbreviationCharsBefore
+        delete templateWithOldProps.editionAbbreviationCharsBefore
+      }
+      
+      // Migrate editionAbbreviationCharsAfter to translationAbbreviationCharsAfter
+      if ('editionAbbreviationCharsAfter' in templateWithOldProps && templateWithOldProps.editionAbbreviationCharsAfter !== undefined) {
+        template.translationAbbreviationCharsAfter = templateWithOldProps.editionAbbreviationCharsAfter
+        delete templateWithOldProps.editionAbbreviationCharsAfter
+      }
+    }
+  }
 }
 
 export function createReferenceOnlyTemplates(persist: SettingsPersistV2) {

@@ -45,7 +45,9 @@ export default {
     cannotUnselectAllTranslations: 'No se puede deseleccionar todas las traducciones',
     translationNotFound: 'Contenido de la traducción no encontrado para {symbol} ({locale})',
     translationFetchError: 'Error al obtener el contenido de la traducción para {symbol} ({locale})',
-    noDataReceived: 'No se recibieron datos de la solicitud de búsqueda'
+    noDataReceived: 'No se recibieron datos de la solicitud de búsqueda',
+    invalidFileFormat: 'Formato de archivo de traducción inválido para {symbol} ({locale})',
+    unsupportedDataFormat: 'Formato de datos no soportado: {format}'
   },
   mainPage: {
     clearSearch: 'Borrar criterios y resultados de búsqueda',

@@ -40,7 +40,9 @@ export default {
     cannotUnselectAllTranslations: 'Nie można odznaczyć wszystkich przekładów',
     translationNotFound: 'Nie znaleziono treści dla przekładu {symbol} ({locale})',
     translationFetchError: 'Błąd podczas pobierania treści przekładu dla {symbol} ({locale})',
-    noDataReceived: 'Nie otrzymano danych z żądania pobrania'
+    noDataReceived: 'Nie otrzymano danych z żądania pobrania',
+    invalidFileFormat: 'Nieprawidłowy format pliku przekładu dla {symbol} ({locale})',
+    unsupportedDataFormat: 'Nieobsługiwany format danych: {format}'
   },
   mainPage: {
     clearSearch: 'Wyczyść kryteria i wyniki wyszukiwania',

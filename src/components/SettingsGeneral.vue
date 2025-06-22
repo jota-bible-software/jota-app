@@ -6,9 +6,11 @@
     </LabelRow>
 
     <LabelRow>
-      <q-toggle v-model="store.persist.app.referencePickerOnStart" :label="t('settingsGeneral.referencePickerOnStart')"
-        :data-tag="tags.settingsReferencePickerOnStart" />
-      <q-icon name="icon-mat-checklist" size="sm" class="border q-pa-sm" />
+      <div class="row items-center">
+        <q-toggle v-model="store.persist.app.referencePickerOnStart" :label="t('settingsGeneral.referencePickerOnStart')" class="col"
+          :data-tag="tags.settingsReferencePickerOnStart" />
+        <q-icon name="icon-mat-checklist" size="sm" class="border q-pa-sm q-ml-md col-auto" />
+      </div>
     </LabelRow>
 
     <LabelRow :label="t('settingsGeneral.defaultSearchResultLayout')">

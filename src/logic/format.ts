@@ -1,4 +1,5 @@
 import { FormatTemplateData, Formatted, Passage, TranslationContent } from 'src/types'
+import { getChapter } from './translation-utils'
 
 /**
  * Returns a structure that holds the reference separately from the verses content.
@@ -8,7 +9,7 @@ function replaceEnterChar(str: string): string {
 }
 
 export function formatComposable(template: FormatTemplateData, passage: Passage, translationContent: TranslationContent, bookNames: string[], translationAbbreviation: string): Formatted | undefined {
-  // All the variables used in the template must declared as loca variables here
+  // All the variables used in the template must declared as local variables here
   const t = {
     ...template,
     referenceCharsBefore: replaceEnterChar(template.referenceCharsBefore),
@@ -22,11 +23,13 @@ export function formatComposable(template: FormatTemplateData, passage: Passage,
   }
   const [bi, ci, si, ei] = passage
   const chapter = ci + 1
-  const chapterContent = translationContent[bi][ci]
+  const chapterContent = getChapter(translationContent, bi, ci)
+
+  if (!chapterContent) return undefined
 
   const bookName = bookNames[bi]
   const start = si === undefined ? 1 : si + 1
-  const end = ei === undefined ? si === undefined ? (chapterContent?.length || 1) : si + 1 : ei + 1
+  const end = ei === undefined ? si === undefined ? chapterContent.length : si + 1 : ei + 1
   const ending = start === end ? '' : t.rangeChar + end
   const ta = t.translationAbbreviation
   const ab = ta === 'none' ? '' : ta === 'lowercase' ? translationAbbreviation.toLowerCase() : translationAbbreviation.toUpperCase()
