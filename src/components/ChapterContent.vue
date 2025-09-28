@@ -124,7 +124,7 @@ function scrollPage(direction: Direction) {
 }
 
 .continuous-verses {
-  line-height: 1.6;
+  line-height: 1.7;
   padding: 0 12px;
 
   .verse-span {
@@ -134,15 +134,19 @@ function scrollPage(direction: Direction) {
 
     .reference {
       margin-right: 2px;
+      line-height: 1.7;
+      vertical-align: baseline;
     }
 
     .verse-text {
       margin-right: 4px;
+      line-height: 1.7;
     }
 
     .superscript {
       vertical-align: super;
       font-size: smaller;
+      line-height: 1;
     }
 
     // Selection styles for continuous mode
