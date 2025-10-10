@@ -70,20 +70,42 @@ useEventListener(document, 'keydown', (event) => {
 })
 
 
+// Debounce selection change to prevent excessive updates
+let selectionTimeout: ReturnType<typeof setTimeout> | null = null
 useEventListener(document, 'selectionchange', () => {
   if (!store.chapterFragment) return
-  const range = window._jota_test_support.getSelectionRange()
-  if (!range) return [null, null]
-  const selector = continuousVerses.value ? '#chapter .verse-span' : '#chapter .q-item'
-  const node1 = range.startContainer.parentElement?.closest(selector) ?? null
-  const node2 = range.endContainer.parentElement?.closest(selector) ?? null
-  if (node1 && node2) {
-    const siblings = Array.from(node1.parentElement?.children || [])
-    const index1 = siblings.indexOf(node1)
-    const index2 = siblings.indexOf(node2)
-    const [start, end] = (index1 < index2) ? [index1, index2] : [index2, index1]
-    const [book, chapter] = store.chapterFragment
-    store.setChapterFragment([book, chapter, start, end], true, false)
+
+  // Clear previous timeout
+  if (selectionTimeout) {
+    clearTimeout(selectionTimeout)
+  }
+
+  // Debounce selection updates
+  selectionTimeout = setTimeout(() => {
+    const range = window._jota_test_support.getSelectionRange()
+    if (!range) return
+    const selector = continuousVerses.value ? '#chapter .verse-span' : '#chapter .q-item'
+    const node1 = range.startContainer.parentElement?.closest(selector) ?? null
+    const node2 = range.endContainer.parentElement?.closest(selector) ?? null
+    if (node1 && node2) {
+      const siblings = Array.from(node1.parentElement?.children || [])
+      const index1 = siblings.indexOf(node1)
+      const index2 = siblings.indexOf(node2)
+      const [start, end] = (index1 < index2) ? [index1, index2] : [index2, index1]
+      if (store.chapterFragment) {
+        const [book, chapter] = store.chapterFragment
+        store.setChapterFragment([book, chapter, start, end], true, false)
+      }
+    }
+    selectionTimeout = null
+  }, 50)
+})
+
+// Cleanup on unmount
+onBeforeUnmount(() => {
+  if (selectionTimeout) {
+    clearTimeout(selectionTimeout)
+    selectionTimeout = null
   }
 })
 

@@ -74,10 +74,10 @@ export const useSearchStore = defineStore('search', () => {
       // Trigger scrolling to the selected verse
       // Re-assign even if the value doesn't change to ensure the watcher triggers
       scrollToIndex.value = -1 // Reset first to ensure the watcher will trigger even if the same value
-      // Use setTimeout to ensure this happens after the current execution cycle
-      setTimeout(() => {
+      // Use nextTick to ensure this happens after the current execution cycle
+      nextTick(() => {
         scrollToIndex.value = s + Math.floor((e - s) / 2)
-      }, 0)
+      })
     }
   }
 

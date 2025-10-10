@@ -120,24 +120,55 @@ function clear() {
   find('')
 }
 
-const events = ['orientationchange', 'resize']
-events.forEach(eventType => useEventListener(window, eventType, updateSize))
+// Debounce resize events to prevent infinite loops and excessive calls
+let resizeTimeout: ReturnType<typeof setTimeout> | null = null
+let isUpdating = false
+let lastHeight = 0
 
 function updateSize() {
-  nextTick(() => {
-    setTimeout(() => {
-      // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-      // Then we set the value in the --vh custom property to the root of the document
-      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`)
-      const searchElement = document.getElementById('search')
-      if (searchElement) {
-        searchElement.style.minHeight = window.innerHeight + 'px'
-        searchElement.style.maxHeight = window.innerHeight + 'px'
-      }
-    }, 1000)
-  })
+  // Prevent overlapping calls
+  if (isUpdating) return
+  
+  // Clear any pending resize operations
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout)
+  }
+  
+  // Debounce the resize operation
+  resizeTimeout = setTimeout(() => {
+    // Check if height actually changed to avoid unnecessary updates
+    const currentHeight = window.innerHeight
+    if (currentHeight === lastHeight) {
+      resizeTimeout = null
+      return
+    }
+    
+    isUpdating = true
+    try {
+      // Update CSS custom property for viewport height
+      document.documentElement.style.setProperty('--vh', `${currentHeight * 0.01}px`)
+      lastHeight = currentHeight
+    } finally {
+      isUpdating = false
+      resizeTimeout = null
+    }
+  }, 150)
 }
+
+// Set up event listeners
+useEventListener(window, 'resize', updateSize, { passive: true })
+useEventListener(window, 'orientationchange', updateSize, { passive: true })
+
+// Initialize
 updateSize()
+
+// Cleanup on unmount
+onUnmounted(() => {
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout)
+    resizeTimeout = null
+  }
+})
 </script>
 
 <style>
