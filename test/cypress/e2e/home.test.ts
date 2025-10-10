@@ -239,6 +239,7 @@ describe('Home Page', () => {
       // Click in cypress does not trigger selectionchange event, setCaret mocks it
       setCaret(first(chapterVerse))
       assertHasClass(first(chapterVerse), 'selection-single')
+      click(first(chapterVerse))
       pressKey('{downArrow}')
       assertHasClass(second(chapterVerse), 'selection-single')
 
