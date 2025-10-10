@@ -147,6 +147,10 @@ async function finish() {
 #reference-picker {
   .info {
     height: 32px;
+    
+    .q-btn {
+      margin-left: 8px;
+    }
   }
 
   .row {
