@@ -194,7 +194,6 @@ function scrollPage(direction: Direction) {
   .compact {
     padding: 0 8px 1px 0;
     min-height: 24px;
-    margin-right: 4px;
   }
 
   .reference {
