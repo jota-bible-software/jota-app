@@ -146,12 +146,7 @@ async function finish() {
 <style lang="scss">
 #reference-picker {
   .info {
-    height: 32px;
-    margin-bottom: 16px;
-    
-    .q-btn {
-      margin-left: 8px;
-    }
+    margin-bottom: 16px !important;
   }
 
   .row {
