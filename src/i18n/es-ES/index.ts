@@ -150,6 +150,7 @@ export default {
     bookNaming: 'Nomenclatura de libros',
     bookNamingRequired: 'Se requiere la nomenclatura de libros',
     cancelButton: 'Cancelar',
+    closeButton: 'Cerrar',
     defaultTemplate: 'Plantilla predeterminada',
     defaultTemplateTooltip: 'No se puede eliminar la plantilla predeterminada',
     editTemplate: 'Editar plantilla',
@@ -222,6 +223,7 @@ export default {
     title: 'Configuración general',
     githubRepo: 'Repositorio de GitHub',
     contactEmail: 'Correo electrónico de contacto',
+    highlightingEnabled: 'Habilitar resaltado de versículos'
   },
   settingsImportExport: {
     title: 'Importar / Exportar',
@@ -246,6 +248,7 @@ export default {
     copyTemplates: 'Plantillas de copia',
     formatTemplates: 'Plantillas de formato',
     general: 'General',
+    highlights: 'Resaltados',
     importExport: 'Importar / Exportar',
     translations: 'Traducciones'
   },
@@ -256,5 +259,73 @@ export default {
     selectAll: 'Seleccionar todas para el idioma',
     selected: 'Seleccionadas',
     title: 'Traducciones'
+  },
+  highlight: {
+    title: 'Resaltados',
+    palette: 'Paleta de Resaltado',
+    applyHighlight: 'Aplicar resaltado',
+    removeHighlight: 'Eliminar resaltado',
+    clearAllHighlights: 'Limpiar todos los resaltados',
+    viewByColor: 'Ver por color',
+    manageColors: 'Administrar colores',
+    tooltips: {
+      togglePalette: 'Mostrar/ocultar paleta de resaltado (H)',
+      applyColor: 'Aplicar resaltado {color}',
+      removeColor: 'Eliminar resaltado',
+      activeColor: 'Color activo: {color}',
+      viewFiltered: 'Ver todos los resaltados {color}',
+      reorderColors: 'Arrastra para reordenar colores'
+    },
+    stats: {
+      highlightCount: '{count} versículos resaltados en el capítulo actual',
+      totalHighlights: '{count} versículos resaltados en total',
+      noHighlights: 'Sin resaltados aún',
+      colorUsage: '{count} pasajes resaltados con este color'
+    },
+    filter: {
+      title: 'Pasajes Resaltados',
+      selectColor: 'Seleccionar color para filtrar',
+      allColors: 'Todos los colores ({count})',
+      noPassages: 'No hay pasajes resaltados con este color',
+      groupedByBook: 'Agrupado por libro',
+      clickToNavigate: 'Haz clic para navegar al pasaje',
+      clearColorHighlights: 'Limpiar todos los resaltados {color}',
+      removePassage: 'Eliminar resaltado de este pasaje'
+    },
+    colorManager: {
+      title: 'Administrar Colores de Resaltado',
+      addColor: 'Agregar Nuevo Color',
+      editColor: 'Editar Color',
+      removeColor: 'Eliminar Color',
+      colorName: 'Nombre del Color',
+      colorHex: 'Código de Color',
+      colorPreview: 'Vista Previa',
+      reorder: 'Arrastra para reordenar',
+      removeConfirm: '¿Eliminar este color?',
+      removeConfirmMessage: 'Esto eliminará {count} pasajes resaltados. Esta acción no se puede deshacer.',
+      cannotRemoveLast: 'No se puede eliminar el último color',
+      invalidHex: 'Código de color inválido',
+      nameRequired: 'El nombre del color es obligatorio',
+      pickColor: 'Elegir un color'
+    },
+    translationMismatch: 'Desajuste de Traducción',
+    translationMismatchMessage: 'Tienes resaltados para {original} pero estás viendo {current}. Cambia de traducción para ver tus resaltados.',
+    translationMismatchDismiss: 'Descartar',
+    translationMismatchLearnMore: 'Saber Más',
+    shortcuts: {
+      apply: 'Ctrl+H - Aplicar color activo'
+    },
+
+    importExport: {
+      selectFile: 'Seleccionar archivo de resaltados',
+      exportSuccess: 'Resaltados exportados al archivo: {filename}',
+      exportFailed: 'Error al exportar resaltados',
+      importSuccess: 'Resaltados importados correctamente',
+      importFailed: 'Error al importar resaltados',
+      resetHighlights: 'Restablecer resaltados',
+      resetConfirmTitle: 'Restablecer resaltados',
+      resetConfirmMessage: '¿Estás seguro de que deseas eliminar todos los resaltados? Esta acción no se puede deshacer.',
+      resetSuccess: 'Resaltados restablecidos correctamente'
+    }
   }
 }

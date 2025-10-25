@@ -150,6 +150,7 @@ export default {
     bookNaming: 'Nomenclatura dos livros',
     bookNamingRequired: 'A nomenclatura dos livros é obrigatória',
     cancelButton: 'Cancelar',
+    closeButton: 'Fechar',
     defaultTemplate: 'Modelo padrão',
     defaultTemplateTooltip: 'Não é possível remover o modelo padrão',
     editTemplate: 'Editar modelo',
@@ -222,6 +223,7 @@ export default {
     title: 'Configurações gerais',
     githubRepo: 'Repositório no GitHub',
     contactEmail: 'E-mail de contato',
+    highlightingEnabled: 'Ativar destaque de versículos'
   },
   settingsImportExport: {
     title: 'Importar / Exportar',
@@ -246,6 +248,7 @@ export default {
     copyTemplates: 'Modelos de cópia',
     formatTemplates: 'Modelos de formatação',
     general: 'Geral',
+    highlights: 'Destaques',
     importExport: 'Importar / Exportar',
     translations: 'Traduções'
   },
@@ -256,5 +259,73 @@ export default {
     selectAll: 'Selecionar todas para o idioma',
     selected: 'Selecionadas',
     title: 'Traduções'
+  },
+  highlight: {
+    title: 'Destaques',
+    palette: 'Paleta de Destaque',
+    applyHighlight: 'Aplicar destaque',
+    removeHighlight: 'Remover destaque',
+    clearAllHighlights: 'Limpar todos os destaques',
+    viewByColor: 'Ver por cor',
+    manageColors: 'Gerenciar cores',
+    tooltips: {
+      togglePalette: 'Mostrar/ocultar paleta de destaque (H)',
+      applyColor: 'Aplicar destaque {color}',
+      removeColor: 'Remover destaque',
+      activeColor: 'Cor ativa: {color}',
+      viewFiltered: 'Ver todos os destaques {color}',
+      reorderColors: 'Arraste para reordenar cores'
+    },
+    stats: {
+      highlightCount: '{count} versículos destacados no capítulo atual',
+      totalHighlights: '{count} versículos destacados no total',
+      noHighlights: 'Ainda sem destaques',
+      colorUsage: '{count} passagens destacadas com esta cor'
+    },
+    filter: {
+      title: 'Passagens Destacadas',
+      selectColor: 'Selecionar cor para filtrar',
+      allColors: 'Todas as cores ({count})',
+      noPassages: 'Nenhuma passagem destacada com esta cor',
+      groupedByBook: 'Agrupado por livro',
+      clickToNavigate: 'Clique para navegar para a passagem',
+      clearColorHighlights: 'Limpar todos os destaques {color}',
+      removePassage: 'Remover destaque desta passagem'
+    },
+    colorManager: {
+      title: 'Gerenciar Cores de Destaque',
+      addColor: 'Adicionar Nova Cor',
+      editColor: 'Editar Cor',
+      removeColor: 'Remover Cor',
+      colorName: 'Nome da Cor',
+      colorHex: 'Código da Cor',
+      colorPreview: 'Pré-visualização',
+      reorder: 'Arraste para reordenar',
+      removeConfirm: 'Remover esta cor?',
+      removeConfirmMessage: 'Isso irá remover {count} passagens destacadas. Esta ação não pode ser desfeita.',
+      cannotRemoveLast: 'Não é possível remover a última cor',
+      invalidHex: 'Código de cor inválido',
+      nameRequired: 'O nome da cor é obrigatório',
+      pickColor: 'Escolher uma cor'
+    },
+    translationMismatch: 'Incompatibilidade de Tradução',
+    translationMismatchMessage: 'Você tem destaques para {original} mas está visualizando {current}. Mude de tradução para ver seus destaques.',
+    translationMismatchDismiss: 'Dispensar',
+    translationMismatchLearnMore: 'Saiba Mais',
+    shortcuts: {
+      apply: 'Ctrl+H - Aplicar cor ativa'
+    },
+
+    importExport: {
+      selectFile: 'Selecionar arquivo de destaques',
+      exportSuccess: 'Destaques exportados para o arquivo: {filename}',
+      exportFailed: 'Falha ao exportar destaques',
+      importSuccess: 'Destaques importados com sucesso',
+      importFailed: 'Falha ao importar destaques',
+      resetHighlights: 'Redefinir destaques',
+      resetConfirmTitle: 'Redefinir destaques',
+      resetConfirmMessage: 'Tem certeza que deseja excluir todos os destaques? Esta ação não pode ser desfeita.',
+      resetSuccess: 'Destaques redefinidos com sucesso'
+    }
   }
 }

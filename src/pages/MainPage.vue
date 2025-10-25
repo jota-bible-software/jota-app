@@ -128,12 +128,12 @@ let lastHeight = 0
 function updateSize() {
   // Prevent overlapping calls
   if (isUpdating) return
-  
+
   // Clear any pending resize operations
   if (resizeTimeout) {
     clearTimeout(resizeTimeout)
   }
-  
+
   // Debounce the resize operation
   resizeTimeout = setTimeout(() => {
     // Check if height actually changed to avoid unnecessary updates
@@ -142,7 +142,7 @@ function updateSize() {
       resizeTimeout = null
       return
     }
-    
+
     isUpdating = true
     try {
       // Update CSS custom property for viewport height
@@ -158,6 +158,7 @@ function updateSize() {
 // Set up event listeners
 useEventListener(window, 'resize', updateSize, { passive: true })
 useEventListener(window, 'orientationchange', updateSize, { passive: true })
+
 
 // Initialize
 updateSize()

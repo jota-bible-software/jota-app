@@ -11,6 +11,7 @@ export type AppSettings = {
   superscriptVerseNumbers: boolean
   underlineVerseHighlight: boolean
   continuousVerses: boolean
+  highlightingEnabled: boolean
 }
 
 export type BookNamingV2 = { locale: LocaleSymbol, name: string, books: string[], booksText?: string }
@@ -163,6 +164,35 @@ export type SettingsPersist = {
   locales: LocaleSymbol[]
   localeData: Record<LocaleSymbol, LocaleDataV2>
   formatTemplates: FormatTemplateData[]
+  highlights?: Highlights
+}
+
+export type Highlights = {
+  translation: {
+    locale: LocaleSymbol
+    symbol: string
+  }
+  passageHighlights: PassageHighlight[]
+  config: HighlightConfig
+}
+
+export type PassageHighlight = {
+  passage: [number, number, number, number]
+  highlightColorId: string
+  created: number
+  modified: number
+}
+
+export type HighlightConfig = {
+  colors: HighlightColor[]
+  active: string
+}
+
+export type HighlightColor = {
+  id: string
+  name: string
+  hex: string
+  order: number
 }
 
 export type SettingsPersistV2 = Partial<SettingsPersist> & {

@@ -6,6 +6,7 @@
         <q-tabs v-model="store.currentTab" vertical dense active-color="primary" no-caps outside-arrows mobile-arrows>
           <q-tab name="general" :label="$t('settingsPage.general')" :data-tag="tags.settingsPageGeneral" />
           <q-tab name="appearance" :label="$t('settingsPage.appearance')" :data-tag="tags.settingsPageAppearance" />
+          <q-tab name="highlights" :label="$t('settingsPage.highlights')" :data-tag="tags.settingsPageHighlights" />
           <q-tab name="translations" :label="$t('settingsPage.translations')" :data-tag="tags.settingsPageTranslations" />
           <q-tab name="bookNames" :label="$t('settingsPage.bookNames')" :data-tag="tags.settingsPageBookNames" />
           <q-tab name="formatTemplates" :label="$t('settingsPage.formatTemplates')" :data-tag="tags.settingsPageFormatTemplates" />
@@ -17,6 +18,7 @@
         <q-tab-panels v-model="store.currentTab">
           <SettingsGeneral name="general" />
           <SettingsAppearance name="appearance" />
+          <HighlightSettings name="highlights" />
           <SettingsTranslations name="translations" />
           <SettingsBookNames name="bookNames" />
           <SettingsFormatTemplates name="formatTemplates" />
@@ -32,6 +34,7 @@
 <script setup lang="ts">
 import SettingsGeneral from 'src/components/SettingsGeneral.vue'
 import SettingsAppearance from 'src/components/SettingsAppearance.vue'
+import HighlightSettings from 'src/components/HighlightSettings.vue'
 import SettingsTranslations from 'src/components/SettingsTranslations.vue'
 import SettingsBookNames from 'src/components/SettingsBookNames.vue'
 import SettingsFormatTemplates from 'src/components/SettingsFormatTemplates.vue'

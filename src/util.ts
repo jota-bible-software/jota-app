@@ -1,6 +1,6 @@
-import { JotaTestSupport, LanguageSymbol, LocaleSymbol } from './types'
-import { localeData } from './logic/data'
 import locales from './i18n'
+import { localeData } from './logic/data'
+import { JotaTestSupport, LanguageSymbol, LocaleSymbol } from './types'
 
 export const LOCAL_STORAGE_KEY = 'pl.netanel.jota-app'
 
@@ -145,3 +145,45 @@ export function locale2region(locale: LocaleSymbol): string {
   const parts = locale.split('-')
   return parts.length > 1 ? parts[1].toLowerCase() : ''
 }
+
+/**
+ * Check if an error is a QuotaExceededError
+ */
+export function isQuotaExceededError(error: unknown): boolean {
+  return (
+    error instanceof DOMException &&
+    // Everything except Firefox
+    (error.code === 22 ||
+      // Firefox
+      error.code === 1014 ||
+      // Test name field too (some browsers use this)
+      error.name === 'QuotaExceededError' ||
+      error.name === 'NS_ERROR_DOM_QUOTA_REACHED')
+  )
+}
+
+/**
+ * Get approximate localStorage usage in bytes
+ */
+export function getLocalStorageSize(): number {
+  let total = 0
+  for (const key in localStorage) {
+    if (localStorage.hasOwnProperty(key)) {
+      total += key.length + (localStorage.getItem(key)?.length || 0)
+    }
+  }
+  return total
+}
+
+/**
+ * Get localStorage usage as a percentage (assumes typical 5-10MB limit)
+ * Returns a value between 0 and 100
+ */
+export function getLocalStorageUsagePercent(): number {
+  const size = getLocalStorageSize()
+  // Most browsers have 5-10MB limit, we'll use 5MB as conservative estimate
+  const estimatedLimit = 5 * 1024 * 1024 // 5MB in bytes
+  return Math.min(100, (size / estimatedLimit) * 100)
+}
+
+

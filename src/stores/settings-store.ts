@@ -5,12 +5,13 @@ import { formatTemplates } from 'src/logic/data'
 import { migrateSettings } from 'src/stores/settings-migration'
 import { BookNamingV2, FormatTemplateData, LocaleSymbol, PassageListLayout, ScreenMode, SettingsPersist } from 'src/types'
 import { getDefaultLocale, LOCAL_STORAGE_KEY } from 'src/util'
+import { computed, ref } from 'vue'
 
 const locale = getDefaultLocale()
 
 /** this value is persisted in the LocalStorage */
 const initialPersistValue: SettingsPersist = {
-  version: '5',
+  version: '6',
   app: {
     defaultLocale: locale,
     fontSize: 16,
@@ -22,6 +23,7 @@ const initialPersistValue: SettingsPersist = {
     superscriptVerseNumbers: false,
     underlineVerseHighlight: false,
     continuousVerses: false,
+    highlightingEnabled: true,
   },
   locales: ['en-US', 'pl-PL'],
   localeData: localeData,

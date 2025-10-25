@@ -150,6 +150,7 @@ export default {
     bookNaming: 'Book naming',
     bookNamingRequired: 'Book naming is required',
     cancelButton: 'Cancel',
+    closeButton: 'Close',
     defaultTemplate: 'Default template',
     defaultTemplateTooltip: 'Cannot remove the default template',
     editTemplate: 'Edit template',
@@ -222,6 +223,7 @@ export default {
     title: 'General settings',
     githubRepo: 'GitHub Repository',
     contactEmail: 'Contact email',
+    highlightingEnabled: 'Enable verse highlighting'
   },
   settingsImportExport: {
     title: 'Import / Export',
@@ -246,6 +248,7 @@ export default {
     copyTemplates: 'Copy templates',
     formatTemplates: 'Format templates',
     general: 'General',
+    highlights: 'Highlights',
     importExport: 'Import / Export',
     translations: 'Translations'
   },
@@ -256,5 +259,79 @@ export default {
     selectAll: 'Select all for language',
     selected: 'Selected',
     title: 'Translations'
+  },
+  highlight: {
+    title: 'Highlights',
+    palette: 'Highlight Palette',
+    applyHighlight: 'Apply highlight',
+    removeHighlight: 'Remove highlight',
+    clearAllHighlights: 'Clear all highlights',
+    viewByColor: 'View by color',
+    manageColors: 'Manage colors',
+    
+    tooltips: {
+      togglePalette: 'Show/hide highlight palette (H)',
+      applyColor: 'Apply {color} highlight',
+      removeColor: 'Remove highlight',
+      activeColor: 'Active color: {color}',
+      viewFiltered: 'View all {color} highlights',
+      reorderColors: 'Drag to reorder colors'
+    },
+    
+    stats: {
+      highlightCount: '{count} highlighted verses in current chapter',
+      totalHighlights: '{count} total highlighted verses',
+      noHighlights: 'No highlights yet',
+      colorUsage: '{count} passages highlighted with this color'
+    },
+    
+    filter: {
+      title: 'Highlighted Passages',
+      selectColor: 'Select color to filter',
+      allColors: 'All colors ({count})',
+      noPassages: 'No passages highlighted with this color',
+      groupedByBook: 'Grouped by book',
+      clickToNavigate: 'Click to navigate to passage',
+      clearColorHighlights: 'Clear all {color} highlights',
+      removePassage: 'Remove highlight from this passage'
+    },
+    
+    colorManager: {
+      title: 'Manage Highlight Colors',
+      addColor: 'Add New Color',
+      editColor: 'Edit Color',
+      removeColor: 'Remove Color',
+      colorName: 'Color Name',
+      colorHex: 'Color Code',
+      colorPreview: 'Preview',
+      reorder: 'Drag to reorder',
+      removeConfirm: 'Remove this color?',
+      removeConfirmMessage: 'This will remove {count} highlighted passages. This action cannot be undone.',
+      cannotRemoveLast: 'Cannot remove the last color',
+      invalidHex: 'Invalid color code',
+      nameRequired: 'Color name is required',
+      pickColor: 'Pick a color'
+    },
+    
+    translationMismatch: 'Translation Mismatch',
+    translationMismatchMessage: 'You have highlights for {original} but are currently viewing {current}. Switch translations to see your highlights.',
+    translationMismatchDismiss: 'Dismiss',
+    translationMismatchLearnMore: 'Learn More',
+    
+    shortcuts: {
+      apply: 'Ctrl+H - Apply active color'
+    },
+
+    importExport: {
+      selectFile: 'Select highlights file',
+      exportSuccess: 'Highlights exported to file: {filename}',
+      exportFailed: 'Failed to export highlights',
+      importSuccess: 'Highlights imported successfully',
+      importFailed: 'Failed to import highlights',
+      resetHighlights: 'Reset highlights',
+      resetConfirmTitle: 'Reset highlights',
+      resetConfirmMessage: 'Are you sure you want to delete all highlights? This action cannot be undone.',
+      resetSuccess: 'Highlights reset successfully'
+    }
   }
 }

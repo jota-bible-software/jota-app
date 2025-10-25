@@ -1,7 +1,6 @@
 import { assertNoErrorHint } from './CypressHelper'
 
 describe('Settings', () => {
-  const goHome = () => navigate('/')
   const goSettings = () => navigate('/settings')
 
   beforeEach(() => {
@@ -20,7 +19,7 @@ describe('Settings', () => {
     const editBooks = tag(tags.settingsBookNamingItemEditBooks)
     const saveButton = tag(tags.settingsBookNamingItemSaveButton)
     const cancelButton = tag(tags.settingsBookNamingItemCancelButton)
-    const useButton = tag(tags.settingsBookNamingItemUseButton)
+
     const removeButton = tag(tags.settingsBookNamingItemRemoveButton)
     const addItemName = tag(tags.settingsBookNamingAddName)
     const addItemBooks = tag(tags.settingsBookNamingAddBookNames)

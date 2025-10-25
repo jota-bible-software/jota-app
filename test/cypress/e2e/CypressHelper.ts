@@ -213,10 +213,10 @@ export function assertNotShowing(target: Target) {
   } else if (Cypress.isCy(target)) {
     return target.then(($el) => {
       if ($el.length === 0) {
-        cy.log(`Target does not exist`)
+        cy.log('Target does not exist')
         return cy.wrap($el).should('not.exist') // Assert non-existence
       } else {
-        cy.log(`Target exists but should not be visible`)
+        cy.log('Target exists but should not be visible')
         return cy.wrap($el).should('not.be.visible') // Assert it’s not visible
       }
     })

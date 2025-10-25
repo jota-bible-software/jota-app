@@ -41,6 +41,12 @@ export function migrateSettings(persist: Record<string, unknown> & { version: st
     persist.version = '5'
   }
 
+  if (persist.version === '5') {
+    console.log('Migrating settings from v5 to v6')
+    migrateV5ToV6(persist as SettingsPersist)
+    persist.version = '6'
+  }
+
   // Post-migration validation to ensure data integrity
   console.log('Validating post-migration settings')
   validatePostMigration(persist as SettingsPersist, currentLocale)
@@ -173,6 +179,34 @@ export function migrateV4ToV5(persist: SettingsPersist) {
     }
   }
 
+}
+
+export function migrateV5ToV6(persist: SettingsPersist) {
+  // Add highlightingEnabled to app settings
+  if (persist.app && persist.app.highlightingEnabled === undefined) {
+    persist.app.highlightingEnabled = true
+  }
+
+  // Initialize highlights structure if not present
+  if (!persist.highlights) {
+    persist.highlights = {
+      translation: { locale: persist.app.defaultLocale, symbol: '' },
+      passageHighlights: [],
+      config: {
+        colors: [
+          { id: 'hl-yellow', name: 'Study', hex: '#ffeb3b', order: 0 },
+          { id: 'hl-green', name: 'Promises', hex: '#4caf50', order: 1 },
+          { id: 'hl-blue', name: 'Commands', hex: '#2196f3', order: 2 },
+          { id: 'hl-orange', name: 'Prayer', hex: '#ff9800', order: 3 },
+          { id: 'hl-pink', name: 'Important', hex: '#e91e63', order: 4 },
+          { id: 'hl-purple', name: 'Prophecy', hex: '#9c27b0', order: 5 },
+          { id: 'hl-red', name: 'Warnings', hex: '#f44336', order: 6 },
+          { id: 'hl-gray', name: 'Notes', hex: '#9e9e9e', order: 7 }
+        ],
+        active: 'hl-yellow'
+      }
+    }
+  }
 }
 
 export function validatePostMigration(persist: SettingsPersist, currentLocale: Ref<LocaleSymbol>) {

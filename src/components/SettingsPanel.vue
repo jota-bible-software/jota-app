@@ -16,6 +16,9 @@
                 <q-item clickable v-close-popup @click="switchTab('appearance')">
                   <q-item-section>{{ $t('settingsPage.appearance') }}</q-item-section>
                 </q-item>
+                <q-item clickable v-close-popup @click="switchTab('highlights')">
+                  <q-item-section>{{ $t('settingsPage.highlights') }}</q-item-section>
+                </q-item>
                 <q-item clickable v-close-popup @click="switchTab('translations')">
                   <q-item-section>{{ $t('settingsPage.translations') }}</q-item-section>
                 </q-item>

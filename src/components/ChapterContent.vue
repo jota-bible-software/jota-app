@@ -2,8 +2,9 @@
   <div ref="chapterRef" v-if="chapterVerses.length" tabindex="0" class="chapter-container col bottom-clipped full-width">
     <!-- Continuous verses mode -->
     <div v-if="continuousVerses && chapterVerses.length" id="chapter" class="continuous-verses full-width">
-      <span v-for="(s, i) in chapterVerses" :key="i" :class="[selectionClasses[i], { 'underline-highlight': underlineHighlight }]" class="verse-span"
-        :ref="(el: HTMLElement) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse">
+      <span v-for="(s, i) in chapterVerses" :key="i"
+        :class="[selectionClasses[i], { 'underline-highlight': underlineHighlight }, highlightClasses[i]]" class="verse-span"
+        :ref="(el: HTMLElement) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse" :style="highlightStyles[i]">
         <span :class="['reference', 'text-secondary', { 'superscript': superscript }]">{{ i + 1 }}</span>
         <span class="verse-text" v-html="highlightSearchTerm(s)" />
       </span>
@@ -11,8 +12,9 @@
 
     <!-- Traditional verses mode -->
     <q-list v-else id="chapter" class="full-width">
-      <q-item v-for="(s, i) in chapterVerses" :key="i" :class="[selectionClasses[i], { 'underline-highlight': underlineHighlight }]" class="compact"
-        :ref="(el: ComponentPublicInstance) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse">
+      <q-item v-for="(s, i) in chapterVerses" :key="i"
+        :class="[selectionClasses[i], { 'underline-highlight': underlineHighlight }, highlightClasses[i]]" class="compact"
+        :ref="(el: ComponentPublicInstance) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse" :style="highlightStyles[i]">
         <q-item-section v-if="!inlined" :class="['reference', 'text-secondary', { 'superscript': superscript }]">{{ i + 1 }}</q-item-section>
         <q-item-section v-if="!inlined" class="verse"><span v-html="highlightSearchTerm(s)" /></q-item-section>
         <q-item-section v-if="inlined" class="verse-inline">
@@ -27,12 +29,14 @@
 <script setup lang="ts">
 import { useSearchStore } from 'src/stores/search-store'
 import { useSettingsStore } from 'src/stores/settings-store'
+import { useHighlightStore } from 'src/stores/highlight-store'
 import { bindKeyEvent, Direction } from 'src/util'
 import { useEventListener, useFocusWithin } from '@vueuse/core'
 import * as tags from 'src/tags'
 
 const store = useSearchStore()
 const settingsStore = useSettingsStore()
+const highlightStore = useHighlightStore()
 const { chapterVerses, highlightSearchTerm, selectionClasses } = toRefs(store)
 const chapterRef = ref<HTMLElement | null>(null)
 const chapterItemRefs = ref<(ComponentPublicInstance | HTMLElement)[]>([])
@@ -40,6 +44,32 @@ const inlined = computed(() => settingsStore.persist.app.inlineVerseNumbers)
 const superscript = computed(() => settingsStore.persist.app.superscriptVerseNumbers)
 const underlineHighlight = computed(() => settingsStore.persist.app.underlineVerseHighlight)
 const continuousVerses = computed(() => settingsStore.persist.app.continuousVerses)
+
+const highlightClasses = computed(() => {
+  if (!store.chapterFragment) return []
+  const [book, chapter] = store.chapterFragment
+
+  return chapterVerses.value.map((_, index) => {
+    const highlight = highlightStore.getHighlight(book, chapter, index)
+    return highlight ? 'verse-highlighted' : ''
+  })
+})
+
+const highlightStyles = computed(() => {
+  if (!store.chapterFragment) return []
+  const [book, chapter] = store.chapterFragment
+
+  return chapterVerses.value.map((_, index) => {
+    const highlight = highlightStore.getHighlight(book, chapter, index)
+    if (!highlight) return {}
+
+    const color = highlightStore.config.colors.find(
+      c => c.id === highlight.highlightColorId
+    )
+
+    return color ? { '--highlight-color': color.hex } : {}
+  })
+})
 
 const { focused: chapterFocused } = useFocusWithin(chapterRef)
 
@@ -147,7 +177,7 @@ function scrollPage(direction: Direction) {
 
 .continuous-verses {
   line-height: 1.7;
-  padding: 0 12px;
+  padding-right: 8px;
 
   .verse-span {
     display: inline;
@@ -279,4 +309,27 @@ function scrollPage(direction: Direction) {
 //   border-radius: 4px;
 //   pointer-events: none;
 // }
+
+.verse-highlighted {
+  background-color: color-mix(in srgb, var(--highlight-color) 20%, transparent);
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+
+  &.selection-single,
+  &.selection-start,
+  &.selection-middle,
+  &.selection-end {
+    background-color: color-mix(in srgb, var(--highlight-color) 15%, transparent);
+  }
+}
+
+.continuous-verses .verse-span.verse-highlighted {
+  padding: 2px 4px;
+  margin-right: 0;
+
+  .verse-text {
+    margin-right: 0;
+  }
+}
 </style>

@@ -13,6 +13,13 @@
       </div>
     </LabelRow>
 
+    <LabelRow>
+      <div class="row items-center">
+        <q-toggle v-model="store.persist.app.highlightingEnabled" :label="t('settingsGeneral.highlightingEnabled')" class="col" />
+        <q-icon name="highlight" size="sm" class="border q-pa-sm q-ml-md col-auto" />
+      </div>
+    </LabelRow>
+
     <LabelRow :label="t('settingsGeneral.defaultSearchResultLayout')">
       <q-btn-toggle v-model="store.persist.app.defaultSearchResultLayout" spread no-caps :options="[
         { value: 'split', slot: 'split' },

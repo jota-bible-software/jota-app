@@ -145,6 +145,7 @@ export default {
     bookNaming: 'Nazewnictwo ksiąg',
     bookNamingRequired: 'Nazewnictwo ksiąg jest wymagane',
     cancelButton: 'Anuluj',
+    closeButton: 'Zamknij',
     defaultTemplate: 'Domyślny szablon',
     defaultTemplateTooltip: 'Nie można usunąć domyślnego szablonu',
     editTemplate: 'Edytuj szablon',
@@ -217,6 +218,7 @@ export default {
     title: 'Ustawienia ogólne',
     githubRepo: 'Repozytorium GitHub',
     contactEmail: 'E-mail kontaktowy',
+    highlightingEnabled: 'Włącz wyróżnianie wersetów'
   },
   settingsImportExport: {
     title: 'Import / Export',
@@ -241,6 +243,7 @@ export default {
     copyTemplates: 'Szablony kopiowania',
     formatTemplates: 'Szablony formatowania',
     general: 'Ogólne',
+    highlights: 'Wyróżnienia',
     importExport: 'Import / Export',
     translations: 'Przekłady'
   },
@@ -251,5 +254,79 @@ export default {
     selectAll: 'Wybierz wszystkie dla języka',
     selected: 'Wybrano',
     title: 'Przekłady'
+  },
+  highlight: {
+    title: 'Wyróżnienia',
+    palette: 'Paleta wyróżnień',
+    applyHighlight: 'Zastosuj wyróżnienie',
+    removeHighlight: 'Usuń wyróżnienie',
+    clearAllHighlights: 'Wyczyść wszystkie wyróżnienia',
+    viewByColor: 'Zobacz według koloru',
+    manageColors: 'Zarządzaj kolorami',
+    
+    tooltips: {
+      togglePalette: 'Pokaż/ukryj paletę wyróżnień (H)',
+      applyColor: 'Zastosuj wyróżnienie {color}',
+      removeColor: 'Usuń wyróżnienie',
+      activeColor: 'Aktywny kolor: {color}',
+      viewFiltered: 'Zobacz wszystkie wyróżnienia {color}',
+      reorderColors: 'Przeciągnij aby zmienić kolejność kolorów'
+    },
+    
+    stats: {
+      highlightCount: '{count} wyróżnionych wersetów w bieżącym rozdziale',
+      totalHighlights: '{count} wszystkich wyróżnionych wersetów',
+      noHighlights: 'Brak wyróżnień',
+      colorUsage: '{count} fragmentów wyróżnionych tym kolorem'
+    },
+    
+    filter: {
+      title: 'Wyróżnione fragmenty',
+      selectColor: 'Wybierz kolor do filtrowania',
+      allColors: 'Wszystkie kolory ({count})',
+      noPassages: 'Brak fragmentów wyróżnionych tym kolorem',
+      groupedByBook: 'Pogrupowane według księgi',
+      clickToNavigate: 'Kliknij, aby przejść do fragmentu',
+      clearColorHighlights: 'Wyczyść wszystkie wyróżnienia {color}',
+      removePassage: 'Usuń wyróżnienie z tego fragmentu'
+    },
+    
+    colorManager: {
+      title: 'Zarządzaj kolorami wyróżnień',
+      addColor: 'Dodaj nowy kolor',
+      editColor: 'Edytuj kolor',
+      removeColor: 'Usuń kolor',
+      colorName: 'Nazwa koloru',
+      colorHex: 'Kod koloru',
+      colorPreview: 'Podgląd',
+      reorder: 'Przeciągnij aby zmienić kolejność',
+      removeConfirm: 'Usunąć ten kolor?',
+      removeConfirmMessage: 'Spowoduje to usunięcie {count} wyróżnionych fragmentów. Tej operacji nie można cofnąć.',
+      cannotRemoveLast: 'Nie można usunąć ostatniego koloru',
+      invalidHex: 'Nieprawidłowy kod koloru',
+      nameRequired: 'Nazwa koloru jest wymagana',
+      pickColor: 'Wybierz kolor'
+    },
+    
+    translationMismatch: 'Niezgodność przekładu',
+    translationMismatchMessage: 'Masz wyróżnienia dla {original}, ale obecnie przeglądasz {current}. Przełącz przekład, aby zobaczyć swoje wyróżnienia.',
+    translationMismatchDismiss: 'Odrzuć',
+    translationMismatchLearnMore: 'Dowiedz się więcej',
+    
+    shortcuts: {
+      apply: 'Ctrl+H - Zastosuj aktywny kolor'
+    },
+
+    importExport: {
+      selectFile: 'Wybierz plik wyróżnień',
+      exportSuccess: 'Wyróżnienia wyeksportowano do pliku: {filename}',
+      exportFailed: 'Nie udało się wyeksportować wyróżnień',
+      importSuccess: 'Wyróżnienia zostały zaimportowane',
+      importFailed: 'Nie udało się zaimportować wyróżnień',
+      resetHighlights: 'Resetuj wyróżnienia',
+      resetConfirmTitle: 'Resetowanie wyróżnień',
+      resetConfirmMessage: 'Czy na pewno chcesz usunąć wszystkie wyróżnienia? Tej operacji nie można cofnąć.',
+      resetSuccess: 'Wyróżnienia zostały zresetowane'
+    }
   }
 }

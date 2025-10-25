@@ -30,6 +30,7 @@ export const pageBackButton = 'page-back-button'
 // Settings page left sidebar
 export const settingsPageGeneral = 'settings-page-general'
 export const settingsPageAppearance = 'settings-page-appearance'
+export const settingsPageHighlights = 'settings-page-highlights'
 export const settingsPageTranslations = 'settings-page-translations'
 export const settingsPageBookNames = 'settings-page-book-names'
 export const settingsPageFormatTemplates = 'settings-page-format-templates'

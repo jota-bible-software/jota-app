@@ -150,6 +150,7 @@ export default {
     bookNaming: 'Найменування книг',
     bookNamingRequired: 'Найменування книг є обов\'язковим',
     cancelButton: 'Скасувати',
+    closeButton: 'Закрити',
     defaultTemplate: 'Шаблон за замовчуванням',
     defaultTemplateTooltip: 'Неможливо видалити шаблон за замовчуванням',
     editTemplate: 'Редагувати шаблон',
@@ -222,6 +223,7 @@ export default {
     title: 'Загальні налаштування',
     githubRepo: 'Репозиторій GitHub',
     contactEmail: 'Електронна пошта для зворотного зв\'язку',
+    highlightingEnabled: 'Увімкнути виокремлення віршів'
   },
   settingsImportExport: {
     title: 'Імпорт / Експорт',
@@ -246,6 +248,7 @@ export default {
     copyTemplates: 'Шаблони копіювання',
     formatTemplates: 'Шаблони форматування',
     general: 'Загальні',
+    highlights: 'Виокремлення',
     importExport: 'Імпорт / Експорт',
     translations: 'Переклади'
   },
@@ -256,5 +259,73 @@ export default {
     selectAll: 'Вибрати всі для мови',
     selected: 'Вибрано',
     title: 'Переклади'
+  },
+  highlight: {
+    title: 'Виокремлення',
+    palette: 'Палітра виокремлення',
+    applyHighlight: 'Застосувати виокремлення',
+    removeHighlight: 'Видалити виокремлення',
+    clearAllHighlights: 'Очистити всі виокремлення',
+    viewByColor: 'Переглянути за кольором',
+    manageColors: 'Керувати кольорами',
+    tooltips: {
+      togglePalette: 'Показати/сховати палітру виокремлення (H)',
+      applyColor: 'Застосувати виокремлення {color}',
+      removeColor: 'Видалити виокремлення',
+      activeColor: 'Активний колір: {color}',
+      viewFiltered: 'Переглянути всі виокремлення {color}',
+      reorderColors: 'Перетягніть для зміни порядку кольорів'
+    },
+    stats: {
+      highlightCount: '{count} виокремлених віршів у поточному розділі',
+      totalHighlights: '{count} всього виокремлених віршів',
+      noHighlights: 'Поки немає виокремлень',
+      colorUsage: '{count} уривків виокремлено цим кольором'
+    },
+    filter: {
+      title: 'Виокремлені уривки',
+      selectColor: 'Вибрати колір для фільтрування',
+      allColors: 'Всі кольори ({count})',
+      noPassages: 'Немає уривків, виокремлених цим кольором',
+      groupedByBook: 'Згруповано за книгою',
+      clickToNavigate: 'Клацніть, щоб перейти до уривку',
+      clearColorHighlights: 'Очистити всі виокремлення {color}',
+      removePassage: 'Видалити виокремлення з цього уривку'
+    },
+    colorManager: {
+      title: 'Керування кольорами виокремлення',
+      addColor: 'Додати новий колір',
+      editColor: 'Редагувати колір',
+      removeColor: 'Видалити колір',
+      colorName: 'Назва кольору',
+      colorHex: 'Код кольору',
+      colorPreview: 'Попередній перегляд',
+      reorder: 'Перетягніть для зміни порядку',
+      removeConfirm: 'Видалити цей колір?',
+      removeConfirmMessage: 'Це видалить {count} виокремлених уривків. Цю дію не можна скасувати.',
+      cannotRemoveLast: 'Неможливо видалити останній колір',
+      invalidHex: 'Неправильний код кольору',
+      nameRequired: 'Назва кольору обов\'язкова',
+      pickColor: 'Вибрати колір'
+    },
+    translationMismatch: 'Невідповідність перекладу',
+    translationMismatchMessage: 'У вас є виокремлення для {original}, але ви переглядаєте {current}. Змініть переклад, щоб побачити свої виокремлення.',
+    translationMismatchDismiss: 'Відхилити',
+    translationMismatchLearnMore: 'Дізнатися більше',
+    shortcuts: {
+      apply: 'Ctrl+H - Застосувати активний колір'
+    },
+
+    importExport: {
+      selectFile: 'Вибрати файл виокремлень',
+      exportSuccess: 'Виокремлення експортовано у файл: {filename}',
+      exportFailed: 'Не вдалося експортувати виокремлення',
+      importSuccess: 'Виокремлення імпортовано успішно',
+      importFailed: 'Не вдалося імпортувати виокремлення',
+      resetHighlights: 'Скинути виокремлення',
+      resetConfirmTitle: 'Скинути виокремлення',
+      resetConfirmMessage: 'Ви впевнені, що хочете видалити всі виокремлення? Цю дію не можна скасувати.',
+      resetSuccess: 'Виокремлення скинуто успішно'
+    }
   }
 }

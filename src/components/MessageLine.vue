@@ -54,6 +54,9 @@
         <CopyButton v-show="hasSelection" text-color="primary" tooltip="messageLine.copySelected" @click="copySelected"
           :data-tag="tags.copySelectedButton" :data-tag-item="tags.copySelectedOption" />
 
+        <!-- Highlight selected passage -->
+        <HighlightButton />
+
         <q-btn id="player" v-if="audioVisible" v-show="store.chapterFragment" outline dense text-color="primary" class="q-ml-sm"
           icon="icon-mat-volume_up" @click="store.toggleAudio">
           <q-tooltip>{{ $t('messageLine.playAudio') }}</q-tooltip>
@@ -76,6 +79,7 @@ import { useSettingsStore } from 'src/stores/settings-store'
 import { CopyTemplateData } from 'src/types'
 import AudioPlayer from 'src/components/AudioPlayer.vue'
 import CopyButton from './CopyButton.vue'
+import HighlightButton from './HighlightButton.vue'
 import { useI18n } from 'vue-i18n'
 import * as tags from 'src/tags'
 import { useTranslationStore } from 'src/stores/translation-store'
