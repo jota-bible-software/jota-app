@@ -1,5 +1,5 @@
 <template>
-  <q-tab-panel class="q-pl-lg q-pt-none">
+  <q-tab-panel :name="props.name" class="q-pl-lg q-pt-none">
     <div class="q-gutter-md">
       <div class="row ">
         <div class="row q-gutter-md items-center">
@@ -60,6 +60,7 @@ import * as tags from 'src/tags'
 
 const store = useSettingsStore()
 const props = defineProps({
+  name: String,
   title: String,
   locale: Boolean,
   onBack: Function,

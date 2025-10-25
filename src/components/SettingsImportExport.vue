@@ -1,5 +1,5 @@
 <template>
-  <SettingsPanel :title="$t('settingsImportExport.title')">
+  <SettingsPanel :name="name" :title="$t('settingsImportExport.title')">
 
     <!-- Display last uploaded file name -->
     <div v-if="store.persist.lastUploadedFile" class="q-mb-md">
@@ -38,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+
+defineProps<{ name: string }>()
 import SettingsPanel from './SettingsPanel.vue'
 import { useSettingsStore } from 'src/stores/settings-store'
 import { Dialog, exportFile, Notify } from 'quasar'

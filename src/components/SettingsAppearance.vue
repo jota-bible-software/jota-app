@@ -1,5 +1,5 @@
 <template>
-  <SettingsPanel :title="$t('settingsAppearance.title')">
+    <SettingsPanel :name="name" :title="$t('settingsAppearance.title')">
     <ScreenModeToggle />
 
     <!-- Font size -->
@@ -34,14 +34,6 @@
       />
     </div>
 
-    <!-- Underline verse highlight -->
-    <div class="col">
-      <q-toggle 
-        v-model="store.persist.app.underlineVerseHighlight" 
-        :label="$t('settingsAppearance.underlineVerseHighlight')" 
-      />
-    </div>
-
     <!-- Continuous verses -->
     <div class="col">
       <q-toggle 
@@ -65,6 +57,7 @@ import { useSearchStore } from 'src/stores/search-store'
 import { useSettingsStore } from 'src/stores/settings-store'
 import * as tags from 'src/tags'
 
+defineProps<{ name: string }>()
 const store = useSettingsStore()
 const searchStore = useSearchStore()
 
@@ -76,12 +69,6 @@ function adjustFont(amount: number) {
   store.persist.app.fontSize = (store.persist.app.fontSize ?? 16) + amount
 }
 
-// Watch for continuous verses change to force underline highlighting
-watch(() => store.persist.app.continuousVerses, (newVal) => {
-  if (newVal) {
-    store.persist.app.underlineVerseHighlight = true
-  }
-})
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 <template>
-  <SettingsPanel :title="$t('settingsCopyTemplates.title')" locale>
+  <SettingsPanel :name="name" :title="$t('settingsCopyTemplates.title')" locale>
     <div class="row items-center q-mb-md">
       <div class="q-mr-md">{{ $t('settingsCopyTemplates.defaultTemplate') }}</div>
       <q-select v-model="settings.focusedLocalized.defaultCopyTemplate" :options="items" option-label="name"
@@ -166,6 +166,8 @@
 </template>
 
 <script setup lang="ts">
+
+defineProps<{ name: string }>()
 import { CopyTemplateData } from 'src/types'
 import { useSettingsStore } from 'stores/settings-store'
 import SettingsPanel from './SettingsPanel.vue'

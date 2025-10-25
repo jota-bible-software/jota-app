@@ -1,5 +1,5 @@
 <template>
-  <SettingsPanel :title="$t('settingsBookNames.title')" locale>
+  <SettingsPanel :name="name" :title="$t('settingsBookNames.title')" locale>
 
     <div class="row items-center">
       <div class="q-mr-md">{{ $t('settingsBookNames.appDisplay') }}</div>
@@ -97,6 +97,8 @@ import { BookNamingV2 } from 'src/types'
 import { useI18n } from 'vue-i18n'
 import * as tags from 'src/tags'
 import { nameSorter } from 'src/util'
+
+defineProps<{ name: string }>()
 
 const { t } = useI18n()
 

@@ -1,5 +1,5 @@
 <template>
-  <SettingsPanel v-if="!selected && !isNewItem" :title="$t('settingsFormatTemplates.title')">
+  <SettingsPanel :name="name" v-if="!selected && !isNewItem" :title="$t('settingsFormatTemplates.title')">
 
     <!-- List of items -->
     <div class="col">
@@ -34,7 +34,7 @@
     </div>
   </SettingsPanel>
 
-  <SettingsPanel v-else :title="$t('settingsFormatTemplates.editTitle')" @back="reset" style="max-width: 700px">
+  <SettingsPanel :name="name" v-else :title="$t('settingsFormatTemplates.editTitle')" @back="reset" style="max-width: 700px">
     <div class="q-px-none">
       <q-form ref="myForm" class="col q-gutter-md" @submit="save" @reset="reset">
 
@@ -164,6 +164,8 @@
 </template>
 
 <script setup lang="ts">
+
+defineProps<{ name: string }>()
 // TODO make sure the name is unique
 import { Dialog, QForm } from 'quasar'
 import { formatSample } from 'src/logic/format'

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { migrateV2ToV3, migrateV3ToV4 } from 'src/stores/settings-migration'
+=======
+import { migrateV2ToV3, migrateV3ToV4, migrateV6ToV7 } from 'src/stores/settings-migration'
+>>>>>>> b80772d (Highlighting)
 import { FormatTemplateData, SettingsPersist, SettingsPersistV2 } from 'src/types'
 import { describe, expect, it } from 'vitest'
 
@@ -327,6 +331,132 @@ describe('settings-migration', () => {
 
       // Should not throw an error
       expect(() => migrateV3ToV4(v3Settings)).not.toThrow()
+    })
+  })
+
+  describe('migrateV6ToV7', () => {
+    it('should enable highlights for default translations only', () => {
+      // Sample v6 settings with multiple locales
+      const v6Settings: SettingsPersist = {
+        version: '6',
+        app: {
+          defaultLocale: 'en-US',
+          fontSize: 16,
+          screenMode: 'dark',
+          appFormatTemplateName: 'App format',
+          defaultSearchResultLayout: 'split',
+          referencePickerOnStart: true,
+          inlineVerseNumbers: false,
+          superscriptVerseNumbers: false,
+          underlineVerseHighlight: false,
+          continuousVerses: false,
+          highlightingEnabled: true,
+        },
+        locales: ['en-US', 'pl-PL'],
+        localeData: {
+          'en-US': {
+            naming: { available: [], default: '' },
+            translations: {
+              available: ['KJV', 'NIV', 'NLT'],
+              selected: ['KJV', 'NIV'],
+              default: 'KJV'
+            },
+            copyTemplates: [],
+            defaultCopyTemplate: ''
+          },
+          'pl-PL': {
+            naming: { available: [], default: '' },
+            translations: {
+              available: ['BT5', 'BW'],
+              selected: ['BT5'],
+              default: 'BT5'
+            },
+            copyTemplates: [],
+            defaultCopyTemplate: ''
+          }
+        },
+        formatTemplates: []
+      }
+
+      // Migrate
+      migrateV6ToV7(v6Settings)
+
+      // Verify that highlightsEnabled is initialized
+      expect(v6Settings.localeData['en-US'].translations.highlightsEnabled).toBeDefined()
+      expect(v6Settings.localeData['pl-PL'].translations.highlightsEnabled).toBeDefined()
+
+      // Verify that only default translations have highlights enabled
+      expect(v6Settings.localeData['en-US'].translations.highlightsEnabled!['KJV']).toBe(true)
+      expect(v6Settings.localeData['en-US'].translations.highlightsEnabled!['NIV']).toBeUndefined()
+      expect(v6Settings.localeData['en-US'].translations.highlightsEnabled!['NLT']).toBeUndefined()
+
+      expect(v6Settings.localeData['pl-PL'].translations.highlightsEnabled!['BT5']).toBe(true)
+      expect(v6Settings.localeData['pl-PL'].translations.highlightsEnabled!['BW']).toBeUndefined()
+    })
+
+    it('should handle locales without default translations', () => {
+      const v6Settings: SettingsPersist = {
+        version: '6',
+        app: {
+          defaultLocale: 'en-US',
+          fontSize: 16,
+          screenMode: 'dark',
+          appFormatTemplateName: 'App format',
+          defaultSearchResultLayout: 'split',
+          referencePickerOnStart: true,
+          inlineVerseNumbers: false,
+          superscriptVerseNumbers: false,
+          underlineVerseHighlight: false,
+          continuousVerses: false,
+          highlightingEnabled: true,
+        },
+        locales: ['en-US'],
+        localeData: {
+          'en-US': {
+            naming: { available: [], default: '' },
+            translations: {
+              available: ['KJV', 'NIV'],
+              selected: ['KJV'],
+              default: '' // No default set
+            },
+            copyTemplates: [],
+            defaultCopyTemplate: ''
+          }
+        },
+        formatTemplates: []
+      }
+
+      // Migrate
+      migrateV6ToV7(v6Settings)
+
+      // Verify that highlightsEnabled is initialized but empty
+      expect(v6Settings.localeData['en-US'].translations.highlightsEnabled).toBeDefined()
+      expect(Object.keys(v6Settings.localeData['en-US'].translations.highlightsEnabled!)).toHaveLength(0)
+    })
+
+    it('should not throw error for missing localeData', () => {
+      const v6Settings: SettingsPersist = {
+        version: '6',
+        app: {
+          defaultLocale: 'en-US',
+          fontSize: 16,
+          screenMode: 'dark',
+          appFormatTemplateName: 'App format',
+          defaultSearchResultLayout: 'split',
+          referencePickerOnStart: true,
+          inlineVerseNumbers: false,
+          superscriptVerseNumbers: false,
+          underlineVerseHighlight: false,
+          continuousVerses: false,
+          highlightingEnabled: true,
+        },
+        locales: [],
+        localeData: {} as Record<string, never>,
+        formatTemplates: []
+      }
+
+      // Should not throw an error
+      expect(() => migrateV6ToV7(v6Settings)).not.toThrow()
     })
   })
 })

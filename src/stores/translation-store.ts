@@ -28,6 +28,21 @@ export const useTranslationStore = defineStore('translation', () => {
     return settings.persist.localeData[locale as keyof typeof settings.persist.localeData]?.translations?.selected?.includes(translation) || false
   }
 
+  function isHighlightsEnabled(locale: LocaleSymbol, translation: string) {
+    const highlightsEnabled = settings.persist.localeData[locale as keyof typeof settings.persist.localeData]?.translations?.highlightsEnabled
+    return highlightsEnabled?.[translation] ?? false // Default to false, migration will enable for default translations
+  }
+
+  function setHighlightsEnabled(locale: LocaleSymbol, translation: string, value: boolean) {
+    const localeData = settings.persist.localeData[locale as keyof typeof settings.persist.localeData]
+    if (!localeData) return
+
+    if (!localeData.translations.highlightsEnabled) {
+      localeData.translations.highlightsEnabled = {}
+    }
+    localeData.translations.highlightsEnabled[translation] = value
+  }
+
   function setTranslationSelection(locale: LocaleSymbol, translation: string, value: boolean) {
     const localeData = settings.persist.localeData[locale as keyof typeof settings.persist.localeData]
     if (!localeData) return
@@ -110,8 +125,21 @@ export const useTranslationStore = defineStore('translation', () => {
       set(selected: boolean) {
         setTranslationSelection(ed.locale, ed.symbol, selected)
         if (selected) {
-          fetchTranslationContent({ ...ed, selected: ref(true), content: shallowRef(undefined) })
+          fetchTranslationContent({
+            ...ed,
+            selected: ref(true),
+            content: shallowRef(undefined),
+            highlightsEnabled: computed(() => isHighlightsEnabled(ed.locale, ed.symbol))
+          })
         }
+      }
+    }),
+    highlightsEnabled: computed({
+      get() {
+        return isHighlightsEnabled(ed.locale, ed.symbol)
+      },
+      set(enabled: boolean) {
+        setHighlightsEnabled(ed.locale, ed.symbol, enabled)
       }
     })
   } as Translation))

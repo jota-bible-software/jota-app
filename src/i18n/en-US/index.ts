@@ -222,6 +222,7 @@ export default {
     split: 'Split',
     title: 'General settings',
     githubRepo: 'GitHub Repository',
+    userManual: 'User Manual',
     contactEmail: 'Contact email',
     highlightingEnabled: 'Enable verse highlighting'
   },
@@ -256,6 +257,8 @@ export default {
     allSelected: 'All selected',
     defaultTranslation: 'Default translation',
     downloading: 'Downloading ...',
+    enableHighlights: 'Enable highlights for this translation',
+    highlightCount: 'Number of highlights in this translation',
     selectAll: 'Select all for language',
     selected: 'Selected',
     title: 'Translations'
@@ -268,7 +271,8 @@ export default {
     clearAllHighlights: 'Clear all highlights',
     viewByColor: 'View by color',
     manageColors: 'Manage colors',
-    
+    translationSummary: 'Highlights by Translation',
+
     tooltips: {
       togglePalette: 'Show/hide highlight palette (H)',
       applyColor: 'Apply {color} highlight',

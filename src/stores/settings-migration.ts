@@ -1,6 +1,7 @@
 import messages from 'src/i18n'
-import { BookNamingV2, FormatTemplateData, LocaleDataV2, LocaleSymbol, LocaleTranslations, PassageListLayout, SettingsPersist, SettingsPersistV2 } from 'src/types'
+import { BookNamingV2, FormatTemplateData, HighlightsLegacy, LocaleDataV2, LocaleSymbol, LocaleTranslations, PassageListLayout, SettingsPersist, SettingsPersistV2 } from 'src/types'
 import { createI18n } from 'vue-i18n'
+import { LOCAL_STORAGE_KEY } from 'src/util'
 
 // Create a local i18n instance for migration
 const i18n = createI18n({
@@ -47,6 +48,21 @@ export function migrateSettings(persist: Record<string, unknown> & { version: st
     persist.version = '6'
   }
 
+<<<<<<< HEAD
+=======
+  if (persist.version === '6') {
+    console.log('Migrating settings from v6 to v7')
+    migrateV6ToV7(persist as SettingsPersist)
+    persist.version = '7'
+  }
+
+  if (persist.version === '7') {
+    console.log('Migrating settings from v7 to v8')
+    migrateV7ToV8()
+    persist.version = '8'
+  }
+
+>>>>>>> b80772d (Highlighting)
   // Post-migration validation to ensure data integrity
   console.log('Validating post-migration settings')
   validatePostMigration(persist as SettingsPersist, currentLocale)
@@ -100,6 +116,7 @@ export function migrateV2ToV3(oldSettings: SettingsPersistV2): SettingsPersist {
       superscriptVerseNumbers: false,
       underlineVerseHighlight: false,
       continuousVerses: false,
+      highlightingEnabled: true,
     },
     locales: [],
     localeData: {} as Record<LocaleSymbol, LocaleDataV2>,
@@ -209,6 +226,72 @@ export function migrateV5ToV6(persist: SettingsPersist) {
   }
 }
 
+<<<<<<< HEAD
+=======
+export function migrateV6ToV7(persist: SettingsPersist) {
+  // Migrate from global highlightingEnabled to per-translation highlightsEnabled
+  // Enable highlights only for default translations in each locale
+  if (persist.localeData) {
+    for (const localeKey of Object.keys(persist.localeData) as LocaleSymbol[]) {
+      const localeData = persist.localeData[localeKey]
+      if (localeData?.translations) {
+        // Initialize highlightsEnabled object if not present
+        if (!localeData.translations.highlightsEnabled) {
+          localeData.translations.highlightsEnabled = {}
+        }
+
+        // Enable highlights for the default translation
+        const defaultTranslation = localeData.translations.default
+        if (defaultTranslation) {
+          localeData.translations.highlightsEnabled[defaultTranslation] = true
+        }
+
+        // All other translations default to false (handled by the getter)
+      }
+    }
+  }
+}
+
+export function migrateV7ToV8() {
+  // Migrate highlights from single-translation format to multi-translation format
+  // This migration reads directly from localStorage since the structure has changed
+  try {
+    const highlightsKey = LOCAL_STORAGE_KEY + '.highlights'
+    const storedData = localStorage.getItem(highlightsKey)
+
+    if (!storedData) return
+
+    const oldHighlights = JSON.parse(storedData) as HighlightsLegacy
+
+    // Check if it's already in new format
+    if ('byTranslation' in oldHighlights) {
+      console.log('Highlights already in new format, skipping migration')
+      return
+    }
+
+    // Check if it's in legacy format with translation and passageHighlights
+    if ('translation' in oldHighlights && 'passageHighlights' in oldHighlights) {
+      const translationKey = `${oldHighlights.translation.locale}:${oldHighlights.translation.symbol}`
+
+      // Convert to new format
+      const newHighlights = {
+        byTranslation: {
+          [translationKey]: oldHighlights.passageHighlights
+        },
+        config: oldHighlights.config
+      }
+
+      // Save in new format
+      localStorage.setItem(highlightsKey, JSON.stringify(newHighlights))
+      console.log(`Migrated ${oldHighlights.passageHighlights.length} highlights for ${translationKey}`)
+    }
+  } catch (error) {
+    console.error('Error migrating highlights from v7 to v8:', error)
+    // Don't throw - we don't want to break the app if highlights migration fails
+  }
+}
+
+>>>>>>> b80772d (Highlighting)
 export function validatePostMigration(persist: SettingsPersist, currentLocale: Ref<LocaleSymbol>) {
   // Ensure at least one translation is selected for each locale
   if (persist.localeData) {

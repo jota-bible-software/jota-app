@@ -222,6 +222,7 @@ export default {
     split: 'Dividido',
     title: 'Configurações gerais',
     githubRepo: 'Repositório no GitHub',
+    userManual: 'Manual do Usuário',
     contactEmail: 'E-mail de contato',
     highlightingEnabled: 'Ativar destaque de versículos'
   },
@@ -256,6 +257,8 @@ export default {
     allSelected: 'Todas selecionadas',
     defaultTranslation: 'Tradução padrão',
     downloading: 'Baixando ...',
+    enableHighlights: 'Ativar destaques para esta tradução',
+    highlightCount: 'Número de destaques nesta tradução',
     selectAll: 'Selecionar todas para o idioma',
     selected: 'Selecionadas',
     title: 'Traduções'

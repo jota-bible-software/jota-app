@@ -26,6 +26,7 @@ export type CopyTemplateData = {
 export type Translation = TranslationMeta & {
   content: ShallowRef<TranslationContent | undefined>
   selected: Ref<boolean>
+  highlightsEnabled: Ref<boolean>
   fileMeta?: TranslationFileMeta
 }
 
@@ -118,6 +119,7 @@ export type LocaleTranslations = {
   available: string[]
   selected: string[]
   default: string
+  highlightsEnabled?: Record<string, boolean>
 }
 
 export type LocaleNaming = {
@@ -168,6 +170,16 @@ export type SettingsPersist = {
 }
 
 export type Highlights = {
+<<<<<<< HEAD
+=======
+  // Map of translation key (locale:symbol) to highlights for that translation
+  byTranslation: Record<string, PassageHighlight[]>
+  config: HighlightConfig
+}
+
+// Legacy format for migration
+export type HighlightsLegacy = {
+>>>>>>> b80772d (Highlighting)
   translation: {
     locale: LocaleSymbol
     symbol: string

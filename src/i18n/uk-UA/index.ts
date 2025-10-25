@@ -222,6 +222,7 @@ export default {
     split: 'Розділений',
     title: 'Загальні налаштування',
     githubRepo: 'Репозиторій GitHub',
+    userManual: 'Посібник користувача',
     contactEmail: 'Електронна пошта для зворотного зв\'язку',
     highlightingEnabled: 'Увімкнути виокремлення віршів'
   },
@@ -256,6 +257,8 @@ export default {
     allSelected: 'Всі вибрані',
     defaultTranslation: 'Переклад за замовчуванням',
     downloading: 'Завантаження ...',
+    enableHighlights: 'Увімкнути виокремлення для цього перекладу',
+    highlightCount: 'Кількість виокремлень у цьому перекладі',
     selectAll: 'Вибрати всі для мови',
     selected: 'Вибрано',
     title: 'Переклади'

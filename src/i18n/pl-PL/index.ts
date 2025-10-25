@@ -217,6 +217,7 @@ export default {
     split: 'Podzielony',
     title: 'Ustawienia ogólne',
     githubRepo: 'Repozytorium GitHub',
+    userManual: 'Podręcznik użytkownika',
     contactEmail: 'E-mail kontaktowy',
     highlightingEnabled: 'Włącz wyróżnianie wersetów'
   },
@@ -251,6 +252,8 @@ export default {
     allSelected: 'Wszystkich wybranych',
     defaultTranslation: 'Domyślny przekład',
     downloading: 'Pobieranie ...',
+    enableHighlights: 'Włącz wyróżnienia dla tego przekładu',
+    highlightCount: 'Liczba wyróżnień w tym przekładzie',
     selectAll: 'Wybierz wszystkie dla języka',
     selected: 'Wybrano',
     title: 'Przekłady'

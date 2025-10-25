@@ -1,5 +1,5 @@
 <template>
-  <SettingsPanel :title="t('settingsGeneral.title')">
+  <SettingsPanel :name="name" :title="t('settingsGeneral.title')">
 
     <LabelRow :label="t('settingsGeneral.locale')">
       <LocaleSelector v-model="store.persist.app.defaultLocale" :data-tag="tags.settingsLocaleSelector" />
@@ -41,14 +41,28 @@
     </LabelRow>
 
 
+    <q-separator class="q-my-md" />
+
     <div>
-      <div class="row items-center q-gutter-sm q-mt-lg">
+      <div class="row">Storage Usage: {{ storageInfo.totalSizeMB }} MB of 5 GB ({{ storageInfo.usagePercent }}%)</div>
+    </div>
+
+    <q-separator class="q-my-md" />
+
+    <div>
+      <div class="row items-center q-gutter-sm">
         <span>{{ t('settingsGeneral.contactEmail') }}: </span>
         <span>office@netanel.pl</span>
 
         <LabelRow>
           <q-btn type="a" href="https://github.com/jota-bible-software/jota-app" target="_blank" :label="t('settingsGeneral.githubRepo')" flat dense
             no-caps color="primary" class="q-ml-xl">
+          </q-btn>
+        </LabelRow>
+
+        <LabelRow>
+          <q-btn type="a" href="https://github.com/jota-bible-software/jota-app/blob/main/src/UserManual.md" target="_blank"
+            :label="t('settingsGeneral.userManual')" flat dense no-caps color="primary" class="q-ml-xl">
           </q-btn>
         </LabelRow>
       </div>
@@ -58,7 +72,9 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useSettingsStore } from 'src/stores/settings-store'
+import { useHighlightStore } from 'src/stores/highlight-store'
 import SettingsPanel from './SettingsPanel.vue'
 import LabelRow from './LabelRow.vue'
 import LocaleSelector from './LocaleSelector.vue'
@@ -67,6 +83,10 @@ import * as tags from 'src/tags'
 
 const { t } = useI18n()
 
+defineProps<{ name: string }>()
 const store = useSettingsStore()
+const highlightStore = useHighlightStore()
+
+const storageInfo = computed(() => highlightStore.getStorageInfo())
 
 </script>
