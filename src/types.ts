@@ -120,6 +120,7 @@ export type LocaleTranslations = {
   selected: string[]
   default: string
   highlightsEnabled?: Record<string, boolean>
+  highlightsEnabled?: Record<string, boolean>
 }
 
 export type LocaleNaming = {
@@ -170,8 +171,6 @@ export type SettingsPersist = {
 }
 
 export type Highlights = {
-<<<<<<< HEAD
-=======
   // Map of translation key (locale:symbol) to highlights for that translation
   byTranslation: Record<string, PassageHighlight[]>
   config: HighlightConfig
@@ -179,7 +178,6 @@ export type Highlights = {
 
 // Legacy format for migration
 export type HighlightsLegacy = {
->>>>>>> b80772d (Highlighting)
   translation: {
     locale: LocaleSymbol
     symbol: string

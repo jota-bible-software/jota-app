@@ -11,11 +11,7 @@ const locale = getDefaultLocale()
 
 /** this value is persisted in the LocalStorage */
 const initialPersistValue: SettingsPersist = {
-<<<<<<< HEAD
-  version: '6',
-=======
   version: '8',
->>>>>>> b80772d (Highlighting)
   app: {
     defaultLocale: locale,
     fontSize: 16,

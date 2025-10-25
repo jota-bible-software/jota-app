@@ -4,26 +4,15 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { Notify } from 'quasar'
 import {
   addHighlight as hlAddHighlight,
-<<<<<<< HEAD
-  clearAllHighlights as hlClearAllHighlights,
-=======
->>>>>>> b80772d (Highlighting)
   clearColorHighlights as hlClearColorHighlights,
   getExactPassageHighlight as hlGetExactPassageHighlight,
   getHighlightForVerse as hlGetHighlightForVerse,
   removeHighlight as hlRemoveHighlight,
   toggleHighlight as hlToggleHighlight
 } from 'src/logic/highlighter'
-<<<<<<< HEAD
-import { HighlightColor, Highlights, PassageHighlight } from 'src/types'
-import { getLocalStorageSize, getLocalStorageUsagePercent, isQuotaExceededError, LOCAL_STORAGE_KEY } from 'src/util'
-import { useSearchStore } from './search-store'
-import { useSettingsStore } from './settings-store'
-=======
 import { HighlightColor, Highlights, HighlightsLegacy, PassageHighlight } from 'src/types'
 import { getLocalStorageSize, getLocalStorageUsagePercent, isQuotaExceededError, LOCAL_STORAGE_KEY } from 'src/util'
 import { useSearchStore } from './search-store'
->>>>>>> b80772d (Highlighting)
 import { useTranslationStore } from './translation-store'
 
 const defaultHighlightColors: HighlightColor[] = [
@@ -39,21 +28,12 @@ const defaultHighlightColors: HighlightColor[] = [
 
 export const useHighlightStore = defineStore('highlight', () => {
   const translationStore = useTranslationStore()
-<<<<<<< HEAD
-  const settingsStore = useSettingsStore()
-=======
->>>>>>> b80772d (Highlighting)
 
   // Persistent state with error handling
   const highlights = useStorage<Highlights>(
     LOCAL_STORAGE_KEY + '.highlights',
     {
-<<<<<<< HEAD
-      translation: { locale: 'en-US', symbol: '' },
-      passageHighlights: [],
-=======
       byTranslation: {},
->>>>>>> b80772d (Highlighting)
       config: {
         colors: defaultHighlightColors,
         active: 'hl-yellow'
@@ -77,19 +57,12 @@ export const useHighlightStore = defineStore('highlight', () => {
             actions: [{ label: 'Dismiss', color: 'white' }]
           })
 
-<<<<<<< HEAD
-=======
           const totalHighlights = Object.values(highlights.value.byTranslation).reduce((sum, arr) => sum + arr.length, 0)
->>>>>>> b80772d (Highlighting)
           console.error('localStorage quota exceeded:', {
             size,
             sizeInMB,
             percent,
-<<<<<<< HEAD
-            highlightCount: highlights.value.passageHighlights.length
-=======
             highlightCount: totalHighlights
->>>>>>> b80772d (Highlighting)
           })
         } else {
           // Log other storage errors
@@ -103,10 +76,6 @@ export const useHighlightStore = defineStore('highlight', () => {
   const paletteVisible = ref(false)
   const filterColorId = ref<string | null>(null)
 
-<<<<<<< HEAD
-  // Computed
-  const highlightingEnabled = computed(() => settingsStore.persist.app.highlightingEnabled)
-=======
   // Helper function to get translation key
   function getTranslationKey(locale: string, symbol: string): string {
     return `${locale}:${symbol}`
@@ -117,7 +86,6 @@ export const useHighlightStore = defineStore('highlight', () => {
     const currentTranslation = translationStore.currentTranslation
     return currentTranslation?.highlightsEnabled?.value ?? false
   })
->>>>>>> b80772d (Highlighting)
 
   const config = computed(() => highlights.value.config)
 
@@ -133,19 +101,11 @@ export const useHighlightStore = defineStore('highlight', () => {
   const currentTranslationHighlights = computed(() => {
     if (!highlightingEnabled.value) return []
 
-<<<<<<< HEAD
-    const currentSymbol = translationStore.currentTranslation?.symbol
-    if (!currentSymbol) return []
-    if (highlights.value.translation.symbol !== currentSymbol) return []
-
-    return highlights.value.passageHighlights
-=======
     const currentTranslation = translationStore.currentTranslation
     if (!currentTranslation) return []
 
     const translationKey = getTranslationKey(currentTranslation.locale, currentTranslation.symbol)
     return highlights.value.byTranslation[translationKey] || []
->>>>>>> b80772d (Highlighting)
   })
 
   const highlightMap = computed(() => {
@@ -186,31 +146,15 @@ export const useHighlightStore = defineStore('highlight', () => {
     })
   })
 
-<<<<<<< HEAD
-  const hasTranslationMismatch = computed(() => {
-    if (!highlightingEnabled.value) return false
-    const currentSymbol = translationStore.currentTranslation?.symbol
-    return !!highlights.value.translation.symbol &&
-      highlights.value.translation.symbol !== currentSymbol
-  })
-=======
   // With multi-translation support, there's no concept of "mismatch" anymore
   // Each translation has its own highlights
   const hasTranslationMismatch = computed(() => false)
->>>>>>> b80772d (Highlighting)
 
   // Helper functions
   function getPassageKey(passage: [number, number, number, number]): string {
     return `${passage[0]}-${passage[1]}-${passage[2]}-${passage[3]}`
   }
 
-<<<<<<< HEAD
-  // Utility to run pure operations over the highlights array and persist results
-  function withHighlighter(fn: (hs: PassageHighlight[]) => PassageHighlight[]) {
-    const current = [...highlights.value.passageHighlights]
-    const next = fn(current)
-    highlights.value.passageHighlights = next
-=======
   // Utility to run pure operations over the highlights array for current translation
   function withHighlighter(fn: (hs: PassageHighlight[]) => PassageHighlight[]) {
     const currentTranslation = translationStore.currentTranslation
@@ -220,7 +164,6 @@ export const useHighlightStore = defineStore('highlight', () => {
     const current = [...(highlights.value.byTranslation[translationKey] || [])]
     const next = fn(current)
     highlights.value.byTranslation[translationKey] = next
->>>>>>> b80772d (Highlighting)
   }
 
   // Actions (delegate complex range logic to Highlighter)
@@ -236,17 +179,6 @@ export const useHighlightStore = defineStore('highlight', () => {
     const useColorId = colorId || config.value.active
 
     withHighlighter(hs => hlAddHighlight(hs, passage, useColorId, Date.now()))
-<<<<<<< HEAD
-
-    // Update translation context if first highlight or missing
-    if (highlights.value.passageHighlights.length === 1 || !highlights.value.translation.symbol) {
-      highlights.value.translation = {
-        locale: currentTranslation.locale,
-        symbol: currentTranslation.symbol
-      }
-    }
-=======
->>>>>>> b80772d (Highlighting)
   }
 
   function removeHighlight(passage: [number, number, number, number]): void {
@@ -265,22 +197,14 @@ export const useHighlightStore = defineStore('highlight', () => {
     verse: number
   ): PassageHighlight | undefined {
     if (!highlightingEnabled.value) return undefined
-<<<<<<< HEAD
-    return hlGetHighlightForVerse(highlights.value.passageHighlights, book, chapter, verse)
-=======
     return hlGetHighlightForVerse(currentTranslationHighlights.value, book, chapter, verse)
->>>>>>> b80772d (Highlighting)
   }
 
   function getExactPassageHighlight(
     passage: [number, number, number, number]
   ): PassageHighlight | undefined {
     if (!highlightingEnabled.value) return undefined
-<<<<<<< HEAD
-    return hlGetExactPassageHighlight(highlights.value.passageHighlights, passage)
-=======
     return hlGetExactPassageHighlight(currentTranslationHighlights.value, passage)
->>>>>>> b80772d (Highlighting)
   }
 
   function togglePalette(): void {
@@ -319,19 +243,12 @@ export const useHighlightStore = defineStore('highlight', () => {
     // Remove the color
     highlights.value.config.colors.splice(index, 1)
 
-<<<<<<< HEAD
-    // Remove all highlights using this color
-    highlights.value.passageHighlights = highlights.value.passageHighlights.filter(
-      h => h.highlightColorId !== colorId
-    )
-=======
     // Remove all highlights using this color across all translations
     Object.keys(highlights.value.byTranslation).forEach(translationKey => {
       highlights.value.byTranslation[translationKey] = highlights.value.byTranslation[translationKey].filter(
         h => h.highlightColorId !== colorId
       )
     })
->>>>>>> b80772d (Highlighting)
 
     // If active color was removed, set new active
     if (config.value.active === colorId) {
@@ -359,13 +276,6 @@ export const useHighlightStore = defineStore('highlight', () => {
   }
 
   function clearAllHighlights(): void {
-<<<<<<< HEAD
-    highlights.value.passageHighlights = hlClearAllHighlights(highlights.value.passageHighlights)
-  }
-
-  function clearColorHighlights(colorId: string): void {
-    highlights.value.passageHighlights = hlClearColorHighlights(highlights.value.passageHighlights, colorId)
-=======
     // Clear highlights for current translation only
     const currentTranslation = translationStore.currentTranslation
     if (!currentTranslation) return
@@ -382,7 +292,6 @@ export const useHighlightStore = defineStore('highlight', () => {
     const translationKey = getTranslationKey(currentTranslation.locale, currentTranslation.symbol)
     const current = highlights.value.byTranslation[translationKey] || []
     highlights.value.byTranslation[translationKey] = hlClearColorHighlights(current, colorId)
->>>>>>> b80772d (Highlighting)
   }
 
   function resetToDefaults(): void {
@@ -394,13 +303,8 @@ export const useHighlightStore = defineStore('highlight', () => {
     })
     // Reset active color
     highlights.value.config.active = defaultHighlightColors[0].id
-<<<<<<< HEAD
-    // Clear all passages
-    highlights.value.passageHighlights = hlClearAllHighlights(highlights.value.passageHighlights)
-=======
     // Clear all passages across all translations
     highlights.value.byTranslation = {}
->>>>>>> b80772d (Highlighting)
   }
 
   // Export/Import
@@ -421,17 +325,6 @@ export const useHighlightStore = defineStore('highlight', () => {
         throw new Error('Invalid highlight data structure')
       }
 
-<<<<<<< HEAD
-      // Put current highlights on top of imported ones
-      highlights.value.passageHighlights = [
-        ...highlights.value.passageHighlights,
-        ...imported.highlights.passageHighlights
-      ]
-
-      // Merge colors, keeping existing ones and adding new ones
-      const existingColorIds = new Set(config.value.colors.map(c => c.id))
-      const newColors = imported.highlights.config.colors.filter(
-=======
       const importedHighlights = imported.highlights as Highlights | HighlightsLegacy
 
       // Handle legacy format (single translation with passageHighlights)
@@ -463,7 +356,6 @@ export const useHighlightStore = defineStore('highlight', () => {
       // Merge colors, keeping existing ones and adding new ones
       const existingColorIds = new Set(config.value.colors.map(c => c.id))
       const newColors = importedHighlights.config.colors.filter(
->>>>>>> b80772d (Highlighting)
         (c: HighlightColor) => !existingColorIds.has(c.id)
       )
       highlights.value.config.colors = [
@@ -483,34 +375,24 @@ export const useHighlightStore = defineStore('highlight', () => {
     const highlightData = localStorage.getItem(LOCAL_STORAGE_KEY + '.highlights')
     const highlightSize = highlightData ? highlightData.length : 0
 
-<<<<<<< HEAD
-=======
     // Count all highlights across all translations
     const totalHighlights = Object.values(highlights.value.byTranslation).reduce((sum, arr) => sum + arr.length, 0)
 
->>>>>>> b80772d (Highlighting)
     return {
       totalSize,
       totalSizeMB: (totalSize / (1024 * 1024)).toFixed(2),
       usagePercent: percent.toFixed(1),
-<<<<<<< HEAD
-      highlightCount: highlights.value.passageHighlights.length,
-=======
       highlightCount: totalHighlights,
->>>>>>> b80772d (Highlighting)
       highlightSize,
       highlightSizeKB: (highlightSize / 1024).toFixed(2),
     }
   }
 
-<<<<<<< HEAD
-=======
   function getHighlightCountForTranslation(locale: string, symbol: string): number {
     const translationKey = getTranslationKey(locale, symbol)
     return highlights.value.byTranslation[translationKey]?.length || 0
   }
 
->>>>>>> b80772d (Highlighting)
   return {
     // State
     highlights,
@@ -547,12 +429,8 @@ export const useHighlightStore = defineStore('highlight', () => {
     resetToDefaults,
     exportHighlights,
     importHighlights,
-<<<<<<< HEAD
-    getStorageInfo
-=======
     getStorageInfo,
     getHighlightCountForTranslation
->>>>>>> b80772d (Highlighting)
   }
 })
 

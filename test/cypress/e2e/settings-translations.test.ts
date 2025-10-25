@@ -87,7 +87,8 @@ describe('Settings Translations', () => {
 
     it('should display translation details correctly', () => {
       assertShowing(first(translationItems))
-      assertText(first(translationItems), 'King James VersionKJV')
+      assertTextContains(first(translationItems), 'King James Version')
+      assertTextContains(first(translationItems), 'KJV')
     })
 
     it('should allow selecting individual translations', () => {

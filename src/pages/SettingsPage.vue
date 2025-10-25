@@ -18,11 +18,7 @@
         <q-tab-panels v-model="store.currentTab">
           <SettingsGeneral name="general" />
           <SettingsAppearance name="appearance" />
-<<<<<<< HEAD
-          <HighlightSettings name="highlights" />
-=======
           <SettingsHighlight name="highlights" />
->>>>>>> b80772d (Highlighting)
           <SettingsTranslations name="translations" />
           <SettingsBookNames name="bookNames" />
           <SettingsFormatTemplates name="formatTemplates" />
@@ -38,11 +34,7 @@
 <script setup lang="ts">
 import SettingsGeneral from 'src/components/SettingsGeneral.vue'
 import SettingsAppearance from 'src/components/SettingsAppearance.vue'
-<<<<<<< HEAD
-import HighlightSettings from 'src/components/HighlightSettings.vue'
-=======
 import SettingsHighlight from 'src/components/SettingsHighlight.vue'
->>>>>>> b80772d (Highlighting)
 import SettingsTranslations from 'src/components/SettingsTranslations.vue'
 import SettingsBookNames from 'src/components/SettingsBookNames.vue'
 import SettingsFormatTemplates from 'src/components/SettingsFormatTemplates.vue'

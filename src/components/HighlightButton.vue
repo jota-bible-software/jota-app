@@ -1,10 +1,6 @@
 <template>
-<<<<<<< HEAD
-  <q-btn-dropdown ref="btnRef" v-if="highlightStore.highlightingEnabled && hasSelection" outline dense :split="!highlightStore.hasTranslationMismatch"
-=======
-  <q-btn-dropdown ref="btnRef" v-if="translationStore.currentTranslation?.highlightsEnabled?.value && hasSelection" outline dense :split="!highlightStore.hasTranslationMismatch"
->>>>>>> b80772d (Highlighting)
-    text-color="primary" class="q-ml-sm" @click="handleClick">
+  <q-btn-dropdown ref="btnRef" v-if="translationStore.currentTranslation?.highlightsEnabled?.value && hasSelection" outline dense
+    :split="!highlightStore.hasTranslationMismatch" text-color="primary" class="q-ml-sm" @click="handleClick">
     <template v-slot:label>
       <div class="row items-center justify-center no-wrap">
         <div class="highlight-color-indicator color-swatch" :style="{ backgroundColor: currentHighlight?.hex || activeColor?.hex }" />

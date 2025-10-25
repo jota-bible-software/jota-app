@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { migrateV2ToV3, migrateV3ToV4 } from 'src/stores/settings-migration'
-=======
 import { migrateV2ToV3, migrateV3ToV4, migrateV6ToV7 } from 'src/stores/settings-migration'
->>>>>>> b80772d (Highlighting)
 import { FormatTemplateData, SettingsPersist, SettingsPersistV2 } from 'src/types'
 import { describe, expect, it } from 'vitest'
 

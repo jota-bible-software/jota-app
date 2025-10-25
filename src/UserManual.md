@@ -8,13 +8,6 @@ The verse highlighting feature allows you to mark and organize Bible passages wi
 
 ### Enabling Highlighting
 
-<<<<<<< HEAD
-1. Open the app settings (gear icon)
-2. Go to **General** settings
-3. Toggle **Enable verse highlighting** to ON
-
-Once enabled, you'll see a highlight button when you select verses in the chapter view.
-=======
 Highlighting is enabled per translation, giving you control over which Bible versions can be highlighted:
 
 1. Open the app settings (gear icon)
@@ -29,7 +22,6 @@ Once enabled, you'll see a highlight button when you select verses in the chapte
 - You can enable highlighting for some translations and disable it for others
 - A badge next to the toggle shows how many highlights exist for that translation (if any)
 - Disabling highlighting hides the highlight button but preserves your existing highlights
->>>>>>> b80772d (Highlighting)
 
 ## Highlighting Verses
 
@@ -130,10 +122,6 @@ Highlights are **translation-specific**, meaning:
 
 - Highlights are tied to the Bible translation you were using when you created them
 - If you switch to a different translation, you won't see your highlights
-<<<<<<< HEAD
-- A warning icon appears if you have highlights for another translation
-
-=======
 - Each translation maintains its own separate set of highlights
 - A warning icon appears if you have highlights for another translation
 
@@ -146,7 +134,7 @@ You can see how many highlights exist for each translation:
 3. A blue badge shows the number of highlights (only appears if count > 0)
 4. This helps you quickly see which translations you've been studying
 
->>>>>>> b80772d (Highlighting)
+
 ### Translation Mismatch Warning
 
 When you see the warning icon on the highlight button:
@@ -208,22 +196,12 @@ To start fresh with the default 8 colors and remove all highlights:
 
 ## Storage Information
 
-<<<<<<< HEAD
-The Highlights settings page shows storage usage:
-
-- **Total Storage Usage**: How much space the app is using
-- **Highlights Storage**: How much space your highlights take up
-- **Highlight Count**: Total number of highlighted passages
-
-If you run out of storage space, you may need to:
-=======
 Storage usage information is available in the **General** settings page:
 
 - **Total Storage Usage**: How much space the app is using (in MB and percentage)
 - **Highlights Storage**: How much space your highlights take up (count and KB)
 
 This information helps you monitor your browser's storage capacity. If you run out of storage space, you may need to:
->>>>>>> b80772d (Highlighting)
 - Remove some highlights
 - Clear other app data
 - Export your highlights and start fresh
@@ -309,15 +287,6 @@ A: Colors can be customized via the Color Manager. The highlighting style (backg
 
 ### Highlights Not Appearing
 
-<<<<<<< HEAD
-1. Check that highlighting is enabled in Settings → General
-2. Verify you're viewing the same translation where you created the highlights
-3. Look for the translation mismatch warning
-
-### Can't Add More Highlights
-
-1. Check storage usage in Settings → Highlights
-=======
 1. Check that highlighting is enabled for that specific translation in Settings → Translations
 2. Verify you're viewing the same translation where you created the highlights
 3. Look for the translation mismatch warning
@@ -326,7 +295,6 @@ A: Colors can be customized via the Color Manager. The highlighting style (backg
 ### Can't Add More Highlights
 
 1. Check storage usage in Settings → General (scroll down to Storage Information)
->>>>>>> b80772d (Highlighting)
 2. If storage is full, export and remove old highlights
 3. Consider clearing browser cache (may remove highlights - export first!)
 
@@ -370,8 +338,4 @@ The highlighting feature works in all modern browsers:
 
 **Need Help?**
 
-<<<<<<< HEAD
-If you encounter issues not covered in this guide, please check the app's GitHub repository or contact support.
-=======
 If you encounter issues not covered in this guide, please check the app's [GitHub repository](https://github.com/jota-bible-software/jota-app) or contact support.
->>>>>>> b80772d (Highlighting)
