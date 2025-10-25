@@ -23,7 +23,6 @@ const initialPersistValue: SettingsPersist = {
     superscriptVerseNumbers: false,
     underlineVerseHighlight: false,
     continuousVerses: false,
-    highlightingEnabled: true,
   },
   locales: ['en-US', 'pl-PL'],
   localeData: localeData,

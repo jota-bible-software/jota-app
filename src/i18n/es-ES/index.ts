@@ -223,8 +223,7 @@ export default {
     title: 'Configuración general',
     githubRepo: 'Repositorio de GitHub',
     userManual: 'Manual de usuario',
-    contactEmail: 'Correo electrónico de contacto',
-    highlightingEnabled: 'Habilitar resaltado de versículos'
+    contactEmail: 'Correo electrónico de contacto'
   },
   settingsImportExport: {
     title: 'Importar / Exportar',

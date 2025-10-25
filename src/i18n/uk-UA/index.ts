@@ -223,8 +223,7 @@ export default {
     title: 'Загальні налаштування',
     githubRepo: 'Репозиторій GitHub',
     userManual: 'Посібник користувача',
-    contactEmail: 'Електронна пошта для зворотного зв\'язку',
-    highlightingEnabled: 'Увімкнути виокремлення віршів'
+    contactEmail: 'Електронна пошта для зворотного зв\'язку'
   },
   settingsImportExport: {
     title: 'Імпорт / Експорт',

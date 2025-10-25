@@ -114,7 +114,6 @@ export function migrateV2ToV3(oldSettings: SettingsPersistV2): SettingsPersist {
       superscriptVerseNumbers: false,
       underlineVerseHighlight: false,
       continuousVerses: false,
-      highlightingEnabled: true,
     },
     locales: [],
     localeData: {} as Record<LocaleSymbol, LocaleDataV2>,
@@ -197,11 +196,6 @@ export function migrateV4ToV5(persist: SettingsPersist) {
 }
 
 export function migrateV5ToV6(persist: SettingsPersist) {
-  // Add highlightingEnabled to app settings
-  if (persist.app && persist.app.highlightingEnabled === undefined) {
-    persist.app.highlightingEnabled = true
-  }
-
   // Initialize highlights structure if not present
   if (!persist.highlights) {
     persist.highlights = {

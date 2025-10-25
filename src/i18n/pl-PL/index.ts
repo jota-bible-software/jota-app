@@ -218,8 +218,7 @@ export default {
     title: 'Ustawienia ogólne',
     githubRepo: 'Repozytorium GitHub',
     userManual: 'Podręcznik użytkownika',
-    contactEmail: 'E-mail kontaktowy',
-    highlightingEnabled: 'Włącz wyróżnianie wersetów'
+    contactEmail: 'E-mail kontaktowy'
   },
   settingsImportExport: {
     title: 'Import / Export',
