@@ -195,7 +195,7 @@ export const useSearchStore = defineStore('search', () => {
   }
 
   function formatFound(copyTemplate?: CopyTemplateData): string | Error {
-    const currentLocale = settings.currentLocale
+    const currentLocale = translations.currentTranslation.locale
     const localeData = settings.persist.localeData?.[currentLocale]
     if (!localeData) return new Error(t('searchStore.noLocaleData'))
 
