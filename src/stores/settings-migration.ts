@@ -2,6 +2,7 @@ import messages from 'src/i18n'
 import { BookNamingV2, FormatTemplateData, HighlightsLegacy, LocaleDataV2, LocaleSymbol, LocaleTranslations, PassageListLayout, SettingsPersist, SettingsPersistV2 } from 'src/types'
 import { LOCAL_STORAGE_KEY } from 'src/util'
 import { createI18n } from 'vue-i18n'
+import { ptBRLocaleData } from 'src/data/data-pt-BR'
 
 
 // Create a local i18n instance for migration
@@ -299,16 +300,16 @@ export function migrateV8ToV9(persist: SettingsPersist) {
   if (persist.localeData && !persist.localeData['pt-BR']) {
     persist.localeData['pt-BR'] = {
       naming: {
-        available: [],
-        default: 'Abreviações'
+        available: ptBRLocaleData.naming.available.map(bn => ({ ...bn, locale: 'pt-BR' as LocaleSymbol })),
+        default: ptBRLocaleData.naming.default
       },
       translations: {
         available: ['ARA'],
         selected: ['ARA'],
         default: 'ARA'
       },
-      copyTemplates: [],
-      defaultCopyTemplate: 'Apresentação'
+      copyTemplates: ptBRLocaleData.copyTemplates,
+      defaultCopyTemplate: ptBRLocaleData.defaultCopyTemplate
     }
   }
 }
@@ -336,6 +337,20 @@ export function validatePostMigration(persist: SettingsPersist, currentLocale: R
               localeData.translations.default = selected[0]
             }
             localeData.translations.default = ''
+          }
+        }
+      }
+
+      // Ensure pt-BR has copy templates populated
+      if (localeKey === 'pt-BR' && localeData) {
+        if (!localeData.copyTemplates || localeData.copyTemplates.length === 0) {
+          localeData.copyTemplates = ptBRLocaleData.copyTemplates
+          localeData.defaultCopyTemplate = ptBRLocaleData.defaultCopyTemplate
+        }
+        if (!localeData.naming?.available || localeData.naming.available.length === 0) {
+          localeData.naming = {
+            available: ptBRLocaleData.naming.available.map(bn => ({ ...bn, locale: 'pt-BR' as LocaleSymbol })),
+            default: ptBRLocaleData.naming.default
           }
         }
       }
