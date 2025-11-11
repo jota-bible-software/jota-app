@@ -33,7 +33,7 @@ describe('Settings Translations', () => {
   describe('Translation Groups', () => {
     it('should display language groups correctly', () => {
       // Verify multiple language groups exist
-      assertCount(translationGroups, 2) // Assuming we have at least English and Polish
+      assertCount(translationGroups, 3) // English, Polish, and Portuguese
 
       // Check first group (English)
       const enGroup = first(translationGroups)
@@ -58,7 +58,8 @@ describe('Settings Translations', () => {
 
     it('should show selected translations count for each group', () => {
       assertText(first(groupSelectedCount), '2 / 3')
-      assertText(last(groupSelectedCount), '3 / 4')
+      assertText(second(groupSelectedCount), '3 / 4')
+      assertText(last(groupSelectedCount), '1 / 1')
     })
 
     it('should toggle all translations in a group', () => {
@@ -70,19 +71,20 @@ describe('Settings Translations', () => {
       assertText(first(groupSelectedCount), '0 / 3')
       assertText(first(translationDefaultSelector), '')
 
-      // The second group should leave one selected because at least one should be selected globally
+      // The second group can be fully deselected because pt-BR has a selected translation
       assertText(second(groupSelectedCount), '3 / 4')
       click(second(translationToggle))
       assertText(second(groupSelectedCount), '4 / 4')
       click(second(translationToggle))
-      assertText(second(groupSelectedCount), '1 / 4')
+      assertText(second(groupSelectedCount), '0 / 4')
     })
   })
 
   describe('Individual Translations', () => {
     it('should list translations within each group', () => {
       assertCount(nested(first(translationGroups), translationItems), 3)
-      assertCount(nested(last(translationGroups), translationItems), 4)
+      assertCount(nested(second(translationGroups), translationItems), 4)
+      assertCount(nested(last(translationGroups), translationItems), 1)
     })
 
     it('should display translation details correctly', () => {
@@ -101,7 +103,7 @@ describe('Settings Translations', () => {
       // Wait for the translation to load
       assertShowing(visible(translationSelector), { timeout: 20_000 })
       click(visible(translationSelector))
-      assertCount(translationSelectorItem, 6)
+      assertCount(translationSelectorItem, 7)
     })
   })
 
@@ -142,11 +144,11 @@ describe('Settings Translations', () => {
   describe('Total Selection Count', () => {
     it('should show correct total selected translations count', () => {
       // Verify format of total selected count
-      assertText(allSelectedCount, '5 / 7')
+      assertText(allSelectedCount, '6 / 8')
 
       // Toggle one and verify total updates
       click(second(translationItemToggle))
-      assertText(allSelectedCount, '6 / 7')
+      assertText(allSelectedCount, '7 / 8')
     })
   })
 
