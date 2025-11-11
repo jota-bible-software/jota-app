@@ -61,6 +61,12 @@ export function migrateSettings(persist: Record<string, unknown> & { version: st
     persist.version = '8'
   }
 
+  if (persist.version === '8') {
+    console.log('Migrating settings from v8 to v9')
+    migrateV8ToV9(persist as SettingsPersist)
+    persist.version = '9'
+  }
+
   // Post-migration validation to ensure data integrity
   console.log('Validating post-migration settings')
   validatePostMigration(persist as SettingsPersist, currentLocale)
@@ -281,6 +287,32 @@ export function migrateV7ToV8() {
   }
 }
 
+export function migrateV8ToV9(persist: SettingsPersist) {
+  // Add pt-BR locale support
+  if (!persist.locales || !Array.isArray(persist.locales)) {
+    persist.locales = ['en-US', 'pl-PL', 'pt-BR']
+  } else if (!persist.locales.includes('pt-BR')) {
+    persist.locales.push('pt-BR')
+  }
+
+  // Initialize pt-BR locale data if not present
+  if (persist.localeData && !persist.localeData['pt-BR']) {
+    persist.localeData['pt-BR'] = {
+      naming: {
+        available: [],
+        default: 'Abreviações'
+      },
+      translations: {
+        available: ['ARA'],
+        selected: ['ARA'],
+        default: 'ARA'
+      },
+      copyTemplates: [],
+      defaultCopyTemplate: 'Apresentação'
+    }
+  }
+}
+
 export function validatePostMigration(persist: SettingsPersist, currentLocale: Ref<LocaleSymbol>) {
   // Ensure at least one translation is selected for each locale
   if (persist.localeData) {
@@ -293,6 +325,8 @@ export function validatePostMigration(persist: SettingsPersist, currentLocale: R
           localeData.translations.available = ['KJV', 'NIV', 'NLT']
         } else if (localeKey === 'pl-PL') {
           localeData.translations.available = ['BT5', 'BW', 'EIB', 'UBG']
+        } else if (localeKey === 'pt-BR') {
+          localeData.translations.available = ['ARA']
         }
 
         // If default translation is not valid, set it to empty

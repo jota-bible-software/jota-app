@@ -11,7 +11,7 @@ const locale = getDefaultLocale()
 
 /** this value is persisted in the LocalStorage */
 const initialPersistValue: SettingsPersist = {
-  version: '8',
+  version: '9',
   app: {
     defaultLocale: locale,
     fontSize: 16,
@@ -24,7 +24,7 @@ const initialPersistValue: SettingsPersist = {
     underlineVerseHighlight: false,
     continuousVerses: false,
   },
-  locales: ['en-US', 'pl-PL'],
+  locales: ['en-US', 'pl-PL', 'pt-BR'],
   localeData: localeData,
   formatTemplates,
 }

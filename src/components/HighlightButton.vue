@@ -18,7 +18,7 @@
             </q-item-label>
             <q-item-label class="text-body1">
               {{ t('highlight.translationMismatchMessage', {
-                original: highlightStore.highlights.translation.symbol,
+                original: Object.keys(highlightStore.highlights.byTranslation)[0],
                 current: translationStore.currentTranslation.symbol
               }) }}
             </q-item-label>
@@ -63,8 +63,9 @@ import { useTranslationStore } from 'src/stores/translation-store'
 import { useSettingsStore } from 'src/stores/settings-store'
 import { HighlightColor } from 'src/types'
 import { useI18n } from 'vue-i18n'
-import { useQuasar } from 'quasar'
+import { useQuasar, QBtnDropdown } from 'quasar'
 import { useRouter } from 'vue-router'
+import { ref, computed } from 'vue'
 
 const highlightStore = useHighlightStore()
 const searchStore = useSearchStore()
@@ -74,7 +75,7 @@ const { t } = useI18n()
 const $q = useQuasar()
 const router = useRouter()
 
-const btnRef = ref(null)
+const btnRef = ref<QBtnDropdown | null>(null)
 const hasSelection = computed(() => searchStore.hasSelection)
 const activeColor = computed(() => highlightStore.activeColor)
 const sortedColors = computed(() => highlightStore.sortedColors)

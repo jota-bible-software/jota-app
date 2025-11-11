@@ -22,6 +22,11 @@ export const localeData: Array<{ symbol: LocaleSymbol, langName: string, regionN
     langName: 'Polski',
     regionName: 'Polska'
   },
+  {
+    symbol: 'pt-BR',
+    langName: 'Português',
+    regionName: 'Brasil'
+  },
   // {
   //   symbol: 'pt-PT',
   //   langName: 'Português',
@@ -243,8 +248,15 @@ export const translationsData: TranslationMeta[] = [
     year: '2017',
     bookNames: 'protestancki',
   },
+  {
+    title: 'Almeida Revista e Atualizada',
+    symbol: 'ARA',
+    locale: 'pt-BR',
+    size: 4_189_745,
+    year: '1993',
+  },
 ]
 
-export const supportedLanguageSymbols: LanguageSymbol[] = ['en', 'pl']
+export const supportedLanguageSymbols: LanguageSymbol[] = ['en', 'pl', 'pt']
 
 // Check the uniqueness of symbols and names

@@ -136,7 +136,7 @@ export type Localized = {
   defaultTranslation: string
 }
 
-export type LocaleSymbol = 'en-US' | 'pl-PL'
+export type LocaleSymbol = 'en-US' | 'pl-PL' | 'pt-BR'
 
 export type Passage = [number, number, number?, number?]
 
