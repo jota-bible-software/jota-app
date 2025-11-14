@@ -345,14 +345,26 @@ describe('Highlights', () => {
     // Click to apply highlight
     click(highlightButtonDropdown)
 
-    // Wait a moment for highlight to apply
-    wait(300)
+    // Wait for dropdown to open
+    wait(100)
+
+    // Select the first highlight color from the dropdown
+    click(first(highlightColorItem))
+
+    // Wait for highlight to apply and Vue to update
+    wait(500)
 
     // Verify the verse now has a highlight class or style (verse-highlighted class and --highlight-color variable)
     assertExists(verseElement + '.verse-highlighted, ' + verseElement + '[style*="--highlight-color"]')
 
-    // Click again to remove highlight
+    // Click again to open dropdown and toggle off the highlight
     click(highlightButtonDropdown)
+
+    // Wait for dropdown to open
+    wait(100)
+
+    // Select the same color to toggle off
+    click(first(highlightColorItem))
 
     // Wait a moment
     wait(300)
