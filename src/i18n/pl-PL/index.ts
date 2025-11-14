@@ -329,6 +329,19 @@ export default {
       resetConfirmTitle: 'Resetowanie wyróżnień',
       resetConfirmMessage: 'Czy na pewno chcesz usunąć wszystkie wyróżnienia? Tej operacji nie można cofnąć.',
       resetSuccess: 'Wyróżnienia zostały zresetowane'
+    },
+
+    translations: {
+      title: 'Wyróżnienia przekładów',
+      addTranslation: 'Dodaj przekład do wyróżnień',
+      removeTranslation: 'Usuń przekład z wyróżnień',
+      highlightCount: 'Liczba wyróżnień',
+      noTranslations: 'Brak włączonych przekładów dla wyróżnień. Wybierz przekład powyżej i kliknij Dodaj.',
+      alreadyEnabled: 'Ten przekład jest już włączony dla wyróżnień',
+      added: 'Przekład dodany do wyróżnień',
+      removed: 'Przekład usunięty z wyróżnień',
+      removeConfirmTitle: 'Usuń wyróżnienia przekładu',
+      removeConfirmMessage: 'Czy na pewno chcesz usunąć wyróżnienia z "{title}"? To nie usunie Twoich {count} wyróżnień, ale nie będą widoczne, dopóki nie włączysz ponownie wyróżnień dla tego przekładu.'
     }
   }
 }

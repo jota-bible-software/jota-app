@@ -188,8 +188,6 @@ export type HighlightsLegacy = {
 export type PassageHighlight = {
   passage: [number, number, number, number]
   highlightColorId: string
-  created: number
-  modified: number
 }
 
 export type HighlightConfig = {

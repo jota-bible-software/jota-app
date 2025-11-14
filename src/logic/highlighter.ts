@@ -57,13 +57,11 @@ export function removeHighlight(
 
 /**
  * Add a highlight in a pure way - does not mutate input.
- * `now` is required to keep timestamping deterministic from caller.
  */
 export function addHighlight(
   highlights: PassageHighlight[],
   passage: [number, number, number, number],
-  colorId: string,
-  now: number
+  colorId: string
 ): PassageHighlight[] {
   const [book, chapter, start, end] = passage
 
@@ -86,9 +84,7 @@ export function addHighlight(
 
   const newHighlight: PassageHighlight = {
     passage: [book, chapter, mergedStart, mergedEnd],
-    highlightColorId: colorId,
-    created: now,
-    modified: now
+    highlightColorId: colorId
   }
 
   return [...result, newHighlight]
@@ -100,8 +96,7 @@ export function addHighlight(
 function removeOverlappingAndCreateRemainders(
   highlights: PassageHighlight[],
   passage: [number, number, number, number],
-  activeColorId: string,
-  now: number
+  activeColorId: string
 ): PassageHighlight[] {
   const [, , start, end] = passage
   const overlapping = getOverlappingHighlights(highlights, passage)
@@ -114,12 +109,12 @@ function removeOverlappingAndCreateRemainders(
 
     // Create highlight for verses before the removed range
     if (hStart < start) {
-      result = addHighlight(result, [hBook, hChapter, hStart, start - 1], highlight.highlightColorId, now)
+      result = addHighlight(result, [hBook, hChapter, hStart, start - 1], highlight.highlightColorId)
     }
 
     // Create highlight for verses after the removed range
     if (hEnd > end) {
-      result = addHighlight(result, [hBook, hChapter, end + 1, hEnd], highlight.highlightColorId, now)
+      result = addHighlight(result, [hBook, hChapter, end + 1, hEnd], highlight.highlightColorId)
     }
   })
 
@@ -129,8 +124,7 @@ function removeOverlappingAndCreateRemainders(
 export function toggleHighlight(
   highlights: PassageHighlight[],
   passage: [number, number, number, number],
-  activeColorId: string,
-  now: number
+  activeColorId: string
 ): PassageHighlight[] {
   const [book, chapter, start, end] = passage
   // Empty selection check - verses are 0-indexed, so we check for null/undefined
@@ -151,12 +145,12 @@ export function toggleHighlight(
 
   // Case 1: No overlapping highlights - add new highlight
   if (overlapping.length === 0) {
-    return addHighlight(highlights, passage, activeColorId, now)
+    return addHighlight(highlights, passage, activeColorId)
   }
 
   // Case 2: Exact match with same color - remove it and create remainders
   if (hasExactMatch) {
-    return removeOverlappingAndCreateRemainders(highlights, passage, activeColorId, now)
+    return removeOverlappingAndCreateRemainders(highlights, passage, activeColorId)
   }
 
   // Case 3: Single verse toggle or overlapping with any highlights
@@ -172,10 +166,10 @@ export function toggleHighlight(
 
       // Create non-overlapping highlight sections
       if (hStart < start) {
-        result = addHighlight(result, [hBook, hChapter, hStart, start - 1], activeColorId, now)
+        result = addHighlight(result, [hBook, hChapter, hStart, start - 1], activeColorId)
       }
       if (hEnd > end) {
-        result = addHighlight(result, [hBook, hChapter, end + 1, hEnd], activeColorId, now)
+        result = addHighlight(result, [hBook, hChapter, end + 1, hEnd], activeColorId)
       }
 
       // Don't add a new highlight if we're toggling a single verse that was highlighted
@@ -189,15 +183,15 @@ export function toggleHighlight(
       const [hBook, hChapter, hStart, hEnd] = h.passage
       // Preserve highlights outside the selected range
       if (hStart < start) {
-        result = addHighlight(result, [hBook, hChapter, hStart, start - 1], h.highlightColorId, now)
+        result = addHighlight(result, [hBook, hChapter, hStart, start - 1], h.highlightColorId)
       }
       if (hEnd > end) {
-        result = addHighlight(result, [hBook, hChapter, end + 1, hEnd], h.highlightColorId, now)
+        result = addHighlight(result, [hBook, hChapter, end + 1, hEnd], h.highlightColorId)
       }
     })
 
     if (shouldAddHighlight) {
-      result = addHighlight(result, passage, activeColorId, now)
+      result = addHighlight(result, passage, activeColorId)
     }
 
     return result
@@ -215,12 +209,12 @@ export function toggleHighlight(
 
     // Remove all overlapping and add merged
     let result = highlights.filter(h => !overlapping.some(o => getPassageKey(o.passage) === getPassageKey(h.passage)))
-    result = addHighlight(result, [book, chapter, mergedStart, mergedEnd], activeColorId, now)
+    result = addHighlight(result, [book, chapter, mergedStart, mergedEnd], activeColorId)
     return result
   }
 
   // Default: add new highlight
-  return addHighlight(highlights, passage, activeColorId, now)
+  return addHighlight(highlights, passage, activeColorId)
 }
 
 export function clearAllHighlights(highlights: PassageHighlight[]): PassageHighlight[] {
@@ -248,7 +242,7 @@ export class Highlighter {
   }
 
   addHighlight(passage: [number, number, number, number], colorId: string) {
-    this.highlights = addHighlight(this.highlights, passage, colorId, Date.now())
+    this.highlights = addHighlight(this.highlights, passage, colorId)
   }
 
   removeHighlight(passage: [number, number, number, number]) {
@@ -256,7 +250,7 @@ export class Highlighter {
   }
 
   toggleHighlight(passage: [number, number, number, number], activeColorId: string) {
-    this.highlights = toggleHighlight(this.highlights, passage, activeColorId, Date.now())
+    this.highlights = toggleHighlight(this.highlights, passage, activeColorId)
   }
 
   getHighlightForVerse(book: number, chapter: number, verse: number) {

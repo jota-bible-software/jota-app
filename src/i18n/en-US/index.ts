@@ -335,6 +335,19 @@ export default {
       resetConfirmTitle: 'Reset highlights',
       resetConfirmMessage: 'Are you sure you want to delete all highlights? This action cannot be undone.',
       resetSuccess: 'Highlights reset successfully'
+    },
+
+    translations: {
+      title: 'Translation Highlights',
+      addTranslation: 'Add translation for highlights',
+      removeTranslation: 'Remove translation from highlights',
+      highlightCount: 'Number of highlights',
+      noTranslations: 'No translations enabled for highlights yet. Select a translation above and click Add.',
+      alreadyEnabled: 'This translation is already enabled for highlights',
+      added: 'Translation added for highlights',
+      removed: 'Translation removed from highlights',
+      removeConfirmTitle: 'Remove translation highlights',
+      removeConfirmMessage: 'Are you sure you want to remove highlights from "{title}"? This will not delete your {count} highlights, but they will not be visible until you re-enable highlights for this translation.'
     }
   }
 }

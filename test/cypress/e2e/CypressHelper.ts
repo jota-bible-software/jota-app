@@ -190,6 +190,10 @@ export function clickDialogYes() {
   cy.get('.q-dialog').contains(t('settingsFormatTemplates.yes')).click()
 }
 
+export function notification() {
+  return cy.get('.q-notification')
+}
+
 export function forEach<T>(target: Target, items: T[], assertFn: (element: HtmlElementWrapper, expected: T) => void) {
   find(target).each(($el, index: number) => {
     const element = cy.wrap($el) // Wrap each element to keep Cypress chainable
@@ -360,5 +364,37 @@ export function assertErrorHint(target: Target, text: string): HtmlElementWrappe
   cy.wait(500)
   const el = find(target).closest('.q-field').find('div[role="alert"]')
   return assertText(el, text)
+}
+
+export function dialog() {
+  return cy.get('.q-dialog')
+}
+
+export function assertExists(target: Target) {
+  return find(target).should('exist')
+}
+
+export function assertNotExists(target: Target) {
+  return find(target).should('not.exist')
+}
+
+export function within(target: Target, fn: () => void) {
+  return find(target).within(fn)
+}
+
+export function wait(ms: number) {
+  return cy.wait(ms)
+}
+
+export function assertMatchesPattern(target: Target, pattern: RegExp) {
+  return find(target).invoke('text').should('match', pattern)
+}
+
+export function getText(target: Target) {
+  return find(target).invoke('text')
+}
+
+export function each(target: Target, fn: ($el: JQuery<HTMLElement>, index: number) => void) {
+  return find(target).each(fn)
 }
 

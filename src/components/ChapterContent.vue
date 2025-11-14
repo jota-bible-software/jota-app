@@ -4,9 +4,9 @@
     <div v-if="continuousVerses && chapterVerses.length" id="chapter" class="continuous-verses full-width">
       <span v-for="(s, i) in chapterVerses" :key="i"
         :class="[selectionClasses[i], { 'underline-highlight': underlineHighlight }, highlightClasses[i]]" class="verse-span"
-        :ref="(el: HTMLElement) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse" :style="highlightStyles[i]">
+        :ref="(el: Element | ComponentPublicInstance | null) => { if (el) chapterItemRefs[i] = el as HTMLElement }" :data-tag="tags.chapterVerse" :style="highlightStyles[i]">
         <span :class="['reference', 'text-secondary', { 'superscript': superscript }]">{{ i + 1 }}</span>
-        <span class="verse-text" v-html="highlightSearchTerm(s)" />
+        <span class="verse-text" :data-tag="tags.verseText" v-html="highlightSearchTerm(s)" />
       </span>
     </div>
 
@@ -14,12 +14,12 @@
     <q-list v-else id="chapter" class="full-width">
       <q-item v-for="(s, i) in chapterVerses" :key="i"
         :class="[selectionClasses[i], { 'underline-highlight': underlineHighlight }, highlightClasses[i]]" class="compact"
-        :ref="(el: ComponentPublicInstance) => { if (el) chapterItemRefs[i] = el }" :data-tag="tags.chapterVerse" :style="highlightStyles[i]">
+        :ref="(el: Element | ComponentPublicInstance | null) => { if (el) chapterItemRefs[i] = el as ComponentPublicInstance }" :data-tag="tags.chapterVerse" :style="highlightStyles[i]">
         <q-item-section v-if="!inlined" :class="['reference', 'text-secondary', { 'superscript': superscript }]">{{ i + 1 }}</q-item-section>
-        <q-item-section v-if="!inlined" class="verse"><span v-html="highlightSearchTerm(s)" /></q-item-section>
+        <q-item-section v-if="!inlined" class="verse" :data-tag="tags.verseText"><span v-html="highlightSearchTerm(s)" /></q-item-section>
         <q-item-section v-if="inlined" class="verse-inline">
           <span :class="['reference', 'text-secondary', { 'superscript': superscript }]">{{ i + 1 }}</span>
-          <span class="verse" v-html="highlightSearchTerm(s)" />
+          <span class="verse" :data-tag="tags.verseText" v-html="highlightSearchTerm(s)" />
         </q-item-section>
       </q-item>
     </q-list>

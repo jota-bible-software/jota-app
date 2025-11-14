@@ -121,3 +121,27 @@ export const settingsTranslationGroupFlag = 'settings-translation-group-flag'
 export const settingsTranslationGroupSelected = 'settings-translation-group-selected'
 export const settingsTranslationsAllSelected = 'settings-translations-all-selected'
 export const settingsTranslationsLocale = 'settings-translations-locale'
+
+// Settings highlights
+export const settingsHighlightsAddButton = 'settings-highlights-add-button'
+export const settingsHighlightsTranslationsList = 'settings-highlights-translations-list'
+export const settingsHighlightsTranslationItem = 'settings-highlights-translation-item'
+export const settingsHighlightsTranslationBadge = 'settings-highlights-translation-badge'
+export const settingsHighlightsTranslationDelete = 'settings-highlights-translation-delete'
+export const settingsHighlightsNoTranslations = 'settings-highlights-no-translations'
+export const settingsHighlightsColorList = 'settings-highlights-color-list'
+export const settingsHighlightsColorItem = 'settings-highlights-color-item'
+export const settingsHighlightsTranslationSymbol = 'settings-highlights-translation-symbol'
+export const settingsHighlightsTranslationTitle = 'settings-highlights-translation-title'
+
+// Highlight button
+export const highlightButton = 'highlight-button'
+export const highlightButtonDropdown = 'highlight-button-dropdown'
+export const highlightButtonArrow = 'highlight-button-arrow'
+export const highlightColorSwatch = 'highlight-color-swatch'
+export const highlightColorList = 'highlight-color-list'
+export const highlightColorItem = 'highlight-color-item'
+
+// Verse elements
+export const verseText = 'verse-text'
+export const verseHighlighted = 'verse-highlighted'

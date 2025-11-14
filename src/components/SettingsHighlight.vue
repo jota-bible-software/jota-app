@@ -2,6 +2,53 @@
   <SettingsPanel :name="name" :title="$t('settingsPage.highlights')">
     <div class="q-gutter-md">
 
+      <div class="text-subtitle1">{{ $t('highlight.translations.title') }}</div>
+
+      <!-- Translation selector with add button -->
+      <div>
+
+        <div class="row q-gutter-sm items-center">
+          <BibleSelector v-model="selectedTranslation" :translations="availableTranslations" flag="true" class="col" />
+          <q-btn color="primary" icon="add" @click="addTranslationForHighlights" :disable="!selectedTranslation?.symbol"
+            :data-tag="tags.settingsHighlightsAddButton">
+            <q-tooltip>{{ $t('highlight.translations.addTranslation') }}</q-tooltip>
+          </q-btn>
+        </div>
+      </div>
+
+      <!-- List of translations with highlights -->
+      <q-list bordered class="rounded-borders q-mt-md light-border" v-if="translationsWithHighlights.length > 0"
+        :data-tag="tags.settingsHighlightsTranslationsList">
+        <q-item v-for="trans in translationsWithHighlights" :key="`${trans.locale}:${trans.symbol}`"
+          :data-tag="tags.settingsHighlightsTranslationItem">
+          <q-item-section>
+            <div class="row items-center q-gutter-md">
+              <FlagIcon :region="locale2region(trans.locale)" />
+              <span class="translation-symbol q-ml-lg" :data-tag="tags.settingsHighlightsTranslationSymbol">{{ trans.symbol }}</span>
+              <span class="translation-title" :data-tag="tags.settingsHighlightsTranslationTitle">{{ trans.title }}</span>
+            </div>
+          </q-item-section>
+
+          <q-item-section side>
+            <div class="row items-center q-gutter-sm">
+              <q-badge color="primary" :label="trans.highlightCount" :data-tag="tags.settingsHighlightsTranslationBadge">
+                <q-tooltip>{{ $t('highlight.translations.highlightCount') }}</q-tooltip>
+              </q-badge>
+              <q-btn flat dense round icon="delete" size="sm" @click="removeTranslationFromHighlights(trans.locale, trans.symbol)"
+                :data-tag="tags.settingsHighlightsTranslationDelete">
+                <q-tooltip>{{ $t('highlight.translations.removeTranslation') }}</q-tooltip>
+              </q-btn>
+            </div>
+          </q-item-section>
+        </q-item>
+      </q-list>
+
+      <div v-else class="text-caption text-grey-6 q-pa-md text-center" :data-tag="tags.settingsHighlightsNoTranslations">
+        {{ $t('highlight.translations.noTranslations') }}
+      </div>
+
+      <q-separator class="q-my-md" />
+
       <div class="text-subtitle1">{{ $t('highlight.colorManager.title') }}</div>
 
       <q-list>
@@ -147,16 +194,118 @@
 </template>
 
 <script setup lang="ts">
+import { unref } from 'vue'
 import { useHighlightStore } from 'src/stores/highlight-store'
+import { useTranslationStore } from 'src/stores/translation-store'
 import { HighlightColor } from 'src/types'
 import draggable from 'vuedraggable'
 import SettingsPanel from './SettingsPanel.vue'
+import BibleSelector from './BibleSelector.vue'
+import FlagIcon from './FlagIcon.vue'
 import { Dialog, exportFile, Notify } from 'quasar'
 import { useI18n } from 'vue-i18n'
+import { locale2region } from 'src/util'
+import * as tags from 'src/tags'
 
 defineProps<{ name: string }>()
 const highlightStore = useHighlightStore()
+const translationStore = useTranslationStore()
 const { t } = useI18n()
+
+// Translation selection state
+const selectedTranslation = ref<{ locale: string; symbol: string; title: string } | null>(null)
+
+// Compute available translations (selected translations only, with grouping like in MainBibleSelector)
+const availableTranslations = computed(() => {
+  const emptyOption = { locale: '', symbol: '', title: '', isFirstInGroup: false }
+  // Use the same translationsGrouped from the store that MainBibleSelector uses
+  return [emptyOption, ...translationStore.translationsGrouped]
+})
+
+// Compute translations that have highlights enabled
+const translationsWithHighlights = computed(() => {
+  return translationStore.translations
+    .filter(trans => unref(trans.highlightsEnabled))
+    .map(trans => ({
+      locale: trans.locale,
+      symbol: trans.symbol,
+      title: trans.title,
+      highlightCount: highlightStore.getHighlightCountForTranslation(trans.locale, trans.symbol)
+    }))
+    .sort((a, b) => {
+      // Sort by locale first, then by symbol
+      const localeCompare = a.locale.localeCompare(b.locale)
+      if (localeCompare !== 0) return localeCompare
+      return a.symbol.localeCompare(b.symbol)
+    })
+})
+
+function addTranslationForHighlights() {
+  if (!selectedTranslation.value?.symbol) return
+
+  const locale = selectedTranslation.value.locale
+  const symbol = selectedTranslation.value.symbol
+
+  const translation = translationStore.translations.find(
+    t => t.locale === locale && t.symbol === symbol
+  )
+
+  if (translation) {
+    // Check if already enabled
+    const isEnabled = unref(translation.highlightsEnabled)
+    if (isEnabled) {
+      Notify.create({
+        message: t('highlight.translations.alreadyEnabled'),
+        type: 'info'
+      })
+    } else {
+      // Trigger the setter by assigning to the property directly
+      // The computed ref's setter will be invoked
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (translation as any).highlightsEnabled = true
+      } catch (e) {
+        console.error('Failed to enable highlights:', e)
+      }
+      Notify.create({
+        message: t('highlight.translations.added'),
+        type: 'positive'
+      })
+    }
+    // Reset selection
+    selectedTranslation.value = null
+  }
+}
+
+function removeTranslationFromHighlights(locale: string, symbol: string) {
+  const translation = translationStore.translations.find(
+    t => t.locale === locale && t.symbol === symbol
+  )
+
+  if (translation) {
+    Dialog.create({
+      title: t('highlight.translations.removeConfirmTitle'),
+      message: t('highlight.translations.removeConfirmMessage', {
+        title: translation.title,
+        count: highlightStore.getHighlightCountForTranslation(locale, symbol)
+      }),
+      ok: t('settingsImportExport.yes'),
+      cancel: t('settingsImportExport.no'),
+    }).onOk(() => {
+      // Trigger the setter by assigning to the property directly
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (translation as any).highlightsEnabled = false
+      } catch (e) {
+        console.error('Failed to disable highlights:', e)
+      }
+      Notify.create({
+        message: t('highlight.translations.removed'),
+        type: 'positive'
+      })
+    })
+  }
+}
 
 const localColors = ref<HighlightColor[]>([...highlightStore.sortedColors])
 const showColorDialog = ref(false)
@@ -311,6 +460,14 @@ function resetHighlights(): void {
 </script>
 
 <style lang="scss" scoped>
+.light-border {
+  border: 1px solid colorrgb(25, 118, 210);
+
+  body.body--dark & {
+    border-color: rgb(76, 77, 80)
+  }
+}
+
 .color-item {
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 4px;
@@ -350,5 +507,13 @@ function resetHighlights(): void {
   height: 60px;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.translation-symbol {
+  min-width: 3em;
+}
+
+.translation-title {
+  flex: 1;
 }
 </style>

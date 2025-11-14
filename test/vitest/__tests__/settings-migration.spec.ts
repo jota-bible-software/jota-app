@@ -1,6 +1,7 @@
-import { migrateV2ToV3, migrateV3ToV4, migrateV6ToV7 } from 'src/stores/settings-migration'
+import { migrateV2ToV3, migrateV3ToV4, migrateV6ToV7, migrateV9ToV10 } from 'src/stores/settings-migration'
 import { FormatTemplateData, SettingsPersist, SettingsPersistV2 } from 'src/types'
-import { describe, expect, it } from 'vitest'
+import { LOCAL_STORAGE_KEY } from 'src/util'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 describe('settings-migration', () => {
   describe('migrateV2ToV3', () => {
@@ -453,6 +454,161 @@ describe('settings-migration', () => {
 
       // Should not throw an error
       expect(() => migrateV6ToV7(v6Settings)).not.toThrow()
+    })
+  })
+
+  describe('migrateV9ToV10', () => {
+    const highlightsKey = LOCAL_STORAGE_KEY + '.highlights'
+
+    beforeEach(() => {
+      // Clear localStorage before each test
+      localStorage.clear()
+    })
+
+    afterEach(() => {
+      // Clean up after each test
+      localStorage.clear()
+    })
+
+    it('should remove created and modified fields from highlights', () => {
+      // Setup: Store highlights with created and modified fields
+      const oldHighlights = {
+        byTranslation: {
+          'en-US:KJV': [
+            {
+              passage: [0, 0, 1, 3],
+              highlightColorId: 'hl-yellow',
+              created: 1234567890,
+              modified: 1234567890
+            },
+            {
+              passage: [0, 0, 5, 7],
+              highlightColorId: 'hl-green',
+              created: 1234567891,
+              modified: 1234567892
+            }
+          ],
+          'pl-PL:BT5': [
+            {
+              passage: [1, 1, 1, 1],
+              highlightColorId: 'hl-blue',
+              created: 1234567893,
+              modified: 1234567894
+            }
+          ]
+        },
+        config: {
+          colors: [
+            { id: 'hl-yellow', name: 'Yellow', hex: '#ffeb3b', order: 0 }
+          ],
+          active: 'hl-yellow'
+        }
+      }
+
+      localStorage.setItem(highlightsKey, JSON.stringify(oldHighlights))
+
+      // Migrate
+      migrateV9ToV10()
+
+      // Verify
+      const migratedData = localStorage.getItem(highlightsKey)
+      expect(migratedData).toBeTruthy()
+
+      const migratedHighlights = JSON.parse(migratedData!)
+
+      // Check that created and modified fields are removed
+      expect(migratedHighlights.byTranslation['en-US:KJV']).toHaveLength(2)
+      expect(migratedHighlights.byTranslation['en-US:KJV'][0]).toEqual({
+        passage: [0, 0, 1, 3],
+        highlightColorId: 'hl-yellow'
+      })
+      expect(migratedHighlights.byTranslation['en-US:KJV'][1]).toEqual({
+        passage: [0, 0, 5, 7],
+        highlightColorId: 'hl-green'
+      })
+      expect(migratedHighlights.byTranslation['pl-PL:BT5']).toHaveLength(1)
+      expect(migratedHighlights.byTranslation['pl-PL:BT5'][0]).toEqual({
+        passage: [1, 1, 1, 1],
+        highlightColorId: 'hl-blue'
+      })
+
+      // Ensure config is preserved
+      expect(migratedHighlights.config).toEqual(oldHighlights.config)
+    })
+
+    it('should handle highlights without created and modified fields', () => {
+      // Setup: Store highlights already in new format
+      const newHighlights = {
+        byTranslation: {
+          'en-US:KJV': [
+            {
+              passage: [0, 0, 1, 3],
+              highlightColorId: 'hl-yellow'
+            }
+          ]
+        },
+        config: {
+          colors: [
+            { id: 'hl-yellow', name: 'Yellow', hex: '#ffeb3b', order: 0 }
+          ],
+          active: 'hl-yellow'
+        }
+      }
+
+      localStorage.setItem(highlightsKey, JSON.stringify(newHighlights))
+
+      // Migrate
+      migrateV9ToV10()
+
+      // Verify - data should remain unchanged
+      const migratedData = localStorage.getItem(highlightsKey)
+      expect(JSON.parse(migratedData!)).toEqual(newHighlights)
+    })
+
+    it('should handle missing highlights data', () => {
+      // No highlights in localStorage
+      // Should not throw an error
+      expect(() => migrateV9ToV10()).not.toThrow()
+    })
+
+    it('should handle corrupted highlights data gracefully', () => {
+      // Setup: Store invalid JSON
+      localStorage.setItem(highlightsKey, 'invalid json')
+
+      // Should not throw an error
+      expect(() => migrateV9ToV10()).not.toThrow()
+    })
+
+    it('should handle highlights in legacy format', () => {
+      // Setup: Store highlights in old legacy format (pre-v8)
+      const legacyHighlights = {
+        translation: { locale: 'en-US', symbol: 'KJV' },
+        passageHighlights: [
+          {
+            passage: [0, 0, 1, 3],
+            highlightColorId: 'hl-yellow',
+            created: 1234567890,
+            modified: 1234567890
+          }
+        ],
+        config: {
+          colors: [
+            { id: 'hl-yellow', name: 'Yellow', hex: '#ffeb3b', order: 0 }
+          ],
+          active: 'hl-yellow'
+        }
+      }
+
+      localStorage.setItem(highlightsKey, JSON.stringify(legacyHighlights))
+
+      // Should not throw an error and should not modify legacy format
+      // (legacy format should be migrated by earlier migrations first)
+      expect(() => migrateV9ToV10()).not.toThrow()
+
+      const data = localStorage.getItem(highlightsKey)
+      const parsedData = JSON.parse(data!)
+      // Should remain unchanged since it's not in the expected format
+      expect(parsedData).toEqual(legacyHighlights)
     })
   })
 })

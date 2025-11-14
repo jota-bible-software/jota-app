@@ -328,6 +328,19 @@ export default {
       resetConfirmTitle: 'Restablecer resaltados',
       resetConfirmMessage: '¿Estás seguro de que deseas eliminar todos los resaltados? Esta acción no se puede deshacer.',
       resetSuccess: 'Resaltados restablecidos correctamente'
+    },
+
+    translations: {
+      title: 'Resaltados de Traducción',
+      addTranslation: 'Agregar traducción para resaltados',
+      removeTranslation: 'Eliminar traducción de resaltados',
+      highlightCount: 'Número de resaltados',
+      noTranslations: 'Aún no hay traducciones habilitadas para resaltados. Selecciona una traducción arriba y haz clic en Agregar.',
+      alreadyEnabled: 'Esta traducción ya está habilitada para resaltados',
+      added: 'Traducción agregada para resaltados',
+      removed: 'Traducción eliminada de resaltados',
+      removeConfirmTitle: 'Eliminar resaltados de traducción',
+      removeConfirmMessage: '¿Estás seguro de que deseas eliminar resaltados de "{title}"? Esto no eliminará tus {count} resaltados, pero no serán visibles hasta que vuelvas a habilitar los resaltados para esta traducción.'
     }
   }
 }

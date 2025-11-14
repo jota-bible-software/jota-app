@@ -1,15 +1,17 @@
 <template>
-  <q-btn-dropdown ref="btnRef" v-if="translationStore.currentTranslation?.highlightsEnabled?.value && hasSelection" outline dense
-    :split="!highlightStore.hasTranslationMismatch" text-color="primary" class="q-ml-sm" @click="handleClick">
+  <q-btn-dropdown ref="btnRef" v-if="isHighlightingEnabled && hasSelection" outline dense
+    :split="!highlightStore.hasTranslationMismatch" text-color="primary" class="q-ml-sm" @click="handleClick"
+    :data-tag="tags.highlightButtonDropdown">
     <template v-slot:label>
       <div class="row items-center justify-center no-wrap">
-        <div class="highlight-color-indicator color-swatch" :style="{ backgroundColor: currentHighlight?.hex || activeColor?.hex }" />
+        <div class="highlight-color-indicator color-swatch" :style="{ backgroundColor: currentHighlight?.hex || activeColor?.hex }"
+          :data-tag="tags.highlightColorSwatch" />
         <q-icon v-if="highlightStore.hasTranslationMismatch" name="icon-mat-warning" color="warning" size="30px" class="q-ml-xs" />
       </div>
       <q-tooltip>{{ getTooltipText() }}</q-tooltip>
     </template>
 
-    <q-list dense>
+    <q-list dense :data-tag="tags.highlightColorList">
       <template v-if="highlightStore.hasTranslationMismatch">
         <q-item class="warning-item">
           <q-item-section>
@@ -27,7 +29,8 @@
       </template>
       <template v-else>
         <q-item clickable v-close-popup @click="selectColor(color)" v-for="color in sortedColors" :key="color.id"
-          :class="{ 'highlight-active': color.id === activeColor?.id }">
+          :class="{ 'highlight-active': color.id === activeColor?.id }"
+          :data-tag="tags.highlightColorItem">
           <q-item-section avatar style="min-width: 32px">
             <div class="color-swatch" :style="{ backgroundColor: color.hex }" />
           </q-item-section>
@@ -65,7 +68,8 @@ import { HighlightColor } from 'src/types'
 import { useI18n } from 'vue-i18n'
 import { useQuasar, QBtnDropdown } from 'quasar'
 import { useRouter } from 'vue-router'
-import { ref, computed } from 'vue'
+import { ref, computed, unref } from 'vue'
+import * as tags from 'src/tags'
 
 const highlightStore = useHighlightStore()
 const searchStore = useSearchStore()
@@ -79,6 +83,13 @@ const btnRef = ref<QBtnDropdown | null>(null)
 const hasSelection = computed(() => searchStore.hasSelection)
 const activeColor = computed(() => highlightStore.activeColor)
 const sortedColors = computed(() => highlightStore.sortedColors)
+
+// Check if highlighting is enabled for current translation
+const isHighlightingEnabled = computed(() => {
+  const currentTranslation = translationStore.currentTranslation
+  if (!currentTranslation) return false
+  return unref(currentTranslation.highlightsEnabled) === true
+})
 
 const currentHighlight = computed(() => {
   if (!searchStore.chapterFragment) return undefined

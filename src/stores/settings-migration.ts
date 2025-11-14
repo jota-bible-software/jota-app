@@ -68,6 +68,12 @@ export function migrateSettings(persist: Record<string, unknown> & { version: st
     persist.version = '9'
   }
 
+  if (persist.version === '9') {
+    console.log('Migrating settings from v9 to v10')
+    migrateV9ToV10()
+    persist.version = '10'
+  }
+
   // Post-migration validation to ensure data integrity
   console.log('Validating post-migration settings')
   validatePostMigration(persist as SettingsPersist, currentLocale)
@@ -355,6 +361,49 @@ export function validatePostMigration(persist: SettingsPersist, currentLocale: R
         }
       }
     }
+  }
+}
+
+export function migrateV9ToV10() {
+  // Remove created and modified fields from all highlights
+  // This migration reads directly from localStorage since we're modifying the highlight structure
+  try {
+    const highlightsKey = LOCAL_STORAGE_KEY + '.highlights'
+    const storedData = localStorage.getItem(highlightsKey)
+
+    if (!storedData) return
+
+    const highlights = JSON.parse(storedData)
+
+    // Check if it's in the current format with byTranslation
+    if ('byTranslation' in highlights && highlights.byTranslation) {
+      let wasModified = false
+
+      // Iterate through each translation's highlights
+      for (const translationKey of Object.keys(highlights.byTranslation)) {
+        const passageHighlights = highlights.byTranslation[translationKey]
+
+        if (Array.isArray(passageHighlights)) {
+          // Strip created and modified fields from each highlight
+          highlights.byTranslation[translationKey] = passageHighlights.map((highlight: { created?: number; modified?: number; passage: [number, number, number, number]; highlightColorId: string }) => {
+            const { created, modified, ...rest } = highlight
+            if (created !== undefined || modified !== undefined) {
+              wasModified = true
+            }
+            return rest
+          })
+        }
+      }
+
+      // Only save if we actually modified something
+      if (wasModified) {
+        localStorage.setItem(highlightsKey, JSON.stringify(highlights))
+        console.log('Removed created and modified fields from highlights')
+      }
+    }
+  } catch (error) {
+    console.error('Error migrating highlights from v9 to v10:', error)
+    // Don't throw - we don't want to break the app if highlights migration fails
   }
 }
 

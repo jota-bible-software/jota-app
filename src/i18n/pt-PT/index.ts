@@ -327,6 +327,19 @@ export default {
       resetConfirmTitle: 'Redefinir destaques',
       resetConfirmMessage: 'Tem a certeza de que deseja eliminar todos os destaques? Esta ação não pode ser desfeita.',
       resetSuccess: 'Destaques redefinidos com sucesso'
+    },
+
+    translations: {
+      title: 'Destaques de Tradução',
+      addTranslation: 'Adicionar tradução para destaques',
+      removeTranslation: 'Remover tradução dos destaques',
+      highlightCount: 'Número de destaques',
+      noTranslations: 'Nenhuma tradução ativada para destaques ainda. Selecione uma tradução acima e clique em Adicionar.',
+      alreadyEnabled: 'Esta tradução já está ativada para destaques',
+      added: 'Tradução adicionada para destaques',
+      removed: 'Tradução removida dos destaques',
+      removeConfirmTitle: 'Remover destaques da tradução',
+      removeConfirmMessage: 'Tem a certeza de que deseja remover destaques de "{title}"? Isto não eliminará os seus {count} destaques, mas não estarão visíveis até que reative os destaques para esta tradução.'
     }
   }
 }

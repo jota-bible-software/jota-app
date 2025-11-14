@@ -55,6 +55,29 @@ There are two ways to highlight verses:
 3. Click **Manage Colors** at the bottom of the menu
 4. Or, go to Settings → **Highlights** tab
 
+### Managing Translations for Highlighting
+
+In the **Highlights** settings tab, you can manage which translations are enabled for highlighting:
+
+1. Go to Settings → **Highlights**
+2. In the **Translations** section at the top, you'll see:
+   - A list of all translations that have highlighting enabled
+   - A count badge showing how many highlights exist for each translation
+   - An option to add new translations for highlighting
+   - An option to remove translations from the highlighting list
+
+**Adding a Translation:**
+1. Use the dropdown selector to choose a translation
+2. Click the **Add** button (+ icon)
+3. The translation will be added to your highlights list
+
+**Removing a Translation:**
+1. Find the translation in the list
+2. Click the **Delete** button next to it
+3. Confirm the removal (this will delete all highlights for that translation)
+
+This centralized view makes it easy to see which translations you're actively highlighting and manage them all in one place.
+
 ### Default Colors
 
 The app comes with 8 pre-configured colors:
@@ -250,6 +273,17 @@ This information helps you monitor your browser's storage capacity. If you run o
 - The color matches your assigned highlight color
 - Works in both continuous reading and traditional verse modes
 - Highlights fit exactly within verse boundaries
+
+### Underline Option
+
+You can optionally add underlines to highlighted verses for additional emphasis:
+
+1. Go to Settings → **Appearance**
+2. Toggle **Underline verse highlighting** ON or OFF
+3. When enabled, highlighted verses will show both the background color and an underline
+4. This setting applies to all highlights across all translations
+
+This visual option helps make highlights more prominent, especially when using lighter colors.
 
 ### Active Color Indicator
 

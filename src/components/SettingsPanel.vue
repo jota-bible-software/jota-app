@@ -1,5 +1,5 @@
 <template>
-  <q-tab-panel :name="props.name" class="q-pl-lg q-pt-none">
+  <q-tab-panel :name="props.name" class="q-pl-lg q-pt-none" :data-tag="`settingsPanel-${props.name}`">
     <div class="q-gutter-md">
       <div class="row ">
         <div class="row q-gutter-md items-center">

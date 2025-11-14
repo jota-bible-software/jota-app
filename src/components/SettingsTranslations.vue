@@ -74,18 +74,6 @@
               </q-item-label> -->
             </q-item-section>
 
-            <q-item-section side class="highlight-toggle-section">
-              <div class="row items-center justify-end q-gutter-xs">
-                <q-badge v-if="getHighlightCount(translation.locale, translation.symbol) > 0" color="primary"
-                  :label="getHighlightCount(translation.locale, translation.symbol)" class="q-mr-sm">
-                  <q-tooltip>{{ $t('settingsTranslations.highlightCount') }}</q-tooltip>
-                </q-badge>
-                <q-toggle v-model="translation.highlightsEnabled.value" :disable="!translation.selected.value" icon="highlight">
-                  <q-tooltip>{{ $t('settingsTranslations.enableHighlights') }}</q-tooltip>
-                </q-toggle>
-
-              </div>
-            </q-item-section>
 
             <q-item-section side class="symbol-section">
               <span>{{ translation.symbol }}</span>
@@ -102,7 +90,6 @@
 <script setup lang="ts">
 import { useTranslationStore } from 'src/stores/translation-store'
 import { useSettingsStore } from 'src/stores/settings-store'
-import { useHighlightStore } from 'src/stores/highlight-store'
 import SettingsPanel from './SettingsPanel.vue'
 import LabelRow from './LabelRow.vue'
 import FlagIcon from './FlagIcon.vue'
@@ -113,11 +100,6 @@ import * as tags from 'src/tags'
 defineProps<{ name: string }>()
 const store = useTranslationStore()
 const settings = useSettingsStore()
-const highlightStore = useHighlightStore()
-
-function getHighlightCount(locale: string, symbol: string): number {
-  return highlightStore.getHighlightCountForTranslation(locale, symbol)
-}
 
 </script>
 
@@ -136,10 +118,6 @@ function getHighlightCount(locale: string, symbol: string): number {
       background-color: var(--q-selection);
     }
   }
-}
-
-.highlight-toggle-section {
-  min-width: 100px;
 }
 
 .symbol-section {

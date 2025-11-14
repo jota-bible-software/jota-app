@@ -134,6 +134,16 @@ module.exports = configure(function (/* ctx */) {
     devServer: {
       // https: true
       open: true, // opens browser window automatically
+      server: {
+        hmr: {
+          protocol: 'ws',
+          host: 'localhost',
+          overlay: true,
+        },
+        watch: {
+          usePolling: false,
+        },
+      },
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
