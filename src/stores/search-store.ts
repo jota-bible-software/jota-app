@@ -122,6 +122,7 @@ export const useSearchStore = defineStore('search', () => {
     const adjacent = jota.adjacentChapter(translationContent.value, chapterFragment.value, direction) as Passage | undefined
     if (adjacent) {
       const [b, c] = adjacent
+      audioOn.value = false
       setChapterFragment([b, c])
     }
   }
@@ -131,6 +132,7 @@ export const useSearchStore = defineStore('search', () => {
     const adjacent = jota.adjacentChapter(translationContent.value, chapterFragment.value, direction) as Passage | undefined
     if (adjacent) {
       const [b, c] = adjacent
+      audioOn.value = false
       setChapterFragment([b, c, 0, 0])
     }
   }
