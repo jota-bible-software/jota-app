@@ -21,6 +21,13 @@ const { layout, loading, showPicker } = toRefs(store)
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
+
+  > .row {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
 }
 
 #content * {

@@ -142,3 +142,64 @@ body.desktop .q-hoverable:hover > .q-focus-helper {
   text-transform: none;
   margin-left: 16px;
 }
+
+/* Ensure content isn't hidden behind mobile browser bottom bars (iOS/modern mobile) */
+:root {
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+}
+
+/* Apply extra bottom padding to main app/page containers so content can scroll
+   fully above browser UI (home indicator / toolbar). The extra 12px gives
+   a small visual gap above the bar. */
+#q-app,
+.q-page,
+.q-page-container,
+body {
+  padding-bottom: calc(var(--safe-area-inset-bottom, 0px) + 12px) !important;
+}
+
+/* Fallback for older iOS Safari that used constant() */
+@supports (padding-bottom: constant(safe-area-inset-bottom)) {
+  #q-app,
+  .q-page,
+  .q-page-container,
+  body {
+    padding-bottom: calc(constant(safe-area-inset-bottom) + 12px) !important;
+  }
+}
+
+/* Ensure scrolling containers respect the safe area and use native momentum scrolling */
+.q-page,
+.q-page-container,
+.q-virtual-scroll__content,
+.q-scroll-area__scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-bottom: calc(var(--safe-area-inset-bottom, 0px) + 12px);
+}
+
+@supports (scroll-padding-bottom: constant(safe-area-inset-bottom)) {
+  .q-page,
+  .q-page-container,
+  .q-virtual-scroll__content,
+  .q-scroll-area__scroll {
+    scroll-padding-bottom: calc(constant(safe-area-inset-bottom) + 12px);
+  }
+}
+
+/* Ensure our internal scroll containers also reserve space at the bottom */
+.bottom-clipped,
+.chapter-container,
+#chapter {
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-bottom: calc(var(--safe-area-inset-bottom, 0px) + 12px);
+  padding-bottom: calc(var(--safe-area-inset-bottom, 0px) + 12px);
+}
+
+@supports (scroll-padding-bottom: constant(safe-area-inset-bottom)) {
+  .bottom-clipped,
+  .chapter-container,
+  #chapter {
+    scroll-padding-bottom: calc(constant(safe-area-inset-bottom) + 12px);
+    padding-bottom: calc(constant(safe-area-inset-bottom) + 12px);
+  }
+}

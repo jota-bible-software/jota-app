@@ -1,0 +1,24 @@
+#content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+#content > .row {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#content * {
+  outline: none;
+}
+
+.verse .bold {
+  color: var(--q-accent);
+  font-weight: 600;
+  display: contents;
+}
+
+/*# sourceMappingURL=output.css.map */

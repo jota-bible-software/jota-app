@@ -178,10 +178,12 @@ onUnmounted(() => {
 
 <style>
 #search {
-  /* height: calc(var(--vh, 1vh) * 100 + 20px); */
-  height: 100vh;
+  /* Use the JS-updated --vh to avoid browser chrome/toolbar resizing jumps on mobile */
+  height: calc(var(--vh, 1vh) * 100);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  position: relative;
 }
 
 .search-header {
@@ -193,11 +195,14 @@ onUnmounted(() => {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .bottom-clipped {
   min-height: 0;
   overflow: auto;
   height: 100%;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 </style>
