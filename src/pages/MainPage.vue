@@ -1,66 +1,70 @@
 <template>
   <q-page id="search" class="q-px-md q-pb-md q-gutter-xs">
-    <div class="text-primary q-pt-sm">
-      <!-- Show only on the main page -->
-      <div class="row no-wrap items-center q-gutter-xs">
-        <q-input ref="input" v-model="store.input" :outlined="false"
-          :placeholder="$q.screen.gt.sm ? $t('mainPage.placeholderLong') : $t('mainPage.placeholderShort')" :disabled="store.loading" dense
-          style="margin-top: 0" autofocus @keyup.enter="find(store.input)" @keyup.esc="store.input = ''" full-width class="col"
-          :data-tag="tags.searchInput">
-          <template v-slot:append>
+    <div class="search-header">
+      <div class="text-primary q-pt-sm">
+        <!-- Show only on the main page -->
+        <div class="row no-wrap items-center q-gutter-xs">
+          <q-input ref="input" v-model="store.input" :outlined="false"
+            :placeholder="$q.screen.gt.sm ? $t('mainPage.placeholderLong') : $t('mainPage.placeholderShort')" :disabled="store.loading" dense
+            style="margin-top: 0" autofocus @keyup.enter="find(store.input)" @keyup.esc="store.input = ''" full-width class="col"
+            :data-tag="tags.searchInput">
+            <template v-slot:append>
 
-            <!-- Clear search -->
-            <q-icon v-if="store.input !== ''" name="icon-mat-close" class="cursor-pointer" style="font-size: 0.8em" @click="clear"
-              :data-tag="tags.clearSearchButton">
-              <q-tooltip>{{ $t('mainPage.clearSearch') }}</q-tooltip>
-            </q-icon>
+              <!-- Clear search -->
+              <q-icon v-if="store.input !== ''" name="icon-mat-close" class="cursor-pointer" style="font-size: 0.8em" @click="clear"
+                :data-tag="tags.clearSearchButton">
+                <q-tooltip>{{ $t('mainPage.clearSearch') }}</q-tooltip>
+              </q-icon>
 
-            <q-icon name="icon-mat-search" @click="find(store.input)" class="cursor-pointer">
-              <q-tooltip>{{ $t('mainPage.search') }}</q-tooltip>
-            </q-icon>
-          </template>
+              <q-icon name="icon-mat-search" @click="find(store.input)" class="cursor-pointer">
+                <q-tooltip>{{ $t('mainPage.search') }}</q-tooltip>
+              </q-icon>
+            </template>
 
-        </q-input>
+          </q-input>
 
-        <q-space />
+          <q-space />
 
-        <MainBibleSelector class="q-pr-sm" />
+          <MainBibleSelector class="q-pr-sm" />
 
-        <ButtonWholeWords class="gt-xs" />
-        <ButtonBookSelector class="gt-xs" />
-        <ButtonHelp class="gt-xs" />
-        <ButtonSettings class="gt-xs" />
+          <ButtonWholeWords class="gt-xs" />
+          <ButtonBookSelector class="gt-xs" />
+          <ButtonHelp class="gt-xs" />
+          <ButtonSettings class="gt-xs" />
 
-        <q-btn dense flat icon="icon-mat-more_vert" class="lt-sm">
-          <q-menu>
-            <q-list style="min-width: 210px">
-              <q-item>
-                <ButtonWholeWords in-menu />
-              </q-item>
-              <q-item>
-                <ButtonBookSelector in-menu />
-              </q-item>
-              <!-- <q-item>
+          <q-btn dense flat icon="icon-mat-more_vert" class="lt-sm">
+            <q-menu>
+              <q-list style="min-width: 210px">
+                <q-item>
+                  <ButtonWholeWords in-menu />
+                </q-item>
+                <q-item>
+                  <ButtonBookSelector in-menu />
+                </q-item>
+                <!-- <q-item>
                 <ButtonHelp in-menu />
               </q-item> -->
-              <q-item>
-                <ButtonSettings in-menu />
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-btn>
+                <q-item>
+                  <ButtonSettings in-menu />
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
       </div>
+
+      <MessageLine class="q-mb-xs" />
     </div>
 
-    <MessageLine class="q-mb-xs" />
+    <div class="search-content">
+      <div v-show="store.loading">
+        <q-circular-progress indeterminate size="30px" color="accent" class="q-my-md q-mr-md" />
+        <span :data-tag="tags.downloading">{{ $t('mainPage.downloading') }}</span>
+      </div>
 
-    <div v-show="store.loading">
-      <q-circular-progress indeterminate size="30px" color="accent" class="q-my-md q-mr-md" />
-      <span :data-tag="tags.downloading">{{ $t('mainPage.downloading') }}</span>
+      <ReferencePicker v-if="store.showPicker" />
+      <BibleContent v-else />
     </div>
-
-    <ReferencePicker v-if="store.showPicker" />
-    <BibleContent v-else />
 
   </q-page>
 </template>
@@ -176,6 +180,18 @@ onUnmounted(() => {
 #search {
   /* height: calc(var(--vh, 1vh) * 100 + 20px); */
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-header {
+  flex-shrink: 0;
+}
+
+.search-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
   display: flex;
   flex-direction: column;
 }

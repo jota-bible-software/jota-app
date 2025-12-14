@@ -19,7 +19,8 @@ const { layout, loading, showPicker } = toRefs(store)
 #content {
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  flex: 1;
+  min-height: 0;
 
   .row {
     overflow: auto;
