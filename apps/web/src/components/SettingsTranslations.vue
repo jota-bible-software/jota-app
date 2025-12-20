@@ -41,7 +41,7 @@
         <!-- Updated BibleSelector with None option -->
         <LabelRow :label="$t('settingsTranslations.defaultTranslation')" class="q-pa-md">
           <BibleSelector v-model="group.defaultTranslation.value" :translations="group.translations" class="col"
-            :data-tag="tags.settingsTranslationDefault" />
+            :data-tag="tags.settingsTranslationDefault" allow-empty />
         </LabelRow>
 
         <!-- Rest of the component remains the same -->

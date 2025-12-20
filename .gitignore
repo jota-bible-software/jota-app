@@ -8,10 +8,10 @@ node_modules
 /quasar.config.*.temporary.compiled*
 
 # Cordova related directories and files
-/src-cordova/node_modules
-/src-cordova/platforms
-/src-cordova/plugins
-/src-cordova/www
+app/web/src-cordova/node_modules
+app/web/src-cordova/platforms
+app/web/src-cordova/plugins
+app/web/src-cordova/www
 
 # Capacitor related directories and files
 /src-capacitor/www
@@ -38,8 +38,8 @@ yarn-error.log*
 .aider*
 /private
 public/data
-test/cypress/downloads
-test/cypress/screenshots
-test/cypress/videos
+app/web/test/cypress/downloads
+app/web/test/cypress/screenshots
+app/web/test/cypress/videos
 
 

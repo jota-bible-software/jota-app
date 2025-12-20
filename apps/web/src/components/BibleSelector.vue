@@ -1,5 +1,5 @@
 <template>
-  <q-select v-model="selected" :options="safeTranslations" option-label="symbol" emit-value popup-content-style="white-space: nowrap" dense
+  <q-select v-model="selected" :options="options" option-label="symbol" :option-value="optionValue" popup-content-style="white-space: nowrap" dense
     :data-tag="tags.translationSelector">
 
     <template v-slot:selected>
@@ -42,20 +42,53 @@ const props = defineProps<{
   modelValue?: ModelValue
   flag?: boolean
   translations?: TranslationItem[]
+  allowEmpty?: boolean
 }>()
 const emit = defineEmits<{
   'update:modelValue': [value: ModelValue]
 }>()
 
-const safeTranslations = computed(() => {
-  return Array.isArray(props.translations) ? props.translations.filter(Boolean) : []
+// Create a unique key for each option to avoid deep comparison issues
+function optionValue(opt: TranslationItem | null): string {
+  if (!opt || !opt.locale || !opt.symbol) return ''
+  return `${opt.locale}:${opt.symbol}`
+}
+
+// Strip reactive properties and create plain objects for QSelect options
+const options = computed(() => {
+  const items: TranslationItem[] = []
+
+  // Add empty option if allowed
+  if (props.allowEmpty) {
+    items.push({ locale: '', symbol: '', title: '', size: 0 } as TranslationItem)
+  }
+
+  if (Array.isArray(props.translations)) {
+    // Map to plain objects to avoid reactive ref comparison issues
+    for (const t of props.translations) {
+      if (t) {
+        items.push({
+          locale: t.locale,
+          symbol: t.symbol,
+          title: t.title,
+          size: t.size,
+          year: t.year,
+          bookNames: t.bookNames,
+          bookOrder: t.bookOrder,
+          isFirstInGroup: t.isFirstInGroup
+        } as TranslationItem)
+      }
+    }
+  }
+
+  return items
 })
 
 const selected = computed({
   get(): ModelValue {
     // Try to find the full translation item if only a key was provided
-    if (props.modelValue && safeTranslations.value.length > 0) {
-      const found = safeTranslations.value.find(
+    if (props.modelValue && options.value.length > 0) {
+      const found = options.value.find(
         t => t.locale === props.modelValue?.locale && t.symbol === props.modelValue?.symbol
       )
       if (found) return found

@@ -28,7 +28,7 @@
     "test:component:ci": "pnpm --filter @jota/web run test:component:ci",
     "deploy:promote": "gh workflow run 'Promote to Production' -f confirm=promote",
     "deploy:rollback": "gh workflow run 'Rollback Production' -f confirm=rollback",
-    "deploy:status": "gh run list --workflow=deploy.yaml --limit=5"
+    "deploy:status": "gh run list --workflow=test.yaml --limit=5 && gh run list --workflow=deploy.yaml --limit=5"
   },
   "devDependencies": {
     "prettier": "^2.8.8",
