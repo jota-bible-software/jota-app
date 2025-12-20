@@ -32,8 +32,8 @@ jobs:
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           # Directory structure:
-          # QA:   public_html/jota-next/jota/  →  jota-next.netanel.pl/jota/
-          # Prod: public_html/jota/           →  netanel.pl/jota/
+          # QA:   public_html/jota-next/  →  jota-next.netanel.pl/
+          # Prod: public_html/jota/       →  netanel.pl/jota/
 
           lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "ftps://$FTP_SERVER" << EOF
           set ssl:verify-certificate no
@@ -46,8 +46,8 @@ jobs:
           # Rename current production to backup
           mv jota jota-old || true
 
-          # Move QA's jota folder to production (THE INSTANT SWITCH)
-          mv jota-next/jota jota
+          # Copy QA to production (mirror from jota-next to jota)
+          mirror --reverse --delete --verbose jota-next jota
 
           echo "✅ Promotion complete!"
           bye
@@ -57,9 +57,9 @@ jobs:
         run: |
           echo "## ✅ Promoted to Production" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Directory swap completed:**" >> $GITHUB_STEP_SUMMARY
+          echo "**Directory operations completed:**" >> $GITHUB_STEP_SUMMARY
           echo "- \`jota\` → \`jota-old\` (backup)" >> $GITHUB_STEP_SUMMARY
-          echo "- \`jota-next\` → \`jota\` (now live)" >> $GITHUB_STEP_SUMMARY
+          echo "- \`jota-next\` mirrored to \`jota\` (now live)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Rollback:** Run the Rollback workflow if needed." >> $GITHUB_STEP_SUMMARY
 

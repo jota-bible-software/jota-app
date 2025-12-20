@@ -57,13 +57,15 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: apps/web/dist/spa/
-          server-dir: public_html/jota-next/jota/
+          server-dir: public_html/jota-next/
           protocol: 'ftps'
+          timeout: 60000
+          log-level: verbose
 
       - name: Summary
         run: |
           echo "## 🚀 Deployed to QA" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "QA URL: https://jota-next.netanel.pl/jota/" >> $GITHUB_STEP_SUMMARY
+          echo "QA URL: https://jota-next.netanel.pl/" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "When ready, run the **Promote to Production** workflow to switch instantly." >> $GITHUB_STEP_SUMMARY
