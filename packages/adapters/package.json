@@ -1,0 +1,72 @@
+{
+  "name": "@jota/adapters",
+  "version": "0.1.0",
+  "description": "Platform adapters for Jota Bible App",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./interfaces": {
+      "types": "./dist/interfaces/index.d.ts",
+      "import": "./dist/interfaces/index.js",
+      "require": "./dist/interfaces/index.cjs"
+    },
+    "./storage": {
+      "types": "./dist/storage/index.d.ts",
+      "import": "./dist/storage/index.js",
+      "require": "./dist/storage/index.cjs"
+    },
+    "./web": {
+      "types": "./dist/web/index.d.ts",
+      "import": "./dist/web/index.js",
+      "require": "./dist/web/index.cjs"
+    },
+    "./memory": {
+      "types": "./dist/memory/index.d.ts",
+      "import": "./dist/memory/index.js",
+      "require": "./dist/memory/index.cjs"
+    },
+    "./factory": {
+      "types": "./dist/factory/index.d.ts",
+      "import": "./dist/factory/index.js",
+      "require": "./dist/factory/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@jota/core": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.1",
+    "typescript": "~5.5.4",
+    "vitest": "^0.34.6"
+  },
+  "peerDependencies": {},
+  "keywords": [
+    "jota",
+    "adapters",
+    "storage",
+    "network",
+    "audio",
+    "platform",
+    "web"
+  ],
+  "license": "MIT"
+}

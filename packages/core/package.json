@@ -1,0 +1,85 @@
+{
+  "name": "@jota/core",
+  "version": "0.1.0",
+  "description": "Core business logic for Jota Bible App - framework-agnostic",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js",
+      "require": "./dist/types/index.cjs"
+    },
+    "./bible": {
+      "types": "./dist/bible/index.d.ts",
+      "import": "./dist/bible/index.js",
+      "require": "./dist/bible/index.cjs"
+    },
+    "./search": {
+      "types": "./dist/search/index.d.ts",
+      "import": "./dist/search/index.js",
+      "require": "./dist/search/index.cjs"
+    },
+    "./format": {
+      "types": "./dist/format/index.d.ts",
+      "import": "./dist/format/index.js",
+      "require": "./dist/format/index.cjs"
+    },
+    "./highlight": {
+      "types": "./dist/highlight/index.d.ts",
+      "import": "./dist/highlight/index.js",
+      "require": "./dist/highlight/index.cjs"
+    },
+    "./audio": {
+      "types": "./dist/audio/index.d.ts",
+      "import": "./dist/audio/index.js",
+      "require": "./dist/audio/index.cjs"
+    },
+    "./plans": {
+      "types": "./dist/plans/index.d.ts",
+      "import": "./dist/plans/index.js",
+      "require": "./dist/plans/index.cjs"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js",
+      "require": "./dist/utils/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "jota-parser": "^1.0.8"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.1",
+    "typescript": "~5.5.4",
+    "vitest": "^0.34.6"
+  },
+  "peerDependencies": {},
+  "keywords": [
+    "bible",
+    "jota",
+    "core",
+    "search",
+    "highlight"
+  ],
+  "license": "MIT"
+}

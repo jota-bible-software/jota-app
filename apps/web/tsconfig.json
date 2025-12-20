@@ -1,0 +1,14 @@
+{
+  "extends": "@quasar/app-vite/tsconfig-preset",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["src/*"],
+      "@jota/core": ["../../packages/core/src"],
+      "@jota/core/*": ["../../packages/core/src/*"],
+      "@jota/adapters": ["../../packages/adapters/src"],
+      "@jota/adapters/*": ["../../packages/adapters/src/*"]
+    }
+  },
+  "include": ["src/**/*", "test/**/*", "auto-imports.d.ts"]
+}

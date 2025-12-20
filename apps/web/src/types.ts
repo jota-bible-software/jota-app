@@ -1,0 +1,221 @@
+import { ShallowRef } from 'vue'
+
+export type AppSettings = {
+  defaultLocale: LocaleSymbol
+  fontSize: number
+  screenMode: ScreenMode
+  appFormatTemplateName: string
+  defaultSearchResultLayout: PassageListLayout
+  referencePickerOnStart: boolean
+  inlineVerseNumbers: boolean
+  superscriptVerseNumbers: boolean
+  underlineVerseHighlight: boolean
+  continuousVerses: boolean
+}
+
+export type BookNamingV2 = { locale: LocaleSymbol, name: string, books: string[], booksText?: string }
+export type BookNaming = { name: string, books: string[], booksText?: string }
+
+export type CopyTemplateData = {
+  name: string,
+  formatTemplate: string,
+  bookNaming: string
+}
+
+export type Translation = TranslationMeta & {
+  content: ShallowRef<TranslationContent | undefined>
+  selected: Ref<boolean>
+  highlightsEnabled: Ref<boolean>
+  fileMeta?: TranslationFileMeta
+}
+
+// Simplified translation type for UI selectors (without reactive wrappers)
+export type TranslationItem = TranslationMeta & {
+  isFirstInGroup?: boolean
+}
+
+// Bible translation data formats
+export type TranslationDataFormat = '3d-array' | 'map'
+
+export type TranslationContentArray = string[][][]
+
+export type TranslationContentMap = {
+  [bookNumber: number]: {
+    [chapterNumber: number]: {
+      [verseNumber: number]: string
+    }
+  }
+}
+
+export type TranslationFileMeta = {
+  name: string
+  abbreviation: string
+  locale: LocaleSymbol
+  year?: string
+  bookNames?: string[]
+  bookOrder?: string
+  dataFormat: TranslationDataFormat
+  created?: string
+  modified?: string
+}
+
+export type TranslationFile = {
+  meta: TranslationFileMeta
+  data: TranslationContentArray | TranslationContentMap
+}
+
+export type TranslationContent = TranslationContentArray | TranslationContentMap
+
+export type TranslationKey = { locale: LocaleSymbol, symbol: string }
+
+export type TranslationMeta = TranslationKey & { title: string, size: number, year?: string, bookNames?: string, bookOrder?: string }
+
+export type FormatTemplateData = {
+  name: string,
+  referenceWithoutContent: boolean,
+  referencePosition: 'before' | 'after',
+  referenceLine: 'same line' | 'new line',
+  translationAbbreviation: 'none' | 'lowercase' | 'uppercase'
+  numbers: boolean,
+  verseNewLine: boolean,
+  separatorChar: string,
+  rangeChar: string,
+  referenceCharsBefore: string,
+  referenceCharsAfter: string,
+  quoteCharsBefore: string,
+  quoteCharsAfter: string,
+  verseNumberCharsBefore: string,
+  verseNumberCharsAfter: string,
+  translationAbbreviationCharsBefore: string,
+  translationAbbreviationCharsAfter: string,
+}
+
+export type Formatted = { reference: string, separator: string, content: string, referenceFirst: boolean }
+
+export type JotaTestSupport = {
+  getSelectionRange: () => Range | undefined
+}
+
+export type LanguageSymbol = string
+
+export type LocaleDataV2 = {
+  naming: LocaleNaming
+  translations: LocaleTranslations
+  copyTemplates: CopyTemplateData[]
+  defaultCopyTemplate: string
+}
+
+export interface LocaleData {
+  naming: {
+    available: BookNaming[]
+    default: string
+  }
+  translations: {
+    available: string[]
+    selected: string[]
+    default: string
+  }
+  copyTemplates: CopyTemplateData[]
+  defaultCopyTemplate: string
+}
+
+export type LocaleTranslations = {
+  available: string[]
+  selected: string[]
+  default: string
+  highlightsEnabled?: Record<string, boolean>
+}
+
+export type LocaleNaming = {
+  available: BookNamingV2[]
+  default: string
+}
+
+export type Localized = {
+  appBookNaming: string
+  bookNamings: BookNamingV2[]
+  copyTemplates: CopyTemplateData[]
+  defaultCopyTemplate: string
+  selectedTranslations: string[]
+  defaultTranslation: string
+}
+
+export type LocaleSymbol = 'en-US' | 'pl-PL' | 'pt-BR'
+
+export type Passage = [number, number, number?, number?]
+
+export type PassageFormat = {
+  bookNames: string[],
+  referencePosition: 'before' | 'after',
+  referenceNewLine: 'same line' | 'new line',
+  separatorChar: string,
+  quotes: boolean,
+  numbers: boolean,
+  verseNewLine: boolean,
+  translation: 'none' | 'lowercase' | 'uppercase'
+}
+
+export type PassageListLayout = 'split' | 'formatted'
+
+export type Progress = { step: (n: number) => void, regex?: RegExp }
+
+export type ScreenMode = 'dark' | 'light' | 'auto'
+
+export type SearchOptions = { apocrypha?: boolean, shouldSort?: boolean, words?: boolean }
+
+export type SettingsPersist = {
+  [key: string]: unknown
+  version: string
+  app: AppSettings
+  locales: LocaleSymbol[]
+  localeData: Record<LocaleSymbol, LocaleDataV2>
+  formatTemplates: FormatTemplateData[]
+  highlights?: Highlights
+}
+
+export type Highlights = {
+  // Map of translation key (locale:symbol) to highlights for that translation
+  byTranslation: Record<string, PassageHighlight[]>
+  config: HighlightConfig
+}
+
+// Legacy format for migration
+export type HighlightsLegacy = {
+  translation: {
+    locale: LocaleSymbol
+    symbol: string
+  }
+  passageHighlights: PassageHighlight[]
+  config: HighlightConfig
+}
+
+export type PassageHighlight = {
+  passage: [number, number, number, number]
+  highlightColorId: string
+}
+
+export type HighlightConfig = {
+  colors: HighlightColor[]
+  active: string
+}
+
+export type HighlightColor = {
+  id: string
+  name: string
+  hex: string
+  order: number
+}
+
+export type SettingsPersistV2 = Partial<SettingsPersist> & {
+  appearance?: {
+    locale?: string
+    fontSize?: number
+    screenMode?: ScreenMode
+    primaryColor?: string
+  }
+  localized: Record<LocaleSymbol, Partial<Localized>>
+  formatTemplates: Array<Partial<FormatTemplateData>>
+  appFormatTemplateName?: string
+  defaultSearchResultLayout?: string
+  referencePickerOnStart?: boolean
+}
