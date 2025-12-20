@@ -56,7 +56,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: dist/spa/
+          local-dir: apps/web/dist/spa/
           server-dir: public_html/jota-next/jota/
           protocol: 'ftps'
 
