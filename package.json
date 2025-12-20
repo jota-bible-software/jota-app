@@ -25,7 +25,10 @@
     "test:e2e": "pnpm --filter @jota/web run test:e2e",
     "test:e2e:ci": "pnpm --filter @jota/web run test:e2e:ci",
     "test:component": "pnpm --filter @jota/web run test:component",
-    "test:component:ci": "pnpm --filter @jota/web run test:component:ci"
+    "test:component:ci": "pnpm --filter @jota/web run test:component:ci",
+    "deploy:promote": "gh workflow run 'Promote to Production' -f confirm=promote",
+    "deploy:rollback": "gh workflow run 'Rollback Production' -f confirm=rollback",
+    "deploy:status": "gh run list --workflow=deploy.yaml --limit=5"
   },
   "devDependencies": {
     "prettier": "^2.8.8",

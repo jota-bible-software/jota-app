@@ -1,0 +1,64 @@
+name: Rollback Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "rollback" to confirm rollback to previous version'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    if: ${{ github.event.inputs.confirm == 'rollback' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate confirmation
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "rollback" ]; then
+            echo "❌ Confirmation failed. Type 'rollback' to proceed."
+            exit 1
+          fi
+          echo "✅ Confirmation received. Proceeding with rollback..."
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Rollback to previous version
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          # Swaps jota (broken) with jota-old (previous working version)
+          lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "ftps://$FTP_SERVER" << EOF
+          set ssl:verify-certificate no
+          set ftp:ssl-protect-data true
+          cd public_html
+
+          # Swap: jota <-> jota-old
+          mv jota jota-broken || true
+          mv jota-old jota
+          mv jota-broken jota-old || true
+
+          echo "✅ Rollback complete!"
+          bye
+          EOF
+
+      - name: Summary
+        run: |
+          echo "## ⏪ Rolled Back Production" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Directory swap completed:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Previous version restored to \`jota\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Broken version moved to \`jota-old\` for inspection" >> $GITHUB_STEP_SUMMARY
+
+  notify-failure:
+    if: ${{ github.event.inputs.confirm != 'rollback' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirmation required
+        run: |
+          echo "❌ You must type 'rollback' to confirm."
+          exit 1

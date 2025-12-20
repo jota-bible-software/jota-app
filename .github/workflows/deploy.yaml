@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to QA
 
 on:
   workflow_run:
@@ -8,7 +8,7 @@ on:
       - completed
 
 jobs:
-  deploy:
+  deploy-qa:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1  # Fetch only the latest commit
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -27,7 +27,7 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: false  # Don't run install here
+          run_install: false
 
       - name: Check pnpm workspace configuration
         run: |
@@ -40,7 +40,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # If using workspaces but configuration is broken, use a simple configuration
           if [ -f "pnpm-workspace.yaml" ] && ! grep -q "packages:" pnpm-workspace.yaml; then
             echo "Creating basic pnpm-workspace.yaml"
             echo "packages:" > pnpm-workspace.yaml
@@ -51,12 +50,20 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - name: Deploy to server
+      - name: Deploy to QA (jota-next)
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/spa/
-          server-dir: public_html/jota/
+          server-dir: public_html/jota-next/jota/
           protocol: 'ftps'
+
+      - name: Summary
+        run: |
+          echo "## 🚀 Deployed to QA" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "QA URL: https://jota-next.netanel.pl/jota/" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "When ready, run the **Promote to Production** workflow to switch instantly." >> $GITHUB_STEP_SUMMARY

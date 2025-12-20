@@ -1,0 +1,74 @@
+name: Promote to Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "promote" to confirm deployment to production'
+        required: true
+        type: string
+
+jobs:
+  promote:
+    if: ${{ github.event.inputs.confirm == 'promote' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate confirmation
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "promote" ]; then
+            echo "❌ Confirmation failed. Type 'promote' to proceed."
+            exit 1
+          fi
+          echo "✅ Confirmation received. Proceeding with promotion..."
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Swap directories (atomic promotion)
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          # Directory structure:
+          # QA:   public_html/jota-next/jota/  →  jota-next.netanel.pl/jota/
+          # Prod: public_html/jota/           →  netanel.pl/jota/
+
+          lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "ftps://$FTP_SERVER" << EOF
+          set ssl:verify-certificate no
+          set ftp:ssl-protect-data true
+          cd public_html
+
+          # Remove old backup if it exists
+          rm -rf jota-old || true
+
+          # Rename current production to backup
+          mv jota jota-old || true
+
+          # Move QA's jota folder to production (THE INSTANT SWITCH)
+          mv jota-next/jota jota
+
+          echo "✅ Promotion complete!"
+          bye
+          EOF
+
+      - name: Summary
+        run: |
+          echo "## ✅ Promoted to Production" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Directory swap completed:**" >> $GITHUB_STEP_SUMMARY
+          echo "- \`jota\` → \`jota-old\` (backup)" >> $GITHUB_STEP_SUMMARY
+          echo "- \`jota-next\` → \`jota\` (now live)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Rollback:** Run the Rollback workflow if needed." >> $GITHUB_STEP_SUMMARY
+
+  notify-failure:
+    if: ${{ github.event.inputs.confirm != 'promote' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirmation required
+        run: |
+          echo "❌ You must type 'promote' to confirm deployment to production."
+          echo "This is a safety measure to prevent accidental deployments."
+          exit 1
