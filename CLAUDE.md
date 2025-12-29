@@ -119,4 +119,4 @@ The search system (`jota.ts`) handles:
 - Maintain existing naming conventions for consistency
 
 ### Multi-Domain Setup
-See `/docs/multi-domain-setup.md` for detailed configuration information about multi-domain deployment.
+The app supports multiple domains (main domain with subdirectory + subdomains at root). See README.md for details.

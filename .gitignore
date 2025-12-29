@@ -1,17 +1,26 @@
+# OS files
 .DS_Store
 .thumbs.db
-node_modules
 
-# Quasar core related directories
-.quasar
-/dist
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+**/dist
+**/.quasar
 /quasar.config.*.temporary.compiled*
 
+# Lock files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
 # Cordova related directories and files
-app/web/src-cordova/node_modules
-app/web/src-cordova/platforms
-app/web/src-cordova/plugins
-app/web/src-cordova/www
+apps/web/src-cordova/node_modules
+apps/web/src-cordova/platforms
+apps/web/src-cordova/plugins
+apps/web/src-cordova/www
 
 # Capacitor related directories and files
 /src-capacitor/www
@@ -26,20 +35,33 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Editor directories and files
+# Editor/IDE
 .idea
+.vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 
-# Other local files
-.env.local*
+# Test artifacts
+**/cypress/videos
+**/cypress/screenshots
+**/cypress/downloads
+
+# Generated files
+**/auto-imports.d.ts
+
+# Bible translation data (large JSON files)
+apps/web/public/data
+
+# Private/temporary files
+private
+tmp
+
+# AI assistant history
 .aider*
-/private
-public/data
-app/web/test/cypress/downloads
-app/web/test/cypress/screenshots
-app/web/test/cypress/videos
+
+# Environment files
+.env.local*
 
 

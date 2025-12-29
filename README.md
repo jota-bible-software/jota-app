@@ -43,8 +43,6 @@ quasar build
 
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
 
-See [MULTI_DOMAIN_SETUP.md](./docs/multi-domain-setup.md) for detailed information about the multi-domain configuration.
-
 ---
 
 ## Deployment
@@ -120,3 +118,13 @@ gh run view --log
 ```
 
 > **Note:** These commands require the [GitHub CLI](https://cli.github.com/) (`gh`) to be installed and authenticated.
+
+---
+
+## Multi-Domain Setup
+
+The app supports multiple domains pointing to the same deployment:
+- Main domain: `netanel.pl/jota` (subdirectory)
+- Subdomains: `bible.netanel.pl`, `biblia.netanel.pl`, `jota.netanel.pl` (root path)
+
+The `public/domain-handler.js` script auto-detects the domain and configures the base path. Vue Router adapts accordingly. No code changes needed when adding new subdomains - just configure DNS to point to `public_html/jota/`.
