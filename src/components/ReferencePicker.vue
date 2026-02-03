@@ -5,36 +5,77 @@
 
       <span v-if="isBookSelected" class="bold q-mr-sm">{{ passageName }}</span>
 
-      <q-btn :data-tag="tags.referencePickerBackButton" outline dense text-color="primary" icon="icon-mdi-arrow-up-left" v-show="isBookSelected"
-        @click="back">
-        <q-tooltip>{{ t('referencePicker.backTooltip') }} {{ backTooltip }}</q-tooltip>
+      <q-btn
+        :data-tag="tags.referencePickerBackButton"
+        outline
+        dense
+        text-color="primary"
+        icon="icon-mdi-arrow-up-left"
+        v-show="isBookSelected"
+        @click="back"
+      >
+        <q-tooltip
+          >{{ t('referencePicker.backTooltip') }} {{ backTooltip }}</q-tooltip
+        >
       </q-btn>
     </div>
 
-    <div v-if="bookIndex === -1" id="reference-picker-books" class="col q-mt-sm">
+    <div
+      v-if="bookIndex === -1"
+      id="reference-picker-books"
+      class="col q-mt-sm"
+    >
       <!-- <div class="row q-mb-sm text-h6">Old testament</div> -->
       <div class="row selectors">
-        <ReferencePickerButton data-tag="reference-picker-book" v-for="(book, i) in bookList.slice(0, 17)" :key="i" :value="book"
-          :alternate="alternate[i]" @select="selectBook(i)" />
+        <ReferencePickerButton
+          data-tag="reference-picker-book"
+          v-for="(book, i) in bookList.slice(0, 17)"
+          :key="i"
+          :value="book"
+          :alternate="alternate[i]"
+          @select="selectBook(i)"
+        />
       </div>
 
       <div class="row selectors q-mt-sm">
-        <ReferencePickerButton :data-tag="tags.referencePickerBookButton" v-for="(book, i) in bookList.slice(17, 39)" :key="i" :value="book"
-          :alternate="alternate[i + 17]" @select="selectBook(i + 17)" />
+        <ReferencePickerButton
+          :data-tag="tags.referencePickerBookButton"
+          v-for="(book, i) in bookList.slice(17, 39)"
+          :key="i"
+          :value="book"
+          :alternate="alternate[i + 17]"
+          @select="selectBook(i + 17)"
+        />
       </div>
 
       <!-- <div class="row q-mt-sm text-h6">New testament</div> -->
       <div class="row selectors q-mt-md">
-        <ReferencePickerButton :data-tag="tags.referencePickerBookButton" v-for="(book, i) in bookList.slice(39, 66)" :key="i" :value="book"
-          :alternate="alternate[i + 39]" @select="selectBook(i + 39)" />
+        <ReferencePickerButton
+          :data-tag="tags.referencePickerBookButton"
+          v-for="(book, i) in bookList.slice(39, 66)"
+          :key="i"
+          :value="book"
+          :alternate="alternate[i + 39]"
+          @select="selectBook(i + 39)"
+        />
       </div>
     </div>
 
     <!-- Chapters -->
-    <div v-if="!isChapterSelected && isBookSelected" id="reference-picker-chapters" class="col">
+    <div
+      v-if="!isChapterSelected && isBookSelected"
+      id="reference-picker-chapters"
+      class="col"
+    >
       <div class="row selectors">
-        <ReferencePickerButton :data-tag="tags.referencePickerChapterButtons" v-for="chapter in chapters" :key="chapter" :value="chapter + 1"
-          alternate="0" @select="selectChapter(chapter)" />
+        <ReferencePickerButton
+          :data-tag="tags.referencePickerChapterButtons"
+          v-for="chapter in chapters"
+          :key="chapter"
+          :value="chapter + 1"
+          alternate="0"
+          @select="selectChapter(chapter)"
+        />
       </div>
     </div>
 
@@ -62,16 +103,9 @@ const store = useTranslationStore()
 const searchStore = useSearchStore()
 
 const alternate = [
-  1, 1, 1, 1, 1,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  2, 2, 2, 2, 2,
-  1, 1, 1, 1, 1,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  2, 2, 2, 2,
-  0,
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  0, 0, 0, 0, 0, 0, 0, 0,
-  2
+  1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 1, 1, 1, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2,
 ]
 
 const bookIndex = ref(-1)
@@ -81,7 +115,9 @@ const verseIndex = ref(-1)
 const bookList = computed(() => settings.appBookNames)
 const chapters = computed(() => {
   if (!isBookSelected.value) return []
-  const n = store.currentContent ? store.currentContent[bookIndex.value].length : 0
+  const n = store.currentContent
+    ? store.currentContent[bookIndex.value].length
+    : 0
   return [...Array(n).keys()]
 })
 // const verses = computed(() => {
@@ -91,20 +127,28 @@ const chapters = computed(() => {
 // })
 const sep = computed(() => settings.appFormatTemplate?.separatorChar)
 const bookName = computed(() => bookList.value[bookIndex.value])
-const backTooltip = computed(() => isChapterSelected.value ? t('referencePicker.chapters') : t('referencePicker.books'))
+const backTooltip = computed(() =>
+  isChapterSelected.value
+    ? t('referencePicker.chapters')
+    : t('referencePicker.books')
+)
 const isBookSelected = computed(() => bookIndex.value !== -1)
 const isChapterSelected = computed(() => chapterIndex.value !== -1)
 const isVerseSelected = computed(() => verseIndex.value !== -1)
 const passageName = computed(() => {
   const book = bookName.value || ''
   const chapter = isChapterSelected.value ? ` ${chapterIndex.value + 1}` : ''
-  const verse = isVerseSelected.value ? `${sep.value}${verseIndex.value + 1}` : ''
+  const verse = isVerseSelected.value
+    ? `${sep.value}${verseIndex.value + 1}`
+    : ''
   return `${book}${chapter}${verse}`
 })
 const message = computed(() => {
-  return !isBookSelected.value ? t('referencePicker.selectBook') :
-    !isChapterSelected.value ? t('referencePicker.selectChapter') :
-      t('referencePicker.selectVerse')
+  return !isBookSelected.value
+    ? t('referencePicker.selectBook')
+    : !isChapterSelected.value
+    ? t('referencePicker.selectChapter')
+    : t('referencePicker.selectVerse')
 })
 
 function selectBook(i: number) {
@@ -142,9 +186,11 @@ async function finish() {
 }
 </script>
 
-
 <style lang="scss">
 #reference-picker {
+  overflow: auto;
+  min-height: 0;
+
   .info {
     margin-bottom: 16px !important;
   }
