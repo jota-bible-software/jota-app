@@ -1,4 +1,3 @@
-
 import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
 import { getDefaultLocale } from 'src/util'
@@ -20,12 +19,25 @@ export function navigate(url: string) {
 export function tag(name: string) {
   return `[data-tag=${name}]`
 }
-type SingleTarget = string | Cypress.Chainable<JQuery<HTMLElement>> | Cypress.Chainable<string> | Cypress.Chainable<undefined>
-type NestedTarget = { head: SingleTarget, tail: string[] }
+type SingleTarget =
+  | string
+  | Cypress.Chainable<JQuery<HTMLElement>>
+  | Cypress.Chainable<string>
+  | Cypress.Chainable<undefined>
+type NestedTarget = { head: SingleTarget; tail: string[] }
 type Target = SingleTarget | NestedTarget // Cypress.Chainable<JQuery<HTMLElement>> | Cypress.Chainable<string> | Cypress.Chainable<undefined>
 // type Target = string | Cypress.Chainable<JQuery<HTMLElement>>;
 type HtmlElementWrapper = Cypress.Chainable<JQuery<HTMLElement>>
-type PositionType = 'topLeft' | 'top' | 'topRight' | 'left' | 'center' | 'right' | 'bottomLeft' | 'bottom' | 'bottomRight'
+type PositionType =
+  | 'topLeft'
+  | 'top'
+  | 'topRight'
+  | 'left'
+  | 'center'
+  | 'right'
+  | 'bottomLeft'
+  | 'bottom'
+  | 'bottomRight'
 
 export function nested(head: SingleTarget, ...tail: string[]): NestedTarget {
   return { head, tail }
@@ -43,7 +55,11 @@ export function find(target: Target, options = {}): HtmlElementWrapper {
     const t = target as NestedTarget
     return t.tail.reduce((acc, cur) => acc.find(cur), find(t.head, options))
   }
-  return typeof target === 'string' ? cy.get(target, options) : target.hasOwnProperty('head') ? findNested(target) : target as HtmlElementWrapper
+  return typeof target === 'string'
+    ? cy.get(target, options)
+    : target.hasOwnProperty('head')
+    ? findNested(target)
+    : (target as HtmlElementWrapper)
 }
 
 export function errorHint(target: Target): HtmlElementWrapper {
@@ -54,9 +70,11 @@ export function errorHint(target: Target): HtmlElementWrapper {
 }
 
 export function tooltip(target: Target): HtmlElementWrapper {
-  return find(target).realHover().then(() => {
-    cy.get('.q-tooltip')
-  })
+  return find(target)
+    .realHover()
+    .then(() => {
+      cy.get('.q-tooltip')
+    })
 }
 
 // export function text(target: Target): string {
@@ -64,7 +82,10 @@ export function tooltip(target: Target): HtmlElementWrapper {
 // }
 
 export function assertNoErrorHint(target: Target) {
-  return find(target).parents('.q-field').find('div[role="alert"]').should('not.exist')
+  return find(target)
+    .parents('.q-field')
+    .find('div[role="alert"]')
+    .should('not.exist')
 }
 
 // Call i18n.global.t() to get the translated string
@@ -120,23 +141,27 @@ export function assertClipboard(text: string) {
 }
 
 export function setCaret(target: Target) {
-  return find(target).click().then(($el) => {
-    const walk = document.createTreeWalker($el[0], NodeFilter.SHOW_TEXT, null)
-    const node = walk.nextNode()
-    if (!node) return
+  return find(target)
+    .click()
+    .then(($el) => {
+      const walk = document.createTreeWalker($el[0], NodeFilter.SHOW_TEXT, null)
+      const node = walk.nextNode()
+      if (!node) return
 
-    document.getSelection()?.removeAllRanges()
-    const range = new Range()
-    range.setStart(node, 0)
-    range.setEnd(node, 0)
-    range.collapse(true)
-    cy.window().then(win => win._jota_test_support.getSelectionRange = () => range)
+      document.getSelection()?.removeAllRanges()
+      const range = new Range()
+      range.setStart(node, 0)
+      range.setEnd(node, 0)
+      range.collapse(true)
+      cy.window().then(
+        (win) => (win._jota_test_support.getSelectionRange = () => range)
+      )
 
-    // This does not work. The selection is not updated.
-    // document.getSelection()?.collapse(node, 0)
+      // This does not work. The selection is not updated.
+      // document.getSelection()?.collapse(node, 0)
 
-    cy.document().trigger('selectionchange')
-  })
+      cy.document().trigger('selectionchange')
+    })
 }
 
 export function focusOn(target: Target) {
@@ -148,7 +173,24 @@ export function focused() {
 }
 
 export function pressKey(key: string) {
-  return focused().type(key)
+  // Convert standard key names to Cypress special sequences
+  const keyMap: Record<string, string> = {
+    Enter: '{enter}',
+    Tab: '{tab}',
+    Escape: '{esc}',
+    Backspace: '{backspace}',
+    Delete: '{del}',
+    ArrowUp: '{uparrow}',
+    ArrowDown: '{downarrow}',
+    ArrowLeft: '{leftarrow}',
+    ArrowRight: '{rightarrow}',
+    Home: '{home}',
+    End: '{end}',
+    PageUp: '{pageup}',
+    PageDown: '{pagedown}',
+  }
+  const cypressKey = keyMap[key] || key
+  return focused().type(cypressKey)
 }
 
 // Function to type into an input within the found target
@@ -163,23 +205,28 @@ export function type(target: Target, text: string, replace: boolean = false) {
     //   cy.wrap($el).find('input, textarea').clear({ force: replace }).type(text)
     // }
 
-    const found = $el.is('input, textarea') ? cy.wrap($el) : cy.wrap($el).find('input, textarea')
+    const found = $el.is('input, textarea')
+      ? cy.wrap($el)
+      : cy.wrap($el).find('input, textarea')
     const maybeCleared = replace ? found.clear({ force: replace }) : found
     if (text.length > 0) maybeCleared.type(text)
   })
 }
 
 export function select(target: Target, value: string) {
-  return find(target).click().then(() => {
-    //  cy.get('.q-menu').contains(value).click()
-    cy.get('.q-menu').find('.q-item')
-      .each((option) => {
-        const text = Cypress.$(option).text().trim()
-        if (!value && text === '' || value && text.includes(value)) {
-          cy.wrap(option).click()
-        }
-      })
-  })
+  return find(target)
+    .click()
+    .then(() => {
+      //  cy.get('.q-menu').contains(value).click()
+      cy.get('.q-menu')
+        .find('.q-item')
+        .each((option) => {
+          const text = Cypress.$(option).text().trim()
+          if ((!value && text === '') || (value && text.includes(value))) {
+            cy.wrap(option).click()
+          }
+        })
+    })
 }
 
 export function clickDialogNo() {
@@ -194,7 +241,11 @@ export function notification() {
   return cy.get('.q-notification')
 }
 
-export function forEach<T>(target: Target, items: T[], assertFn: (element: HtmlElementWrapper, expected: T) => void) {
+export function forEach<T>(
+  target: Target,
+  items: T[],
+  assertFn: (element: HtmlElementWrapper, expected: T) => void
+) {
   find(target).each(($el, index: number) => {
     const element = cy.wrap($el) // Wrap each element to keep Cypress chainable
     const expectedValue = items[index] // Get corresponding value from items array
@@ -283,16 +334,16 @@ export function assertText(target: Target, text: string) {
 
 export function assertHtmlContains(target: Target, htmlFragment: string) {
   return find(target).should(($el) => {
-    const elementHtml = $el.html(); // Get the HTML content of the element
-    expect(elementHtml).to.include(htmlFragment); // Assert that the HTML contains the fragment
-  });
+    const elementHtml = $el.html() // Get the HTML content of the element
+    expect(elementHtml).to.include(htmlFragment) // Assert that the HTML contains the fragment
+  })
 }
 
 export function assertHtmlNotContains(target: Target, htmlFragment: string) {
   return find(target).should(($el) => {
-    const elementHtml = $el.html(); // Get the HTML content of the element
-    expect(elementHtml).to.not.include(htmlFragment); // Assert that the HTML does not contain the fragment
-  });
+    const elementHtml = $el.html() // Get the HTML content of the element
+    expect(elementHtml).to.not.include(htmlFragment) // Assert that the HTML does not contain the fragment
+  })
 }
 
 export function assertTextContains(target: Target, text: string) {
@@ -357,7 +408,14 @@ export function assertHasClass(target: Target, className: string) {
   return find(target).should('have.class', className)
 }
 
-export function assertErrorHint(target: Target, text: string): HtmlElementWrapper {
+export function assertNotHasClass(target: Target, className: string) {
+  return find(target).should('not.have.class', className)
+}
+
+export function assertErrorHint(
+  target: Target,
+  text: string
+): HtmlElementWrapper {
   // This throws Syntax error, unrecognized expression: ...
   // return `('.q-field:has(${tag}) div[role=alert]')`
 
@@ -394,7 +452,28 @@ export function getText(target: Target) {
   return find(target).invoke('text')
 }
 
-export function each(target: Target, fn: ($el: JQuery<HTMLElement>, index: number) => void) {
+export function each(
+  target: Target,
+  fn: ($el: JQuery<HTMLElement>, index: number) => void
+) {
   return find(target).each(fn)
 }
 
+/**
+ * Ensures a translation is added for highlights. If no translations exist,
+ * adds the specified translation symbol.
+ */
+export function ensureHighlightTranslation(symbol: string) {
+  const highlightsTranslationItem =
+    '[data-tag="settings-highlights-translation-item"]'
+  const translationSelector = '[data-tag="translation-selector"]'
+  const highlightsAddButton = '[data-tag="settings-highlights-add-button"]'
+
+  cy.get('body').then(($body) => {
+    if ($body.find(highlightsTranslationItem).length === 0) {
+      select(translationSelector, symbol)
+      click(highlightsAddButton)
+      wait(500)
+    }
+  })
+}

@@ -15,11 +15,19 @@ Jota Bible App is an ergonomic Bible reading and search application built with V
 - `npm run format` - Format code with Prettier
 
 ### Testing
-- `npm run test:unit` - Run unit tests with Vitest
-- `npm run test:unit:ci` - Run unit tests in CI mode
-- `npm run test:unit:ui` - Run unit tests with UI
-- `npm run test:e2e` - Run E2E tests with Cypress (interactive)
-- `npm run test:e2e:ci` - Run E2E tests in CI mode
+- `pnpm test:unit` - Run unit tests with Vitest
+- `pnpm test:unit:ci` - Run unit tests in CI mode
+- `pnpm test:unit:ui` - Run unit tests with UI
+
+#### E2E Tests (Playwright - recommended)
+- `pnpm test:e2e:pw` - Run Playwright E2E tests
+- `pnpm test:e2e:pw:ui` - Run Playwright E2E tests with UI mode
+- `pnpm test:e2e:pw:headed` - Run Playwright E2E tests in headed browser
+- `pnpm test:e2e:pw:ci` - Run Playwright E2E tests in CI mode
+
+#### E2E Tests (Cypress - legacy)
+- `pnpm test:e2e` - Run E2E tests with Cypress (interactive)
+- `pnpm test:e2e:ci` - Run E2E tests in CI mode
 
 ### Other Commands
 - `npm run custom-icons` - Generate custom icon fonts from SVG files
@@ -94,10 +102,88 @@ The search system (`jota.ts`) handles:
 - Configuration: `vitest.config.ts`
 - Setup file: `/test/vitest/setup-file.ts`
 
+#### E2E Tests Architecture
+
+The E2E tests use a **unified test specification** pattern that allows the same test logic to run on both Playwright and Cypress.
+
+**Directory Structure:**
+```
+test/
+  shared/                         # Framework-agnostic test definitions
+    api/types.ts                  # TestAPI interface
+    specs/                        # Shared test specifications (72 tests)
+      home.spec.ts
+      settings-book-namings.spec.ts
+      settings-copy-templates.spec.ts
+      settings-format-templates.spec.ts
+      settings-translations.spec.ts
+
+  cypress/
+    adapter/CypressAdapter.ts     # Implements TestAPI for Cypress
+    e2e/*.test.ts                 # Thin runners + highlights.test.ts (framework-specific)
+
+  playwright/
+    adapter/PlaywrightAdapter.ts  # Implements TestAPI for Playwright
+    e2e/*.test.ts                 # Thin runners + highlights.test.ts (framework-specific)
+```
+
+**Note:** The highlights tests (13 tests) remain framework-specific due to complex async callback patterns that differ between frameworks.
+
+**Key Concepts:**
+- `TestAPI` interface defines framework-agnostic actions and assertions
+- Shared specs in `test/shared/specs/` contain all test logic
+- Framework adapters wrap helper functions to implement TestAPI
+- Thin runners import specs and execute them with the appropriate adapter
+
+**Writing New Shared Tests:**
+1. Create spec in `test/shared/specs/your-feature.spec.ts`
+2. Use the `TestAPI` interface methods (navigate, click, assertText, etc.)
+3. Test functions must NOT be async - the adapters handle sync/async differences
+4. Create thin runners in both `test/cypress/e2e/` and `test/playwright/e2e/`
+
+**Example spec structure:**
+```typescript
+export const myTests: TestSpec = {
+  name: 'Feature Name',
+  beforeEach: (api) => api.navigate('/page'),
+  tests: {
+    'should do something': (api) => {
+      api.click(api.tag('button'))
+      api.assertText('.result', 'Expected')
+    },
+  },
+  suites: { /* nested suites */ },
+}
+```
+
+#### E2E Tests (Playwright - recommended)
+- Configuration: `playwright.config.ts`
+- Helper utilities: `/test/playwright/e2e/PlaywrightHelper.ts`
+- Adapter: `/test/playwright/adapter/PlaywrightAdapter.ts`
+
+**Running tests:**
+```bash
+pnpm test:e2e:pw                  # Run all tests
+pnpm exec playwright test --grep "clipboard"   # Run tests matching pattern
+pnpm exec playwright test --headed             # Run with visible browser
+pnpm exec playwright test --ui                 # Interactive UI mode
+```
+
 #### E2E Tests (Cypress)
-- Test files: `/test/cypress/e2e/`
 - Configuration: `cypress.config.ts`
 - Helper utilities: `/test/cypress/e2e/CypressHelper.ts`
+- Adapter: `/test/cypress/adapter/CypressAdapter.ts`
+
+**Running tests:**
+```bash
+pnpm test:e2e                     # Interactive mode
+pnpm test:e2e:ci                  # CI mode
+```
+
+**Quasar Component Interactions:**
+- For `q-btn-dropdown` with `split`: use `clickSplitButtonMain()` and `clickSplitButtonArrow()`
+- Use `forceClick()` for buttons that don't respond to regular clicks (e.g., with validation errors)
+- The `select()` method handles Quasar select/dropdown components
 
 ## Development Notes
 
