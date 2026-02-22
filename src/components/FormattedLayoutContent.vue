@@ -1,5 +1,5 @@
 <template>
-  <div id="formatted" ref="containerRef" class="row q-pb-md" tabindex="0">
+  <div id="formatted" ref="containerRef" class="row q-pb-md bottom-clipped" tabindex="0">
     <div v-for="(item, i) in items" :key="i" class="formatted-verse" :data-tag="tags.formattedVerse">
       <span class="ref" @click="readInContext(i)">{{ item.bibleReference }} {{ item.symbol }}</span>
       <span v-html="item.text"/>
