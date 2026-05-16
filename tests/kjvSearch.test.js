@@ -1,6 +1,6 @@
 /**
  * Test for validating KJV search.
- * Assumes a `searchVerses` function is available to query verses by references.
+ * Assumes a `searchVerses` function is available to query verses by detecting references in a given text.
  * Replace `searchVerses` with the actual function name/path in your codebase.
  */
 
@@ -8,23 +8,24 @@ const { searchVerses } = require('../src/search'); // Adjust path to actual impl
 
 describe('KJV Search Functionality', () => {
   
-  test('Validates returned verses for specific KJV references', async () => {
-    const references = [
-      'Acts 1:8',
-      '2 Corinthians 13:14',
-      'Acts 2:17-21',
-      'John 7:37-39',
-      'Psalm 92:10',
-      'Acts 10:38',
-      'Acts 1:8',
-      'Genesis 25:29-34',
-      'Matthew 14:13-21',
-      'Ezekiel 47:1-9',
-      '2 Kings 4:1-6',
-      'Mark 5:30-34',
-      'Mark 6:1-6',
-      'Acts 6:5,8',
-    ];
+  test('Validates returned verses for detected references in input text', async () => {
+    const inputText = `Acts 1:8
+2 Corinthians 13:14
+Acts 2:17-21
+John 7:37-39
+
+Palm 92:10
+Acts 10:38
+Acts 1:8
+Genesis 25:29-34
+Matthew 14:13-21
+
+Ezekiel 47:1-9
+2 Kings 4:1-6
+
+Mark 5:30-34
+Mark 6:1-6
+Acts 6-5,8`;
 
     const expectedResults = [
       // Provide expected verse content strings (use real content or stubs)
@@ -44,10 +45,10 @@ describe('KJV Search Functionality', () => {
       'And the saying pleased the whole multitude: and they chose...',
     ];
 
-    const results = await Promise.all(references.map(ref => searchVerses(ref)));
+    const results = await searchVerses(inputText);
 
-    results.forEach((result, index) => {
-      expect(result).toContain(expectedResults[index]);
+    expectedResults.forEach((expected, index) => {
+      expect(results).toContain(expected);
     });
   });
 
